@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>      
+    <string name="language_name">ਪੰਜਾਬੀ</string>
+    <string name="unknown_error"></string>
+    <string name="consent_form_title"></string>
+    <string name="consent_form_agree"></string>
+    <string name="consent_form_disagree"></string>
+    <string name="phone_number_title"></string>
+    <string name="phone_number_prompt"></string>
+    <string name="unable_to_generate_otp"></string>
+    <string name="access_code_already_used"></string>
+    <string name="otp_title"></string>
+    <string name="otp_prompt"></string>
+    <string name="resend_otp"></string>
+    <string name="change_phone_number"></string>
+    <string name="invalid_otp"></string>
+    <string name="dashboard_title"></string>
+    <string name="sync_prompt"></string>
+    <string name="tasks_available"></string>
+    <string name="tasks_completed"></string>
+    <string name="tasks_submitted"></string>
+    <string name="tasks_verified"></string>
+    <string name="sync_prompt_message"></string>
+    <string name="yes"></string>
+    <string name="no"></string>
+    <string name="reset_assignment_warning"></string>
+    <string name="upload_file_error"></string>
+    <string name="send_db_error"></string>
+    <string name="receive_db_error"></string>
+    <string name="download_file_error"></string>
+    <string name="received_verified_error"></string>
+    <string name="app_name"></string>
+    
+</resources>

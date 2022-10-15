@@ -1,0 +1,256 @@
+<resources>
+    <string name="language_name">EN</string>
+
+    <!-- Errors -->
+    <string name="unknown_error">Some unknown error occurred. Please contact your coordinator.</string>
+    <string name="invalid_access_code">The access code you have entered is not valid. Please contact your coordinator.</string>
+
+    <!-- Consent Form Page -->
+    <string name="consent_form_title">Consent Form</string>
+    <string name="consent_form_agree">Agree</string>
+    <string name="consent_form_disagree">I do not want to participate</string>
+    <string name="consent_form_text">
+        <![CDATA[
+<h5>Karya Participation Consent Form</h5>
+<p>
+  Thank you for your participation on the Karya platform. This document
+  describes the goals of the platform and the various steps involved in your
+  participation. You have no obligation to participate. You may end your
+  participation at any time.
+</p>
+<h5>Purpose of the Platform</h5>
+<p>
+  The goal of the platform is to offer paid digital work to various users.
+  Through the Karya smartphone app, you can get access to simple tasks that can
+  be completed on your smartphone. You will get paid for all the correctly
+  completed tasks. The type of task assigned to you will depend on the specific
+  study you are participating in. For instance, a task may require you to record
+  yourself speaking out a sentence. Regardless, the Karya app will provide you
+  clear instructions on how to complete each task in your regional language. The
+  app will also inform you how much you will be paid if you complete the task
+  correctly. You can withdraw from participation at any time, and you will be
+  paid for the tasks you have completed till that point.
+</p>
+<h5>Procedure</h5>
+<ol>
+  <li>
+    To begin, you will be introduced to the Project Coordinator for your
+    location. This person will be your point of contact for help related to the
+    project.
+  </li>
+  <li>
+    Your project coordinator will provide you with instructions and if
+    necessary, help you to download and install the “Karya” mobile application
+    on your smartphone.
+  </li>
+  <li>
+    Your project coordinator will give you an “Access Code”. You need to enter
+    the code during the registration process. Each access code can be used only
+    once. Therefore, do not share the access code with anyone else.
+  </li>
+  <li>
+    The registration process may require you to sign-in with your phone number.
+    This information will be used to identify you on the platform when you close
+    the application and open it again.
+  </li>
+  <li>
+    In addition, we will also collect some demographic information about you,
+    e.g., your age range, gender, education level, etc.
+  </li>
+  <li>
+    To receive tasks on our platform, the app must “sync” with our server. This
+    operation will submit all the tasks you have completed on our platform to
+    the server and receive any new tasks. After registration, the app will
+    automatically sync with our server. You can trigger subsequent syncs by
+    clicking on the sync button in the app.
+  </li>
+  <li>
+    In the main app screen (dashboard), you will be presented with a list of
+    different type of tasks assigned to you, along with information on each type
+    of task: number of tasks assigned, number of tasks completed, number of
+    tasks submitted, etc. For each type of task, the app will provide detailed
+    instructions on how you must complete the task, and how much you will be
+    paid if you complete the task correctly. Please pay attention to these
+    instructions before proceeding with the tasks.
+  </li>
+  <li>
+    At the end of your participation, we request you to delete the application
+    from your phone. Should you want, your project coordinator will aid you in
+    installing, configuring, and deleting the application.
+  </li>
+  <li>
+    After the end of the study, we may request a short interview with you to
+    gather your feedback and understand your experience of using our platform.
+  </li>
+</ol>
+<h5>Risks and Benefits</h5>
+<ol>
+  <li>
+    This platform only offers supplemental work. As a result, we have a limited
+    number of tasks available. Do not let your participation in our platform
+    interfere with your current work.
+  </li>
+  <li>
+    We recommend doing the provided work in a patient manner. This will allow
+    you to submit more accurate responses and will also make sure you don’t
+    spend too much time on the smartphone. Spending too much time on a
+    smartphone could be bad for your eyes and may affect your social life.
+  </li>
+  <li>
+    If we lend you a smartphone to participate (as part of a research study), we
+    trust you to use the provided smartphone responsibly. If you have not used a
+    smartphone before, it can be overwhelming. We are happy to help you in any
+    and every way possible. You can contact us via your project coordinator.
+  </li>
+</ol>
+<h5>Personal Information</h5>
+<p>
+  Any personal information we collect during the study will only be used to
+  identify you during the duration of the study. We will delete all personal
+  information as soon as the study is over. We will not share your personal
+  information with anyone. However, we may use pictures from the study in
+  presentations or posters without identifying specific individuals. We will
+  request your permission before taking pictures and obtain your permission to
+  use those pictures in our presentations or posters. Not providing consent for
+  taking pictures will not disqualify you from participating in the study. For
+  additional information or concerns, please contact us through your project
+  coordinator.
+</p>
+<h5>Payment for Participation</h5>
+<p>
+  You will be paid for all correctly completed tasks on the platform. The app or
+  your project coordinator will also provide you feedback on how well you are
+  performing on the platform so that you can improve your responses for future
+  tasks. We will work with you and your project coordinator to identify the best
+  mode of payment. We will collect and store your payment information for the
+  duration of the study. We will pay you periodically for all your tasks that
+  have undergone quality verification. We will delete all payment information as
+  soon as your participation is completed. Please contact your project
+  coordinator if you have any queries regarding payments.
+</p>
+<h5>Dataset Collected from the Study</h5>
+<p>
+  Depending on the source of the task, we will use the dataset collected as part
+  of your responses for the task for various purposes including releasing them
+  publicly for research purposes. For each task, we will explain to you the end
+  use of the dataset via your project coordinator. The dataset collected as part
+  of your responses for each task will be released publicly for research purposes.
+  For each task, we will explain to you the end-use of the dataset via the project
+  coordinator. The dataset may video data, which is personally identifiable
+  information. By clicking "Agree" below, you voluntarily consent to recording
+  videos for each task, and to the creation and release of the dataset. If you have
+  any questions regarding how th dataset will be used, please feel free to ask us
+  through your project coordinator or using the email address provided below.
+</p>
+<h5>Contact Information</h5>
+<p>
+  Should you have any questions about your participation, please contact us via
+  email at thekaryainc+questions@gmail.com. In case you do not have access to
+  email, you can contact your project coordinator, and have them relay your
+  concerns.
+</p>
+<h5>Consent</h5>
+<p>
+  By clicking “I agree” below, you confirm that the goals and the procedure for
+  participation on the platform was explained to you, you had a chance to ask
+  questions before beginning your participation, and all your questions were
+  answered satisfactorily. By clicking “I agree” below, you voluntarily consent
+  to participate, and you do not give up any legal rights you have as a study
+  participant. On behalf of Karya Inc, we thank you for your contribution and
+  look forward to your participation. Do you understand and consent to these
+  terms?
+</p>
+ ]]>
+    </string>
+
+    <!-- Phone Number -->
+    <string name="phone_number_title">Phone Number</string>
+    <string name="phone_number_prompt">To use Karya, you need to register with our application using your phone number. Please enter your phone number below.</string>
+    <string name="unable_to_generate_otp">We could not generate an OTP for this phone number. Please check the number or try again later.</string>
+    <string name="access_code_already_used">The access code is already registered to a different phone number. Please contact the coordinator for a new access code.</string>
+
+    <!-- OTP -->
+    <string name="otp_title">OTP</string>
+    <string name="otp_prompt">We have sent a 6-digit OTP via SMS to 0000000000. Please enter the OTP below.</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="change_phone_number">Change Phone Number</string>
+    <string name="invalid_otp">You have entered an invalid OTP.</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_title">Dashboard</string>
+    <string name="sync_prompt">Submit Tasks / Get New Tasks</string>
+    <string name="tasks_available">available</string>
+    <string name="tasks_completed">completed</string>
+    <string name="tasks_submitted">submitted</string>
+    <string name="tasks_verified">verified</string>
+    <string name="sync_prompt_message">You have completed tasks that can be submitted to the server. Do you want to submit the tasks now?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="task_outside_time_bound">You can do this task only between _START_TIME_ and _END_TIME_.</string>
+    <string name="okay">Okay</string>
+
+    <!-- Sync -->
+    <string name="reset_assignment_warning">Some output files were missing.</string>
+    <string name="upload_file_error">Error while uploading files. Please contact your coordinator.</string>
+    <string name="send_db_error">Error while sending tasks. Please contact your coordinator.</string>
+    <string name="receive_db_error">Error while receiving tasks. Please contact your coordinator.</string>
+    <string name="download_file_error">Error while downloading files. Please contact your coordinator.</string>
+    <string name="received_verified_error">Error while receiving validations. Please contact your coordinator.</string>
+
+    <!-- Speech verification strings -->
+    <string name="speech_verification_instruction">Verify the recording below</string>
+    <string name="recording_accuracy">Accuracy</string>
+    <string name="accuracy_good">Correct</string>
+    <string name="accuracy_okay">Errors</string>
+    <string name="accuracy_bad">Incorrect</string>
+    <string name="recording_volume">Volume</string>
+    <string name="volume_good">Good</string>
+    <string name="volume_okay">Whisper</string>
+    <string name="volume_bad">Inaudible</string>
+    <string name="recording_quality">Quality</string>
+    <string name="quality_good">Good</string>
+    <string name="quality_okay">Noisy</string>
+    <string name="quality_bad">Bad</string>
+    <string name="recording_fluency">Fluency</string>
+    <string name="fluency_good">Fluent</string>
+    <string name="fluency_okay">Okay</string>
+    <string name="fluency_bad">Broken</string>
+    <string name="rating_undefined">Undefined</string>
+
+
+    <string name="app_name">Karya</string>
+    <string name="privacy_policy">Privacy Policy</string>
+
+    <!-- Transliteration strings -->
+    <string name="transliteration_hint">Start Typing…</string>
+    <string name="text_transliteration_desc">Please transliterate the following word from English to Hindi</string>
+    <string name="alphanumericString">abcdefghijklmnopqrstuvwxyz</string>
+
+    <!-- Speech recording strings -->
+    <string name="speech_recording_instruction">Record the sentence below</string>
+
+    <!-- Image transcription strings -->
+    <string name="image_transcription_instruction">Type what you see in the image below</string>
+
+    <!-- Image labelling string -->
+    <string name="image_labelling_instruction">Label the images below</string>
+
+    <!-- Image data collection strings -->
+    <string name="image_data_collection_instruction">Take a picture of the front cover. Move to a random page. Take pictures of # continuous pages from the random page</string>
+
+    <!-- Sentence validation strings -->
+    <string name="sentence_validation_instruction">Is the sentence below correct?</string>
+    <string name="grammar_question">Is the above sentence grammatically correct?</string>
+    <string name="spelling_question">Are all the words spelt correctly in the sentence?</string>
+
+    <!-- Sign verification strings -->
+    <string name="video_good">Good</string>
+    <string name="video_average">Average</string>
+    <string name="video_poor">Poor</string>
+
+    <!-- Image alt texts -->
+    <string name="karya_logo">Project Karya Logo</string>
+    <string name="next">next</string>
+    <string name="back">back</string>
+</resources>

@@ -1,0 +1,139 @@
+<resources>
+    <string name="language_name">EN</string>
+
+    <!-- Errors -->
+    <string name="unknown_error">Some unknown error occurred. Please contact your coordinator.</string>
+    <string name="invalid_access_code">The access code you have entered is not valid. Please contact your coordinator.</string>
+
+    <!-- Consent Form Page -->
+    <string name="consent_form_title">Consent Form</string>
+    <string name="consent_form_agree">Agree</string>
+    <string name="consent_form_disagree">I do not want to participate</string>
+    <string name="consent_form_text">
+        <![CDATA[
+<h5>சம்பந்தப்பட்ட யாவருக்கும்</h5>
+<br>
+<p>
+ நான் எனது குரலொலி மற்றும் காணொளியை பதிவு செய்வதற்கும் பதிவுசெய்த அவற்றைச் சேமித்து வைப்பதற்கு டிஜிட்டல் இந்தியா பாஷினி மிஷன்,   (இந்திய அரசின் மின்னணு மற்றும் தகவல் தொழில்நுட்ப அமைச்சகத்தின் கீழ் இயங்குகிறது) நிபந்தனையற்ற, திருப்பவியலாத ஒப்புதலை வழங்குகிறேன்.
+</p>
+<br>
+<p>
+ மேலும், போதிய பிரதியுபகாரத்துக்குப் ஈடாக, மேற்படி பதிவுசெய்த குரலொலி மற்றும் காணொளிக்கான எனது அனைத்து உரிமைகளையும் நிபந்தனையற்ற, திருப்பவியலாத வகையில் டிஜிட்டல் இந்தியா பாஷினி மிஷன்க்கு கொடுக்கப்படுகிறது.
+</p>
+<br>
+<p>
+டிஜிட்டல் இந்தியா பாஷினி மிஷன் (இந்திய அரசின் மின்னணு மற்றும் தகவல் தொழில்நுட்ப அமைச்சகத்தின் கீழ் இயங்குகிறது) மேற்படி பதிவுசெய்த குரலொலி மற்றும் காணொளியை சட்டப்பூர்வமாகப் பயன்படுத்தலாம் என்பதை நான் புரிந்துகொண்டேன்.
+</p>
+ ]]>
+    </string>
+
+    <!-- Phone Number -->
+    <string name="phone_number_title">Phone Number</string>
+    <string name="phone_number_prompt">To use Karya, you need to register with our application using your phone number. Please enter your phone number below.</string>
+    <string name="unable_to_generate_otp">We could not generate an OTP for this phone number. Please check the number or try again later.</string>
+    <string name="access_code_already_used">The access code is already registered to a different phone number. Please contact the coordinator for a new access code.</string>
+
+    <!-- OTP -->
+    <string name="otp_title">OTP</string>
+    <string name="otp_prompt">We have sent a 6-digit OTP via SMS to 0000000000. Please enter the OTP below.</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="change_phone_number">Change Phone Number</string>
+    <string name="invalid_otp">You have entered an invalid OTP.</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_title">Dashboard</string>
+    <string name="sync_prompt">Submit Tasks / Get New Tasks</string>
+    <string name="tasks_available">available</string>
+    <string name="tasks_completed">completed</string>
+    <string name="tasks_submitted">submitted</string>
+    <string name="tasks_verified">verified</string>
+    <string name="tasks_skipped">skipped</string>
+    <string name="tasks_expired">expired</string>
+
+
+    <string name="sync_prompt_message">You have completed tasks that can be submitted to the server. Do you want to submit the tasks now?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="task_outside_time_bound">You can do this task only between _START_TIME_ and _END_TIME_.</string>
+    <string name="okay">Okay</string>
+
+    <!-- Sync -->
+    <string name="reset_assignment_warning">Some output files were missing.</string>
+    <string name="upload_file_error">Error while uploading files. Please contact your coordinator.</string>
+    <string name="send_db_error">Error while sending tasks. Please contact your coordinator.</string>
+    <string name="receive_db_error">Error while receiving tasks. Please contact your coordinator.</string>
+    <string name="download_file_error">Error while downloading files. Please contact your coordinator.</string>
+    <string name="received_verified_error">Error while receiving validations. Please contact your coordinator.</string>
+
+    <!-- Speech verification strings -->
+    <string name="speech_verification_instruction">Verify the recording below</string>
+    <string name="recording_accuracy">Accuracy</string>
+    <string name="accuracy_good">Correct</string>
+    <string name="accuracy_okay">Errors</string>
+    <string name="accuracy_bad">Incorrect</string>
+    <string name="recording_volume">Volume</string>
+    <string name="volume_good">Good</string>
+    <string name="volume_okay">Whisper</string>
+    <string name="volume_bad">Inaudible</string>
+    <string name="recording_quality">Quality</string>
+    <string name="recording_noise">Noise</string>
+    <string name="quality_good">Good</string>
+    <string name="quality_okay">Noisy</string>
+    <string name="quality_bad">Bad</string>
+    <string name="recording_fluency">Fluency</string>
+    <string name="fluency_good">Fluent</string>
+    <string name="fluency_okay">Okay</string>
+    <string name="fluency_bad">Broken</string>
+    <string name="rating_undefined">Undefined</string>
+
+
+    <string name="app_name">AI4Bharat-Karya</string>
+    <string name="privacy_policy">Privacy Policy</string>
+
+    <!-- Transliteration strings -->
+    <string name="transliteration_hint">Start Typing…</string>
+    <string name="text_transliteration_desc">Please transliterate the following word from English to Hindi</string>
+    <string name="alphanumericString">abcdefghijklmnopqrstuvwxyz</string>
+
+    <!-- Speech recording strings -->
+    <string name="speech_recording_instruction">Record the sentence below</string>
+
+    <!-- Image transcription strings -->
+    <string name="image_transcription_instruction">Type what you see in the image below</string>
+
+    <!-- Image labelling string -->
+    <string name="image_labelling_instruction">Label the images below</string>
+    <string name="image_labelling_take_picture_text">Take a Picture</string>
+
+    <!-- Image data collection strings -->
+    <string name="image_data_collection_instruction">Take a picture of the front cover. Move to a random page. Take pictures of # continuous pages from the random page</string>
+
+    <!-- Image annotation strings -->
+    <string name="image_annotation_instruction">Annotation instruction goes here</string>
+
+    <!-- Sentence validation strings -->
+    <string name="sentence_validation_instruction">Is the sentence below correct?</string>
+    <string name="grammar_question">Is the above sentence grammatically correct?</string>
+    <string name="spelling_question">Are all the words spelt correctly in the sentence?</string>
+    <string name="appropriate_question">Is this sentence appropriate for a general audience?</string>
+
+    <!-- Sign verification strings -->
+    <string name="video_good">Good</string>
+    <string name="video_average">Average</string>
+    <string name="video_poor">Poor</string>
+
+    <!-- Image alt texts -->
+    <string name="karya_logo">Project Karya Logo</string>
+    <string name="next">next</string>
+    <string name="back">back</string>
+    <string name="skip_task_warning">Are you sure, you want to skip the task?</string>
+    <string name="no_transcription_error_msg">Please enter the transcription</string>
+    <string name="speech_transcription_instruction">Transcribe the audio below</string>
+    <string name="proceed_text">Proceed</string>
+    <string name="cancel_text">Cancel</string>
+    <string name="no_annotation_box_annotation_message_text">No boxes are drawn to the screen. Do you want to proceed?</string>
+    <string name="no_annotation_box_dialog_title_text">No Box Drawn</string>
+    <string name="select_image_annotation_label_dialog_instruction">Select Label</string>
+    <string name="image_annotation_edit_label">Select new label</string>
+</resources>

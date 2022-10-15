@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/microtaskTb"
+        layout="@layout/microtask_common_header" />
+
+    <TextView
+        android:id="@+id/instructionTv"
+        style="@style/MicrotaskInstructionText"
+        android:text="@string/speech_verification_instruction"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/microtaskTb" />
+
+    <FrameLayout
+        android:id="@+id/inputFrame"
+        style="@style/MicrotaskInputFrame"
+        app:layout_constraintBottom_toTopOf="@id/playbackProgress"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/instructionTv">
+
+        <TextView
+            android:id="@+id/sentenceTv"
+            style="@style/MicrotaskInputText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:text="This is a sentence to be recorded" />
+
+    </FrameLayout>
+
+    <include
+        android:id="@+id/playbackProgress"
+        layout="@layout/microtask_common_playback_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/accuracyCl" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/accuracyCl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/qualityCl">
+
+        <TextView
+            android:id="@+id/accuracyLbl"
+            style="@style/RatingLabel"
+            android:gravity="right"
+            android:text="@string/recording_accuracy"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.22" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/accuracyGroup"
+            style="@style/RatingButtonGroup"
+            app:layout_constraintLeft_toRightOf="@id/accuracyLbl"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/accuracyBadBtn"
+                style="@style/RatingButton"
+                android:text="@string/accuracy_bad" />
+
+            <Button
+                android:id="@+id/accuracyOkayBtn"
+                style="@style/RatingButton"
+                android:text="@string/accuracy_okay" />
+
+            <Button
+                android:id="@+id/accuracyGoodBtn"
+                style="@style/RatingButton"
+                android:text="@string/accuracy_good" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/qualityCl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/volumeCl">
+
+        <TextView
+            android:id="@+id/qualityLbl"
+            style="@style/RatingLabel"
+            android:gravity="right"
+            android:text="@string/recording_quality"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.22" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/qualityGroup"
+            style="@style/RatingButtonGroup"
+            app:layout_constraintLeft_toRightOf="@id/qualityLbl"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/qualityBadBtn"
+                style="@style/RatingButton"
+                android:text="@string/quality_bad" />
+
+            <Button
+                android:id="@+id/qualityOkayBtn"
+                style="@style/RatingButton"
+                android:text="@string/quality_okay" />
+
+            <Button
+                android:id="@+id/qualityGoodBtn"
+                style="@style/RatingButton"
+                android:text="@string/quality_good" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/volumeCl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/buttonGroup">
+<!--        app:layout_constraintBottom_toTopOf="@id/fluencyCl">-->
+
+        <TextView
+            android:id="@+id/volumeLbl"
+            style="@style/RatingLabel"
+            android:gravity="right"
+            android:text="@string/recording_volume"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.22" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/volumeGroup"
+            style="@style/RatingButtonGroup"
+            app:layout_constraintLeft_toRightOf="@id/volumeLbl"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <Button
+                android:id="@+id/volumeBadBtn"
+                style="@style/RatingButton"
+                android:text="@string/volume_bad" />
+
+            <Button
+                android:id="@+id/volumeOkayBtn"
+                style="@style/RatingButton"
+                android:text="@string/volume_okay" />
+
+            <Button
+                android:id="@+id/volumeGoodBtn"
+                style="@style/RatingButton"
+                android:text="@string/volume_good" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/fluencyCl"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="@dimen/_10sdp"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/buttonGroup">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/fluencyLbl"-->
+<!--            style="@style/RatingLabel"-->
+<!--            android:gravity="right"-->
+<!--            android:text="@string/recording_fluency"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintWidth_percent="0.22" />-->
+
+<!--        <com.google.android.material.button.MaterialButtonToggleGroup-->
+<!--            android:id="@+id/fluencyGroup"-->
+<!--            style="@style/RatingButtonGroup"-->
+<!--            app:layout_constraintLeft_toRightOf="@id/fluencyLbl"-->
+<!--            app:layout_constraintTop_toTopOf="parent">-->
+
+<!--            <Button-->
+<!--                android:id="@+id/fluencyBadBtn"-->
+<!--                style="@style/RatingButton"-->
+<!--                android:text="@string/fluency_bad" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/fluencyOkayBtn"-->
+<!--                style="@style/RatingButton"-->
+<!--                android:text="@string/fluency_okay" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/fluencyGoodBtn"-->
+<!--                style="@style/RatingButton"-->
+<!--                android:text="@string/fluency_good" />-->
+
+<!--        </com.google.android.material.button.MaterialButtonToggleGroup>-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/buttonGroup"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingVertical="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.13"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <include
+            android:id="@+id/backBtn"
+            layout="@layout/microtask_common_back_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/playBtn"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/playBtn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_speaker_enabled"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/nextBtnCv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/backBtn"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <include
+            android:id="@+id/nextBtnCv"
+            layout="@layout/microtask_common_next_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/playBtn"
+            tools:layout_editor_absoluteY="0dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
