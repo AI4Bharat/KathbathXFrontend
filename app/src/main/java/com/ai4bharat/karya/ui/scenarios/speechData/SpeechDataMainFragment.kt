@@ -63,7 +63,6 @@ class SpeechDataMainFragment : BaseMTRendererFragment(R.layout.microtask_speech_
 //        Log.e("[State]",viewModel.activityState.toString())
       }
 
-
     }
   }
 

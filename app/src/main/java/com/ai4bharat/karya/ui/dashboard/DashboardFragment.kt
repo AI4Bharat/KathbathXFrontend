@@ -163,9 +163,13 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
     data.apply {
       (binding.tasksRv.adapter as TaskListAdapter).updateList(taskInfoData)
       // Show total credits if it is greater than 0
-      if (totalCreditsEarned > 0.0f) {
+      if (totalRecordedDuration.first > 0 || totalRecordedDuration.second > 0) {
         binding.rupeesEarnedCl.visible()
-        binding.rupeesEarnedTv.text = "%.2f".format(Locale.ENGLISH, totalCreditsEarned)
+        binding.rupeesEarnedTv.text = String.format(Locale.US, "%02d:%02.0f", (totalRecordedDuration.first/60).toInt(), totalRecordedDuration.first%60)
+//          "%.2f M".format(Locale.ENGLISH, totalRecordedDuration.first)
+        binding.rupeesEarnedTv2.text = String.format(Locale.US, "%02d:%02.0f", (totalRecordedDuration.second/60).toInt(), totalRecordedDuration.second%60)
+//          "%.2f M".format(Locale.ENGLISH, totalRecordedDuration.second)
+
       } else {
         binding.rupeesEarnedCl.gone()
       }

@@ -26,12 +26,12 @@ constructor(
 
   private var taskInfoList = listOf<TaskInfo>()
   private val taskInfoComparator =
-    compareByDescending<TaskInfo> { taskInfo -> taskInfo.taskStatus.assignedMicrotasks }.thenBy { taskInfo ->
-      taskInfo.taskID
-    }
+    compareByDescending<TaskInfo> { taskInfo -> taskInfo.taskName} //taskStatus.assignedMicrotasks }.thenBy { taskInfo ->
+//      taskInfo.taskID
+//    }
 
   private val _dashboardUiState: MutableStateFlow<DashboardUiState> =
-    MutableStateFlow(DashboardUiState.Success(DashboardStateSuccess(emptyList(), 0.0f)))
+    MutableStateFlow(DashboardUiState.Success(DashboardStateSuccess(emptyList(), Pair(0.0f,0.0f))))
   val dashboardUiState = _dashboardUiState.asStateFlow()
 
   private val _progress: MutableStateFlow<Int> =
@@ -62,9 +62,9 @@ constructor(
     }
     taskInfoList = tempList.sortedWith(taskInfoComparator)
 
-    val totalCreditsEarned = assignmentRepository.getTotalCreditsEarned(worker.id) ?: 0.0f
+    val totalRecordedDuration = assignmentRepository.getTotalRecordedTasks(worker.id) ?: Pair<Float,Float>(0.0f,0.0f)
     _dashboardUiState.value =
-      DashboardUiState.Success(DashboardStateSuccess(taskInfoList, totalCreditsEarned))
+      DashboardUiState.Success(DashboardStateSuccess(taskInfoList, totalRecordedDuration))
   }
 
   /**
@@ -107,11 +107,18 @@ constructor(
           }
           taskInfoList = tempList
 
-          val totalCreditsEarned = assignmentRepository.getTotalCreditsEarned(worker.id) ?: 0.0f
+//          val totalCreditsEarned = assignmentRepository.getTotalCreditsEarned(worker.id) ?: 0.0f
+          // Added by TJ
+          val totalRecordings = assignmentRepository.getTotalRecordedTasks(worker.id) ?: Pair<Float,Float>(0.0f,0.0f)
+
           val success =
             DashboardUiState.Success(
-              DashboardStateSuccess(taskInfoList.sortedWith(taskInfoComparator), totalCreditsEarned)
+              DashboardStateSuccess(taskInfoList.sortedWith(taskInfoComparator), totalRecordings)
             )
+//          val success =
+//            DashboardUiState.Success(
+//              DashboardStateSuccess(taskInfoList.sortedWith(taskInfoComparator), totalCreditsEarned)
+//            )
           _dashboardUiState.value = success
         }
         .catch { _dashboardUiState.value = DashboardUiState.Error(it) }
@@ -139,9 +146,9 @@ constructor(
         }
 
       taskInfoList = updatedList
-      val totalCreditsEarned = assignmentRepository.getTotalCreditsEarned(worker.id)
+      val totalRecordings = assignmentRepository.getTotalRecordedTasks(worker.id)?: Pair<Float,Float>(0.0f,0.0f)
       _dashboardUiState.value =
-        DashboardUiState.Success(DashboardStateSuccess(taskInfoList, totalCreditsEarned))
+        DashboardUiState.Success(DashboardStateSuccess(taskInfoList, totalRecordings))
     }
   }
 

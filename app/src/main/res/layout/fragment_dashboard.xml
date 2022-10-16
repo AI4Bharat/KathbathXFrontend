@@ -78,26 +78,27 @@
 
     </androidx.cardview.widget.CardView>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tasksRv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_10sdp"
+        android:background="@color/c_very_light_grey"
+        android:clipToPadding="false"
         android:paddingHorizontal="@dimen/_10sdp"
         android:paddingVertical="@dimen/_5sdp"
-        android:clipToPadding="false"
         android:scrollbars="none"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toTopOf="@id/rupeesEarnedCl"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/syncCv"
-        app:layout_constraintVertical_bias="0"
-        android:background="@color/c_very_light_grey"
+        app:layout_constraintVertical_bias="0.0"
         tools:itemCount="2"
         tools:listitem="@layout/item_task" />
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rupeesEarnedCl"
@@ -106,7 +107,6 @@
         android:background="@color/c_light_grey"
         android:paddingHorizontal="@dimen/_15sdp"
         android:paddingVertical="@dimen/_5sdp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -121,20 +121,46 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/rupeeIconIv"
-                android:layout_width="@dimen/_48sdp"
-                android:layout_height="@dimen/_36sdp"
-                android:background="@drawable/rupee_note" />
+            <!--            <ImageView-->
+            <!--                android:id="@+id/rupeeIconIv"-->
+            <!--                android:layout_width="@dimen/_48sdp"-->
+            <!--                android:layout_height="@dimen/_36sdp"-->
+            <!--                android:background="@drawable/rupee_note" />-->
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Read"
+                android:textColor="@color/c_black"
+                android:textSize="@dimen/_15ssp" />
 
             <TextView
                 android:id="@+id/rupeesEarnedTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:textSize="@dimen/_24ssp"
+                android:textColor="@color/c_dark_green"
+                android:textSize="@dimen/_15ssp"
+                tools:text="0" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="Extempore"
                 android:textColor="@color/c_black"
-                tools:text="100.00" />
+                android:textSize="@dimen/_15ssp" />
+
+            <TextView
+                android:id="@+id/rupeesEarnedTv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:textColor="@color/c_red"
+                android:textSize="@dimen/_15ssp"
+                tools:text="0" />
 
         </LinearLayout>
 

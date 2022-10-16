@@ -12,6 +12,7 @@ import com.ai4bharat.karya.data.service.MicroTaskAssignmentAPI
 import com.ai4bharat.karya.data.model.karya.enums.MicrotaskAssignmentStatus
 import com.ai4bharat.karya.data.model.karya.modelsExtra.SpeechDataReport
 import com.ai4bharat.karya.utils.DateUtils
+import com.google.gson.JsonParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
@@ -267,4 +268,32 @@ constructor(
     }
     return null
   }
+
+  // Added by TJ
+  suspend fun getTotalRecordedTasks(worker_id: String):Pair<Float,Float>?{
+    var read = 0.0f
+    var extempore = 0.0f
+
+    for (t in taskDao.getAll()){
+      if (t.name.lowercase().contains("commands") || t.name.lowercase().contains("wikipedia") || t.name.lowercase().contains("conversation sentence collection")) {
+        var dur:Float = 0.0F
+        for (i in assignmentDaoExtra.getTotalRecordedTasks(worker_id,t.id)){
+          val jp = JsonParser.parseString(i).asJsonObject
+          dur += jp.get("data").asJsonObject.get("duration").asFloat
+        }
+        read +=dur
+      }
+      else{
+        var dur:Float = 0.0F
+        for (i in assignmentDaoExtra.getTotalRecordedTasks(worker_id,t.id)){
+          val jp = JsonParser.parseString(i).asJsonObject
+          dur += jp.get("data").asJsonObject.get("duration").asFloat
+        }
+        extempore +=dur
+        // extempore task
+      }
+    }
+    return Pair<Float,Float>(read,extempore)
+  }
+
 }

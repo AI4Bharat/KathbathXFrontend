@@ -8,4 +8,5 @@ sealed class DashboardUiState {
   object Loading : DashboardUiState()
 }
 
-data class DashboardStateSuccess(val taskInfoData: List<TaskInfo>, val totalCreditsEarned: Float)
+//data class DashboardStateSuccess(val taskInfoData: List<TaskInfo>, val totalCreditsEarned: Float)
+data class DashboardStateSuccess(val taskInfoData: List<TaskInfo>, val totalRecordedDuration: Pair<Float,Float>)

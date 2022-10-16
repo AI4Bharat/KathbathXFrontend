@@ -8,6 +8,7 @@ import androidx.room.Query
 import com.google.gson.JsonElement
 import com.google.gson.JsonNull
 import com.ai4bharat.karya.data.model.karya.MicroTaskAssignmentRecord
+import com.ai4bharat.karya.data.model.karya.MicroTaskRecord
 import com.ai4bharat.karya.data.model.karya.enums.MicrotaskAssignmentStatus
 
 @Dao
@@ -192,4 +193,21 @@ interface MicrotaskAssignmentDaoExtra {
     task_id: String,
     status: MicrotaskAssignmentStatus = MicrotaskAssignmentStatus.VERIFIED
   ): List<JsonElement>
+
+  //Added by TJ,
+  //Get count of submitted + verified + completed tasks
+  @Query("SELECT output FROM microtask_assignment " +
+          "WHERE worker_id=:worker_id " +
+          "AND status IN (:statuses) " +
+          "AND task_id=:task_id"
+  )
+  suspend fun getTotalRecordedTasks(
+    worker_id: String,
+    task_id: String,
+    statuses: List<MicrotaskAssignmentStatus> = arrayListOf(
+      MicrotaskAssignmentStatus.SUBMITTED,
+      MicrotaskAssignmentStatus.VERIFIED,
+      MicrotaskAssignmentStatus.COMPLETED
+    )
+  ): List<String>
 }
