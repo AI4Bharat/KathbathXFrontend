@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
       try {
         val worker = authManager.getLoggedInWorker()
         val languageCode = worker.language
-        setActivityLocale(languageCode)
+        setActivityLocale("EN")//languageCode)
       } catch (e: Throwable) {
         // No logged in worker. Ignore
       }

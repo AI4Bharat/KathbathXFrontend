@@ -25,6 +25,8 @@ constructor(private val workerRepository: WorkerRepository, private val authMana
   private val _consentFormEffects: MutableSharedFlow<ConsentFormEffects> = MutableSharedFlow()
   val consentFormEffects = _consentFormEffects.asSharedFlow()
 
+
+
   fun updateConsentFormStatus(isConsentProvided: Boolean) {
     viewModelScope.launch {
       _consentFormUiState.value = ConsentFormUiState.Loading

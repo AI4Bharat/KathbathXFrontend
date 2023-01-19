@@ -35,7 +35,7 @@ constructor(
       .onEach { worker ->
         createWorker(accessCode, worker)
         authManager.updateLoggedInWorker(worker.id)
-        _accessCodeUiState.value = AccessCodeUiState.Success(worker.language)
+        _accessCodeUiState.value = AccessCodeUiState.Success("EN")//worker.language)
         _accessCodeEffects.emit(AccessCodeEffects.Navigate)
       }
       .catch { exception ->

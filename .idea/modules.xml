@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Karya.iml" filepath="$PROJECT_DIR$/.idea/modules/Karya.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Karya.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Karya.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Karya.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Karya.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Karya.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Karya.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Karya.buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/Karya.buildSrc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Karya.buildSrc.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Karya.buildSrc.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Karya.buildSrc.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Karya.buildSrc.test.iml" />
+    </modules>
+  </component>
+</project>

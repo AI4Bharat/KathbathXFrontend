@@ -35,6 +35,7 @@ constructor(
   private var _phoneNumber: MutableStateFlow<String> = MutableStateFlow("...")
   var phoneNumber = _phoneNumber.asSharedFlow()
 
+  var consent_form:String = ""
   /**
    * Get the phone number of the worker to replace in the text.
    */
@@ -72,10 +73,8 @@ constructor(
       workerRepository
         .verifyOTP(accessCode = worker.accessCode, phoneNumber = worker.phoneNumber, otp)
         .onEach { worker ->
-          authManager.startSession(worker.copy(isConsentProvided = true))
-          _otpUiState.value = OTPUiState.Success
-
-          val extras = JsonParser.parseString("{\"phone_details\":{\"manufacturer\":\"" + Build.MANUFACTURER + "\",\"model\":\"" + Build.MODEL + "\",\"product\":\"" + Build.PRODUCT + "\"}}");
+          val extras = JsonParser.parseString("{\"phone_details\":{\"manufacturer\":\"" + Build.MANUFACTURER + "\",\"model\":\"" + Build.MODEL + "\",\"product\":\"" + Build.PRODUCT + "\"}," +
+                  "\"consent_details\":\""+ consent_form +"\"}");
           val updatedWorker = worker.copy(extras = extras, isConsentProvided = true)
           workerRepository.updateWorker(worker.idToken.toString(),"update",RegisterOrUpdateWorkerRequest(extras))
             .catch { throwable -> Log.e("TRYING_UPDATE",throwable.toString()) }
@@ -84,6 +83,8 @@ constructor(
 
             }
 //          workerRepository.upsertWorker(updatedWorker)
+          authManager.startSession(worker.copy(isConsentProvided = true))
+          _otpUiState.value = OTPUiState.Success
 
           handleNavigation(worker)
         }

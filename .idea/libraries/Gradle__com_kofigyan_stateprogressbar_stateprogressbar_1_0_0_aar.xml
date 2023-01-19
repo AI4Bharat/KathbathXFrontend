@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.kofigyan.stateprogressbar:stateprogressbar:1.0.0@aar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-3/c2d5620acc5edf259fd5815085e6dba5/transformed/jetified-stateprogressbar-1.0.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-3/c2d5620acc5edf259fd5815085e6dba5/transformed/jetified-stateprogressbar-1.0.0/res" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-3/c2d5620acc5edf259fd5815085e6dba5/transformed/jetified-stateprogressbar-1.0.0/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.kofigyan.stateprogressbar/stateprogressbar/1.0.0/43035ae58c22c1dbc52f44e5fe5635b38fc8477/stateprogressbar-1.0.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.kofigyan.stateprogressbar/stateprogressbar/1.0.0/d43a7d06ee32f9ca92b02bf8f008c8dc8bd90136/stateprogressbar-1.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

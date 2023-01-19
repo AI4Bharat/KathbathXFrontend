@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: me.zhanghai.android.materialratingbar:library:1.3.1@aar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-3/b9fbf52d1030ceeee01ea5100717796a/transformed/jetified-library-1.3.1/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-3/b9fbf52d1030ceeee01ea5100717796a/transformed/jetified-library-1.3.1/res" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-3/b9fbf52d1030ceeee01ea5100717796a/transformed/jetified-library-1.3.1/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/me.zhanghai.android.materialratingbar/library/1.3.1/db6835f07a843cef1baac052f2ab5de6373cf650/library-1.3.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/me.zhanghai.android.materialratingbar/library/1.3.1/4786af976bd9989dc8140415f7882c06b808cd08/library-1.3.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

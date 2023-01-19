@@ -39,7 +39,7 @@ class FileDownloadFragment : Fragment(R.layout.fragment_file_download) {
       val worker = authManager.getLoggedInWorker()
 
       val fileDownloadFlow =
-        resourceManager.downloadLanguageResources(worker.accessCode, worker.language)
+        resourceManager.downloadLanguageResources(worker.accessCode, "EN")//worker.language)
 
       fileDownloadFlow.observe(viewLifecycle, viewLifecycleScope) { result ->
         when (result) {

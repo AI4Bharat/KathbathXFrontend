@@ -18,11 +18,13 @@ import com.ai4bharat.karya.databinding.FragmentDashboardBinding
 import com.ai4bharat.karya.ui.base.SessionFragment
 import com.ai4bharat.karya.utils.extensions.*
 import com.ai4bharat.karya.BuildConfig
+import com.ai4bharat.karya.data.service.WorkerAPI
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
+import kotlin.math.round
 
 private const val UNIQUE_SYNC_WORK_NAME = "syncWork"
 
@@ -146,10 +148,12 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
     }
   }
 
+
   private fun syncWithServer() {
     setupWorkRequests()
     WorkManager.getInstance(requireContext())
       .enqueueUniqueWork(UNIQUE_SYNC_WORK_NAME, ExistingWorkPolicy.KEEP, syncWorkRequest)
+    binding.syncDuration.text = "[Uploaded : "+viewModel.uploadedDataDuration+" mins]"
   }
 
   private fun showSuccessUi(data: DashboardStateSuccess) {
@@ -169,7 +173,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 //          "%.2f M".format(Locale.ENGLISH, totalRecordedDuration.first)
         binding.rupeesEarnedTv2.text = String.format(Locale.US, "%02d:%02.0f", (totalRecordedDuration.second/60).toInt(), totalRecordedDuration.second%60)
 //          "%.2f M".format(Locale.ENGLISH, totalRecordedDuration.second)
-
+        binding.syncDurationOnPhone.text = "[On Phone : "+(round(totalRecordedDuration.first + totalRecordedDuration.second) /60).toString()+" mins]"
       } else {
         binding.rupeesEarnedCl.gone()
       }

@@ -1,7 +1,24 @@
 package com.ai4bharat.karya.ui.onboarding.login.otp
 
+import android.Manifest
+import android.R.attr.thumbnail
+import android.app.Activity
+import android.content.ContentValues
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Base64
+import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,6 +29,9 @@ import com.ai4bharat.karya.ui.Destination
 import com.ai4bharat.karya.ui.base.BaseFragment
 import com.ai4bharat.karya.utils.extensions.*
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.ByteArrayOutputStream
+import java.io.File
+
 
 private const val OTP_LENGTH = 6
 
@@ -21,11 +41,60 @@ class OTPFragment : BaseFragment(R.layout.fragment_otp) {
   private val binding by viewBinding(FragmentOtpBinding::bind)
   private val viewModel by viewModels<OTPViewModel>()
 
+  private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){ isGranted: Boolean ->
+    if (isGranted) {
+      Log.i("Permission: ", "Granted")
+    } else {
+      Log.i("Permission: ", "Denied")
+    }
+  }
+
+//  private lateinit var captureUri: Uri
+
+//  private var resultLauncherUpload = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//    if (result.resultCode == Activity.RESULT_OK) {
+//      val uri = result.data?.data!!
+//      val photo = BitmapFactory.decodeStream(context?.contentResolver?.openInputStream(uri))
+//
+//      val immagex: Bitmap = photo
+//      val baos = ByteArrayOutputStream()
+//      immagex.compress(Bitmap.CompressFormat.JPEG, 80, baos)
+//      val b: ByteArray = baos.toByteArray()
+//      val imageEncoded = Base64.encodeToString(b, Base64.DEFAULT)
+//
+//      viewModel.consent_form = imageEncoded
+//      immagex.compress(Bitmap.CompressFormat.JPEG, 5, baos)
+//      binding.consentFormView.setImageBitmap(immagex)
+//
+//    }
+//
+//    }
+
+//  private var resultLauncherCapture = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//    if (result.resultCode == Activity.RESULT_OK) {
+//      val photo = BitmapFactory.decodeStream(context?.contentResolver?.openInputStream(captureUri))
+//
+//      val immagex: Bitmap = photo
+//      val baos = ByteArrayOutputStream()
+//      immagex.compress(Bitmap.CompressFormat.JPEG, 80, baos)
+//      val b: ByteArray = baos.toByteArray()
+//      val imageEncoded = Base64.encodeToString(b, Base64.DEFAULT)
+//
+//      viewModel.consent_form = imageEncoded
+//
+//      immagex.compress(Bitmap.CompressFormat.JPEG, 5, baos)
+//      binding.consentFormView.setImageBitmap(immagex)
+//    }
+//
+//  }
+
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     setupView()
     observeUi()
     observeEffects()
+
+
   }
 
   override fun onResume() {
@@ -33,10 +102,57 @@ class OTPFragment : BaseFragment(R.layout.fragment_otp) {
     assistant.playAssistantAudio(AssistantAudio.OTP_PROMPT)
   }
 
+
+  //Check for camera permissions
+  private fun checkCameraPermission() {
+    when {
+      ContextCompat.checkSelfPermission(
+        requireContext(),
+        Manifest.permission.CAMERA
+      ) == PackageManager.PERMISSION_GRANTED -> {
+
+      }
+
+      ActivityCompat.shouldShowRequestPermissionRationale(
+        requireActivity(),
+        Manifest.permission.CAMERA
+      ) -> {
+        requestPermissionLauncher.launch(
+          Manifest.permission.CAMERA
+        )
+      }
+
+      else -> {
+        requestPermissionLauncher.launch(
+          Manifest.permission.CAMERA
+        )
+
+      }
+    }
+  }
+
   private fun setupView() {
     viewModel.retrievePhoneNumber()
     binding.appTb.setAssistantClickListener { assistant.playAssistantAudio(AssistantAudio.OTP_PROMPT) }
 
+//    binding.consentFormUploadBtn.setOnClickListener {
+//      val intent = Intent()
+//      intent.type = "image/*"
+//      intent.action = Intent.ACTION_GET_CONTENT
+//      /** Sets the path in path variable **/
+//      resultLauncherUpload.launch(Intent.createChooser(intent,"Select Consent Image "))
+//    }
+//
+//    binding.consentFormCaptureBtn.setOnClickListener {
+//      checkCameraPermission()
+//      var values = ContentValues()
+//      captureUri = requireContext().contentResolver.insert(
+//        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values
+//      )!!
+//      val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//      intent.putExtra(MediaStore.EXTRA_OUTPUT, captureUri)
+//      resultLauncherCapture.launch(Intent.createChooser(intent,"Select Consent Image "))
+//    }
 //    binding.resendOTPBtn.setOnClickListener {
 //      binding.resendOTPBtn.gone()
 //      viewModel.resendOTP()
@@ -48,14 +164,24 @@ class OTPFragment : BaseFragment(R.layout.fragment_otp) {
       requireActivity().onBackPressed()
     }
 
+
     binding.otpEt.doAfterTextChanged { otp ->
       hideError()
 
+//      if (otp?.length == OTP_LENGTH && viewModel.consent_form.isNotEmpty()) {
+//        enableNextButton()
+//      } else if (otp?.length == OTP_LENGTH){
+//        Toast.makeText(requireContext(), "Please make sure you have uploaded the consent form", Toast.LENGTH_SHORT).show()
+//        disableNextButton()
+//      }else{
+//        disableNextButton()
+//      }
       if (otp?.length == OTP_LENGTH) {
         enableNextButton()
-      } else {
+      } else{
         disableNextButton()
       }
+
     }
 
     binding.numPad.setOnDoneListener { viewModel.verifyOTP(binding.otpEt.text.toString()) }

@@ -52,6 +52,38 @@
                 android:gravity="center"
                 android:text="@string/sync_prompt" />
 
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/_20sdp"
+                >
+
+                <TextView
+                    android:id="@+id/syncDuration"
+                    android:layout_width="169dp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@color/c_very_light_green"
+                    android:gravity="center"
+                    android:text="[Uploaded : 0 mins]"
+                    android:textColor="@color/c_black"
+                    app:autoSizeMaxTextSize="@dimen/_10ssp"
+                    app:autoSizeMinTextSize="@dimen/_5ssp"
+                    app:autoSizeStepGranularity="@dimen/_2ssp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/syncDurationOnPhone"
+                    android:layout_width="@dimen/_170sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_weight="1"
+                    android:background="#F49898"
+                    android:gravity="center"
+                    android:text="[On Phone : 0 mins]"
+                    android:textColor="@color/c_black"
+                    app:autoSizeMaxTextSize="@dimen/_10ssp"
+                    app:autoSizeMinTextSize="@dimen/_5ssp"
+                    app:autoSizeStepGranularity="@dimen/_2ssp"
+                    app:autoSizeTextType="uniform" />
+            </LinearLayout>
             <ProgressBar
                 android:id="@+id/syncProgressBar"
                 style="?android:attr/progressBarStyleHorizontal"

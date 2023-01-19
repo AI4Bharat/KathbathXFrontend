@@ -52,7 +52,7 @@ constructor(
 
   private suspend fun handleSingleUser() {
     val worker = getLoggedInWorker()
-    _splashEffects.emit(SplashEffects.UpdateLanguage(worker.language))
+    _splashEffects.emit(SplashEffects.UpdateLanguage("EN"))//worker.language))
 
     val destination =
       when {

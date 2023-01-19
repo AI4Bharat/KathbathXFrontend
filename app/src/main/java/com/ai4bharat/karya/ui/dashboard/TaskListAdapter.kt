@@ -1,7 +1,9 @@
 package com.ai4bharat.karya.ui.dashboard
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.ai4bharat.karya.data.model.karya.modelsExtra.TaskInfo
 import com.ai4bharat.karya.databinding.ItemTaskBinding
@@ -65,7 +67,7 @@ class TaskListAdapter(
         // Set text
         taskNameTv.text = taskInfo.taskName
         numIncompleteTv.text = assigned.toString()
-        numCompletedTv.text = "["+totalDuration+" M] "+completed.toString()
+        numCompletedTv.text = "["+ totalDuration+" M] "+completed.toString()
         numSubmittedTv.text = submitted.toString()
         numVerifiedTv.text = verified.toString()
         numSkippedTv.text = skipped.toString()
@@ -90,6 +92,16 @@ class TaskListAdapter(
         taskLl.setOnClickListener { dashboardItemClick(taskInfo) }
         taskLl.isClickable = clickable
         taskLl.isEnabled = clickable
+        if (taskInfo.taskName.contains("hindi",true)){
+          taskLl.setBackgroundColor(Color.parseColor("#FFBCBC"))
+        }
+        else if (taskInfo.taskName.contains("english",true)){
+          taskLl.setBackgroundColor(Color.parseColor("#87C8FF"))
+        }
+        else{
+          taskLl.setBackgroundColor(Color.parseColor("#C0FFB9"))
+
+        }
       }
     }
   }

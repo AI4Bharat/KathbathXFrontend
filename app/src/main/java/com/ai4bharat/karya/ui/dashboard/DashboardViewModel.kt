@@ -1,14 +1,17 @@
 package com.ai4bharat.karya.ui.dashboard
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ai4bharat.karya.data.manager.AuthManager
+import com.ai4bharat.karya.data.model.karya.WorkerRecord
 import com.ai4bharat.karya.data.model.karya.modelsExtra.TaskInfo
 import com.ai4bharat.karya.data.model.karya.modelsExtra.TaskStatus
 import com.ai4bharat.karya.data.repo.AssignmentRepository
 import com.ai4bharat.karya.data.repo.TaskRepository
 import com.ai4bharat.karya.utils.Result
 import com.ai4bharat.karya.data.model.karya.enums.ScenarioType
+import com.ai4bharat.karya.data.service.WorkerAPI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -22,14 +25,16 @@ constructor(
   private val taskRepository: TaskRepository,
   private val assignmentRepository: AssignmentRepository,
   private val authManager: AuthManager,
+  private val workerAPI: WorkerAPI,
 ) : ViewModel() {
 
   private var taskInfoList = listOf<TaskInfo>()
   private val taskInfoComparator =
-    compareByDescending<TaskInfo> { taskInfo -> taskInfo.taskName} //taskStatus.assignedMicrotasks }.thenBy { taskInfo ->
+    compareBy<TaskInfo> { taskInfo -> taskInfo.taskID} //taskStatus.assignedMicrotasks }.thenBy { taskInfo ->
 //      taskInfo.taskID
 //    }
-
+  var uploadedDataDuration: String = "0"
+  var onPhoneDataDuration: String = "0"
   private val _dashboardUiState: MutableStateFlow<DashboardUiState> =
     MutableStateFlow(DashboardUiState.Success(DashboardStateSuccess(emptyList(), Pair(0.0f,0.0f))))
   val dashboardUiState = _dashboardUiState.asStateFlow()
@@ -37,6 +42,7 @@ constructor(
   private val _progress: MutableStateFlow<Int> =
     MutableStateFlow(0)
   val progress = _progress.asStateFlow()
+
 
   suspend fun refreshList() {
     val worker = authManager.getLoggedInWorker()
@@ -65,6 +71,12 @@ constructor(
     val totalRecordedDuration = assignmentRepository.getTotalRecordedTasks(worker.id) ?: Pair<Float,Float>(0.0f,0.0f)
     _dashboardUiState.value =
       DashboardUiState.Success(DashboardStateSuccess(taskInfoList, totalRecordedDuration))
+
+//
+    workerAPI.getDuration(worker.phoneNumber!!).body()?.let {
+      uploadedDataDuration =  it.string()
+    }
+
   }
 
   /**
@@ -87,6 +99,11 @@ constructor(
             } catch(e: Exception) {
               null
             }
+
+            if (taskRecord.scenario_name == ScenarioType.SPEECH_VERIFICATION){
+
+            }
+
             val taskStatus = fetchTaskStatus(taskRecord.id)
             val speechReport = if (taskRecord.scenario_name == ScenarioType.SPEECH_DATA) {
               assignmentRepository.getSpeechReportSummary(worker.id, taskRecord.id)

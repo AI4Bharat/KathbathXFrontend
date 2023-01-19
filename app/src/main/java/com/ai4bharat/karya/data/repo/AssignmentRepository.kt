@@ -275,21 +275,25 @@ constructor(
     var extempore = 0.0f
 
     for (t in taskDao.getAll()){
-      if (t.name.lowercase().contains("commands") || t.name.lowercase().contains("wikipedia") || t.name.lowercase().contains("conversation sentence collection")) {
-        var dur:Float = 0.0F
-        for (i in assignmentDaoExtra.getTotalRecordedTasks(worker_id,t.id)){
-          val jp = JsonParser.parseString(i).asJsonObject
-          dur += jp.get("data").asJsonObject.get("duration").asFloat
-        }
-        read +=dur
-      }
-      else{
+//      if (!(t.name.lowercase().contains("english"))){
+//        continue
+//      }
+
+      if (t.name.lowercase().contains("[extempore]") ){//&& (t.name.lowercase().contains("kyp") || t.name.lowercase().contains("toi"))) {
         var dur:Float = 0.0F
         for (i in assignmentDaoExtra.getTotalRecordedTasks(worker_id,t.id)){
           val jp = JsonParser.parseString(i).asJsonObject
           dur += jp.get("data").asJsonObject.get("duration").asFloat
         }
         extempore +=dur
+      }
+      else if (t.name.lowercase().contains("[read]")){//(t.name.lowercase().contains("wikipedia") || t.name.lowercase().contains("alexa") || t.name.lowercase().contains("bigbasket") || t.name.lowercase().contains("digital") || t.name.lowercase().contains("umang")){
+        var dur:Float = 0.0F
+        for (i in assignmentDaoExtra.getTotalRecordedTasks(worker_id,t.id)){
+          val jp = JsonParser.parseString(i).asJsonObject
+          dur += jp.get("data").asJsonObject.get("duration").asFloat
+        }
+        read +=dur
         // extempore task
       }
     }

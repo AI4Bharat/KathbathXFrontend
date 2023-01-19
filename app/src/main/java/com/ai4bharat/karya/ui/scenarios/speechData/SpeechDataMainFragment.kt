@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.webkit.MimeTypeMap
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -78,6 +79,7 @@ class SpeechDataMainFragment : BaseMTRendererFragment(R.layout.microtask_speech_
     val view = super.onCreateView(inflater, container, savedInstanceState)
     // TODO: Remove this once we have viewModel Factory
     viewModel.setupViewModel(args.taskId, args.completed, args.total)
+    requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)    /** record instruction */
 
     return view
   }
@@ -91,8 +93,6 @@ class SpeechDataMainFragment : BaseMTRendererFragment(R.layout.microtask_speech_
     viewModel.setupSpeechDataViewModel()
     /** Set OnBackPressed callback */
     requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { viewModel.onBackPressed() }
-
-    /** record instruction */
     val recordInstruction =
       viewModel.task.params.asJsonObject.get("instruction").asString
         ?: getString(R.string.speech_recording_instruction)

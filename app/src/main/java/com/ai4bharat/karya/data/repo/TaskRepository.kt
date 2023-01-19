@@ -5,6 +5,7 @@ import com.ai4bharat.karya.data.local.daos.MicroTaskAssignmentDao
 import com.ai4bharat.karya.data.local.daos.TaskDao
 import com.ai4bharat.karya.data.model.karya.TaskRecord
 import com.ai4bharat.karya.data.model.karya.enums.MicrotaskAssignmentStatus
+import com.ai4bharat.karya.data.model.karya.enums.ScenarioType
 import com.ai4bharat.karya.data.model.karya.modelsExtra.TaskStatus
 import com.google.gson.JsonParser
 import kotlinx.coroutines.flow.Flow
@@ -35,6 +36,7 @@ constructor(
     val expired = microTaskAssignmentDao.getCountForTask(taskId, MicrotaskAssignmentStatus.EXPIRED)
     var pp = microTaskAssignmentDao.getDurationForCompletedTask(taskId,MicrotaskAssignmentStatus.COMPLETED,MicrotaskAssignmentStatus.SUBMITTED,MicrotaskAssignmentStatus.VERIFIED)
     var totalDuration:Float = 0.0F
+    if (getById(taskId).scenario_name == ScenarioType.SPEECH_DATA)
     for (i in pp){
       val jp = JsonParser.parseString(i).asJsonObject
       totalDuration += jp.get("data").asJsonObject.get("duration").asFloat

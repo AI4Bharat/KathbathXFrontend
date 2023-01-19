@@ -40,6 +40,7 @@ import java.io.FileOutputStream
 import java.io.RandomAccessFile
 import java.util.*
 import javax.inject.Inject
+import kotlin.random.Random.Default.nextInt
 
 
 /** Audio recording parameters */
@@ -64,8 +65,8 @@ constructor(
 ) {
 
   // TODO: Pass it in constructor (once we have viewModel factory)
-  private val postRecordingTime: Int = 250
-  private val prerecordingTime: Int = 250
+  private val postRecordingTime: Int = 4
+  private val prerecordingTime: Int = 4
 
   // Speech data collection parameters
   private var samplingRate: Int = 44100
@@ -300,8 +301,20 @@ constructor(
       totalRecordedBytes = 0
     }
 
+    val hints = currentMicroTask.input.asJsonObject.getAsJsonObject("data").get("hints")
+
     _sentenceTvText.value =
       currentMicroTask.input.asJsonObject.getAsJsonObject("data").get("sentence").toString()
+
+    if (hints != null){
+      val hintList = hints.toString().removeSurrounding("[", "]")
+        .takeIf(String::isNotEmpty)
+        ?.split(",")
+        ?: emptyList()
+//      Log.e("HINTS",hintList.random())
+      _sentenceTvText.value += " [Hint:"+hintList.random()+"]"
+    }
+
     totalRecordedBytes = 0
 
     extempore = task.name.contains("Extempore Dialogue",true)
