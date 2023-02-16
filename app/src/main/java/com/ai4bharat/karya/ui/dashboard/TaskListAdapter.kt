@@ -67,7 +67,9 @@ class TaskListAdapter(
         // Set text
         taskNameTv.text = taskInfo.taskName
         numIncompleteTv.text = assigned.toString()
-        numCompletedTv.text = "["+ totalDuration+" M] "+completed.toString()
+//        numCompletedTv.text = "["+ totalDuration+" M] "+completed.toString()
+        numCompletedTv.text = completed.toString()
+
         numSubmittedTv.text = submitted.toString()
         numVerifiedTv.text = verified.toString()
         numSkippedTv.text = skipped.toString()

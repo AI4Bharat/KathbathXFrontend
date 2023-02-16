@@ -57,9 +57,9 @@ interface WorkerAPI {
     @Body worker: WorkerRecord,
   ): Response<WorkerRecord>
 
-  @GET("/getUserDuration/{phone}")
-  suspend fun getDuration(
-    @Path("phone") phone: String?,
-  ): Response<ResponseBody>
+//  @GET("/getUserDuration/{phone}")
+//  suspend fun getDuration(
+//    @Path("phone") phone: String?,
+//  ): Response<ResponseBody>
 
 }

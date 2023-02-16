@@ -10,6 +10,8 @@ import com.ai4bharat.karya.data.model.karya.MicroTaskRecord
 import com.ai4bharat.karya.data.model.karya.TaskRecord
 import com.ai4bharat.karya.data.service.MicroTaskAssignmentAPI
 import com.ai4bharat.karya.data.model.karya.enums.MicrotaskAssignmentStatus
+import com.ai4bharat.karya.data.model.karya.enums.ScenarioType
+import com.ai4bharat.karya.data.model.karya.enums.TaskStatus
 import com.ai4bharat.karya.data.model.karya.modelsExtra.SpeechDataReport
 import com.ai4bharat.karya.utils.DateUtils
 import com.google.gson.JsonParser
@@ -273,12 +275,13 @@ constructor(
   suspend fun getTotalRecordedTasks(worker_id: String):Pair<Float,Float>?{
     var read = 0.0f
     var extempore = 0.0f
-
     for (t in taskDao.getAll()){
 //      if (!(t.name.lowercase().contains("english"))){
 //        continue
 //      }
-
+      if (t.scenario_name == ScenarioType.SPEECH_VERIFICATION){
+        continue
+      }
       if (t.name.lowercase().contains("[extempore]") ){//&& (t.name.lowercase().contains("kyp") || t.name.lowercase().contains("toi"))) {
         var dur:Float = 0.0F
         for (i in assignmentDaoExtra.getTotalRecordedTasks(worker_id,t.id)){
@@ -296,8 +299,31 @@ constructor(
         read +=dur
         // extempore task
       }
+      else if (t.name.lowercase().contains("[semi-extempore]")){//(t.name.lowercase().contains("wikipedia") || t.name.lowercase().contains("alexa") || t.name.lowercase().contains("bigbasket") || t.name.lowercase().contains("digital") || t.name.lowercase().contains("umang")){
+        if (assignmentDaoExtra.getCountForTask(t.id,MicrotaskAssignmentStatus.SKIPPED) + assignmentDaoExtra.getCountForTask(t.id,MicrotaskAssignmentStatus.ASSIGNED) == 0){
+          extempore += 5.0f
+        }
+      }
     }
     return Pair<Float,Float>(read,extempore)
   }
+//
+//  suspend fun getCompletedAndSubmittedTasksCount(worker_id: String):Pair<Int,Int>?{
+//    var completed:Int = 0
+//    var submitted:Int = 0
+//    completed = 10 //assignmentDaoExtra.getCountByStatus(MicrotaskAssignmentStatus.COMPLETED) + assignmentDaoExtra.getCountByStatus(MicrotaskAssignmentStatus.SUBMITTED) + assignmentDaoExtra.getCountByStatus(MicrotaskAssignmentStatus.VERIFIED)
+//    submitted = 10 //assignmentDaoExtra.getCountByStatus(MicrotaskAssignmentStatus.SUBMITTED) + assignmentDaoExtra.getCountByStatus(MicrotaskAssignmentStatus.VERIFIED)
+////    for (t in assignmentDao.getAll()){
+////      if (t.status == comple) {
+////        completed += 1
+////      }
+////      else if (t.status == TaskStatus.SUBMITTED){
+////        submitted += 1
+////      }
+////
+////    }
+//    return Pair<Int,Int>(completed,submitted)
+//  }
+
 
 }

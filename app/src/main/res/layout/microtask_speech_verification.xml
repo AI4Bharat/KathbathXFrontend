@@ -37,97 +37,14 @@
         layout="@layout/microtask_common_playback_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/accuracyCl" />
+        app:layout_constraintBottom_toTopOf="@id/volumeCl" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/accuracyCl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/qualityCl">
-
-        <TextView
-            android:id="@+id/accuracyLbl"
-            style="@style/RatingLabel"
-            android:gravity="right"
-            android:text="@string/recording_accuracy"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.22" />
-
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/accuracyGroup"
-            style="@style/RatingButtonGroup"
-            app:layout_constraintLeft_toRightOf="@id/accuracyLbl"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <Button
-                android:id="@+id/accuracyBadBtn"
-                style="@style/RatingButton"
-                android:text="@string/accuracy_bad" />
-
-            <Button
-                android:id="@+id/accuracyOkayBtn"
-                style="@style/RatingButton"
-                android:text="@string/accuracy_okay" />
-
-            <Button
-                android:id="@+id/accuracyGoodBtn"
-                style="@style/RatingButton"
-                android:text="@string/accuracy_good" />
-
-        </com.google.android.material.button.MaterialButtonToggleGroup>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/qualityCl"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/volumeCl">
-
-        <TextView
-            android:id="@+id/qualityLbl"
-            style="@style/RatingLabel"
-            android:gravity="right"
-            android:text="@string/recording_quality"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.22" />
-
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/qualityGroup"
-            style="@style/RatingButtonGroup"
-            app:layout_constraintLeft_toRightOf="@id/qualityLbl"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <Button
-                android:id="@+id/qualityBadBtn"
-                style="@style/RatingButton"
-                android:text="@string/quality_bad" />
-
-            <Button
-                android:id="@+id/qualityOkayBtn"
-                style="@style/RatingButton"
-                android:text="@string/quality_okay" />
-
-            <Button
-                android:id="@+id/qualityGoodBtn"
-                style="@style/RatingButton"
-                android:text="@string/quality_good" />
-
-        </com.google.android.material.button.MaterialButtonToggleGroup>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/volumeCl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/buttonGroup">
-<!--        app:layout_constraintBottom_toTopOf="@id/fluencyCl">-->
+        app:layout_constraintBottom_toTopOf="@+id/bgChatterCl">
 
         <TextView
             android:id="@+id/volumeLbl"
@@ -137,14 +54,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.22" />
+            app:layout_constraintWidth_percent="0.13" />
 
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/volumeGroup"
             style="@style/RatingButtonGroup"
             app:layout_constraintLeft_toRightOf="@id/volumeLbl"
             app:layout_constraintTop_toTopOf="parent">
-
 
             <Button
                 android:id="@+id/volumeBadBtn"
@@ -156,14 +72,286 @@
                 style="@style/RatingButton"
                 android:text="@string/volume_okay" />
 
+            <!--            <Button-->
+            <!--                android:id="@+id/volumeGoodBtn"-->
+            <!--                style="@style/RatingButton"-->
+            <!--                android:text="@string/volume_good" />-->
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <TextView
+            android:id="@+id/bgNoiseLbl"
+            style="@style/RatingLabel"
+            android:gravity="right"
+            android:text="@string/recording_bgNoise"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/volumeGroup"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.13" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/bgNoiseGroup"
+            style="@style/RatingButtonGroup"
+            app:layout_constraintLeft_toRightOf="@id/bgNoiseLbl"
+            app:layout_constraintTop_toTopOf="parent">
+
+
             <Button
-                android:id="@+id/volumeGoodBtn"
+                android:id="@+id/bgNoiseBadBtn"
                 style="@style/RatingButton"
-                android:text="@string/volume_good" />
+                android:text="@string/bgNoise_bad" />
+
+            <Button
+                android:id="@+id/bgNoiseOkayBtn"
+                style="@style/RatingButton"
+                android:text="@string/bgNoise_okay" />
+
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bgChatterCl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/volapCl">
+        <!--        app:layout_constraintBottom_toTopOf="@id/fluencyCl">-->
+
+        <TextView
+            android:id="@+id/bgChatterLbl"
+            style="@style/RatingLabel"
+            android:gravity="right"
+            android:text="@string/recording_bgChatter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.13" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/bgChatterGroup"
+            style="@style/RatingButtonGroup"
+            app:layout_constraintLeft_toRightOf="@id/bgChatterLbl"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <Button
+                android:id="@+id/bgChatterBadBtn"
+                style="@style/RatingButton"
+                android:text="@string/bgChatter_bad" />
+
+            <Button
+                android:id="@+id/bgChatterOkayBtn"
+                style="@style/RatingButton"
+                android:text="@string/bgChatter_okay" />
+
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <TextView
+            android:id="@+id/cSwitchingLbl"
+            style="@style/RatingLabel"
+            android:gravity="right"
+            android:text="@string/recording_cSwitching"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/bgChatterGroup"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.13" />
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/cSwitchingGroup"
+            style="@style/RatingButtonGroup"
+            app:layout_constraintLeft_toRightOf="@id/cSwitchingLbl"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <Button
+                android:id="@+id/cSwitchingBadBtn"
+                style="@style/RatingButton"
+                android:text="@string/cSwitching_bad" />
+
+            <Button
+                android:id="@+id/cSwitchingOkayBtn"
+                style="@style/RatingButton"
+                android:text="@string/cSwitching_okay" />
+
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/volapCl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/qualityCl">
+        <!--        app:layout_constraintBottom_toTopOf="@id/fluencyCl">-->
+
+        <TextView
+            android:id="@+id/volapLbl"
+            style="@style/RatingLabel"
+            android:gravity="right"
+            android:text="@string/recording_volap"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.13" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/volapGroup"
+            style="@style/RatingButtonGroup"
+            app:layout_constraintLeft_toRightOf="@id/volapLbl"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <Button
+                android:id="@+id/volapBadBtn"
+                style="@style/RatingButton"
+                android:layout_width="wrap_content"
+                android:text="@string/volap_bad" />
+
+            <Button
+                android:id="@+id/volapOkayBtn"
+                style="@style/RatingButton"
+                android:text="@string/volap_okay" />
+
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <TextView
+            android:id="@+id/sstLbl"
+            style="@style/RatingLabel"
+            android:gravity="right"
+            android:text="@string/recording_sst"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/volapGroup"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.13"
+            tools:ignore="MissingConstraints" />
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/sstGroup"
+            style="@style/RatingButtonGroup"
+            app:layout_constraintLeft_toRightOf="@id/sstLbl"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <Button
+                android:id="@+id/sstBadBtn"
+                style="@style/RatingButton"
+                android:text="@string/sst_bad" />
+
+            <Button
+                android:id="@+id/sstOkayBtn"
+                style="@style/RatingButton"
+                android:text="@string/sst_okay" />
+
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/qualityCl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/commentCl">
+        <!--        app:layout_constraintBottom_toTopOf="@id/fluencyCl">-->
+
+        <TextView
+            android:id="@+id/readQualityLbl"
+            style="@style/RatingLabel"
+            android:gravity="right"
+            android:text="@string/recording_readQuality"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.13" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/readQualityGroup"
+            style="@style/RatingButtonGroup"
+            app:layout_constraintLeft_toRightOf="@id/readQualityLbl"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <Button
+                android:id="@+id/readQualityBadBtn"
+                style="@style/RatingButton"
+                android:layout_width="wrap_content"
+                android:text="@string/readQuality_bad" />
+
+            <Button
+                android:id="@+id/readQualityOkayBtn"
+                style="@style/RatingButton"
+                android:text="@string/readQuality_okay" />
+
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <TextView
+            android:id="@+id/extemporeQualityLbl"
+            style="@style/RatingLabel"
+            android:gravity="right"
+            android:text="@string/recording_extemporeQuality"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/readQualityGroup"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.13"
+            tools:ignore="MissingConstraints" />
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/extemporeQualityGroup"
+            style="@style/RatingButtonGroup"
+            app:layout_constraintLeft_toRightOf="@id/extemporeQualityLbl"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <Button
+                android:id="@+id/extemporeQualityBadBtn"
+                style="@style/RatingButton"
+                android:text="@string/extemporeQuality_bad" />
+
+            <Button
+                android:id="@+id/extemporeQualityOkayBtn"
+                style="@style/RatingButton"
+                android:text="@string/extemporeQuality_okay" />
+
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/commentCl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/buttonGroup">
+        <!--        app:layout_constraintBottom_toTopOf="@id/fluencyCl">-->
+
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textComment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Comments"
+            android:textSize="@dimen/_8sdp"
+            >
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/sstCl"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/buttonGroup">-->
+<!--        &lt;!&ndash;        app:layout_constraintBottom_toTopOf="@id/fluencyCl">&ndash;&gt;-->
+
+
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
 <!--        android:id="@+id/fluencyCl"-->

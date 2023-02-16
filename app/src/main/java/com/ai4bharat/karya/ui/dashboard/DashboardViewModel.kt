@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class DashboardViewModel
@@ -33,8 +34,8 @@ constructor(
     compareBy<TaskInfo> { taskInfo -> taskInfo.taskID} //taskStatus.assignedMicrotasks }.thenBy { taskInfo ->
 //      taskInfo.taskID
 //    }
-  var uploadedDataDuration: String = "0"
-  var onPhoneDataDuration: String = "0"
+//  var uploadedDataDuration: String = "0"
+//  var onPhoneDataDuration: String = "0"
   private val _dashboardUiState: MutableStateFlow<DashboardUiState> =
     MutableStateFlow(DashboardUiState.Success(DashboardStateSuccess(emptyList(), Pair(0.0f,0.0f))))
   val dashboardUiState = _dashboardUiState.asStateFlow()
@@ -72,10 +73,14 @@ constructor(
     _dashboardUiState.value =
       DashboardUiState.Success(DashboardStateSuccess(taskInfoList, totalRecordedDuration))
 
-//
-    workerAPI.getDuration(worker.phoneNumber!!).body()?.let {
-      uploadedDataDuration =  it.string()
-    }
+////
+//    val com_and_sub = assignmentRepository.getCompletedAndSubmittedTasksCount(worker.id)
+//    uploadedDataDuration = com_and_sub?.first.toString()
+//    onPhoneDataDuration = com_and_sub?.second.toString()
+//    if (!worker.accessCode.contains("777777")){
+//    workerAPI.getDuration(worker.phoneNumber!!).body()?.let {
+//      uploadedDataDuration =  it.string()
+//    }}
 
   }
 
@@ -100,9 +105,6 @@ constructor(
               null
             }
 
-            if (taskRecord.scenario_name == ScenarioType.SPEECH_VERIFICATION){
-
-            }
 
             val taskStatus = fetchTaskStatus(taskRecord.id)
             val speechReport = if (taskRecord.scenario_name == ScenarioType.SPEECH_DATA) {

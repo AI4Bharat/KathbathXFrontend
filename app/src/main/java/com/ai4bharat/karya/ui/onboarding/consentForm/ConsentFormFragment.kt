@@ -96,6 +96,15 @@ class ConsentFormFragment : BaseFragment(R.layout.fragment_consent_form) {
           else if (languageCode.equals("mai",true)){
             consentFormTv.text = text2html(getString(R.string.consent_form_text_maithili))
           }
+          else if (languageCode.equals("sa",true)){
+            consentFormTv.text = text2html(getString(R.string.consent_form_text_english))
+          }
+          else if (languageCode.equals("bn",true)){
+            consentFormTv.text = text2html(getString(R.string.consent_form_text_bengali))
+          }
+          else if (languageCode.equals("or",true)){
+            consentFormTv.text = text2html(getString(R.string.consent_form_text_bengali))
+          }
           else{
             consentFormTv.text = text2html(getString(R.string.consent_form_text_english))
           }

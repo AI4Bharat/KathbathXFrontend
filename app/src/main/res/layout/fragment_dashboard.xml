@@ -55,6 +55,7 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/_20sdp"
+                android:id="@+id/submit_area_duration"
                 >
 
                 <TextView
@@ -63,7 +64,7 @@
                     android:layout_height="@dimen/_20sdp"
                     android:background="@color/c_very_light_green"
                     android:gravity="center"
-                    android:text="[Uploaded : 0 mins]"
+                    android:text="[Uploaded: 0 tasks]"
                     android:textColor="@color/c_black"
                     app:autoSizeMaxTextSize="@dimen/_10ssp"
                     app:autoSizeMinTextSize="@dimen/_5ssp"
@@ -77,7 +78,7 @@
                     android:layout_weight="1"
                     android:background="#F49898"
                     android:gravity="center"
-                    android:text="[On Phone : 0 mins]"
+                    android:text="[On Phone: 0 tasks]"
                     android:textColor="@color/c_black"
                     app:autoSizeMaxTextSize="@dimen/_10ssp"
                     app:autoSizeMinTextSize="@dimen/_5ssp"

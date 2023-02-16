@@ -50,6 +50,27 @@
 I do hereby give permission to the Digital India Bhashini Mission under the Ministry of Electronics and Information Technology, Government of India, to use the recordings of my voice under the CC BY 4.0 license. I understand that under the CC BY 4.0 license the Digital India Bhashini Mission has the right to copy and redistribute the material in any medium or format and also the right to remix, transform, and build upon the material for any purpose, even commercially. </p>
  ]]>
     </string>
+    <string name="consent_form_text_bengali">
+        <![CDATA[
+<h5>যার জন্য এটা উদ্বিগ্ন হতে পারে</h5>
+<br>
+<p>
+আমি, এতদ্বারা অনুমতি দেয় ইলেকট্রনিক্স এবং তথ্য মন্ত্রকের অধীনে ডিজিটাল ইন্ডিয়া ভাশিনী মিশন প্রযুক্তি, ভারত সরকার, আমার ভয়েস এবং ভিডিওর রেকর্ডিং ব্যবহার করতে CC BY 4.0 লাইসেন্সের অধীনে রেকর্ড করা হয়েছে। আমি বুঝতে পারছেন যে CC BY 4.0 লাইসেন্সের অধীনে ডিজিটাল ইন্ডিয়া ভাশিনী মিশন যে কোনো মাধ্যম বা বিন্যাসে উপাদান কপি এবং পুনরায় বিতরণ করার অধিকার রয়েছে এবং যেকোন উদ্দেশ্যে উপাদানের রিমিক্স, রূপান্তর এবং নির্মাণের অধিকারও,
+এমনকি বাণিজ্যিকভাবেও।
+</p>
+ ]]>
+    </string>
+    <string name="consent_form_text_odia">
+        <![CDATA[
+<h5>
+କେଉଁମାନଙ୍କ ପାଇଁ ଏହା ସମ୍ପର୍କିତ ହୋଇପାରେ
+</h5>
+<br>
+<p>
+ମୁଁ ଏତଦ୍ୱାରା ଭାରତ ସରକାରଙ୍କ ଇଲେକ୍ଟ୍ରୋନିକ୍ସ ଏବଂ ସୂଚନା ପ୍ରଯୁକ୍ତି ମନ୍ତ୍ରଣାଳୟ ଅଧୀନରେ ଡିଜିଟାଲ ଇଣ୍ଡିଆ ଭାଶିନି ମିଶନକୁ ସିସି ବାଇ 4.0 ଲାଇସେନ୍ସ ଅଧୀନରେ ମୋ ସ୍ୱରର ରେକର୍ଡିଂ ବ୍ୟବହାର କରିବାକୁ ଅନୁମତି ଦେଉଛି । ମୁଁ ବୁଝିପାରୁଛି ଯେ ସିସି ବାଇ 4.0 ଲାଇସେନ୍ସ ଅଧୀନରେ ଡିଜିଟାଲ୍ ଇଣ୍ଡିଆ ଭାଶିନି ମିଶନର ଯେକୌଣସି ମଧ୍ୟମ କିମ୍ବା ଫର୍ମାଟରେ ସାମଗ୍ରୀକୁ କପି ଏବଂ ପୁନଃବିତରଣ କରିବାର ଅଧିକାର ଅଛି ଏବଂ ଯେକୌଣସି ଉଦ୍ଦେଶ୍ୟ ପାଇଁ ତଥ୍ୟକୁ ଏପରିକି ବ୍ୟବସାୟିକ ଭାବରେ ମଧ୍ୟ, ପୁନଃ ମିଶ୍ରଣ, ପରିବର୍ତ୍ତନ ଏବଂ ନିର୍ମାଣ କରିବାର ଅଧିକାର ମଧ୍ୟ ଅଛି ।
+</p>
+ ]]>
+    </string>
     <string name="consent_form_text_maithili">
         <![CDATA[
 <h5>TO WHOMSOEVER IT MAY CONCERN</h5>
@@ -127,19 +148,19 @@ I do hereby give permission to use the recordings of my voice under the CC BY 4.
 
     <!-- Speech verification strings -->
     <string name="speech_verification_instruction">Verify the recording below</string>
-    <string name="recording_accuracy">Accuracy</string>
-    <string name="accuracy_good">Correct</string>
-    <string name="accuracy_okay">Errors</string>
-    <string name="accuracy_bad">Incorrect</string>
+    <string name="recording_accuracy">Conv Style</string>
+    <string name="accuracy_good">Excellent</string>
+    <string name="accuracy_okay">Acceptable</string>
+    <string name="accuracy_bad">Monologue</string>
     <string name="recording_volume">Volume</string>
-    <string name="volume_good">Good</string>
-    <string name="volume_okay">Whisper</string>
-    <string name="volume_bad">Inaudible</string>
-    <string name="recording_quality">Quality</string>
+    <string name="volume_good">Excellent</string>
+    <string name="volume_okay">Accept</string>
+    <string name="volume_bad">Reject</string>
+    <string name="recording_quality">Extempore Quality</string>
     <string name="recording_noise">Noise</string>
-    <string name="quality_good">Good</string>
-    <string name="quality_okay">Noisy</string>
-    <string name="quality_bad">Bad</string>
+    <string name="quality_good">Excellent</string>
+    <string name="quality_okay">Acceptable</string>
+    <string name="quality_bad">Poor</string>
     <string name="recording_fluency">Fluency</string>
     <string name="fluency_good">Fluent</string>
     <string name="fluency_okay">Okay</string>
@@ -195,4 +216,26 @@ I do hereby give permission to use the recordings of my voice under the CC BY 4.
     <string name="no_annotation_box_dialog_title_text">No Box Drawn</string>
     <string name="select_image_annotation_label_dialog_instruction">Select Label</string>
     <string name="image_annotation_edit_label">Select new label</string>
+    <string name="sst_okay">Accept</string>
+    <string name="sst_bad">Reject</string>
+    <string name="recording_sst">SST</string>
+    <string name="recording_volap">Vo-lap</string>
+    <string name="volap_bad">Reject</string>
+    <string name="volap_okay">Accept</string>
+    <string name="recording_bgChatter">BgChatter</string>
+    <string name="bgChatter_bad">Reject</string>
+    <string name="bgChatter_okay">Accept</string>
+    <string name="recording_cSwitching">CSwitch</string>
+    <string name="cSwitching_bad">Reject</string>
+    <string name="cSwitching_okay">Accept</string>
+    <string name="recording_bgNoise">BgNoise</string>
+    <string name="bgNoise_bad">Reject</string>
+    <string name="bgNoise_okay">Accept</string>
+    <string name="recording_readQuality">ReadQ</string>
+    <string name="readQuality_bad">Reject</string>
+    <string name="readQuality_okay">Accept</string>
+    <string name="recording_extemporeQuality">ExtemQ</string>
+    <string name="extemporeQuality_bad">Reject</string>
+    <string name="extemporeQuality_okay">Reject</string>
+    <string name="commentText">Comments</string>
 </resources>

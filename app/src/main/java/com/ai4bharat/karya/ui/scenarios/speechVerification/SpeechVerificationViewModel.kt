@@ -1,6 +1,9 @@
 package com.ai4bharat.karya.ui.scenarios.speechVerification
 
 import android.media.MediaPlayer
+import android.util.Log
+import android.view.View
+import android.widget.EditText
 import androidx.annotation.StringRes
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
@@ -11,6 +14,7 @@ import com.ai4bharat.karya.data.repo.MicroTaskRepository
 import com.ai4bharat.karya.data.repo.TaskRepository
 import com.ai4bharat.karya.injection.qualifier.FilesDir
 import com.ai4bharat.karya.ui.scenarios.common.BaseMTRendererViewModel
+import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -65,14 +69,36 @@ constructor(
   private var backBtnState: ButtonState = ButtonState.DISABLED
 
   /** Verification status */
-  private var _accuracyRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
-  val accuracyRating = _accuracyRating.asStateFlow()
-
-  private var _qualityRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
-  val qualityRating = _qualityRating.asStateFlow()
+//  private var _accuracyRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+//  val accuracyRating = _accuracyRating.asStateFlow()
+//
+//  private var _qualityRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+//  val qualityRating = _qualityRating.asStateFlow()
 
   private var _volumeRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
   val volumeRating = _volumeRating.asStateFlow()
+
+  private var _bgNoiseRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+  val bgNoiseRating = _bgNoiseRating.asStateFlow()
+
+  private var _cSwitchRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+  val cSwitchRating = _cSwitchRating.asStateFlow()
+
+  private var _bgChatterRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+  val bgChatterRating = _bgChatterRating.asStateFlow()
+
+  private var _voLapRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+  val voLapRating = _voLapRating.asStateFlow()
+
+  private var _sstRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+  val sstRating = _sstRating.asStateFlow()
+
+  private var _handleReadQRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+  val handleReadQRating = _handleReadQRating.asStateFlow()
+
+  private var _handleExtemporeQRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+  val handleExtemporeQRating = _handleExtemporeQRating.asStateFlow()
+
 
 //  private var _fluencyRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
 //  val fluencyRating = _fluencyRating.asStateFlow()
@@ -109,11 +135,34 @@ constructor(
   private val _showErrorWithDialog: MutableStateFlow<String> = MutableStateFlow("")
   val showErrorWithDialog = _showErrorWithDialog.asStateFlow()
 
+  private val _commentText: MutableStateFlow<String> = MutableStateFlow("")
+  val commentText = _commentText.asStateFlow()
+
   override fun setupMicrotask() {
-    _accuracyRating.value = R.string.rating_undefined
-    _qualityRating.value = R.string.rating_undefined
+//    _accuracyRating.value = R.string.rating_undefined
+//    _qualityRating.value = R.string.rating_undefined
     _volumeRating.value = R.string.rating_undefined
+    _bgNoiseRating.value = R.string.rating_undefined
+    _cSwitchRating.value = R.string.rating_undefined
+    _bgChatterRating.value = R.string.rating_undefined
+    _voLapRating.value = R.string.rating_undefined
+    _sstRating.value = R.string.rating_undefined
+
 //    _fluencyRating.value = R.string.rating_undefined
+    viewModelScope.launch {
+      if (taskRepository.getById(currentMicroTask.task_id).name.contains("[conversations]",ignoreCase = true))
+      {
+        Log.e("CONVERSATIONS","Disable Read Q")
+      }
+      else if (taskRepository.getById(currentMicroTask.task_id).name.contains("[read]",ignoreCase = true))
+      {
+        Log.e("READ","Disable SST Q, EXTEMPORE Q")
+      }
+      else if (taskRepository.getById(currentMicroTask.task_id).name.contains("[extempore]",ignoreCase = true))
+      {
+        Log.e("EXTEMPORE","Disable REad Q, SST")
+      }
+    }
 
     _reviewEnabled.value = false
     reviewCompleted = false
@@ -127,10 +176,21 @@ constructor(
 
     _sentenceTvText.value = sentence
 
+
+
     /** setup media player */
     mediaPlayer = MediaPlayer()
     mediaPlayer!!.setOnCompletionListener { setActivityState(ActivityState.REVIEW_ENABLED) }
     mediaPlayer!!.setDataSource(recordingFile)
+//
+//    if (this.task.name.contains("read",ignoreCase = true)){
+//      handleAccuracyChange(-1)
+//      handleQualityChange(-1)
+//    }
+//
+//    else if (this.task.name.contains("extempore",ignoreCase = true)){
+//      handleAccuracyChange(-1)
+//    }
 
     try {
       mediaPlayer!!.prepare()
@@ -261,19 +321,19 @@ constructor(
     mediaPlayer?.release()
     mediaPlayer = null
 
-    val accuracy =
-      when (_accuracyRating.value) {
-        R.string.accuracy_good -> 2
-        R.string.accuracy_okay -> 1
-        else -> 0
-      }
-
-    val quality =
-      when (_qualityRating.value) {
-        R.string.quality_good -> 2
-        R.string.quality_okay -> 1
-        else -> 0
-      }
+//    var accuracy =
+//      when (_accuracyRating.value) {
+//        R.string.accuracy_good -> 2
+//        R.string.accuracy_okay -> 1
+//        else -> 0
+//      }
+//
+//    var quality =
+//      when (_qualityRating.value) {
+//        R.string.quality_good -> 2
+//        R.string.quality_okay -> 1
+//        else -> 0
+//      }
 
     val volume =
       when (_volumeRating.value) {
@@ -282,6 +342,54 @@ constructor(
         else -> 0
       }
 
+    val bgNoise =
+      when (_bgNoiseRating.value){
+        R.string.bgNoise_okay -> 1
+        R.string.bgNoise_bad -> 0
+        else -> 0
+      }
+
+    val cSwitching =
+      when (_cSwitchRating.value){
+        R.string.cSwitching_okay -> 1
+        R.string.cSwitching_bad -> 0
+        else -> 0
+      }
+
+    val bgChatter =
+      when (_bgChatterRating.value){
+        R.string.bgChatter_okay -> 1
+        R.string.bgChatter_bad -> 0
+        else -> 0
+      }
+    val voLap =
+      when (_voLapRating.value){
+        R.string.volap_okay -> 1
+        R.string.volap_bad -> 0
+        else -> 0
+      }
+    val sst =
+      when (_sstRating.value){
+        R.string.sst_okay -> 1
+        R.string.sst_bad -> 0
+        else -> 0
+      }
+    val readq =
+      when (_handleReadQRating.value){
+        R.string.readQuality_okay -> 1
+        R.string.readQuality_bad -> 0
+        else -> 0
+      }
+
+    val extemporq =
+      when (handleExtemporeQRating.value){
+        R.string.extemporeQuality_okay -> 1
+        R.string.extemporeQuality_okay -> 0
+        else -> 0
+      }
+
+   val comments = getView()/
+
 //    val fluency =
 //      when (_fluencyRating.value) {
 //        R.string.fluency_good -> 2
@@ -289,10 +397,31 @@ constructor(
 //        else -> 0
 //      }
 
+//    if (this.task.name.contains("read",ignoreCase = true)){
+//      accuracy = -1
+//      quality = -1
+//    }
+//
+//    else if (this.task.name.contains("extempore",ignoreCase = true)){
+//      accuracy = -1
+//    }
 
-    outputData.addProperty("accuracy", accuracy)
-    outputData.addProperty("quality", quality)
+
+
+//    outputData.addProperty("interactiveness", accuracy)
+//    outputData.addProperty("extempore_quality", quality)
     outputData.addProperty("volume", volume)
+    outputData.addProperty("bgnoise", bgNoise)
+    outputData.addProperty("cswitch", cSwitching)
+    outputData.addProperty("bgchatter", bgChatter)
+    outputData.addProperty("volap", voLap)
+    outputData.addProperty("sst", sst)
+    outputData.addProperty("readquality", readq)
+    outputData.addProperty("extemporequality", extemporq)
+
+//    outputData.addProperty("comment",comments)
+
+
 //    outputData.addProperty("fluency", fluency)
 
     viewModelScope.launch {
@@ -312,23 +441,62 @@ constructor(
   }
 
 
-  /** Handle accuracy change */
-  fun handleAccuracyChange(@StringRes accuracy: Int) {
-    _accuracyRating.value = accuracy
-    updateReviewStatus()
-  }
-
-  /** Handle quality change */
-  fun handleQualityChange(@StringRes quality: Int) {
-    _qualityRating.value = quality
-    updateReviewStatus()
-  }
+//  /** Handle accuracy change */
+//  fun handleAccuracyChange(@StringRes accuracy: Int) {
+//    _accuracyRating.value = accuracy
+//    updateReviewStatus()
+//  }
+//
+//  /** Handle quality change */
+//  fun handleQualityChange(@StringRes quality: Int) {
+//    _qualityRating.value = quality
+//    updateReviewStatus()
+//  }
 
   /** Handle volume change */
   fun handleVolumeChange(@StringRes volume: Int) {
     _volumeRating.value = volume
     updateReviewStatus()
   }
+
+  /** Handle bgNoise change */
+  fun handleBgNoiseChange(@StringRes bgNoise: Int) {
+    _bgNoiseRating.value = bgNoise
+    updateReviewStatus()
+  }
+
+  fun handleCSwitchingChange(@StringRes cSwitching: Int) {
+    _cSwitchRating.value = cSwitching
+    updateReviewStatus()
+  }
+
+  fun handleBgChatterChange(@StringRes bgChatter: Int) {
+    _bgChatterRating.value = bgChatter
+    updateReviewStatus()
+  }
+
+  fun handleVoLapChange(@StringRes voLap: Int) {
+    _voLapRating.value = voLap
+    updateReviewStatus()
+  }
+
+  fun handleSstChange(@StringRes sst: Int) {
+    _sstRating.value = sst
+    updateReviewStatus()
+  }
+
+  fun handleReadQChange(@StringRes qRating: Int) {
+    _handleReadQRating.value = qRating
+    updateReviewStatus()
+  }
+  fun handleExtemporeQChange(@StringRes eRating: Int) {
+    _handleExtemporeQRating.value = eRating
+    updateReviewStatus()
+  }
+
+
+
+
 
 //  fun handleFluencyChange(@StringRes fluency: Int) {
 //    _fluencyRating.value = fluency
@@ -337,9 +505,16 @@ constructor(
 
   private fun updateReviewStatus() {
     reviewCompleted =
-      _accuracyRating.value != R.string.rating_undefined &&
-        _qualityRating.value != R.string.rating_undefined &&
-        _volumeRating.value != R.string.rating_undefined
+//      _accuracyRating.value != R.string.rating_undefined &&
+//        _qualityRating.value != R.string.rating_undefined &&
+        _volumeRating.value != R.string.rating_undefined &&
+                _bgNoiseRating.value != R.string.rating_undefined &&
+                _cSwitchRating.value != R.string.rating_undefined &&
+                _bgChatterRating.value != R.string.rating_undefined &&
+                _voLapRating.value != R.string.rating_undefined &&
+                _sstRating.value != R.string.rating_undefined &&
+                _handleReadQRating.value != R.string.rating_undefined &&
+                _handleExtemporeQRating.value != R.string.rating_undefined
 //        &&
 //        _fluencyRating.value != R.string.rating_undefined
 
@@ -379,10 +554,15 @@ constructor(
   // Handle the corrupt Audio Case
   fun handleCorruptAudio() {
     // Give 2 on all reports
-    _accuracyRating.value = R.string.accuracy_bad
+//    _accuracyRating.value = R.string.accuracy_bad
     _volumeRating.value = R.string.volume_bad
-    _qualityRating.value = R.string.quality_bad
-//    _fluencyRating.value = R.string.fluency_bad
+    _bgNoiseRating.value = R.string.bgNoise_bad
+    _cSwitchRating.value = R.string.cSwitching_bad
+    _bgChatterRating.value = R.string.bgChatter_bad
+    _voLapRating.value = R.string.volap_bad
+    _sstRating.value = R.string.sst_bad
+    _handleReadQRating.value = R.string.readQuality_bad
+    _handleExtemporeQRating.value = R.string.extemporeQuality_bad
 
     outputData.addProperty("flag", "corrupt")
 

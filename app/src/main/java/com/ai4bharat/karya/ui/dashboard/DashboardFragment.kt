@@ -146,6 +146,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 
       loadProfilePic()
     }
+
   }
 
 
@@ -153,7 +154,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
     setupWorkRequests()
     WorkManager.getInstance(requireContext())
       .enqueueUniqueWork(UNIQUE_SYNC_WORK_NAME, ExistingWorkPolicy.KEEP, syncWorkRequest)
-    binding.syncDuration.text = "[Uploaded : "+viewModel.uploadedDataDuration+" mins]"
+//    binding.syncDuration.text = "[Uploaded: "+viewModel.uploadedDataDuration+" tasks]"
   }
 
   private fun showSuccessUi(data: DashboardStateSuccess) {
@@ -173,7 +174,17 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 //          "%.2f M".format(Locale.ENGLISH, totalRecordedDuration.first)
         binding.rupeesEarnedTv2.text = String.format(Locale.US, "%02d:%02.0f", (totalRecordedDuration.second/60).toInt(), totalRecordedDuration.second%60)
 //          "%.2f M".format(Locale.ENGLISH, totalRecordedDuration.second)
-        binding.syncDurationOnPhone.text = "[On Phone : "+(round(totalRecordedDuration.first + totalRecordedDuration.second) /60).toString()+" mins]"
+//        binding.syncDurationOnPhone.text = "[On Phone: "+totalRecordedDuration.second.toString()+" tasks]"
+        var completed = 0
+        var submitted = 0
+        for (task in taskInfoData){
+          completed += task.taskStatus.completedMicrotasks
+          submitted += task.taskStatus.submittedMicrotasks + task.taskStatus.verifiedMicrotasks
+        }
+        completed += submitted
+        binding.syncDurationOnPhone.text = "[On Phone: $completed  tasks]"
+        binding.syncDuration.text = "[Submitted: $submitted tasks]"
+
       } else {
         binding.rupeesEarnedCl.gone()
       }
@@ -182,6 +193,9 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
     // Show a dialog box to sync with server if completed tasks and internet available
     if (requireContext().isNetworkAvailable()) {
       for (taskInfo in data.taskInfoData) {
+//        if (taskInfo.scenarioName == ScenarioType.SPEECH_VERIFICATION){
+//          binding.submitAreaDuration.invisible()
+//        }
         if (taskInfo.taskStatus.completedMicrotasks > 0) {
           showDialogueToSync()
           return
