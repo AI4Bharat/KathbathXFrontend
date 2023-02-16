@@ -135,8 +135,6 @@ constructor(
   private val _showErrorWithDialog: MutableStateFlow<String> = MutableStateFlow("")
   val showErrorWithDialog = _showErrorWithDialog.asStateFlow()
 
-  private val _commentText: MutableStateFlow<String> = MutableStateFlow("")
-  val commentText = _commentText.asStateFlow()
 
   override fun setupMicrotask() {
 //    _accuracyRating.value = R.string.rating_undefined
@@ -147,6 +145,8 @@ constructor(
     _bgChatterRating.value = R.string.rating_undefined
     _voLapRating.value = R.string.rating_undefined
     _sstRating.value = R.string.rating_undefined
+    _handleReadQRating.value = R.string.rating_undefined
+    _handleExtemporeQRating.value = R.string.rating_undefined
 
 //    _fluencyRating.value = R.string.rating_undefined
     viewModelScope.launch {
@@ -175,7 +175,6 @@ constructor(
       microtaskInputContainer.getMicrotaskInputFilePath(currentMicroTask.id, recordingFileName)
 
     _sentenceTvText.value = sentence
-
 
 
     /** setup media player */
@@ -387,8 +386,6 @@ constructor(
         R.string.extemporeQuality_okay -> 0
         else -> 0
       }
-
-   val comments = getView()/
 
 //    val fluency =
 //      when (_fluencyRating.value) {

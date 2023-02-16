@@ -200,11 +200,7 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
       flushButtonStates(states.first, states.second, states.third)
     }
 
-    viewModel.commentText.observe(
-      viewLifecycleOwner.lifecycle, viewLifecycleScope
-    ) { text ->
-      textComment.text = text
-    }
+
 
 //
 //    viewModel.accuracyRating.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { value ->

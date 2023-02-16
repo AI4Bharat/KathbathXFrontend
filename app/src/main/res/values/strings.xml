@@ -236,6 +236,6 @@ I do hereby give permission to use the recordings of my voice under the CC BY 4.
     <string name="readQuality_okay">Accept</string>
     <string name="recording_extemporeQuality">ExtemQ</string>
     <string name="extemporeQuality_bad">Reject</string>
-    <string name="extemporeQuality_okay">Reject</string>
+    <string name="extemporeQuality_okay">Accept</string>
     <string name="commentText">Comments</string>
 </resources>
