@@ -14,8 +14,10 @@ import com.ai4bharat.karya.data.repo.MicroTaskRepository
 import com.ai4bharat.karya.data.repo.TaskRepository
 import com.ai4bharat.karya.injection.qualifier.FilesDir
 import com.ai4bharat.karya.ui.scenarios.common.BaseMTRendererViewModel
+import com.ai4bharat.karya.utils.extensions.visible
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.android.synthetic.main.microtask_speech_verification.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -75,29 +77,42 @@ constructor(
 //  private var _qualityRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
 //  val qualityRating = _qualityRating.asStateFlow()
 
-  private var _volumeRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
-  val volumeRating = _volumeRating.asStateFlow()
+  private var _decisionRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+  val decisionRating = _decisionRating.asStateFlow()
+  private var _volumeTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
+  private var _noiseTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
+  private var _chatterTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
+  private var _sstTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
+  private var _readqTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
+  private var _extemporeqTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
+  private var _commentTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
+  private var _commentTextHandler: MutableStateFlow<String> = MutableStateFlow("")
+  val commentTickHandler = _commentTickHandler.asStateFlow()
 
-  private var _bgNoiseRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
-  val bgNoiseRating = _bgNoiseRating.asStateFlow()
 
-  private var _cSwitchRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
-  val cSwitchRating = _cSwitchRating.asStateFlow()
-
-  private var _bgChatterRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
-  val bgChatterRating = _bgChatterRating.asStateFlow()
-
-  private var _voLapRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
-  val voLapRating = _voLapRating.asStateFlow()
-
-  private var _sstRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
-  val sstRating = _sstRating.asStateFlow()
-
-  private var _handleReadQRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
-  val handleReadQRating = _handleReadQRating.asStateFlow()
-
-  private var _handleExtemporeQRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
-  val handleExtemporeQRating = _handleExtemporeQRating.asStateFlow()
+//  private var _volumeRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+//  val volumeRating = _volumeRating.asStateFlow()
+//
+//  private var _bgNoiseRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+//  val bgNoiseRating = _bgNoiseRating.asStateFlow()
+//
+//  private var _cSwitchRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+//  val cSwitchRating = _cSwitchRating.asStateFlow()
+//
+//  private var _bgChatterRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+//  val bgChatterRating = _bgChatterRating.asStateFlow()
+//
+//  private var _voLapRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+//  val voLapRating = _voLapRating.asStateFlow()
+//
+//  private var _sstRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+//  val sstRating = _sstRating.asStateFlow()
+//
+//  private var _handleReadQRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+//  val handleReadQRating = _handleReadQRating.asStateFlow()
+//
+//  private var _handleExtemporeQRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
+//  val handleExtemporeQRating = _handleExtemporeQRating.asStateFlow()
 
 
 //  private var _fluencyRating: MutableStateFlow<Int> = MutableStateFlow(R.string.rating_undefined)
@@ -136,33 +151,48 @@ constructor(
   val showErrorWithDialog = _showErrorWithDialog.asStateFlow()
 
 
+
+
+
+
   override fun setupMicrotask() {
+
+
 //    _accuracyRating.value = R.string.rating_undefined
 //    _qualityRating.value = R.string.rating_undefined
-    _volumeRating.value = R.string.rating_undefined
-    _bgNoiseRating.value = R.string.rating_undefined
-    _cSwitchRating.value = R.string.rating_undefined
-    _bgChatterRating.value = R.string.rating_undefined
-    _voLapRating.value = R.string.rating_undefined
-    _sstRating.value = R.string.rating_undefined
-    _handleReadQRating.value = R.string.rating_undefined
-    _handleExtemporeQRating.value = R.string.rating_undefined
+    _decisionRating.value = R.string.rating_undefined
+    _volumeTickHandler.value = false
+    _noiseTickHandler.value = false
+    _chatterTickHandler.value = false
+    _sstTickHandler.value = false
+    _readqTickHandler.value = false
+    _extemporeqTickHandler.value = false
+    _commentTickHandler.value = false
+    _commentTextHandler.value = ""
+//    _volumeRating.value = R.string.rating_undefined
+//    _bgNoiseRating.value = R.string.rating_undefined
+//    _cSwitchRating.value = R.string.rating_undefined
+//    _bgChatterRating.value = R.string.rating_undefined
+//    _voLapRating.value = R.string.rating_undefined
+//    _sstRating.value = R.string.rating_undefined
+//    _handleReadQRating.value = R.string.rating_undefined
+//    _handleExtemporeQRating.value = R.string.rating_undefined
 
 //    _fluencyRating.value = R.string.rating_undefined
-    viewModelScope.launch {
-      if (taskRepository.getById(currentMicroTask.task_id).name.contains("[conversations]",ignoreCase = true))
-      {
-        Log.e("CONVERSATIONS","Disable Read Q")
-      }
-      else if (taskRepository.getById(currentMicroTask.task_id).name.contains("[read]",ignoreCase = true))
-      {
-        Log.e("READ","Disable SST Q, EXTEMPORE Q")
-      }
-      else if (taskRepository.getById(currentMicroTask.task_id).name.contains("[extempore]",ignoreCase = true))
-      {
-        Log.e("EXTEMPORE","Disable REad Q, SST")
-      }
-    }
+//    viewModelScope.launch {
+//      if (taskRepository.getById(currentMicroTask.task_id).name.contains("[conversations]",ignoreCase = true))
+//      {
+//        Log.e("CONVERSATIONS","Disable Read Q")
+//      }
+//      else if (taskRepository.getById(currentMicroTask.task_id).name.contains("[read]",ignoreCase = true))
+//      {
+//        Log.e("READ","Disable SST Q, EXTEMPORE Q")
+//      }
+//      else if (taskRepository.getById(currentMicroTask.task_id).name.contains("[extempore]",ignoreCase = true))
+//      {
+//        Log.e("EXTEMPORE","Disable REad Q, SST")
+//      }
+//    }
 
     _reviewEnabled.value = false
     reviewCompleted = false
@@ -224,6 +254,7 @@ constructor(
     when (activityState) {
       /** INIT: may not be necessary */
       ActivityState.INIT -> {
+        setupMicrotask()
       }
 
       /** Wait for the play button to be clicked */
@@ -311,8 +342,10 @@ constructor(
     message.addProperty("button", "NEXT")
     log(message)
 
+
     /** Disable all buttons */
     setButtonStates(ButtonState.DISABLED, ButtonState.DISABLED, ButtonState.DISABLED)
+
 
     if (activityState == ActivityState.PLAYBACK) {
       mediaPlayer!!.stop()
@@ -334,58 +367,58 @@ constructor(
 //        else -> 0
 //      }
 
-    val volume =
-      when (_volumeRating.value) {
-        R.string.volume_good -> 2
-        R.string.volume_okay -> 1
-        else -> 0
-      }
-
-    val bgNoise =
-      when (_bgNoiseRating.value){
-        R.string.bgNoise_okay -> 1
-        R.string.bgNoise_bad -> 0
-        else -> 0
-      }
-
-    val cSwitching =
-      when (_cSwitchRating.value){
-        R.string.cSwitching_okay -> 1
-        R.string.cSwitching_bad -> 0
-        else -> 0
-      }
-
-    val bgChatter =
-      when (_bgChatterRating.value){
-        R.string.bgChatter_okay -> 1
-        R.string.bgChatter_bad -> 0
-        else -> 0
-      }
-    val voLap =
-      when (_voLapRating.value){
-        R.string.volap_okay -> 1
-        R.string.volap_bad -> 0
-        else -> 0
-      }
-    val sst =
-      when (_sstRating.value){
-        R.string.sst_okay -> 1
-        R.string.sst_bad -> 0
-        else -> 0
-      }
-    val readq =
-      when (_handleReadQRating.value){
-        R.string.readQuality_okay -> 1
-        R.string.readQuality_bad -> 0
-        else -> 0
-      }
-
-    val extemporq =
-      when (handleExtemporeQRating.value){
-        R.string.extemporeQuality_okay -> 1
-        R.string.extemporeQuality_okay -> 0
-        else -> 0
-      }
+//    val volume =
+//      when (_volumeRating.value) {
+//        R.string.volume_good -> 2
+//        R.string.volume_okay -> 1
+//        else -> 0
+//      }
+//
+//    val bgNoise =
+//      when (_bgNoiseRating.value){
+//        R.string.bgNoise_okay -> 1
+//        R.string.bgNoise_bad -> 0
+//        else -> 0
+//      }
+//
+//    val cSwitching =
+//      when (_cSwitchRating.value){
+//        R.string.cSwitching_okay -> 1
+//        R.string.cSwitching_bad -> 0
+//        else -> 0
+//      }
+//
+//    val bgChatter =
+//      when (_bgChatterRating.value){
+//        R.string.bgChatter_okay -> 1
+//        R.string.bgChatter_bad -> 0
+//        else -> 0
+//      }
+//    val voLap =
+//      when (_voLapRating.value){
+//        R.string.volap_okay -> 1
+//        R.string.volap_bad -> 0
+//        else -> 0
+//      }
+//    val sst =
+//      when (_sstRating.value){
+//        R.string.sst_okay -> 1
+//        R.string.sst_bad -> 0
+//        else -> 0
+//      }
+//    val readq =
+//      when (_handleReadQRating.value){
+//        R.string.readQuality_okay -> 1
+//        R.string.readQuality_bad -> 0
+//        else -> 0
+//      }
+//
+//    val extemporq =
+//      when (handleExtemporeQRating.value){
+//        R.string.extemporeQuality_okay -> 1
+//        R.string.extemporeQuality_okay -> 0
+//        else -> 0
+//      }
 
 //    val fluency =
 //      when (_fluencyRating.value) {
@@ -403,18 +436,49 @@ constructor(
 //      accuracy = -1
 //    }
 
+      val decision =
+        when (_decisionRating.value){
+          R.string.decision_okay -> "accept"
+          R.string.decision_excellent -> "excellent"
+          else -> "reject"
+        }
+
+      var low_vol = _volumeTickHandler.value
+      var noise = _noiseTickHandler.value
+      var chatter = _chatterTickHandler.value
+      var sst = _sstTickHandler.value
+      var bad_read_quality = _readqTickHandler.value
+      var bad_extempore_quality = _extemporeqTickHandler.value
+      var comments = _commentTextHandler.value
 
 
-//    outputData.addProperty("interactiveness", accuracy)
-//    outputData.addProperty("extempore_quality", quality)
-    outputData.addProperty("volume", volume)
-    outputData.addProperty("bgnoise", bgNoise)
-    outputData.addProperty("cswitch", cSwitching)
-    outputData.addProperty("bgchatter", bgChatter)
-    outputData.addProperty("volap", voLap)
-    outputData.addProperty("sst", sst)
-    outputData.addProperty("readquality", readq)
-    outputData.addProperty("extemporequality", extemporq)
+    if (decision == "excellent"){
+      low_vol = false
+      noise = false
+      chatter = false
+      sst = false
+      bad_extempore_quality = false
+      bad_read_quality = false
+      comments = "no-comments"
+    }
+
+    outputData.addProperty("decision",decision)
+    outputData.addProperty("low_volume",low_vol)
+    outputData.addProperty("noise",noise)
+    outputData.addProperty("chatter",chatter)
+    outputData.addProperty("sst",sst)
+    outputData.addProperty("bad_extempore_quality",bad_extempore_quality)
+    outputData.addProperty("bad_read_quality",bad_read_quality)
+    outputData.addProperty("comments",comments)
+
+//    outputData.addProperty("volume", volume)
+//    outputData.addProperty("bgnoise", bgNoise)
+//    outputData.addProperty("cswitch", cSwitching)
+//    outputData.addProperty("bgchatter", bgChatter)
+//    outputData.addProperty("volap", voLap)
+//    outputData.addProperty("sst", sst)
+//    outputData.addProperty("readquality", readq)
+//    outputData.addProperty("extemporequality", extemporq)
 
 //    outputData.addProperty("comment",comments)
 
@@ -451,45 +515,87 @@ constructor(
 //  }
 
   /** Handle volume change */
-  fun handleVolumeChange(@StringRes volume: Int) {
-    _volumeRating.value = volume
+
+  fun handleDecisionChange(@StringRes decision: Int) {
+    _decisionRating.value = decision
     updateReviewStatus()
   }
 
-  /** Handle bgNoise change */
-  fun handleBgNoiseChange(@StringRes bgNoise: Int) {
-    _bgNoiseRating.value = bgNoise
+  fun handleVolumeTickChange(@StringRes value: Boolean) {
+    _volumeTickHandler.value = value
     updateReviewStatus()
   }
 
-  fun handleCSwitchingChange(@StringRes cSwitching: Int) {
-    _cSwitchRating.value = cSwitching
+  fun handleNoiseTickChange(@StringRes value: Boolean) {
+    _noiseTickHandler.value = value
     updateReviewStatus()
   }
 
-  fun handleBgChatterChange(@StringRes bgChatter: Int) {
-    _bgChatterRating.value = bgChatter
+  fun handleChatterTickChange(@StringRes value: Boolean) {
+    _chatterTickHandler.value = value
+    updateReviewStatus()
+  }
+  fun handleSSTTickChange(@StringRes value: Boolean) {
+    _sstTickHandler.value = value
+    updateReviewStatus()
+  }
+  fun handleReadQTickChange(@StringRes value: Boolean) {
+    _readqTickHandler.value = value
+    updateReviewStatus()
+  }
+  fun handleExtemporeQTickChange(@StringRes value: Boolean) {
+    _extemporeqTickHandler.value = value
+    updateReviewStatus()
+  }
+  fun handleCommentsTickChange(@StringRes value: Boolean) {
+    _commentTickHandler.value = value
+    updateReviewStatus()
+  }
+  fun handleCommentTextChange(@StringRes value: String) {
+    _commentTextHandler.value = value
     updateReviewStatus()
   }
 
-  fun handleVoLapChange(@StringRes voLap: Int) {
-    _voLapRating.value = voLap
-    updateReviewStatus()
-  }
-
-  fun handleSstChange(@StringRes sst: Int) {
-    _sstRating.value = sst
-    updateReviewStatus()
-  }
-
-  fun handleReadQChange(@StringRes qRating: Int) {
-    _handleReadQRating.value = qRating
-    updateReviewStatus()
-  }
-  fun handleExtemporeQChange(@StringRes eRating: Int) {
-    _handleExtemporeQRating.value = eRating
-    updateReviewStatus()
-  }
+//
+//  fun handleVolumeChange(@StringRes volume: Int) {
+//    _volumeRating.value = volume
+//    updateReviewStatus()
+//  }
+//
+//  /** Handle bgNoise change */
+//  fun handleBgNoiseChange(@StringRes bgNoise: Int) {
+//    _bgNoiseRating.value = bgNoise
+//    updateReviewStatus()
+//  }
+//
+//  fun handleCSwitchingChange(@StringRes cSwitching: Int) {
+//    _cSwitchRating.value = cSwitching
+//    updateReviewStatus()
+//  }
+//
+//  fun handleBgChatterChange(@StringRes bgChatter: Int) {
+//    _bgChatterRating.value = bgChatter
+//    updateReviewStatus()
+//  }
+//
+//  fun handleVoLapChange(@StringRes voLap: Int) {
+//    _voLapRating.value = voLap
+//    updateReviewStatus()
+//  }
+//
+//  fun handleSstChange(@StringRes sst: Int) {
+//    _sstRating.value = sst
+//    updateReviewStatus()
+//  }
+//
+//  fun handleReadQChange(@StringRes qRating: Int) {
+//    _handleReadQRating.value = qRating
+//    updateReviewStatus()
+//  }
+//  fun handleExtemporeQChange(@StringRes eRating: Int) {
+//    _handleExtemporeQRating.value = eRating
+//    updateReviewStatus()
+//  }
 
 
 
@@ -501,22 +607,29 @@ constructor(
 //  }
 
   private fun updateReviewStatus() {
-    reviewCompleted =
+    reviewCompleted = (_decisionRating.value == R.string.decision_excellent) ||
+      (_decisionRating.value != R.string.rating_undefined &&
+              (_volumeTickHandler.value || _noiseTickHandler.value || _chatterTickHandler.value || _sstTickHandler.value || _readqTickHandler.value || _extemporeqTickHandler.value ) || ( _commentTickHandler.value && _commentTextHandler.value != ""))
+
 //      _accuracyRating.value != R.string.rating_undefined &&
 //        _qualityRating.value != R.string.rating_undefined &&
-        _volumeRating.value != R.string.rating_undefined &&
-                _bgNoiseRating.value != R.string.rating_undefined &&
-                _cSwitchRating.value != R.string.rating_undefined &&
-                _bgChatterRating.value != R.string.rating_undefined &&
-                _voLapRating.value != R.string.rating_undefined &&
-                _sstRating.value != R.string.rating_undefined &&
-                _handleReadQRating.value != R.string.rating_undefined &&
-                _handleExtemporeQRating.value != R.string.rating_undefined
+//        _volumeRating.value != R.string.rating_undefined &&
+//                _bgNoiseRating.value != R.string.rating_undefined &&
+//                _cSwitchRating.value != R.string.rating_undefined &&
+//                _bgChatterRating.value != R.string.rating_undefined &&
+//                _voLapRating.value != R.string.rating_undefined &&
+//                _sstRating.value != R.string.rating_undefined &&
+//                _handleReadQRating.value != R.string.rating_undefined &&
+//                _handleExtemporeQRating.value != R.string.rating_undefined
 //        &&
 //        _fluencyRating.value != R.string.rating_undefined
 
     if (reviewCompleted) {
       setButtonStates(ButtonState.ENABLED, ButtonState.ENABLED, ButtonState.ENABLED)
+    }
+    else{
+      setButtonStates(ButtonState.DISABLED, ButtonState.ENABLED, ButtonState.DISABLED)
+
     }
   }
 
@@ -552,14 +665,24 @@ constructor(
   fun handleCorruptAudio() {
     // Give 2 on all reports
 //    _accuracyRating.value = R.string.accuracy_bad
-    _volumeRating.value = R.string.volume_bad
-    _bgNoiseRating.value = R.string.bgNoise_bad
-    _cSwitchRating.value = R.string.cSwitching_bad
-    _bgChatterRating.value = R.string.bgChatter_bad
-    _voLapRating.value = R.string.volap_bad
-    _sstRating.value = R.string.sst_bad
-    _handleReadQRating.value = R.string.readQuality_bad
-    _handleExtemporeQRating.value = R.string.extemporeQuality_bad
+    _decisionRating.value = R.string.decision_bad
+    _volumeTickHandler.value = true
+    _noiseTickHandler.value = true
+    _chatterTickHandler.value = true
+    _sstTickHandler.value = true
+    _readqTickHandler.value = true
+    _extemporeqTickHandler.value = true
+    _commentTickHandler.value = true
+    _commentTextHandler.value = "corrupt"
+
+//    _volumeRating.value = R.string.volume_bad
+//    _bgNoiseRating.value = R.string.bgNoise_bad
+//    _cSwitchRating.value = R.string.cSwitching_bad
+//    _bgChatterRating.value = R.string.bgChatter_bad
+//    _voLapRating.value = R.string.volap_bad
+//    _sstRating.value = R.string.sst_bad
+//    _handleReadQRating.value = R.string.readQuality_bad
+//    _handleExtemporeQRating.value = R.string.extemporeQuality_bad
 
     outputData.addProperty("flag", "corrupt")
 
