@@ -282,7 +282,7 @@ constructor(
       if (t.scenario_name == ScenarioType.SPEECH_VERIFICATION){
         continue
       }
-      if (t.name.lowercase().contains("[extempore]") ){//&& (t.name.lowercase().contains("kyp") || t.name.lowercase().contains("toi"))) {
+      if (t.name.lowercase().contains("[extempore]") || t.name.lowercase().contains("[semi-extempore]") ){//&& (t.name.lowercase().contains("kyp") || t.name.lowercase().contains("toi"))) {
         var dur:Float = 0.0F
         for (i in assignmentDaoExtra.getTotalRecordedTasks(worker_id,t.id)){
           val jp = JsonParser.parseString(i).asJsonObject
@@ -299,7 +299,7 @@ constructor(
         read +=dur
         // extempore task
       }
-      else if (t.name.lowercase().contains("[semi-extempore]")){//(t.name.lowercase().contains("wikipedia") || t.name.lowercase().contains("alexa") || t.name.lowercase().contains("bigbasket") || t.name.lowercase().contains("digital") || t.name.lowercase().contains("umang")){
+      else if (t.name.lowercase().contains("task of fives")){//(t.name.lowercase().contains("wikipedia") || t.name.lowercase().contains("alexa") || t.name.lowercase().contains("bigbasket") || t.name.lowercase().contains("digital") || t.name.lowercase().contains("umang")){
         if (assignmentDaoExtra.getCountForTask(t.id,MicrotaskAssignmentStatus.SKIPPED) + assignmentDaoExtra.getCountForTask(t.id,MicrotaskAssignmentStatus.ASSIGNED) == 0){
           extempore += 5.0f
         }

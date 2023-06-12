@@ -56,14 +56,18 @@
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/_20sdp"
                 android:id="@+id/submit_area_duration"
+                android:gravity="center"
                 >
 
                 <TextView
                     android:id="@+id/syncDuration"
-                    android:layout_width="169dp"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:background="@color/c_very_light_green"
                     android:gravity="center"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/_2sdp"
                     android:text="[Uploaded: 0 tasks]"
                     android:textColor="@color/c_black"
                     app:autoSizeMaxTextSize="@dimen/_10ssp"
@@ -73,11 +77,13 @@
 
                 <TextView
                     android:id="@+id/syncDurationOnPhone"
-                    android:layout_width="@dimen/_170sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:background="#F49898"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/_2sdp"
                     android:gravity="center"
+                    android:layout_weight="1"
                     android:text="[On Phone: 0 tasks]"
                     android:textColor="@color/c_black"
                     app:autoSizeMaxTextSize="@dimen/_10ssp"

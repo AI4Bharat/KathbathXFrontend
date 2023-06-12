@@ -312,7 +312,12 @@ constructor(
         ?.split(",")
         ?: emptyList()
 //      Log.e("HINTS",hintList.random())
-      _sentenceTvText.value += " [Hint:"+hintList.random()+"]"
+      if (hintList.size > 3){
+        _sentenceTvText.value += " [Hint:"+hintList.shuffled().joinToString(separator = ",", limit = 3)+"]"
+      }
+      else{
+        _sentenceTvText.value += " [Hint:"+hintList.joinToString(separator = ",")+"]"
+      }
     }
 
     totalRecordedBytes = 0

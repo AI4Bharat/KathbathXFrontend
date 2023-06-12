@@ -181,7 +181,7 @@ dependencies {
   implementation("com.otaliastudios:cameraview:2.7.2")
 
   // Android rating bar
-  implementation("me.zhanghai.android.materialratingbar:library:1.3.1")
+  implementation("me.zhanghai.android.materialratingbar:library:1.4.0")
   // Custom aars
   implementation(files("libs/zoomage-debug.aar"))
 

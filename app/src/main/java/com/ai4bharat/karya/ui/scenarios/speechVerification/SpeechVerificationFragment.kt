@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -16,15 +17,18 @@ import com.ai4bharat.karya.ui.scenarios.speechData.SpeechDataMainFragmentArgs
 import com.ai4bharat.karya.ui.scenarios.speechVerification.SpeechVerificationViewModel.ButtonState
 import com.ai4bharat.karya.utils.extensions.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_otp.view.*
+import kotlinx.android.synthetic.main.item_task.*
 import kotlinx.android.synthetic.main.microtask_common_back_button.view.*
 import kotlinx.android.synthetic.main.microtask_common_next_button.view.*
+import kotlinx.android.synthetic.main.microtask_common_playback_progress.*
 import kotlinx.android.synthetic.main.microtask_common_playback_progress.view.*
 import kotlinx.android.synthetic.main.microtask_speech_verification.*
 import kotlinx.android.synthetic.main.microtask_speech_verification.view.*
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_speech_verification) {
+class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_speech_verification),SeekBar.OnSeekBarChangeListener {
   override val viewModel: SpeechVerificationViewModel by viewModels()
   val args: SpeechDataMainFragmentArgs by navArgs()
 
@@ -44,7 +48,6 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     setupObservers()
-
     /** Set on click listeners for buttons */
     playBtn.setOnClickListener { viewModel.handlePlayClick() }
     nextBtnCv.setOnClickListener { viewModel.handleNextClick() }
@@ -100,16 +103,43 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
         }
       }
       volumeTick.setOnCheckedChangeListener { _, b -> handleVolumeTickChange(b) }
-      noiseTick.setOnCheckedChangeListener { _, b -> handleNoiseTickChange(b) }
-      chatterTick.setOnCheckedChangeListener { _, b -> handleChatterTickChange(b) }
+//      noiseTick.setOnCheckedChangeListener { _, b -> handleNoiseTickChange(b) }
+//      chatterTick.setOnCheckedChangeListener { _, b -> handleChatterTickChange(b) }
+      noiseTickIntermittent.setOnCheckedChangeListener { _, b -> handleNoiseTickIntermittentChange(b) }
+      chatterTickIntermittent.setOnCheckedChangeListener { _, b -> handleChatterTickIntermittentChange(b) }
+      noiseTickPersistent.setOnCheckedChangeListener { _, b -> handleNoiseTickPersistentChange(b) }
+      chatterTickPersistent.setOnCheckedChangeListener { _, b -> handleChatterTickPersistentChange(b) }
+      unclearAudioTick.setOnCheckedChangeListener{ _, b -> handleUnclearAudioTickChange(b)}
+//      miscTick.setOnCheckedChangeListener{ _, b -> handleMiscTickChange(b)}
+
+      objContTick.setOnCheckedChangeListener{ _, b -> handleObjContTickChange(b)}
+      skippingWordsTick.setOnCheckedChangeListener{ _, b -> handleSkippingWordsTickChange(b)}
+      incorrectTextTick.setOnCheckedChangeListener{ _, b -> handleIncorrectTextTickChange(b)}
+      factualInaccuracyTick.setOnCheckedChangeListener{ _, b -> handleFactualInaccuracyTick(b)}
+
+      notOnTopicTick.setOnCheckedChangeListener{ _, b -> handleNotOnTopicTickChange(b)}
+      repContentTick.setOnCheckedChangeListener{ _, b -> handleRepContentTickChange(b)}
+      longPausesTick.setOnCheckedChangeListener{ _, b -> handleLongPausesTickChange(b)}
+      stretchingTick.setOnCheckedChangeListener{ _, b -> handleStretchingTickChange(b)}
+
+      misPronTick.setOnCheckedChangeListener{ _, b -> handleMisPronTickChange(b)}
+
+
+      readPromptTick.setOnCheckedChangeListener{ _, b -> handleReadPromptTickChange(b)}
+      bookReadTick.setOnCheckedChangeListener{ _, b -> handleBookReadTickChange(b)}
+
       sstTick.setOnCheckedChangeListener { _, b -> handleSSTTickChange(b) }
-      readQTick.setOnCheckedChangeListener { _, b -> handleReadQTickChange(b) }
-      extemporeQTick.setOnCheckedChangeListener { _, b -> handleExtemporeQTickChange(b) }
+//      readQTick.setOnCheckedChangeListener { _, b -> handleReadQTickChange(b) }
+      badExtemporeTick.setOnCheckedChangeListener { _, b -> handleBadExtemporeTickChange(b) }
       otherTick.setOnCheckedChangeListener { _, b -> handleCommentsTickChange(b) }
+
 
       textComment.addTextChangedListener(textComment.doAfterTextChanged {
           text -> handleCommentTextChange(text.toString()) })
-//      textComment.addTextChangedListener()
+
+      progressPb.setOnSeekBarChangeListener(this@SpeechVerificationFragment)
+//      progressPb.setOnClickListener(progressPb.rootView)
+    //      textComment.addTextChangedListener()
 
 //      volumeGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
 //        if (isChecked) {
@@ -193,25 +223,57 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
     viewModel.sentenceTvText.observe(
       viewLifecycleOwner.lifecycle, viewLifecycleScope
     ) { text ->
+      sentenceTv.text = text
+    }
 
+    viewModel.microtaskID.observe(
+      viewLifecycleOwner.lifecycle, viewLifecycleScope
+    ) { id ->
+//      miscTick.isChecked = false
+      objContTick.isChecked = false
+      skippingWordsTick.isChecked = false
+      incorrectTextTick.isChecked = false
+      factualInaccuracyTick.isChecked = false
       volumeTick.isChecked = false
-      noiseTick.isChecked = false
-      chatterTick.isChecked = false
+//      noiseTick.isChecked = false
+//      chatterTick.isChecked = false
+      noiseTickIntermittent.isChecked = false
+      chatterTickIntermittent.isChecked = false
+      noiseTickPersistent.isChecked = false
+      chatterTickPersistent.isChecked = false
+      unclearAudioTick.isChecked = false
+
+      notOnTopicTick.isChecked = false
+      repContentTick.isChecked = false
+      longPausesTick.isChecked = false
+
+      misPronTick.isChecked = false
+
+      readPromptTick.isChecked = false
+      bookReadTick.isChecked = false
+
+
       sstTick.isChecked = false
-      readQTick.isChecked = false
-      extemporeQTick.isChecked = false
+
+      stretchingTick.isChecked = false
+//      readQTick.isChecked = false
+      badExtemporeTick.isChecked = false
       otherTick.isChecked = false
 
-      vncCl.gone()
-      othCl.gone()
+      progressPb.isEnabled = false
+
+//      comm.gone()
+//      co.gone()
+      commonCl1.gone()
+      commonCl2.gone()
+      commonCl3.gone()
+
+//      readCl.gone()
+      extemporeCl.gone()
+      conversationsCl.gone()
       commentCl.gone()
-      sreCl.gone()
-      othCl.gone()
+//      sreCl.gone()
 
-
-
-
-      sentenceTv.text = text
     }
 
     viewModel.playbackSecondsTvText.observe(
@@ -270,30 +332,79 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
 
 
     viewModel.decisionRating.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { value ->
+
+
       when (value) {
         R.string.decision_okay -> {
           decisionGroup.check(decisionOkayBtn.id)
-          vncCl.visible()
-          othCl.visible()
+          commonCl1.visible()
+          commonCl2.visible()
+          commonCl3.visible()
           commentCl.visible()
-          sreCl.visible()
-          othCl.visible()
+
+          if (viewModel.task.name.contains("[read]",ignoreCase = true)){
+//            readCl.visible()
+            extemporeCl.gone()
+            conversationsCl.gone()
+          }
+          else if ( viewModel.task.name.contains("extempore",ignoreCase = true)){
+//            readCl.gone()
+            extemporeCl.visible()
+            conversationsCl.gone()
+          }
+          else if (viewModel.task.name.contains("[conversation",ignoreCase = true)){
+//            readCl.gone()
+            extemporeCl.gone()
+            conversationsCl.visible()
+          }
+
+
+//          sreCl.visible()
+//          othCl.visible()
         }
         R.string.decision_bad -> {
           decisionGroup.check(decisionBadBtn.id)
-          vncCl.visible()
-          othCl.visible()
+          commonCl1.visible()
+          commonCl2.visible()
+          commonCl3.visible()
           commentCl.visible()
-          sreCl.visible()
-          othCl.visible()
+
+
+          if (viewModel.task.name.contains("[read]",ignoreCase = true)){
+//            readCl.visible()
+            extemporeCl.gone()
+            conversationsCl.gone()
+          }
+          else if ( viewModel.task.name.contains("extempore",ignoreCase = true)){
+//            readCl.gone()
+            extemporeCl.visible()
+            conversationsCl.gone()
+          }
+          else if (viewModel.task.name.contains("[conversation",ignoreCase = true)){
+//            readCl.gone()
+            extemporeCl.gone()
+            conversationsCl.visible()
+          }
+//          vncCl.visible()
+////          othCl.visible()
+//          commentCl.visible()
+//          sreCl.visible()
+////          othCl.visible()
         }
         R.string.decision_excellent -> {
           decisionGroup.check(decisionExcellentBtn.id)
-          vncCl.gone()
-          othCl.gone()
+          commonCl1.gone()
+          commonCl2.gone()
+          commonCl3.gone()
           commentCl.gone()
-          sreCl.gone()
-          othCl.gone()
+//          readCl.gone()
+          extemporeCl.gone()
+          conversationsCl.gone()
+//          vncCl.gone()
+//          othCl.gone()
+//          commentCl.gone()
+//          sreCl.gone()
+//          othCl.gone()
         }
         else -> decisionGroup.clearChecked()
       }
@@ -393,6 +504,7 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
     ) { enabled ->
       if (enabled) {
         enableReviewing()
+        progressPb.isEnabled = true
       } else {
         disableReview()
       }
@@ -437,11 +549,33 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
     decisionOkayBtn.enable()
 
     volumeTick.enable()
-    noiseTick.enable()
-    chatterTick.enable()
+    objContTick.enable()
+    skippingWordsTick.enable()
+    incorrectTextTick.enable()
+    factualInaccuracyTick.enable()
+//    miscTick.enable()
+
+//    noiseTick.enable()
+//    chatterTick.enable()
+    noiseTickIntermittent.enable()
+    chatterTickIntermittent.enable()
+    noiseTickPersistent.enable()
+    chatterTickPersistent.enable()
+    unclearAudioTick.enable()
+
+    notOnTopicTick.enable()
+    repContentTick.enable()
+    longPausesTick.enable()
+
+    misPronTick.enable()
+
+    readPromptTick.enable()
+    bookReadTick.enable()
+
     sstTick.enable()
-    readQTick.enable()
-    extemporeQTick.enable()
+    stretchingTick.enable()
+//    readQTick.enable()
+    badExtemporeTick.enable()
     textComment.enable()
     otherTick.enable()
 //    volumeOkayBtn.enable()
@@ -491,13 +625,36 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
     decisionBadBtn.disable()
     decisionExcellentBtn.disable()
     decisionOkayBtn.disable()
+//    miscTick.disable()
+
+    objContTick.disable()
+    skippingWordsTick.disable()
+    incorrectTextTick.disable()
+    factualInaccuracyTick.disable()
 
     volumeTick.disable()
-    noiseTick.disable()
-    chatterTick.disable()
+//    noiseTick.disable()
+//    chatterTick.disable()
+    noiseTickIntermittent.disable()
+    chatterTickIntermittent.disable()
+    noiseTickPersistent.disable()
+    chatterTickPersistent.disable()
+    unclearAudioTick.disable()
+    unclearAudioTick.disable()
+
+    notOnTopicTick.disable()
+    repContentTick.disable()
+    longPausesTick.disable()
+
+    misPronTick.disable()
+
+    readPromptTick.disable()
+    bookReadTick.disable()
+
     sstTick.disable()
-    readQTick.disable()
-    extemporeQTick.disable()
+    stretchingTick.disable()
+//    readQTick.disable()
+    badExtemporeTick.disable()
     textComment.disable()
     otherTick.disable()
 
@@ -564,6 +721,22 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
         ButtonState.ACTIVE -> R.drawable.ic_back_enabled
       }
     )
+  }
+
+  override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+      viewModel.handleSeekBarChange(p1, p2)
+//    viewModel.updatePlaybackProgress(5)
+//    Log.e("OnProgressChange",p1.toString()+" "+p2.toString())
+  }
+
+  override fun onStartTrackingTouch(p0: SeekBar?) {
+
+//    Log.e("OnStartTracking","Start Tracking"+p0.toString())
+
+  }
+
+  override fun onStopTrackingTouch(p0: SeekBar?) {
+//    Log.e("OnStopTracking","Start Tracking"+p0.toString())
   }
 
 }

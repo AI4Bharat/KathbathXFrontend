@@ -7,19 +7,18 @@
     android:paddingVertical="@dimen/_5sdp"
     >
 
-    <ProgressBar
+    <SeekBar
         android:id="@+id/progressPb"
-        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:max="100"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_weight="1"
+        android:max="100"
         android:progressBackgroundTint="@color/c_light_grey"
         android:progressTint="@color/c_red"
         android:scaleY="2"
-         />
+        />
 
     <TextView
         android:id="@+id/secondsTv"

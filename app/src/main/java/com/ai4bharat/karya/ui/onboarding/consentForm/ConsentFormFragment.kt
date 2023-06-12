@@ -103,7 +103,31 @@ class ConsentFormFragment : BaseFragment(R.layout.fragment_consent_form) {
             consentFormTv.text = text2html(getString(R.string.consent_form_text_bengali))
           }
           else if (languageCode.equals("or",true)){
-            consentFormTv.text = text2html(getString(R.string.consent_form_text_bengali))
+            consentFormTv.text = text2html(getString(R.string.consent_form_text_odia))
+          }
+          else if (languageCode.equals("kok",ignoreCase = true)){
+            consentFormTv.text = text2html(getString(R.string.consent_form_text_konkani))
+          }
+          else if (languageCode.equals("gu",ignoreCase = true)){
+            consentFormTv.text = text2html(getString(R.string.consent_form_text_gujarati))
+          }
+          else if (languageCode.equals("hi",ignoreCase = true)){
+            consentFormTv.text = text2html(getString(R.string.consent_form_text_hindi))
+          }
+          else if (languageCode.equals("kn",ignoreCase = true)){
+            consentFormTv.text = text2html(getString(R.string.consent_form_text_kannada))
+          }
+          else if (languageCode.equals("mr",ignoreCase = true)){
+            consentFormTv.text = text2html(getString(R.string.consent_form_text_marathi))
+          }
+          else if (languageCode.equals("ta",ignoreCase = true)){
+            consentFormTv.text = text2html(getString(R.string.consent_form_text_tamil))
+          }
+          else if (languageCode.equals("te",ignoreCase = true)){
+            consentFormTv.text = text2html(getString(R.string.consent_form_text_telugu))
+          }
+          else if (languageCode.equals("ur",ignoreCase = true)){
+            consentFormTv.text = text2html(getString(R.string.consent_form_text_urdu))
           }
           else{
             consentFormTv.text = text2html(getString(R.string.consent_form_text_english))

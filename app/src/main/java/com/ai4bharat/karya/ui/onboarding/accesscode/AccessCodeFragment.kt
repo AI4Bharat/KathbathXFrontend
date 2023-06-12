@@ -1,6 +1,7 @@
 package com.ai4bharat.karya.ui.onboarding.accesscode
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ai4bharat.karya.R
+import com.ai4bharat.karya.data.manager.BaseUrlManager
 import com.ai4bharat.karya.databinding.FragmentAccessCodeBinding
 import com.ai4bharat.karya.ui.MainActivity
 import com.ai4bharat.karya.utils.extensions.*
@@ -47,7 +49,6 @@ class AccessCodeFragment : Fragment(R.layout.fragment_access_code) {
         } else {
           numPad.disableDoneButton()
         }
-
         hideError()
       }
 
@@ -57,8 +58,36 @@ class AccessCodeFragment : Fragment(R.layout.fragment_access_code) {
   }
 
   private fun handleSubmit() {
+    val language = binding.spinnerValue.selectedItem.toString()
+    val url_change = when (language){
+      "Assamese" -> "as"
+      "Bengali" -> "bn"
+      "Bodo" -> "brx"
+      "Dogri" -> "doi"
+      "Gujarati" -> "guj"
+      "Hindi" -> "hi"
+      "Kannada" -> "kn"
+      "Kashmiri" -> "ks"
+      "Konkani" -> "kok"
+      "Maithili" -> "mai"
+      "Malayalam" -> "ml"
+      "Marathi" -> "mr"
+      "Manipuri" -> "mni"
+      "Nepali" -> "ne"
+      "Odia" -> "or"
+      "Punjabi" -> "pa"
+      "Sanskrit" -> "sa"
+      "Santali" -> "sat"
+      "Sindhi" -> "sd"
+      "Tamil" -> "ta"
+      "Telugu" -> "te"
+      "Urdu" -> "ur"
+      else -> "NA"
+    }
     val accessCode = binding.accessCodeEt.text.toString().replace("-", "")
-    val decodedURL = AccessCodeDecoder.decodeURL(requireContext(), accessCode)
+    val decodedURL = "https://dmubox-$url_change.centralindia.cloudapp.azure.com"
+//    val decodedURL = AccessCodeDecoder.decodeURL(requireContext(), accessCode)
+//    Log.e("URL",decodedURL)
     // Set the decoded URL for the app to be used
     lifecycleScope.launch {
       viewModel.setURL(decodedURL)
