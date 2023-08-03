@@ -234,6 +234,7 @@ class SpeechDataMainFragment : BaseMTRendererFragment(R.layout.microtask_speech_
         }
         builder.setNegativeButton(R.string.no) { _, _ ->
           viewModel.setSkipTaskAlertTrigger(false)
+          viewModel.setActivityState(SpeechDataMainViewModel.ActivityState.INIT)
           viewModel.moveToPrerecording()
         }
         val dialog = builder.create()
