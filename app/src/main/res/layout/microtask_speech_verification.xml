@@ -302,9 +302,9 @@
         <CheckBox
             android:id="@+id/notOnTopicTick"
             style="@style/RatingButton"
-            android:layout_width="@dimen/_56sdp"
+            android:layout_width="@dimen/_50sdp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_2sdp"
             android:checked="false"
             android:layoutDirection="rtl"
             android:padding='0dp'
@@ -318,7 +318,7 @@
         <CheckBox
             android:id="@+id/repContentTick"
             style="@style/RatingButton"
-            android:layout_width="@dimen/_56sdp"
+            android:layout_width="@dimen/_50sdp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_1sdp"
             android:checked="false"
@@ -334,7 +334,7 @@
         <CheckBox
             android:id="@+id/longPausesTick"
             style="@style/RatingButton"
-            android:layout_width="@dimen/_57sdp"
+            android:layout_width="@dimen/_50sdp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_1sdp"
             android:checked="false"
@@ -351,14 +351,14 @@
         <CheckBox
             android:id="@+id/stretchingTick"
             style="@style/RatingButton"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/_50sdp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_1sdp"
 
             android:checked="false"
             android:layoutDirection="rtl"
             android:padding='0dp'
-            android:text="Stretch"
+            android:text="Stre tch"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/longPausesTick"
             app:layout_constraintTop_toTopOf="parent"
@@ -385,9 +385,9 @@
         <CheckBox
             android:id="@+id/objContTick"
             style="@style/RatingButton"
-            android:layout_width="@dimen/_56sdp"
+            android:layout_width="@dimen/_50sdp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_1sdp"
             android:checked="false"
             android:layoutDirection="rtl"
             android:padding='0dp'
@@ -395,8 +395,24 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/stretchingTick"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="@id/echoTick"
+            />
+
+        <CheckBox
+            android:id="@+id/echoTick"
+            style="@style/RatingButton"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:layoutDirection="rtl"
+            android:padding='0dp'
+            android:text="Ec ho"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/objContTick"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -471,7 +487,24 @@
             android:padding='0dp'
             android:text="Fact Inacc."
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/incorrectTextTick"
+            app:layout_constraintRight_toLeftOf="@id/wrongLang"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+            />
+
+        <CheckBox
+            android:id="@+id/wrongLang"
+            style="@style/RatingButton"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_1sdp"
+            android:layout_width="@dimen/_57sdp"
+            android:checked="false"
+            android:layoutDirection="rtl"
+            android:padding='0dp'
+            android:text="Wrong Lang"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/factualInaccuracyTick"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
 

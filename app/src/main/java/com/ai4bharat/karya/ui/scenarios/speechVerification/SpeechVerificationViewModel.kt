@@ -108,6 +108,8 @@ constructor(
   private var _incorrectTextTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
   private var _factualInaccuracyTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
+  private var _wrongLangTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
+  private var _echoTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
   private var _commentTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
   private var _commentTextHandler: MutableStateFlow<String> = MutableStateFlow("")
@@ -218,6 +220,11 @@ constructor(
     _incorrectTextTickHandler.value = false
     _factualInaccuracyTickHandler.value = false
     _skippingWordsTickHandler.value = false
+
+
+    _wrongLangTickHandler.value = false
+    _echoTickHandler.value = false
+
 
 //    _volumeRating.value = R.string.rating_undefined
 //    _bgNoiseRating.value = R.string.rating_undefined
@@ -519,6 +526,8 @@ constructor(
       var incorrect_text_prompt = _incorrectTextTickHandler.value
       var factual_inaccuracy = _factualInaccuracyTickHandler.value
       var skipping_words = _skippingWordsTickHandler.value
+      var wrong_language = _wrongLangTickHandler.value
+      var echo_present = _echoTickHandler.value
 
 
     if (decision == "excellent"){
@@ -543,6 +552,8 @@ constructor(
       incorrect_text_prompt = false
       factual_inaccuracy = false
       skipping_words = false
+      wrong_language = false
+      echo_present = false
 //      bad_extempore_quality = false
 //      bad_read_quality = false
       comments = "excellent"
@@ -577,6 +588,8 @@ constructor(
     outputData.addProperty("skipping_words",skipping_words)
     outputData.addProperty("incorrect_text_prompt",incorrect_text_prompt)
     outputData.addProperty("factual_inaccuracy",factual_inaccuracy)
+    outputData.addProperty("wrong_language",wrong_language)
+    outputData.addProperty("echo_present",echo_present)
 
 //    outputData.addProperty("volume", volume)
 //    outputData.addProperty("bgnoise", bgNoise)
@@ -642,6 +655,16 @@ constructor(
 //    _chatterTickHandler.value = value
 //    updateReviewStatus()
 //  }
+
+  fun handleEchoTickChange(@StringRes value: Boolean) {
+    _echoTickHandler.value = value
+    updateReviewStatus()
+  }
+
+  fun handleWrongLangTickChange(@StringRes value: Boolean) {
+    _wrongLangTickHandler.value = value
+    updateReviewStatus()
+  }
 
   fun handleNoiseTickIntermittentChange(@StringRes value: Boolean) {
     _noiseTickHandlerIntermittent.value = value
@@ -797,7 +820,7 @@ constructor(
 
   private fun updateReviewStatus() {
 //    val baseCase = (_volumeTickHandler.value || _noiseTickHandler.value || _chatterTickHandler.value || _unclearAudioTickHandler.value || _notOnTopicTickHandler.value || _repContentTickHandler.value || _longPausesTickHandler.value || _misPronTickHandler.value || _readPromptTickHandler.value || _bookReadTickHandler.value || _sstTickHandler.value || _stretchingTickHandler.value || _badExtemporeTickHandler.value )
-    val baseCase = (_objContTickHandler.value || _skippingWordsTickHandler.value || _factualInaccuracyTickHandler.value || _incorrectTextTickHandler.value ||_volumeTickHandler.value ||
+    val baseCase = (_echoTickHandler.value||_wrongLangTickHandler.value||_objContTickHandler.value || _skippingWordsTickHandler.value || _factualInaccuracyTickHandler.value || _incorrectTextTickHandler.value ||_volumeTickHandler.value ||
             _noiseTickHandlerIntermittent.value ||  _noiseTickHandlerPersistent.value ||
             _chatterTickHandlerIntermittent.value ||  _chatterTickHandlerPersistent.value ||
              _unclearAudioTickHandler.value || _notOnTopicTickHandler.value ||
@@ -898,7 +921,8 @@ constructor(
     _badExtemporeTickHandler.value = true
     _commentTickHandler.value = true
     _commentTextHandler.value = "corrupt"
-
+    _wrongLangTickHandler.value = true
+    _echoTickHandler.value = true
 //    _volumeRating.value = R.string.volume_bad
 //    _bgNoiseRating.value = R.string.bgNoise_bad
 //    _cSwitchRating.value = R.string.cSwitching_bad

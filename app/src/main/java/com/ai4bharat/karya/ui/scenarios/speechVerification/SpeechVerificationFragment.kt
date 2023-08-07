@@ -132,10 +132,14 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
 //      readQTick.setOnCheckedChangeListener { _, b -> handleReadQTickChange(b) }
       badExtemporeTick.setOnCheckedChangeListener { _, b -> handleBadExtemporeTickChange(b) }
       otherTick.setOnCheckedChangeListener { _, b -> handleCommentsTickChange(b) }
+      wrongLang.setOnCheckedChangeListener { _, b -> handleWrongLangTickChange(b) }
+      echoTick.setOnCheckedChangeListener { _, b -> handleEchoTickChange(b) }
+
+
 
 
       textComment.addTextChangedListener(textComment.doAfterTextChanged {
-          text -> handleCommentTextChange(text.toString()) })
+      text -> handleCommentTextChange(text.toString()) })
 
       progressPb.setOnSeekBarChangeListener(this@SpeechVerificationFragment)
 //      progressPb.setOnClickListener(progressPb.rootView)
@@ -230,6 +234,9 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
       viewLifecycleOwner.lifecycle, viewLifecycleScope
     ) { id ->
 //      miscTick.isChecked = false
+
+      wrongLang.isChecked = false
+      echoTick.isChecked = false
       objContTick.isChecked = false
       skippingWordsTick.isChecked = false
       incorrectTextTick.isChecked = false
@@ -553,6 +560,8 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
     skippingWordsTick.enable()
     incorrectTextTick.enable()
     factualInaccuracyTick.enable()
+    wrongLang.enable()
+    echoTick.enable()
 //    miscTick.enable()
 
 //    noiseTick.enable()
@@ -657,7 +666,8 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
     badExtemporeTick.disable()
     textComment.disable()
     otherTick.disable()
-
+    wrongLang.disable()
+    echoTick.disable()
 //    volumeOkayBtn.disable()
 //    volumeBadBtn.disable()
 //
