@@ -1,5 +1,6 @@
 package com.ai4bharat.karya.ui.onboarding.accesscode
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,6 +13,7 @@ import com.ai4bharat.karya.R
 import com.ai4bharat.karya.data.manager.BaseUrlManager
 import com.ai4bharat.karya.databinding.FragmentAccessCodeBinding
 import com.ai4bharat.karya.ui.MainActivity
+import com.ai4bharat.karya.ui.webRegistration.ExternalForm
 import com.ai4bharat.karya.utils.extensions.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -54,6 +56,10 @@ class AccessCodeFragment : Fragment(R.layout.fragment_access_code) {
 
       numPad.setOnDoneListener { handleSubmit() }
       numPad.disableDoneButton()
+
+      registerBtn.setOnClickListener {
+        goToRegisterActivity()
+      }
     }
   }
 
@@ -169,5 +175,10 @@ class AccessCodeFragment : Fragment(R.layout.fragment_access_code) {
 
   private fun updateActivityLanguage(language: String) {
     (requireActivity() as MainActivity).setActivityLocale(language)
+  }
+
+  private fun goToRegisterActivity() {
+    val intent = Intent(requireActivity(), ExternalForm::class.java)
+    startActivity(intent)
   }
 }

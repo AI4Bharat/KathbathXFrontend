@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name="com.ai4bharat.karya.KaryaApp"
+        android:name=".KaryaApp"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,16 +22,18 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity
-            android:name="com.ai4bharat.karya.ui.MainActivity"
+            android:name=".ui.webRegistration.ExternalForm"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity android:name=".ui.scenarios.signVideo.SignVideoRecord" />
 
         <uses-library
@@ -42,7 +44,6 @@
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
-
     </application>
 
 </manifest>

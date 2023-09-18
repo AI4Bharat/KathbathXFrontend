@@ -137,8 +137,11 @@ dependencies {
 
   implementation(Dependencies.AndroidX.Navigation.fragmentKtx)
   implementation(Dependencies.AndroidX.Navigation.uiKtx)
+    implementation("androidx.appcompat:appcompat:1.4.1")
+    implementation("com.google.android.material:material:1.6.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-  kapt(Dependencies.AndroidX.Room.roomCompiler)
+    kapt(Dependencies.AndroidX.Room.roomCompiler)
 
   implementation(Dependencies.Google.gson)
   implementation(Dependencies.Google.material)

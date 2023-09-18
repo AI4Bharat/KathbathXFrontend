@@ -24,7 +24,7 @@
         android:layout_height="0dp"
         android:src="@drawable/ic_access_code"
         app:layout_constraintBottom_toTopOf="@id/languageSelectionLayout"
-        app:layout_constraintHeight_percent="0.12"
+        app:layout_constraintHeight_percent="0.10"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -56,8 +56,6 @@
             android:layout_height="@dimen/_20ssp"
             android:prompt="@string/language_select"
             android:entries="@array/languageValues"
-
-
             >
 
         </Spinner>
@@ -78,6 +76,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/accessCodeImage" />
 
+    <TextView
+        android:id="@+id/newUserText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="New User?"
+        android:layout_gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/accessCodeEt"
+        app:layout_constraintStart_toStartOf="@id/accessCodeEt"
+        app:layout_constraintEnd_toEndOf="@id/accessCodeEt"
+        android:textSize="@dimen/_13sdp"/>
+
+    <Button
+        android:id="@+id/registerBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:layout_gravity="center"
+        android:layout_margin="0dp"
+        android:padding="0dp"
+        android:includeFontPadding="false"
+        android:text="Register"
+        android:textAllCaps="false"
+        android:textColor="#0000FF"
+        android:background="@android:color/transparent"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="@id/accessCodeEt"
+        app:layout_constraintStart_toStartOf="@id/accessCodeEt"
+        app:layout_constraintTop_toBottomOf="@id/newUserText" />
+
+
     <ImageView
         android:id="@+id/accessCodeErrorIv"
         android:layout_width="@dimen/_50sdp"
@@ -87,7 +117,7 @@
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="@id/accessCodeEt"
         app:layout_constraintStart_toStartOf="@id/accessCodeEt"
-        app:layout_constraintTop_toBottomOf="@id/accessCodeEt"
+        app:layout_constraintTop_toBottomOf="@id/registerBtn"
         app:srcCompat="@drawable/ic_access_code_error" />
 
     <ProgressBar
