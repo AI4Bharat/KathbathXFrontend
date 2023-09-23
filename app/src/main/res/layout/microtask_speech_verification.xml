@@ -16,19 +16,70 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/microtaskTb" />
 
+    <LinearLayout
+        android:id="@+id/fileInfo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:orientation="horizontal"
+        style="@style/MicrotaskInputFrame"
+        app:layout_constraintBottom_toTopOf="@id/inputFrame"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/instructionTv"
+        android:gravity="center"
+        android:padding="@dimen/_3sdp"
+        android:layout_margin="@dimen/_0sdp"
+        >
+
+        <TextView
+            android:id="@+id/fileId"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            tools:text="FID: XXXXXXXXXXX"
+            android:background="#80FF5722"
+            style="@style/fileInfoStyle"
+            android:textColor="@color/c_black"
+            />
+
+        <TextView
+            android:id="@+id/fileGender"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            tools:text="G: Male"
+            style="@style/fileInfoStyle"
+            android:background="#80FF5722"
+            android:textColor="@color/c_black"
+            android:layout_marginStart="@dimen/_8sdp"
+            />
+
+        <TextView
+            android:id="@+id/fileAgeGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            tools:text="AG: 18-30"
+            style="@style/fileInfoStyle"
+            android:background="#80FF5722"
+            android:textColor="@color/c_black"
+            android:layout_marginStart="@dimen/_8sdp"
+            />
+
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/inputFrame"
         style="@style/MicrotaskInputFrame"
         app:layout_constraintBottom_toTopOf="@id/playbackProgress"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/instructionTv">
+        app:layout_constraintTop_toBottomOf="@id/fileInfo"
+        >
 
         <TextView
             android:id="@+id/sentenceTv"
             style="@style/MicrotaskInputText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:text="This is a sentence to be recorded" />
+            tools:text="This is a sentence to be recorded"
+            />
 
     </FrameLayout>
 
@@ -419,7 +470,7 @@
         android:id="@+id/commonCl3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/extemporeCl"
+        app:layout_constraintBottom_toTopOf="@id/commonCl4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
         <!--        app:layout_constraintBottom_toTopOf="@id/fluencyCl">-->
@@ -509,6 +560,48 @@
             app:layout_constraintRight_toRightOf="parent"
 
             />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/commonCl4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/extemporeCl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <!--        app:layout_constraintBottom_toTopOf="@id/fluencyCl">-->
+
+
+        <CheckBox
+            android:id="@+id/wrongGender"
+            style="@style/RatingButton"
+            android:layout_width="@dimen/_58sdp"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:layoutDirection="rtl"
+            android:padding='0dp'
+            android:text="Wrong Gender"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/wrongAgeGroup"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+
+        <CheckBox
+            android:id="@+id/wrongAgeGroup"
+            style="@style/RatingButton"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:layoutDirection="rtl"
+            android:padding='0dp'
+            android:text="Wrong Age Group"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/wrongGender"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

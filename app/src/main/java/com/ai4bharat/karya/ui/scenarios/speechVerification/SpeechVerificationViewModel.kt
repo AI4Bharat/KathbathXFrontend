@@ -12,14 +12,16 @@ import com.ai4bharat.karya.data.manager.AuthManager
 import com.ai4bharat.karya.data.repo.AssignmentRepository
 import com.ai4bharat.karya.data.repo.MicroTaskRepository
 import com.ai4bharat.karya.data.repo.TaskRepository
+import com.ai4bharat.karya.data.repo.WorkerRepository
+import com.ai4bharat.karya.data.service.WorkerAPI
 import com.ai4bharat.karya.injection.qualifier.FilesDir
 import com.ai4bharat.karya.ui.scenarios.common.BaseMTRendererViewModel
+import com.ai4bharat.karya.utils.extensions.mapToResult
 import com.ai4bharat.karya.utils.extensions.visible
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.android.synthetic.main.microtask_speech_verification.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -32,8 +34,8 @@ constructor(
   taskRepository: TaskRepository,
   microTaskRepository: MicroTaskRepository,
   @FilesDir fileDirPath: String,
-  authManager: AuthManager,
-) : BaseMTRendererViewModel(
+  authManager: AuthManager
+  ) : BaseMTRendererViewModel(
   assignmentRepository,
   taskRepository,
   microTaskRepository,
@@ -41,6 +43,8 @@ constructor(
   authManager
 ) {
 
+  @Inject
+  lateinit var workerRepository: WorkerRepository
   /** UI button states */
   enum class ButtonState {
     DISABLED,
@@ -62,6 +66,7 @@ constructor(
 
   /** Media player */
   private var mediaPlayer: MediaPlayer? = null
+
 
   /** UI State */
   private var activityState: ActivityState = ActivityState.INIT
@@ -111,6 +116,9 @@ constructor(
   private var _wrongLangTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
   private var _echoTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
+  private var _wrongGenderTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
+  private var _wrongAgeGroupTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
   private var _commentTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
   private var _commentTextHandler: MutableStateFlow<String> = MutableStateFlow("")
   val commentTickHandler = _commentTickHandler.asStateFlow()
@@ -155,6 +163,15 @@ constructor(
   private val _microtaskID: MutableStateFlow<String> = MutableStateFlow("")
   val microtaskID = _microtaskID.asStateFlow()
 
+  private val _fileID: MutableStateFlow<String> = MutableStateFlow("")
+  val fileID = _fileID.asStateFlow()
+
+  private val _fileGender: MutableStateFlow<String> = MutableStateFlow("")
+  val fileGender = _fileGender.asStateFlow()
+
+  private val _fileAgeGroup: MutableStateFlow<String> = MutableStateFlow("")
+  val fileAgeGroup = _fileAgeGroup.asStateFlow()
+
   private val _playbackSecondsTvText: MutableStateFlow<String> = MutableStateFlow("")
   val playbackSecondsTvText = _playbackSecondsTvText.asStateFlow()
 
@@ -180,12 +197,7 @@ constructor(
   val showErrorWithDialog = _showErrorWithDialog.asStateFlow()
 
 
-
-
-
-
   override fun setupMicrotask() {
-
 
 //    _accuracyRating.value = R.string.rating_undefined
 //    _qualityRating.value = R.string.rating_undefined
@@ -225,6 +237,9 @@ constructor(
     _wrongLangTickHandler.value = false
     _echoTickHandler.value = false
 
+    _wrongGenderTickHandler.value = false
+    _wrongAgeGroupTickHandler.value = false
+
 
 //    _volumeRating.value = R.string.rating_undefined
 //    _bgNoiseRating.value = R.string.rating_undefined
@@ -262,6 +277,160 @@ constructor(
       microtaskInputContainer.getMicrotaskInputFilePath(currentMicroTask.id, recordingFileName)
     _microtaskID.value = currentMicroTask.id
     _sentenceTvText.value = sentence
+
+    _fileID.value = _microtaskID.value
+
+
+    if (!task.name.contains("conversation",true)){
+
+      val wid = currentMicroTask.input.asJsonObject.getAsJsonObject("chain").get("workerId").toString().trim('"')
+
+
+      viewModelScope.launch {
+        val localWorker = workerRepository.getWorkerById(wid)
+        if (localWorker == null){
+          workerRepository.getWorkerFromBox(wid)
+            .catch {
+                throwable -> Log.e("TRYING TO FETCH",throwable.toString()) }
+            .collect {
+                worker -> workerRepository.upsertWorker(worker)
+              _fileGender.value = worker.profile?.asJsonObject?.get("gender").toString().trim('"')
+              val age = worker.profile?.asJsonObject?.get("age")!!.asInt
+
+              if (age >= 60){
+                _fileAgeGroup.value = "60+"
+              }
+              else if (age in 45..59){
+                _fileAgeGroup.value = "45 - 60"
+              }
+              else if (age in 30..44){
+                _fileAgeGroup.value = "30 - 45"
+              }
+              else if (age in 18..29){
+                _fileAgeGroup.value = "18 - 30"
+              }
+              else {
+                _fileAgeGroup.value = "Minor!"
+              }
+            }
+        }
+        else{
+          _fileGender.value = localWorker.profile?.asJsonObject?.get("gender").toString().trim('"')
+          val age = localWorker.profile?.asJsonObject?.get("age")!!.asInt
+
+          if (age >= 60){
+            _fileAgeGroup.value = "60+"
+          }
+          else if (age in 45..59){
+            _fileAgeGroup.value = "45 - 60"
+          }
+          else if (age in 30..44){
+            _fileAgeGroup.value = "30 - 45"
+          }
+          else if (age in 18..29){
+            _fileAgeGroup.value = "18 - 30"
+          }
+          else {
+            _fileAgeGroup.value = "Minor!"
+          }
+        }
+      }
+
+    }
+    else
+    {
+
+      val wid1 = currentMicroTask.input.asJsonObject.getAsJsonObject("chain").get("workerAccessCode1").toString().trim('"')
+      val wid2 = currentMicroTask.input.asJsonObject.getAsJsonObject("chain").get("workerAccessCode2").toString().trim('"')
+
+      viewModelScope.launch {
+        val localWorker1 = workerRepository.getWorkerByAccessCode(wid1)
+        if (localWorker1 == null) {
+          workerRepository.getWorkerFromBox(wid1)
+            .catch { throwable -> Log.e("TRYING TO FETCH", throwable.toString()) }
+            .collect { worker ->
+              workerRepository.upsertWorker(worker)
+              _fileGender.value = worker.profile?.asJsonObject?.get("gender").toString().trim('"')
+              val age = worker.profile?.asJsonObject?.get("age")!!.asInt
+
+              if (age >= 60) {
+                _fileAgeGroup.value = "60+"
+              } else if (age in 45..59) {
+                _fileAgeGroup.value = "45 - 60"
+              } else if (age in 30..44) {
+                _fileAgeGroup.value = "30 - 45"
+              } else if (age in 18..29) {
+                _fileAgeGroup.value = "18 - 30"
+              } else {
+                _fileAgeGroup.value = "Minor!"
+              }
+            }
+        }
+        else{
+          _fileGender.value = localWorker1.profile?.asJsonObject?.get("gender").toString().trim('"')
+          val age = localWorker1.profile?.asJsonObject?.get("age")!!.asInt
+
+          if (age >= 60){
+            _fileAgeGroup.value = "60+"
+          }
+          else if (age in 45..59){
+            _fileAgeGroup.value = "45 - 60"
+          }
+          else if (age in 30..44){
+            _fileAgeGroup.value = "30 - 45"
+          }
+          else if (age in 18..29){
+            _fileAgeGroup.value = "18 - 30"
+          }
+          else {
+            _fileAgeGroup.value = "Minor!"
+          }
+
+        }
+        val localWorker2 = workerRepository.getWorkerByAccessCode(wid2)
+        if (localWorker2 == null) {
+          workerRepository.getWorkerFromBox(wid2)
+            .catch { throwable -> Log.e("TRYING TO FETCH", throwable.toString()) }
+            .collect { worker ->
+              workerRepository.upsertWorker(worker)
+              _fileGender.value += ", " + worker.profile?.asJsonObject?.get("gender").toString()
+                .trim('"')
+              val age = worker.profile?.asJsonObject?.get("age")!!.asInt
+
+              if (age >= 60) {
+                _fileAgeGroup.value += ", 60+"
+              } else if (age in 45..59) {
+                _fileAgeGroup.value += ", 45 - 60"
+              } else if (age in 30..44) {
+                _fileAgeGroup.value += ", 30 - 45"
+              } else if (age in 18..29) {
+                _fileAgeGroup.value += ", 18 - 30"
+              } else {
+                _fileAgeGroup.value += ", Minor!"
+              }
+            }
+        }
+        else
+        {
+          _fileGender.value += ", " + localWorker2.profile?.asJsonObject?.get("gender").toString()
+            .trim('"')
+          val age = localWorker2.profile?.asJsonObject?.get("age")!!.asInt
+
+          if (age >= 60) {
+            _fileAgeGroup.value += ", 60+"
+          } else if (age in 45..59) {
+            _fileAgeGroup.value += ", 45 - 60"
+          } else if (age in 30..44) {
+            _fileAgeGroup.value += ", 30 - 45"
+          } else if (age in 18..29) {
+            _fileAgeGroup.value += ", 18 - 30"
+          } else {
+            _fileAgeGroup.value += ", Minor!"
+          }
+
+        }
+      }
+    }
 
 
     /** setup media player */
@@ -528,6 +697,8 @@ constructor(
       var skipping_words = _skippingWordsTickHandler.value
       var wrong_language = _wrongLangTickHandler.value
       var echo_present = _echoTickHandler.value
+      var wrong_gender = _wrongGenderTickHandler.value
+      var wrong_age_group = _wrongAgeGroupTickHandler.value
 
 
     if (decision == "excellent"){
@@ -554,6 +725,8 @@ constructor(
       skipping_words = false
       wrong_language = false
       echo_present = false
+      wrong_gender = false
+      wrong_age_group = false
 //      bad_extempore_quality = false
 //      bad_read_quality = false
       comments = "excellent"
@@ -590,6 +763,8 @@ constructor(
     outputData.addProperty("factual_inaccuracy",factual_inaccuracy)
     outputData.addProperty("wrong_language",wrong_language)
     outputData.addProperty("echo_present",echo_present)
+    outputData.addProperty("wrong_gender",wrong_gender)
+    outputData.addProperty("wrong_age_group",wrong_age_group)
 
 //    outputData.addProperty("volume", volume)
 //    outputData.addProperty("bgnoise", bgNoise)
@@ -634,6 +809,8 @@ constructor(
 //    updateReviewStatus()
 //  }
 
+
+
   /** Handle volume change */
 
   fun handleDecisionChange(@StringRes decision: Int) {
@@ -663,6 +840,16 @@ constructor(
 
   fun handleWrongLangTickChange(@StringRes value: Boolean) {
     _wrongLangTickHandler.value = value
+    updateReviewStatus()
+  }
+
+  fun handleWrongGenderTickChange(@StringRes value: Boolean) {
+    _wrongGenderTickHandler.value = value
+    updateReviewStatus()
+  }
+
+  fun handleWrongAgeGroupTickChange(@StringRes value: Boolean) {
+    _wrongAgeGroupTickHandler.value = value
     updateReviewStatus()
   }
 
@@ -820,7 +1007,7 @@ constructor(
 
   private fun updateReviewStatus() {
 //    val baseCase = (_volumeTickHandler.value || _noiseTickHandler.value || _chatterTickHandler.value || _unclearAudioTickHandler.value || _notOnTopicTickHandler.value || _repContentTickHandler.value || _longPausesTickHandler.value || _misPronTickHandler.value || _readPromptTickHandler.value || _bookReadTickHandler.value || _sstTickHandler.value || _stretchingTickHandler.value || _badExtemporeTickHandler.value )
-    val baseCase = (_echoTickHandler.value||_wrongLangTickHandler.value||_objContTickHandler.value || _skippingWordsTickHandler.value || _factualInaccuracyTickHandler.value || _incorrectTextTickHandler.value ||_volumeTickHandler.value ||
+    val baseCase = (_wrongAgeGroupTickHandler.value||_wrongGenderTickHandler.value||_echoTickHandler.value||_wrongLangTickHandler.value||_objContTickHandler.value || _skippingWordsTickHandler.value || _factualInaccuracyTickHandler.value || _incorrectTextTickHandler.value ||_volumeTickHandler.value ||
             _noiseTickHandlerIntermittent.value ||  _noiseTickHandlerPersistent.value ||
             _chatterTickHandlerIntermittent.value ||  _chatterTickHandlerPersistent.value ||
              _unclearAudioTickHandler.value || _notOnTopicTickHandler.value ||
@@ -923,6 +1110,8 @@ constructor(
     _commentTextHandler.value = "corrupt"
     _wrongLangTickHandler.value = true
     _echoTickHandler.value = true
+    _wrongGenderTickHandler.value = true
+    _wrongAgeGroupTickHandler.value = true
 //    _volumeRating.value = R.string.volume_bad
 //    _bgNoiseRating.value = R.string.bgNoise_bad
 //    _cSwitchRating.value = R.string.cSwitching_bad

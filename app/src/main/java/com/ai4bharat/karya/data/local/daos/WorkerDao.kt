@@ -9,7 +9,7 @@ import com.ai4bharat.karya.data.model.karya.WorkerRecord
 @Dao
 interface WorkerDao : BasicDao<WorkerRecord> {
 
-  @Query("SELECT * FROM worker")
+  @Query("SELECT * FROM worker where idToken is not null")
   suspend fun getAll(): List<WorkerRecord>
 
   @Query("SELECT * FROM worker WHERE id == :id")

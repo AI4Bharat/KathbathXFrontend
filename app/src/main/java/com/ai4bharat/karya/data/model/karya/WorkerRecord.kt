@@ -20,6 +20,7 @@ data class WorkerRecord(
   @SerializedName("id_token") val idToken: String?,
   @SerializedName("auth_id") val authId: String?,
   @SerializedName("params") val params: JsonElement?,
+  @SerializedName("profile") val profile: JsonElement?,
   @SerializedName("extras") val extras: JsonElement?,
   @SerializedName("phone_number") val phoneNumber: String?,
   @SerializedName("profile_picture") val profilePicturePath: String?,
@@ -44,6 +45,7 @@ data class WorkerRecord(
         phoneNumber = "",
         profilePicturePath = "",
         username = "",
+        profile = JsonObject()
       )
     }
   }

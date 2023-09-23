@@ -134,6 +134,8 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
       otherTick.setOnCheckedChangeListener { _, b -> handleCommentsTickChange(b) }
       wrongLang.setOnCheckedChangeListener { _, b -> handleWrongLangTickChange(b) }
       echoTick.setOnCheckedChangeListener { _, b -> handleEchoTickChange(b) }
+      wrongGender.setOnCheckedChangeListener { _, b -> handleWrongGenderTickChange(b) }
+      wrongAgeGroup.setOnCheckedChangeListener { _, b -> handleWrongAgeGroupTickChange(b) }
 
 
 
@@ -230,6 +232,24 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
       sentenceTv.text = text
     }
 
+      viewModel.fileID.observe(
+          viewLifecycleOwner.lifecycle, viewLifecycleScope
+      ) { text ->
+          fileId.text = text
+      }
+
+      viewModel.fileGender.observe(
+          viewLifecycleOwner.lifecycle, viewLifecycleScope
+      ) { text ->
+          fileGender.text = text
+      }
+
+      viewModel.fileAgeGroup.observe(
+          viewLifecycleOwner.lifecycle, viewLifecycleScope
+      ) { text ->
+          fileAgeGroup.text = text
+      }
+
     viewModel.microtaskID.observe(
       viewLifecycleOwner.lifecycle, viewLifecycleScope
     ) { id ->
@@ -238,6 +258,8 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
       wrongLang.isChecked = false
       echoTick.isChecked = false
       objContTick.isChecked = false
+        wrongGender.isChecked = false
+        wrongAgeGroup.isChecked = false
       skippingWordsTick.isChecked = false
       incorrectTextTick.isChecked = false
       factualInaccuracyTick.isChecked = false
@@ -274,6 +296,7 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
       commonCl1.gone()
       commonCl2.gone()
       commonCl3.gone()
+        commonCl4.gone()
 
 //      readCl.gone()
       extemporeCl.gone()
@@ -347,6 +370,7 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
           commonCl1.visible()
           commonCl2.visible()
           commonCl3.visible()
+            commonCl4.visible()
           commentCl.visible()
 
           if (viewModel.task.name.contains("[read]",ignoreCase = true)){
@@ -374,6 +398,7 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
           commonCl1.visible()
           commonCl2.visible()
           commonCl3.visible()
+            commonCl4.visible()
           commentCl.visible()
 
 
@@ -403,6 +428,7 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
           commonCl1.gone()
           commonCl2.gone()
           commonCl3.gone()
+            commonCl4.gone()
           commentCl.gone()
 //          readCl.gone()
           extemporeCl.gone()
@@ -562,6 +588,8 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
     factualInaccuracyTick.enable()
     wrongLang.enable()
     echoTick.enable()
+      wrongGender.enable()
+      wrongAgeGroup.enable()
 //    miscTick.enable()
 
 //    noiseTick.enable()
@@ -668,6 +696,9 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
     otherTick.disable()
     wrongLang.disable()
     echoTick.disable()
+
+      wrongGender.disable()
+      wrongAgeGroup.disable()
 //    volumeOkayBtn.disable()
 //    volumeBadBtn.disable()
 //

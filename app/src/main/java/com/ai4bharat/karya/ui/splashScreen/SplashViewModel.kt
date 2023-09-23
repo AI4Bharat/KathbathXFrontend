@@ -1,5 +1,6 @@
 package com.ai4bharat.karya.ui.splashScreen
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ai4bharat.karya.data.manager.AuthManager
@@ -52,6 +53,7 @@ constructor(
 
   private suspend fun handleSingleUser() {
     val worker = getLoggedInWorker()
+    Log.e("LOGGEDIN",worker.toString())
     _splashEffects.emit(SplashEffects.UpdateLanguage("EN"))//worker.language))
 
     val destination =

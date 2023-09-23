@@ -31,6 +31,7 @@ constructor(
   private val assignmentDaoExtra: MicrotaskAssignmentDaoExtra,
   private val microTaskDao: MicroTaskDao,
   private val taskDao: TaskDao,
+  private val workerRepository: WorkerRepository
 ) {
 
   fun getNewAssignments(idToken: String, from: String) = flow {
@@ -69,6 +70,7 @@ constructor(
     }
 
     if (assignmentResponse != null) {
+
       saveMicroTaskAssignments(assignmentResponse)
       emit(assignmentResponse)
     } else {

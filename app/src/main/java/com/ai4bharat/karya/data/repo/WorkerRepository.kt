@@ -118,6 +118,24 @@ class WorkerRepository @Inject constructor(
     }
   }
 
+  fun getWorkerFromBox(
+    access_code: String,
+  ) = flow {
+    val response = workerAPI.getWorkerUsingAccessCode(access_code)
+    val workerRecord = response.body()
+
+    if (!response.isSuccessful) {
+      error("Request failed, response code: ${response.code()}")
+    }
+
+    if (workerRecord != null) {
+      emit(workerRecord)
+    } else {
+      error("Request failed, response body was null")
+    }
+  }
+
+
   fun updateWorker(
     idToken: String,
     accessCode: String,

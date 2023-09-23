@@ -26,7 +26,7 @@ constructor(
   taskRepository: TaskRepository,
   microTaskRepository: MicroTaskRepository,
   @FilesDir fileDirPath: String,
-  authManager: AuthManager,
+  authManager: AuthManager
 ) : BaseMTRendererViewModel(
   assignmentRepository,
   taskRepository,
