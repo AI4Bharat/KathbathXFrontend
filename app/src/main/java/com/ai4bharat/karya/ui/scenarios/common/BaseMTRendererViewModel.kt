@@ -1,5 +1,6 @@
 package com.ai4bharat.karya.ui.scenarios.common
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
@@ -187,6 +188,10 @@ constructor(
     /** Delete all scratch files */
     deleteAssignmentScratchFiles()
 
+    assignmentRepository.getLocalCompletedAssignments().forEach {
+      deleteVerificationFile(it.microtask_id)
+    }
+
     // If assignment is not already completed, increase completed count by 1
     if (currentAssignment.status == MicrotaskAssignmentStatus.ASSIGNED)
       _completedAssignments.value = _completedAssignments.value + 1
@@ -199,6 +204,11 @@ constructor(
         date = DateUtils.getCurrentDate()
       )
     }
+
+
+
+//    deleteVerificationFile(currentMicroTask.id)
+
   }
 
   protected suspend fun skipAndSaveCurrentMicrotask() {
@@ -209,6 +219,11 @@ constructor(
         date = DateUtils.getCurrentDate()
       )
     }
+
+    assignmentRepository.getLocalCompletedAssignments().forEach {
+      deleteVerificationFile(it.microtask_id)
+    }
+
   }
 
   /**
@@ -222,6 +237,11 @@ constructor(
         date = DateUtils.getCurrentDate()
       )
     }
+
+    assignmentRepository.getLocalCompletedAssignments().forEach {
+      deleteVerificationFile(it.microtask_id)
+    }
+
   }
 
   private fun deleteAssignmentScratchFiles() {
@@ -230,6 +250,19 @@ constructor(
     files?.forEach { if (it.exists()) it.delete() }
   }
 
+  private fun deleteVerificationFile(microtaskId:String) {
+    val directory = File(getRelativePath("microtask-input/${microtaskId}/"))
+    val tgzFile = File(getRelativePath("microtask-input/${microtaskId}.tgz"))
+//    Log.e("DIRECTORY",directory.path)
+    if (directory.exists())(
+      directory.deleteRecursively()
+    )
+
+    if (tgzFile.exists()){
+      tgzFile.delete()
+    }
+
+  }
   private fun buildOutputJsonObject(): JsonObject {
     val output = JsonObject()
     output.add("data", outputData)

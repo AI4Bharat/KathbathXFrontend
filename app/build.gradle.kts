@@ -20,13 +20,13 @@ android {
       storeFile = file("/Users/tahir/rural-crowdsourcing-toolkit/client/signing-keys/ai4b-keystore")
     }
   }
-  compileSdkVersion(31)
+  compileSdkVersion(33)
   defaultConfig {
     applicationId = "com.ai4bharat.karya"
     minSdkVersion(24)
-    targetSdkVersion(31)
+    targetSdkVersion(33)
     multiDexEnabled = true
-    versionCode = 64
+    versionCode = 69
     versionName = "1"
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     vectorDrawables.useSupportLibrary = true
@@ -137,6 +137,7 @@ dependencies {
 
   implementation(Dependencies.AndroidX.Navigation.fragmentKtx)
   implementation(Dependencies.AndroidX.Navigation.uiKtx)
+  implementation("com.google.android.play:core-ktx:1.8.1")
 
   kapt(Dependencies.AndroidX.Room.roomCompiler)
 

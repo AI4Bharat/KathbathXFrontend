@@ -282,151 +282,55 @@ constructor(
 
 
     if (!task.name.contains("conversation",true)){
-
       val wid = currentMicroTask.input.asJsonObject.getAsJsonObject("chain").get("workerId").toString().trim('"')
-
-
       viewModelScope.launch {
         val localWorker = workerRepository.getWorkerById(wid)
-        if (localWorker == null){
+        if (localWorker == null) {
           workerRepository.getWorkerFromBox(wid)
             .catch {
                 throwable -> Log.e("TRYING TO FETCH",throwable.toString()) }
             .collect {
-                worker -> workerRepository.upsertWorker(worker)
+              worker -> workerRepository.upsertWorker(worker)
               _fileGender.value = worker.profile?.asJsonObject?.get("gender").toString().trim('"')
-              val age = worker.profile?.asJsonObject?.get("age")!!.asInt
-
-              if (age >= 60){
-                _fileAgeGroup.value = "60+"
-              }
-              else if (age in 45..59){
-                _fileAgeGroup.value = "45 - 60"
-              }
-              else if (age in 30..44){
-                _fileAgeGroup.value = "30 - 45"
-              }
-              else if (age in 18..29){
-                _fileAgeGroup.value = "18 - 30"
-              }
-              else {
-                _fileAgeGroup.value = "Minor!"
-              }
+              _fileAgeGroup.value = age2group(worker.profile?.asJsonObject?.get("age")!!.asInt)
             }
         }
-        else{
+        else {
           _fileGender.value = localWorker.profile?.asJsonObject?.get("gender").toString().trim('"')
-          val age = localWorker.profile?.asJsonObject?.get("age")!!.asInt
-
-          if (age >= 60){
-            _fileAgeGroup.value = "60+"
-          }
-          else if (age in 45..59){
-            _fileAgeGroup.value = "45 - 60"
-          }
-          else if (age in 30..44){
-            _fileAgeGroup.value = "30 - 45"
-          }
-          else if (age in 18..29){
-            _fileAgeGroup.value = "18 - 30"
-          }
-          else {
-            _fileAgeGroup.value = "Minor!"
-          }
+          _fileAgeGroup.value = age2group(localWorker.profile?.asJsonObject?.get("age")!!.asInt)
         }
       }
-
     }
-    else
-    {
-
+    else {
       val wid1 = currentMicroTask.input.asJsonObject.getAsJsonObject("chain").get("workerAccessCode1").toString().trim('"')
       val wid2 = currentMicroTask.input.asJsonObject.getAsJsonObject("chain").get("workerAccessCode2").toString().trim('"')
 
       viewModelScope.launch {
         val localWorker1 = workerRepository.getWorkerByAccessCode(wid1)
-        if (localWorker1 == null) {
+        val localWorker2 = workerRepository.getWorkerByAccessCode(wid2)
+        if (localWorker1 == null || localWorker2 == null) {
           workerRepository.getWorkerFromBox(wid1)
             .catch { throwable -> Log.e("TRYING TO FETCH", throwable.toString()) }
             .collect { worker ->
               workerRepository.upsertWorker(worker)
               _fileGender.value = worker.profile?.asJsonObject?.get("gender").toString().trim('"')
-              val age = worker.profile?.asJsonObject?.get("age")!!.asInt
+              _fileAgeGroup.value = age2group(worker.profile?.asJsonObject?.get("age")!!.asInt)
 
-              if (age >= 60) {
-                _fileAgeGroup.value = "60+"
-              } else if (age in 45..59) {
-                _fileAgeGroup.value = "45 - 60"
-              } else if (age in 30..44) {
-                _fileAgeGroup.value = "30 - 45"
-              } else if (age in 18..29) {
-                _fileAgeGroup.value = "18 - 30"
-              } else {
-                _fileAgeGroup.value = "Minor!"
-              }
             }
-        }
-        else{
-          _fileGender.value = localWorker1.profile?.asJsonObject?.get("gender").toString().trim('"')
-          val age = localWorker1.profile?.asJsonObject?.get("age")!!.asInt
-
-          if (age >= 60){
-            _fileAgeGroup.value = "60+"
-          }
-          else if (age in 45..59){
-            _fileAgeGroup.value = "45 - 60"
-          }
-          else if (age in 30..44){
-            _fileAgeGroup.value = "30 - 45"
-          }
-          else if (age in 18..29){
-            _fileAgeGroup.value = "18 - 30"
-          }
-          else {
-            _fileAgeGroup.value = "Minor!"
-          }
-
-        }
-        val localWorker2 = workerRepository.getWorkerByAccessCode(wid2)
-        if (localWorker2 == null) {
           workerRepository.getWorkerFromBox(wid2)
             .catch { throwable -> Log.e("TRYING TO FETCH", throwable.toString()) }
             .collect { worker ->
               workerRepository.upsertWorker(worker)
-              _fileGender.value += ", " + worker.profile?.asJsonObject?.get("gender").toString()
-                .trim('"')
-              val age = worker.profile?.asJsonObject?.get("age")!!.asInt
-
-              if (age >= 60) {
-                _fileAgeGroup.value += ", 60+"
-              } else if (age in 45..59) {
-                _fileAgeGroup.value += ", 45 - 60"
-              } else if (age in 30..44) {
-                _fileAgeGroup.value += ", 30 - 45"
-              } else if (age in 18..29) {
-                _fileAgeGroup.value += ", 18 - 30"
-              } else {
-                _fileAgeGroup.value += ", Minor!"
-              }
+              _fileGender.value += ", " + worker.profile?.asJsonObject?.get("gender").toString().trim('"')
+              _fileAgeGroup.value += ", " + age2group(worker.profile?.asJsonObject?.get("age")!!.asInt)
             }
         }
-        else
-        {
-          _fileGender.value += ", " + localWorker2.profile?.asJsonObject?.get("gender").toString()
-            .trim('"')
-          val age = localWorker2.profile?.asJsonObject?.get("age")!!.asInt
+        else{
+          _fileGender.value = localWorker1.profile?.asJsonObject?.get("gender").toString().trim('"')
+          _fileAgeGroup.value = age2group(localWorker1.profile?.asJsonObject?.get("age")!!.asInt)
 
-          if (age >= 60) {
-            _fileAgeGroup.value += ", 60+"
-          } else if (age in 45..59) {
-            _fileAgeGroup.value += ", 45 - 60"
-          } else if (age in 30..44) {
-            _fileAgeGroup.value += ", 30 - 45"
-          } else if (age in 18..29) {
-            _fileAgeGroup.value += ", 18 - 30"
-          } else {
-            _fileAgeGroup.value += ", Minor!"
-          }
+          _fileGender.value += ", " + localWorker2.profile?.asJsonObject?.get("gender").toString().trim('"')
+          _fileAgeGroup.value += ", " + age2group(localWorker2.profile?.asJsonObject?.get("age")!!.asInt)
 
         }
       }
@@ -462,6 +366,20 @@ constructor(
 
   }
 
+  private fun age2group(age: Int): String {
+    return if (age >= 60) {
+      "60+"
+    } else if (age in 45..59) {
+      "45-60"
+    } else if (age in 30..44) {
+      "30-45"
+    } else if (age in 18..29) {
+      "18-30"
+    } else {
+      "Minor!"
+    }
+
+  }
   private fun showErrorWithDialogBox(msg: String) {
     _showErrorWithDialog.value = msg
   }
