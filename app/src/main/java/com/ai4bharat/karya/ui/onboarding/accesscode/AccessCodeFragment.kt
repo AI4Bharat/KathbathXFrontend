@@ -85,7 +85,7 @@ class AccessCodeFragment : Fragment(R.layout.fragment_access_code) {
       else -> "NA"
     }
     val accessCode = binding.accessCodeEt.text.toString().replace("-", "")
-    val decodedURL = "https://dmubox-$url_change.centralindia.cloudapp.azure.com"
+    val decodedURL = "https://ttskaryabox.centralindia.cloudapp.azure.com"
 //    val decodedURL = AccessCodeDecoder.decodeURL(requireContext(), accessCode)
 //    Log.e("URL",decodedURL)
     // Set the decoded URL for the app to be used

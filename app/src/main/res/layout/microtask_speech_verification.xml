@@ -73,10 +73,10 @@
                 style="@style/RatingButton"
                 android:text="@string/decision_bad" />
 
-            <Button
-                android:id="@+id/decisionOkayBtn"
-                style="@style/RatingButton"
-                android:text="@string/decision_okay" />
+<!--            <Button-->
+<!--                android:id="@+id/decisionOkayBtn"-->
+<!--                style="@style/RatingButton"-->
+<!--                android:text="@string/decision_okay" />-->
 
             <Button
                 android:id="@+id/decisionExcellentBtn"

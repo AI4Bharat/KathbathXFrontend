@@ -17,7 +17,7 @@ android {
       storePassword = "ai4bharat@123"
       keyAlias = "karya"
       keyPassword = "ai4bharat@123"
-      storeFile = file("/Users/tahir/rural-crowdsourcing-toolkit/client/signing-keys/ai4b-keystore")
+      storeFile = file("/Users/svp/Documents/AI4Bharat/TTS/TTS_DC/Karya/Karya/keystore/Untitled")
     }
   }
   compileSdkVersion(31)
