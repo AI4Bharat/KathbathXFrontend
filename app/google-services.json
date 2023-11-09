@@ -38,7 +38,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:926873641936:android:b3c28e66270cbdd24d8fd5",
         "android_client_info": {
-          "package_name": "com.ai4bharat.research.karya"
+          "package_name": "com.ai4bharat.karya.large"
         }
       },
       "oauth_client": [

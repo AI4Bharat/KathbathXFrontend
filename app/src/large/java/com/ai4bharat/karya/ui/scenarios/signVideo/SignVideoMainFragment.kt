@@ -1,33 +1,37 @@
-package com.karyaplatform.karya.ui.scenarios.signVideo
+package com.ai4bharat.karya.ui.scenarios.signVideo
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.karyaplatform.karya.R
-import com.karyaplatform.karya.ui.scenarios.common.BaseMTRendererFragment
-import com.karyaplatform.karya.ui.scenarios.signVideo.SignVideoMainViewModel.ButtonState.DISABLED
-import com.karyaplatform.karya.ui.scenarios.signVideo.SignVideoMainViewModel.ButtonState.ENABLED
-import com.karyaplatform.karya.utils.extensions.invisible
-import com.karyaplatform.karya.utils.extensions.observe
-import com.karyaplatform.karya.utils.extensions.viewLifecycleScope
-import com.karyaplatform.karya.utils.extensions.visible
+import com.ai4bharat.karya.R
+import com.ai4bharat.karya.ui.scenarios.common.BaseMTRendererFragment
+import com.ai4bharat.karya.ui.scenarios.signVideo.SignVideoMainViewModel.ButtonState.DISABLED
+import com.ai4bharat.karya.ui.scenarios.signVideo.SignVideoMainViewModel.ButtonState.ENABLED
+import com.ai4bharat.karya.utils.extensions.invisible
+import com.ai4bharat.karya.utils.extensions.observe
+import com.ai4bharat.karya.utils.extensions.viewLifecycleScope
+import com.ai4bharat.karya.utils.extensions.visible
 import com.potyvideo.library.globalInterfaces.AndExoPlayerListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.large.microtask_sign_video_data.*
-import kotlinx.android.synthetic.large.microtask_sign_video_data.instructionTv
-import kotlinx.android.synthetic.large.microtask_sign_video_data.nextBtnCv
 import kotlinx.android.synthetic.main.microtask_common_back_button.*
 import kotlinx.android.synthetic.main.microtask_common_back_button.view.*
 import kotlinx.android.synthetic.main.microtask_common_next_button.view.*
+
 
 private const val testVideo: String ="""<iframe
 width="100%"
@@ -116,6 +120,7 @@ class SignVideoMainFragment : BaseMTRendererFragment(R.layout.microtask_sign_vid
       viewLifecycleScope
     ) {
       /** Determine action based on current state */
+
       val intent = Intent(requireContext(), SignVideoRecord::class.java)
       intent.putExtra("video_file_path", viewModel.outputRecordingFilePath)
       recordVideoLauncher.launch(intent)
@@ -168,6 +173,15 @@ class SignVideoMainFragment : BaseMTRendererFragment(R.layout.microtask_sign_vid
     showHintVideoBtn.invisible()
   }
 
+
+  private val getResult =
+    registerForActivityResult(
+      ActivityResultContracts.StartActivityForResult()) {
+      if(it.resultCode == Activity.RESULT_OK){
+        Log.e("GETRESULT",it.toString())
+//        val value = it.data?.getStringExtra("input")
+      }
+    }
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
@@ -180,6 +194,11 @@ class SignVideoMainFragment : BaseMTRendererFragment(R.layout.microtask_sign_vid
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+    val intent = Intent()
+    intent.type = "audio/*"
+    intent.action = Intent.ACTION_GET_CONTENT
+    /** Sets the path in path variable **/
+    getResult.launch(Intent.createChooser(intent,"Select Audio "))
 
     setupObservers()
     /** Set OnBackPressed callback */
@@ -196,7 +215,7 @@ class SignVideoMainFragment : BaseMTRendererFragment(R.layout.microtask_sign_vid
       viewModel.handleRecordClick()
     }
     nextBtnCv.setOnClickListener { viewModel.handleNextClick() }
-    backBtnCv.setOnClickListener { viewModel.handleBackClick() }
+    backBtn.setOnClickListener { viewModel.handleBackClick() }
 
     showHintVideoBtn.setOnClickListener {
       showHintVideoBtn.invisible()
@@ -218,6 +237,7 @@ class SignVideoMainFragment : BaseMTRendererFragment(R.layout.microtask_sign_vid
     hintVideoPlayer.settings.loadWithOverviewMode = true
     hintVideoPlayer.settings.useWideViewPort = true
     hintVideoPlayer.loadData(testVideo, "text/html", null)
+
   }
 }
 

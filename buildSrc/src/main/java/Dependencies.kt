@@ -38,7 +38,7 @@ object Dependencies {
 
     const val appcompat = "androidx.appcompat:appcompat:1.3.0-rc01"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.0-beta01"
-    const val fragmentKtx = "androidx.fragment:fragment-ktx:1.3.3"
+    const val fragmentKtx = "androidx.fragment:fragment-ktx:1.3.6"
     const val legacy_support = "androidx.legacy:legacy-support-v4:1.0.0"
     const val work_runtime = "androidx.work:work-runtime-ktx:$work_version"
     const val work_multiprocess = "androidx.work:work-multiprocess:$work_version"
@@ -102,7 +102,7 @@ object Dependencies {
     const val stateProgressBar = "com.kofigyan.stateprogressbar:stateprogressbar:1.0.0"
     const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:4.9.1"
     const val okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.2"
-    const val cameraview = "com.otaliastudios:cameraview:2.7.0"
+    const val cameraview = "com.otaliastudios:cameraview:2.7.2"
 
     object Retrofit {
       private const val version = "2.9.0"

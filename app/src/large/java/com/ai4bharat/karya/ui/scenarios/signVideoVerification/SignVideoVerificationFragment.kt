@@ -1,4 +1,4 @@
-package com.karyaplatform.karya.ui.scenarios.signVideoVerification
+package com.ai4bharat.karya.ui.scenarios.signVideoVerification
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,15 +9,15 @@ import androidx.activity.addCallback
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.karyaplatform.karya.R
-import com.karyaplatform.karya.ui.scenarios.common.BaseMTRendererFragment
-import com.karyaplatform.karya.ui.scenarios.signVideoVerification.SignVideoVerificationViewModel.ButtonState.DISABLED
-import com.karyaplatform.karya.ui.scenarios.signVideoVerification.SignVideoVerificationViewModel.ButtonState.ENABLED
-import com.karyaplatform.karya.utils.extensions.hideKeyboard
-import com.karyaplatform.karya.utils.extensions.invisible
-import com.karyaplatform.karya.utils.extensions.observe
-import com.karyaplatform.karya.utils.extensions.viewLifecycleScope
-import com.karyaplatform.karya.utils.extensions.visible
+import com.ai4bharat.karya.R
+import com.ai4bharat.karya.ui.scenarios.common.BaseMTRendererFragment
+import com.ai4bharat.karya.ui.scenarios.signVideoVerification.SignVideoVerificationViewModel.ButtonState.DISABLED
+import com.ai4bharat.karya.ui.scenarios.signVideoVerification.SignVideoVerificationViewModel.ButtonState.ENABLED
+import com.ai4bharat.karya.utils.extensions.hideKeyboard
+import com.ai4bharat.karya.utils.extensions.invisible
+import com.ai4bharat.karya.utils.extensions.observe
+import com.ai4bharat.karya.utils.extensions.viewLifecycleScope
+import com.ai4bharat.karya.utils.extensions.visible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.large.microtask_sign_video_verification.*
 import kotlinx.android.synthetic.main.microtask_common_next_button.view.*

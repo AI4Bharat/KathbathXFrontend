@@ -1,16 +1,16 @@
-package com.karyaplatform.karya.ui.scenarios.signVideo
+package com.ai4bharat.karya.ui.scenarios.signVideo
 
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonObject
-import com.karyaplatform.karya.data.manager.AuthManager
-import com.karyaplatform.karya.data.model.karya.enums.MicrotaskAssignmentStatus
-import com.karyaplatform.karya.data.repo.AssignmentRepository
-import com.karyaplatform.karya.data.repo.MicroTaskRepository
-import com.karyaplatform.karya.data.repo.TaskRepository
-import com.karyaplatform.karya.injection.qualifier.FilesDir
-import com.karyaplatform.karya.ui.scenarios.common.BaseMTRendererViewModel
-import com.karyaplatform.karya.ui.scenarios.signVideo.SignVideoMainViewModel.ButtonState.DISABLED
-import com.karyaplatform.karya.ui.scenarios.signVideo.SignVideoMainViewModel.ButtonState.ENABLED
+import com.ai4bharat.karya.data.manager.AuthManager
+import com.ai4bharat.karya.data.model.karya.enums.MicrotaskAssignmentStatus
+import com.ai4bharat.karya.data.repo.AssignmentRepository
+import com.ai4bharat.karya.data.repo.MicroTaskRepository
+import com.ai4bharat.karya.data.repo.TaskRepository
+import com.ai4bharat.karya.injection.qualifier.FilesDir
+import com.ai4bharat.karya.ui.scenarios.common.BaseMTRendererViewModel
+import com.ai4bharat.karya.ui.scenarios.signVideo.SignVideoMainViewModel.ButtonState.DISABLED
+import com.ai4bharat.karya.ui.scenarios.signVideo.SignVideoMainViewModel.ButtonState.ENABLED
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -204,6 +204,7 @@ constructor(
     message.addProperty("button", "RECORD")
     message.addProperty("state", recordBtnState.toString())
     log(message)
+
 
     viewModelScope.launch { _launchRecordVideo.emit(true) }
 

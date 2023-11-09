@@ -40,8 +40,8 @@ class RetrofitModule {
   @Reusable
   @BaseUrl
   fun provideBaseUrl(): String {
-    return "http://__url__"
-//    return "https://dmubox-or.centralindia.cloudapp.azure.com"
+//    return "http://__url__"
+    return "https://dmubox-legacy.centralindia.cloudapp.azure.com"
   }
 
   @Provides

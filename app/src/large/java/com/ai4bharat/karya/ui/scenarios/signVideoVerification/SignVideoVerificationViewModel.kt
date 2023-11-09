@@ -1,18 +1,16 @@
-package com.karyaplatform.karya.ui.scenarios.signVideoVerification
+package com.ai4bharat.karya.ui.scenarios.signVideoVerification
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.JsonObject
-import com.karyaplatform.karya.data.manager.AuthManager
-import com.karyaplatform.karya.data.repo.AssignmentRepository
-import com.karyaplatform.karya.data.repo.MicroTaskRepository
-import com.karyaplatform.karya.data.repo.TaskRepository
-import com.karyaplatform.karya.injection.qualifier.FilesDir
-import com.karyaplatform.karya.ui.scenarios.common.BaseMTRendererViewModel
-import com.karyaplatform.karya.ui.scenarios.signVideoVerification.SignVideoVerificationViewModel.ButtonState.DISABLED
-import com.karyaplatform.karya.ui.scenarios.signVideoVerification.SignVideoVerificationViewModel.ButtonState.ENABLED
+import com.ai4bharat.karya.data.manager.AuthManager
+import com.ai4bharat.karya.data.repo.AssignmentRepository
+import com.ai4bharat.karya.data.repo.MicroTaskRepository
+import com.ai4bharat.karya.data.repo.TaskRepository
+import com.ai4bharat.karya.injection.qualifier.FilesDir
+import com.ai4bharat.karya.ui.scenarios.common.BaseMTRendererViewModel
+import com.ai4bharat.karya.ui.scenarios.signVideoVerification.SignVideoVerificationViewModel.ButtonState.DISABLED
+import com.ai4bharat.karya.ui.scenarios.signVideoVerification.SignVideoVerificationViewModel.ButtonState.ENABLED
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow

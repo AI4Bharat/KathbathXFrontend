@@ -1,4 +1,4 @@
-package com.karyaplatform.karya.ui.scenarios.signVideo.facedetector
+package com.ai4bharat.karya.ui.scenarios.signVideo.facedetector
 
 import android.graphics.RectF
 

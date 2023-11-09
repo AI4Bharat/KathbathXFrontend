@@ -1,15 +1,19 @@
-package com.karyaplatform.karya.ui.scenarios.signVideo
+package com.ai4bharat.karya.ui.scenarios.signVideo
 
 import android.os.Bundle
+import android.util.Log
 import android.util.Size
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.karyaplatform.karya.R
-import com.karyaplatform.karya.ui.scenarios.signVideo.facedetector.FaceDetector
-import com.karyaplatform.karya.ui.scenarios.signVideo.facedetector.Frame
-import com.karyaplatform.karya.ui.scenarios.signVideo.facedetector.LensFacing
-import com.karyaplatform.karya.utils.extensions.invisible
-import com.karyaplatform.karya.utils.extensions.visible
+import com.ai4bharat.karya.R
+import com.ai4bharat.karya.ui.scenarios.signVideo.facedetector.FaceDetector
+import com.ai4bharat.karya.ui.scenarios.signVideo.facedetector.Frame
+import com.ai4bharat.karya.ui.scenarios.signVideo.facedetector.LensFacing
+import com.ai4bharat.karya.utils.extensions.gone
+import com.ai4bharat.karya.utils.extensions.invisible
+import com.ai4bharat.karya.utils.extensions.visible
 import com.otaliastudios.cameraview.CameraListener
+import com.otaliastudios.cameraview.CameraOptions
 import com.otaliastudios.cameraview.VideoResult
 import com.otaliastudios.cameraview.controls.Audio
 import com.otaliastudios.cameraview.controls.Facing
@@ -51,6 +55,8 @@ class SignVideoRecord : AppCompatActivity() {
 
           override fun onSuccess() {
             File(scratch_video_file_path).delete()
+//            Toast.makeText(applicationContext, "Recording Successful", Toast.LENGTH_SHORT).show()
+//            Log.e("KARYAVID",intent.s)
             setResult(RESULT_OK, intent)
             finish()
           }
@@ -127,39 +133,62 @@ class SignVideoRecord : AppCompatActivity() {
           }
         ) */
       }
+
     })
-    setupCamera()
+//    setupCamera()
+    stopRecordButton.visible()
     stopRecordButton.setOnClickListener { handleStopRecordClick() }
   }
 
-  private fun onStartRecording() {
-    cameraView.takeVideo(File(scratch_video_file_path))
-    stopRecordButton.visible()
-  }
+//  private fun onStartRecording() {
+////    cameraView.takePictureSnapshot()
+////    cameraView.takeVideo(File(scratch_video_file_path))
+//    stopRecordButton.visible()
+//  }
 
-  private fun setupCamera() {
-
-    faceBoundsOverlay.setOnStartRecording(::onStartRecording)
-
-    val faceDetector = FaceDetector(faceBoundsOverlay)
-    cameraView.addFrameProcessor {
-      faceDetector.process(
-        Frame(
-          data = it.getData(),
-          rotation = it.rotation,
-          size = Size(it.size.width, it.size.height),
-          format = it.format,
-          lensFacing = LensFacing.FRONT
-        )
-      )
-    }
-  }
+//  private fun setupCamera() {
+//    onStartRecording()
+////    faceBoundsOverlay.setOnStartRecording(::onStartRecording)
+//
+////    val faceDetector = FaceDetector(faceBoundsOverlay)
+////    cameraView.addFrameProcessor {
+////      faceDetector.process(
+////        Frame(
+////          data = it.getData(),
+////          rotation = it.rotation,
+////          size = Size(it.size.width, it.size.height),
+////          format = it.format,
+////          lensFacing = LensFacing.FRONT
+////        )
+////      )
+////    }
+//  }
 
   private fun handleStopRecordClick() {
-    cameraView.stopVideo()
+    if (cameraView.isOpened && !cameraView.isTakingVideo){
+      cameraView.takeVideo(File(scratch_video_file_path))
+      stopRecordButton.text = "Stop Recording"
+      Toast.makeText(applicationContext, "Recording Started", Toast.LENGTH_SHORT).show()
+
+    }
+    else if (cameraView.isTakingVideo){
+      cameraView.stopVideo()
+      Toast.makeText(applicationContext, "Recording Stopped", Toast.LENGTH_SHORT).show()
+      stopRecordButton.gone()
+    }
+    else {
+      Toast.makeText(applicationContext, "Not implemented", Toast.LENGTH_SHORT).show()
+    }
+//    finish()
+//    cameraView.takeVideo(File(scratch_video_file_path))
+//    Log.e("KARYACAMERA",cameraView.isTakingVideo.toString())
+//    cameraView.stopVideo()
   }
 
   override fun onBackPressed() {
+    setResult(500,intent)
+    finish()
+//    cameraView.stopVideo()
   }
 
 }

@@ -12,11 +12,11 @@
         android:layout_height="match_parent"
         />
 
-    <com.ai4bharat.karya.ui.scenarios.signVideo.facedetector.FaceBoundsOverlay
-        android:id="@+id/faceBoundsOverlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="MissingClass" />
+<!--    <com.ai4bharat.karya.ui.scenarios.signVideo.facedetector.FaceBoundsOverlay-->
+<!--        android:id="@+id/faceBoundsOverlay"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        tools:ignore="MissingClass" />-->
 
     <TextView
         android:id="@+id/timerTextView"
@@ -35,7 +35,7 @@
         android:id="@+id/stopRecordButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="STOP RECORDING"
+        android:text="START RECORDING"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

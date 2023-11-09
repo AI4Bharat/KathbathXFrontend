@@ -1,4 +1,4 @@
-package com.karyaplatform.karya.ui.scenarios.signVideo.facedetector
+package com.ai4bharat.karya.ui.scenarios.signVideo.facedetector
 
 import android.graphics.RectF
 import android.os.Looper
@@ -51,11 +51,11 @@ class FaceDetector(private val faceBoundsOverlay: FaceBoundsOverlay) {
 
     init {
         faceBoundsOverlay.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
-            override fun onViewAttachedToWindow(view: View?) {
+            override fun onViewAttachedToWindow(p0: View) {
                 faceDetectionExecutor = Executors.newSingleThreadExecutor()
             }
 
-            override fun onViewDetachedFromWindow(view: View?) {
+            override fun onViewDetachedFromWindow(p0: View) {
                 if (::faceDetectionExecutor.isInitialized) {
                     faceDetectionExecutor.shutdown()
                 }
