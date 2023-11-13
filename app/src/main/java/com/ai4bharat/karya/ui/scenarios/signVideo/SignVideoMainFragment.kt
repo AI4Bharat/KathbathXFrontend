@@ -27,7 +27,7 @@ import com.ai4bharat.karya.utils.extensions.viewLifecycleScope
 import com.ai4bharat.karya.utils.extensions.visible
 import com.potyvideo.library.globalInterfaces.AndExoPlayerListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.large.microtask_sign_video_data.*
+import kotlinx.android.synthetic.main.microtask_sign_video_data.*
 import kotlinx.android.synthetic.main.microtask_common_back_button.*
 import kotlinx.android.synthetic.main.microtask_common_back_button.view.*
 import kotlinx.android.synthetic.main.microtask_common_next_button.view.*
@@ -54,17 +54,20 @@ class SignVideoMainFragment : BaseMTRendererFragment(R.layout.microtask_sign_vid
 
       if (result.resultCode == AppCompatActivity.RESULT_OK) {
         viewModel.setVideoSource(viewModel.outputRecordingFilePath)
+        videoPlayer.pausePlayer()
+//        viewModel.onVideoReceived()
+        viewModel.onPlayerEnded()
 
-        viewModel.onVideoReceived()
 
-        videoPlayer.startPlayer()
-        videoPlayer.setShowControllers(false)
-        videoPlayer.setAndExoPlayerListener(object : AndExoPlayerListener {
-          override fun onExoEnded() {
-            super.onExoEnded()
-            viewModel.onPlayerEnded()
-          }
-        })
+
+//        videoPlayer.startPlayer()
+//        videoPlayer.setShowControllers(false)
+//        videoPlayer.setAndExoPlayerListener(object : AndExoPlayerListener {
+//          override fun onExoEnded() {
+//            super.onExoEnded()
+//            viewModel.onPlayerEnded()
+//          }
+//        })
       }
     }
 
@@ -151,37 +154,28 @@ class SignVideoMainFragment : BaseMTRendererFragment(R.layout.microtask_sign_vid
 
   private fun showVideoPlayer() {
     videoPlayer.visible()
-    hintVideoPlayer.invisible()
+//    hintVideoPlayer.invisible()
     videoPlayerPlaceHolder.invisible()
-    closeHintVideoBtn.invisible()
-    showHintVideoBtn.visible()
+//    closeHintVideoBtn.invisible()
+//    showHintVideoBtn.visible()
   }
 
   private fun showTextPlaceHolder() {
     videoPlayer.invisible()
-    hintVideoPlayer.invisible()
+//    hintVideoPlayer.invisible()
     videoPlayerPlaceHolder.visible()
-    closeHintVideoBtn.invisible()
-    showHintVideoBtn.visible()
+//    closeHintVideoBtn.invisible()
+//    showHintVideoBtn.visible()
   }
 
   private fun showHintVideoPlayer() {
     videoPlayer.invisible()
-    hintVideoPlayer.visible()
+//    hintVideoPlayer.visible()
     videoPlayerPlaceHolder.invisible()
-    closeHintVideoBtn.visible()
-    showHintVideoBtn.invisible()
+//    closeHintVideoBtn.visible()
+//    showHintVideoBtn.invisible()
   }
 
-
-  private val getResult =
-    registerForActivityResult(
-      ActivityResultContracts.StartActivityForResult()) {
-      if(it.resultCode == Activity.RESULT_OK){
-        Log.e("GETRESULT",it.toString())
-//        val value = it.data?.getStringExtra("input")
-      }
-    }
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
@@ -194,11 +188,6 @@ class SignVideoMainFragment : BaseMTRendererFragment(R.layout.microtask_sign_vid
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    val intent = Intent()
-    intent.type = "audio/*"
-    intent.action = Intent.ACTION_GET_CONTENT
-    /** Sets the path in path variable **/
-    getResult.launch(Intent.createChooser(intent,"Select Audio "))
 
     setupObservers()
     /** Set OnBackPressed callback */
@@ -217,27 +206,27 @@ class SignVideoMainFragment : BaseMTRendererFragment(R.layout.microtask_sign_vid
     nextBtnCv.setOnClickListener { viewModel.handleNextClick() }
     backBtn.setOnClickListener { viewModel.handleBackClick() }
 
-    showHintVideoBtn.setOnClickListener {
-      showHintVideoBtn.invisible()
-      closeHintVideoBtn.visible()
-      showHintVideoPlayer()
+//    showHintVideoBtn.setOnClickListener {
+//      showHintVideoBtn.invisible()
+//      closeHintVideoBtn.visible()
+//      showHintVideoPlayer()
     }
 
-    closeHintVideoBtn.setOnClickListener {
-      closeHintVideoBtn.invisible()
-      showHintVideoBtn.visible()
-      if (displayPlaceHolder) showTextPlaceHolder() else showVideoPlayer()
-    }
+//    closeHintVideoBtn.setOnClickListener {
+//      closeHintVideoBtn.invisible()
+//      showHintVideoBtn.visible()
+//      if (displayPlaceHolder) showTextPlaceHolder() else showVideoPlayer()
+//    }
 
-    val displayMetrics = DisplayMetrics()
-    requireActivity().windowManager.defaultDisplay.getRealMetrics(displayMetrics)
-    val width = displayMetrics.widthPixels
+//    val displayMetrics = DisplayMetrics()
+////    requireActivity().windowManager.defaultDisplay.getRealMetrics(displayMetrics)
+//    val width = displayMetrics.widthPixels
+//
+//    hintVideoPlayer.settings.javaScriptEnabled = true
+//    hintVideoPlayer.settings.loadWithOverviewMode = true
+//    hintVideoPlayer.settings.useWideViewPort = true
+//    hintVideoPlayer.loadData(testVideo, "text/html", null)
 
-    hintVideoPlayer.settings.javaScriptEnabled = true
-    hintVideoPlayer.settings.loadWithOverviewMode = true
-    hintVideoPlayer.settings.useWideViewPort = true
-    hintVideoPlayer.loadData(testVideo, "text/html", null)
-
-  }
+//  }
 }
 

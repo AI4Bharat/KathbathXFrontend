@@ -330,11 +330,6 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
             completed,
             total
           )
-          else -> null
-        }
-      }
-      if (action == null && BuildConfig.FLAVOR == "large") {
-        action = when (task.scenarioName) {
           ScenarioType.SIGN_LANGUAGE_VIDEO -> DashboardFragmentDirections.actionDashboardActivityToSignVideo(
             taskId,
             completed,
@@ -348,6 +343,21 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
           else -> null
         }
       }
+//      if (action == null && BuildConfig.FLAVOR == "large") {
+//        action = when (task.scenarioName) {
+//          ScenarioType.SIGN_LANGUAGE_VIDEO -> DashboardFragmentDirections.actionDashboardActivityToSignVideo(
+//            taskId,
+//            completed,
+//            total
+//          )
+//          ScenarioType.SGN_LANG_VIDEO_VERIFICATION -> DashboardFragmentDirections.actionDashboardActivityToSignVideoVerification(
+//            taskId,
+//            completed,
+//            total
+//          )
+//          else -> null
+//        }
+//      }
       if (action != null) {
         if (task.taskInstruction == null) {
           findNavController().navigate(action)

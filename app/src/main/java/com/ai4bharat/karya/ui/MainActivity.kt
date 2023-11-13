@@ -60,26 +60,26 @@ class MainActivity : AppCompatActivity() {
     }
   }
 
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent? ) {
-
-    try {
-      if (requestCode == APP_UPDATE_CODE && resultCode == Activity.RESULT_OK) {
-        if (resultCode != RESULT_OK) {
-          appUpdateCompleted()
-        }
-      }
-    } catch (e: java.lang.Exception) {
-
-    }
-  }
-
-  private fun appUpdateCompleted() {
-    Toast.makeText(
-      this,
-      "Application Updated Successfully, Please clear the data in case the app is unable to open",
-      Toast.LENGTH_LONG
-    )
-  }
+//  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent? ) {
+//
+//    try {
+//      if (requestCode == APP_UPDATE_CODE && resultCode == Activity.RESULT_OK) {
+//        if (resultCode != RESULT_OK) {
+//          appUpdateCompleted()
+//        }
+//      }
+//    } catch (e: java.lang.Exception) {
+//
+//    }
+//  }
+//
+//  private fun appUpdateCompleted() {
+//    Toast.makeText(
+//      this,
+//      "Application Updated Successfully, Please clear the data in case the app is unable to open",
+//      Toast.LENGTH_LONG
+//    )
+//  }
 
   fun setActivityLocale(languageCode: String) {
     val locale = Locale(languageCode)
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
    */
   override fun onResume() {
     super.onResume()
-
+    updateApp(FORCE_UPDATE)
     CoroutineScope(Dispatchers.IO).launch {
       try {
         val worker = authManager.getLoggedInWorker()

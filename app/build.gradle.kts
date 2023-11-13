@@ -26,7 +26,7 @@ android {
     minSdkVersion(24)
     targetSdkVersion(33)
     multiDexEnabled = true
-    versionCode = 69
+    versionCode = 75
     versionName = "1"
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     vectorDrawables.useSupportLibrary = true
@@ -79,14 +79,14 @@ android {
   }
   flavorDimensions("size")
   productFlavors {
-    create ("mit") {
-      dimension = "size"
-      applicationIdSuffix = "mit2022"
-    }
-    create("large") {
-      dimension = "size"
-      applicationIdSuffix = "large"
-    }
+//    create ("mit") {
+//      dimension = "size"
+//      applicationIdSuffix = "mit2022"
+//    }
+//    create("large") {
+//      dimension = "size"
+//      applicationIdSuffix = "large"
+//    }
     create("standard") {
       dimension = "size"
     }
@@ -187,9 +187,9 @@ dependencies {
   implementation(files("libs/zoomage-debug.aar"))
 
   // Video data collection
-  "largeImplementation" ("com.github.HamidrezaAmz:MagicalExoPlayer:2.0.6")
-  "largeImplementation" ("com.google.android.gms:play-services-mlkit-face-detection:16.2.0")
-  "largeImplementation" ("com.google.mlkit:face-detection:16.1.2")
-  "largeImplementation" ("com.github.fishwjy:VideoCompressor:master")
+  implementation ("com.github.HamidrezaAmz:MagicalExoPlayer:2.0.6")
+//  implementation ("com.google.android.gms:play-services-mlkit-face-detection:16.2.0")
+//  implementation ("com.google.mlkit:face-detection:16.1.2")
+  implementation ("com.github.fishwjy:VideoCompressor:master")
 
 }

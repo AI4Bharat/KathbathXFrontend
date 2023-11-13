@@ -13,14 +13,19 @@ import com.ai4bharat.karya.R
 import com.ai4bharat.karya.ui.scenarios.common.BaseMTRendererFragment
 import com.ai4bharat.karya.ui.scenarios.signVideoVerification.SignVideoVerificationViewModel.ButtonState.DISABLED
 import com.ai4bharat.karya.ui.scenarios.signVideoVerification.SignVideoVerificationViewModel.ButtonState.ENABLED
-import com.ai4bharat.karya.utils.extensions.hideKeyboard
-import com.ai4bharat.karya.utils.extensions.invisible
-import com.ai4bharat.karya.utils.extensions.observe
-import com.ai4bharat.karya.utils.extensions.viewLifecycleScope
-import com.ai4bharat.karya.utils.extensions.visible
+import com.ai4bharat.karya.utils.extensions.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.large.microtask_sign_video_verification.*
+import kotlinx.android.synthetic.main.microtask_sign_video_verification.*
 import kotlinx.android.synthetic.main.microtask_common_next_button.view.*
+import kotlinx.android.synthetic.main.microtask_common_playback_progress.*
+import kotlinx.android.synthetic.main.microtask_sign_video_verification.commonCl1
+import kotlinx.android.synthetic.main.microtask_sign_video_verification.instructionTv
+import kotlinx.android.synthetic.main.microtask_sign_video_verification.nextBtnCv
+import kotlinx.android.synthetic.main.microtask_sign_video_verification.sentenceTv
+import kotlinx.android.synthetic.main.microtask_sign_video_verification.view.*
+import kotlinx.android.synthetic.main.microtask_sign_video_verification.wrongAgeGroup
+import kotlinx.android.synthetic.main.microtask_sign_video_verification.wrongGender
+import kotlinx.android.synthetic.main.microtask_speech_verification.*
 
 @AndroidEntryPoint
 class SignVideoVerificationFragment :
@@ -30,9 +35,9 @@ class SignVideoVerificationFragment :
 
   private fun setupObservers() {
 
-    viewModel.oldRemarks.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { remarks ->
-      feedbackEt.setText(remarks)
-    }
+//    viewModel.oldRemarks.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { remarks ->
+//      feedbackEt.setText(remarks)
+//    }
 
     viewModel.nextBtnState.observe(
       viewLifecycleOwner.lifecycle,
@@ -71,6 +76,50 @@ class SignVideoVerificationFragment :
     ) { text ->
       if (text.isNotEmpty()) sentenceTv.text = text
     }
+
+    viewModel.fileID.observe(
+      viewLifecycleOwner.lifecycle, viewLifecycleScope
+    ) { text ->
+      videofileId.text = text
+      commonCl1.gone()
+    }
+
+    viewModel.fileGender.observe(
+      viewLifecycleOwner.lifecycle, viewLifecycleScope
+    ) { text ->
+      videofileGender.text = text
+    }
+
+    viewModel.fileAgeGroup.observe(
+      viewLifecycleOwner.lifecycle, viewLifecycleScope
+    ) { text ->
+      videofileAgeGroup.text = text
+    }
+//
+//    viewModel.microtaskID.observe(
+//      viewLifecycleOwner.lifecycle, viewLifecycleScope
+//    ) { id ->
+////      miscTick.isChecked = false
+//      duplicateSpeaker.isChecked = false
+//      wrongGender.isChecked = false
+//      wrongAgeGroup.isChecked = false
+//      commonCl1.gone()
+//    }
+//
+//    viewModel.decisionRating.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { value ->
+//      when (value) {
+//        "accept" -> {
+//          decisionGroup.check(videoGoodBtn.id)
+//          commonCl1.gone()
+//        }
+//        "reject" -> {
+//          decisionGroup.check(videoPoorBtn.id)
+//          commonCl1.visible()
+//        }
+//        else -> decisionGroup.clearChecked()
+//      }
+//    }
+
 
 
   }
@@ -114,12 +163,40 @@ class SignVideoVerificationFragment :
     /** Set on click listeners */
     nextBtnCv.setOnClickListener {
       // If not selected a grade, return
-      if (viewModel.score == 0) { // TODO: Change this to enum
-        Toast.makeText(requireContext(), "Please grade the student", Toast.LENGTH_LONG).show()
+      if (viewModel.score == "undefined") { // TODO: Change this to enum
+        Toast.makeText(requireContext(), "Please select the decision first", Toast.LENGTH_LONG).show()
         return@setOnClickListener
       }
-      viewModel.handleNextClick()
-      resetUI()
+      // The decision box is set to either accept or reject
+      else if (viewModel.score == "accept"){
+        viewModel.wrongGender = false
+        viewModel.wrongAgeGroup = false
+        viewModel.duplicateWorker = false
+        viewModel.remarks = ""
+
+        viewModel.handleNextClick()
+        resetUI()
+      }
+      else if (viewModel.score == "reject"){
+
+        // Get the tickmarkers
+        viewModel.wrongGender = wrongGender.isChecked
+        viewModel.wrongAgeGroup = wrongAgeGroup.isChecked
+        viewModel.duplicateWorker = duplicateSpeaker.isChecked
+        viewModel.remarks = feedbackEt.text.toString()
+
+        if (viewModel.wrongGender || viewModel.wrongAgeGroup || viewModel.duplicateWorker){
+          viewModel.handleNextClick()
+          resetUI()
+        }
+        else{
+          Toast.makeText(requireContext(), "Please select the decision first", Toast.LENGTH_LONG).show()
+          return@setOnClickListener
+        }
+
+      }
+
+
     }
 
     feedbackEt.addTextChangedListener { editText ->
@@ -128,11 +205,19 @@ class SignVideoVerificationFragment :
 
     ratingGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
       if (isChecked) {
-        viewModel.score = when (checkedId) {
-          R.id.videoPoorBtn -> 1
-          R.id.videoAverageBtn -> 2
-          R.id.videoGoodBtn -> 3
-          else -> 0
+        when (checkedId) {
+          R.id.videoPoorBtn -> {
+            viewModel.score = "reject"
+            commonCl1.visible()
+            feedbackEt.visible()
+
+          }
+          R.id.videoGoodBtn -> {
+            viewModel.score = "accept"
+            commonCl1.gone()
+            feedbackEt.gone()
+          }
+          else -> "undefined"
         }
       }
     }

@@ -33,6 +33,7 @@ interface WorkerAPI {
   @GET("/worker")
   suspend fun getWorkerUsingAccessCode(
     @Header("access-code") accessCode: String,
+    @Header("version") version: String
   ): Response<WorkerRecord>
 
   /*
