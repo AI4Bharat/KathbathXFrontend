@@ -2,8 +2,6 @@ package com.ai4bharat.karya.ui.scenarios.speechVerification
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +23,6 @@ import kotlinx.android.synthetic.main.microtask_common_playback_progress.*
 import kotlinx.android.synthetic.main.microtask_common_playback_progress.view.*
 import kotlinx.android.synthetic.main.microtask_speech_verification.*
 import kotlinx.android.synthetic.main.microtask_speech_verification.view.*
-import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_speech_verification),SeekBar.OnSeekBarChangeListener {
@@ -40,8 +37,6 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
     val view = super.onCreateView(inflater, container, savedInstanceState)
     // TODO: Remove this once we have viewModel Factory
     viewModel.setupViewModel(args.taskId, args.completed, args.total)
-
-
     return view
   }
 
@@ -52,174 +47,42 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
     playBtn.setOnClickListener { viewModel.handlePlayClick() }
     nextBtnCv.setOnClickListener { viewModel.handleNextClick() }
     with (viewModel) {
-//      if (this.task.name.contains("conversation",ignoreCase = true)){
-//      accuracyGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-//        if (isChecked) {
-//          when (checkedId) {
-//            accuracyBadBtn.id -> handleAccuracyChange(R.string.accuracy_bad)
-//            accuracyOkayBtn.id -> handleAccuracyChange(R.string.accuracy_okay)
-//            accuracyGoodBtn.id -> handleAccuracyChange(R.string.accuracy_good)
-//          }
-//        }
-//        bgChatterGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-//          if (isChecked) {
-//            when (checkedId) {
-//              bgChatterBadBtn.id -> handleBgChatterChange(R.string.bgChatter_bad)
-//              bgChatterOkayBtn.id -> handleBgChatterChange(R.string.bgChatter_okay)
-//            }
-//          }
-//      }
-//      }else{
-//        accuracyGroup.invisible()
-//        accuracyLbl.invisible()
-//        handleAccuracyChange(-1)
-//      }
-
-
-//      if (this.task.name.contains("extempore",ignoreCase = true) || this.task.name.contains("conversation",ignoreCase = true) ){
-
-//      qualityGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-//        if (isChecked) {
-//          when (checkedId) {
-//            qualityBadBtn.id -> handleQualityChange(R.string.quality_bad)
-//            qualityOkayBtn.id -> handleQualityChange(R.string.quality_okay)
-//            qualityGoodBtn.id -> handleQualityChange(R.string.quality_good)
-//          }
-//        }
-//      }}
-//      else{
-//        qualityGroup.invisible()
-//        qualityLbl.invisible()
-//        handleQualityChange(-1)
-//      }
       decisionGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
         if (isChecked) {
           when (checkedId) {
             decisionBadBtn.id -> handleDecisionChange(R.string.decision_bad)
             decisionExcellentBtn.id -> handleDecisionChange(R.string.decision_excellent)
-            decisionOkayBtn.id -> handleDecisionChange(R.string.decision_okay)
+//            decisionOkayBtn.id -> handleDecisionChange(R.string.decision_okay)
           }
           textComment.disable()
         }
       }
       volumeTick.setOnCheckedChangeListener { _, b -> handleVolumeTickChange(b) }
-//      noiseTick.setOnCheckedChangeListener { _, b -> handleNoiseTickChange(b) }
-//      chatterTick.setOnCheckedChangeListener { _, b -> handleChatterTickChange(b) }
-      noiseTickIntermittent.setOnCheckedChangeListener { _, b -> handleNoiseTickIntermittentChange(b) }
+      noiseTick.setOnCheckedChangeListener { _, b -> handleNoiseTickChange(b) }
       chatterTickIntermittent.setOnCheckedChangeListener { _, b -> handleChatterTickIntermittentChange(b) }
-      noiseTickPersistent.setOnCheckedChangeListener { _, b -> handleNoiseTickPersistentChange(b) }
-      chatterTickPersistent.setOnCheckedChangeListener { _, b -> handleChatterTickPersistentChange(b) }
-      unclearAudioTick.setOnCheckedChangeListener{ _, b -> handleUnclearAudioTickChange(b)}
-//      miscTick.setOnCheckedChangeListener{ _, b -> handleMiscTickChange(b)}
-
+      fanTick.setOnCheckedChangeListener { _, b -> handleFanTickChange(b) }
+      silenceTick.setOnCheckedChangeListener { _, b -> handleSilenceTickChange(b) }
+      pageFlipTick.setOnCheckedChangeListener{ _, b -> handlePageFlipTickChange(b)}
       objContTick.setOnCheckedChangeListener{ _, b -> handleObjContTickChange(b)}
       skippingWordsTick.setOnCheckedChangeListener{ _, b -> handleSkippingWordsTickChange(b)}
       incorrectTextTick.setOnCheckedChangeListener{ _, b -> handleIncorrectTextTickChange(b)}
-      factualInaccuracyTick.setOnCheckedChangeListener{ _, b -> handleFactualInaccuracyTick(b)}
-
-      notOnTopicTick.setOnCheckedChangeListener{ _, b -> handleNotOnTopicTickChange(b)}
+      incorrectStyleTick.setOnCheckedChangeListener{ _, b -> handleIncorrectStyleTickChange(b)}
+      unnaturalTick.setOnCheckedChangeListener{ _, b -> handleUnnaturalTickChange(b)}
       repContentTick.setOnCheckedChangeListener{ _, b -> handleRepContentTickChange(b)}
-      longPausesTick.setOnCheckedChangeListener{ _, b -> handleLongPausesTickChange(b)}
-      stretchingTick.setOnCheckedChangeListener{ _, b -> handleStretchingTickChange(b)}
-
+      tooSlowTick.setOnCheckedChangeListener{ _, b -> handleTooSlowTickChange(b)}
+      tooFastTick.setOnCheckedChangeListener{ _, b -> handleTooFastTickChange(b)}
       misPronTick.setOnCheckedChangeListener{ _, b -> handleMisPronTickChange(b)}
-
-
-      readPromptTick.setOnCheckedChangeListener{ _, b -> handleReadPromptTickChange(b)}
-      bookReadTick.setOnCheckedChangeListener{ _, b -> handleBookReadTickChange(b)}
-
-      sstTick.setOnCheckedChangeListener { _, b -> handleSSTTickChange(b) }
-//      readQTick.setOnCheckedChangeListener { _, b -> handleReadQTickChange(b) }
-      badExtemporeTick.setOnCheckedChangeListener { _, b -> handleBadExtemporeTickChange(b) }
+      wrongSpeakerTick.setOnCheckedChangeListener{ _, b -> handleWrongSpeakerTickChange(b)}
+      weakEmotionTick.setOnCheckedChangeListener{ _, b -> handleWeakEmotionTickChange(b)}
+      othersTick.setOnCheckedChangeListener { _, b -> handleOthersTickChange(b) }
+      dramaticTick.setOnCheckedChangeListener { _, b -> handleDramaticTickChange(b) }
       otherTick.setOnCheckedChangeListener { _, b -> handleCommentsTickChange(b) }
       wrongLang.setOnCheckedChangeListener { _, b -> handleWrongLangTickChange(b) }
       echoTick.setOnCheckedChangeListener { _, b -> handleEchoTickChange(b) }
-
-
-
-
       textComment.addTextChangedListener(textComment.doAfterTextChanged {
       text -> handleCommentTextChange(text.toString()) })
-
       progressPb.setOnSeekBarChangeListener(this@SpeechVerificationFragment)
-//      progressPb.setOnClickListener(progressPb.rootView)
-    //      textComment.addTextChangedListener()
-
-//      volumeGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-//        if (isChecked) {
-//          when (checkedId) {
-//            volumeBadBtn.id -> handleVolumeChange(R.string.volume_bad)
-//            volumeOkayBtn.id -> handleVolumeChange(R.string.volume_okay)
-//          }
-//        }
-//      }
-//      bgNoiseGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-//        if (isChecked) {
-//          when (checkedId) {
-//            bgNoiseBadBtn.id -> handleBgNoiseChange(R.string.bgNoise_bad)
-//            bgNoiseOkayBtn.id -> handleBgNoiseChange(R.string.bgNoise_okay)
-//          }
-//        }
-//      }
-//      cSwitchingGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-//        if (isChecked) {
-//          when (checkedId) {
-//            cSwitchingBadBtn.id -> handleCSwitchingChange(R.string.cSwitching_bad)
-//            cSwitchingOkayBtn.id -> handleCSwitchingChange(R.string.cSwitching_okay)
-//          }
-//        }
-//      }
-//      bgChatterGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-//        if (isChecked) {
-//          when (checkedId) {
-//            bgChatterBadBtn.id -> handleBgChatterChange(R.string.bgChatter_bad)
-//            bgChatterOkayBtn.id -> handleBgChatterChange(R.string.bgChatter_okay)
-//          }
-//        }
-//      }
-//      volapGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-//        if (isChecked) {
-//          when (checkedId) {
-//            volapBadBtn.id -> handleVoLapChange(R.string.volap_bad)
-//            volapOkayBtn.id -> handleVoLapChange(R.string.volap_okay)
-//          }
-//        }
-//      }
-//      sstGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-//        if (isChecked) {
-//          when (checkedId) {
-//            sstBadBtn.id -> handleSstChange(R.string.sst_bad)
-//            sstOkayBtn.id -> handleSstChange(R.string.sst_okay)
-//          }
-//        }
-//      }
-//      readQualityGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-//        if (isChecked) {
-//          when (checkedId) {
-//            readQualityBadBtn.id -> handleReadQChange(R.string.readQuality_bad)
-//            sstOkayBtn.id -> handleReadQChange(R.string.readQuality_okay)
-//          }
-//        }
-//      }
-//      extemporeQualityGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-//        if (isChecked) {
-//          when (checkedId) {
-//            extemporeQualityBadBtn.id -> handleExtemporeQChange(R.string.extemporeQuality_bad)
-//            extemporeQualityOkayBtn.id -> handleExtemporeQChange(R.string.extemporeQuality_okay)
-//          }
-//        }
-//      }
-
-//      fluencyGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
-//        if (isChecked) {
-//          when (checkedId) {
-//            fluencyBadBtn.id -> handleFluencyChange(R.string.fluency_bad)
-//            fluencyOkayBtn.id -> handleFluencyChange(R.string.fluency_okay)
-//            fluencyGoodBtn.id -> handleFluencyChange(R.string.fluency_good)
-//          }
-//        }
-//      }
-    }
+   }
   }
 
   private fun setupObservers() {
@@ -233,54 +96,35 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
     viewModel.microtaskID.observe(
       viewLifecycleOwner.lifecycle, viewLifecycleScope
     ) { id ->
-//      miscTick.isChecked = false
-
       wrongLang.isChecked = false
       echoTick.isChecked = false
       objContTick.isChecked = false
       skippingWordsTick.isChecked = false
       incorrectTextTick.isChecked = false
-      factualInaccuracyTick.isChecked = false
+      incorrectStyleTick.isChecked = false
       volumeTick.isChecked = false
-//      noiseTick.isChecked = false
-//      chatterTick.isChecked = false
-      noiseTickIntermittent.isChecked = false
+      noiseTick.isChecked = false
       chatterTickIntermittent.isChecked = false
-      noiseTickPersistent.isChecked = false
-      chatterTickPersistent.isChecked = false
-      unclearAudioTick.isChecked = false
-
-      notOnTopicTick.isChecked = false
+      fanTick.isChecked = false
+      silenceTick.isChecked = false
+      pageFlipTick.isChecked = false
+      unnaturalTick.isChecked = false
       repContentTick.isChecked = false
-      longPausesTick.isChecked = false
-
+      tooSlowTick.isChecked = false
       misPronTick.isChecked = false
-
-      readPromptTick.isChecked = false
-      bookReadTick.isChecked = false
-
-
-      sstTick.isChecked = false
-
-      stretchingTick.isChecked = false
-//      readQTick.isChecked = false
-      badExtemporeTick.isChecked = false
+      wrongSpeakerTick.isChecked = false
+      weakEmotionTick.isChecked = false
+      othersTick.isChecked = false
+      tooFastTick.isChecked = false
+      dramaticTick.isChecked = false
       otherTick.isChecked = false
-
       progressPb.isEnabled = false
-
-//      comm.gone()
-//      co.gone()
       commonCl1.gone()
       commonCl2.gone()
       commonCl3.gone()
-
-//      readCl.gone()
-      extemporeCl.gone()
+      commonCl4.gone()
       conversationsCl.gone()
       commentCl.gone()
-//      sreCl.gone()
-
     }
 
     viewModel.playbackSecondsTvText.observe(
@@ -313,90 +157,49 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
       flushButtonStates(states.first, states.second, states.third)
     }
 
-
-
-
-
-
-//
-//    viewModel.accuracyRating.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { value ->
-//      when (value) {
-////        R.string.accuracy_bad -> accuracyGroup.check(accuracyBadBtn.id)
-////        R.string.accuracy_okay -> accuracyGroup.check(accuracyOkayBtn.id)
-////        R.string.accuracy_good -> accuracyGroup.check(accuracyGoodBtn.id)
-////        else -> accuracyGroup.clearChecked()
-//      }
-//    }
-//
-//    viewModel.qualityRating.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { value ->
-//      when (value) {
-////        R.string.quality_bad -> qualityGroup.check(qualityBadBtn.id)
-////        R.string.quality_okay -> qualityGroup.check(qualityOkayBtn.id)
-////        R.string.quality_good -> qualityGroup.check(qualityGoodBtn.id)
-////        else -> qualityGroup.clearChecked()
-//      }
-//    }
-
-
     viewModel.decisionRating.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { value ->
-
-
       when (value) {
         R.string.decision_okay -> {
-          decisionGroup.check(decisionOkayBtn.id)
+//          decisionGroup.check(decisionOkayBtn.id)
           commonCl1.visible()
           commonCl2.visible()
           commonCl3.visible()
+          commonCl4.visible()
           commentCl.visible()
 
           if (viewModel.task.name.contains("[read]",ignoreCase = true)){
-//            readCl.visible()
-            extemporeCl.gone()
+//            commonCl4.gone()
             conversationsCl.gone()
           }
           else if ( viewModel.task.name.contains("extempore",ignoreCase = true)){
-//            readCl.gone()
-            extemporeCl.visible()
+            commonCl4.visible()
             conversationsCl.gone()
           }
           else if (viewModel.task.name.contains("[conversation",ignoreCase = true)){
-//            readCl.gone()
-            extemporeCl.gone()
+//            commonCl4.gone()
             conversationsCl.visible()
           }
-
-
-//          sreCl.visible()
-//          othCl.visible()
         }
         R.string.decision_bad -> {
           decisionGroup.check(decisionBadBtn.id)
           commonCl1.visible()
           commonCl2.visible()
           commonCl3.visible()
+          commonCl4.visible()
           commentCl.visible()
 
-
           if (viewModel.task.name.contains("[read]",ignoreCase = true)){
-//            readCl.visible()
-            extemporeCl.gone()
+//            commonCl4.gone()
             conversationsCl.gone()
           }
           else if ( viewModel.task.name.contains("extempore",ignoreCase = true)){
-//            readCl.gone()
-            extemporeCl.visible()
+            commonCl4.visible()
             conversationsCl.gone()
           }
           else if (viewModel.task.name.contains("[conversation",ignoreCase = true)){
-//            readCl.gone()
-            extemporeCl.gone()
+//            commonCl4.gone()
             conversationsCl.visible()
           }
-//          vncCl.visible()
-////          othCl.visible()
-//          commentCl.visible()
-//          sreCl.visible()
-////          othCl.visible()
         }
         R.string.decision_excellent -> {
           decisionGroup.check(decisionExcellentBtn.id)
@@ -404,14 +207,8 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
           commonCl2.gone()
           commonCl3.gone()
           commentCl.gone()
-//          readCl.gone()
-          extemporeCl.gone()
+          commonCl4.gone()
           conversationsCl.gone()
-//          vncCl.gone()
-//          othCl.gone()
-//          commentCl.gone()
-//          sreCl.gone()
-//          othCl.gone()
         }
         else -> decisionGroup.clearChecked()
       }
@@ -426,85 +223,6 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
         textComment.disable()
       }
     }
-
-
-
-
-
-//    viewModel.volumeTickHandler.observe(
-//      viewLifecycleOwner.lifecycle, viewLifecycleScope
-//    ) { value ->
-//      Log.e("VOLUME_OBSERVE",value.toString())
-//      viewModel.handlevolumeTickChange(value)
-//    }
-
-//    viewModel.volumeRating.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { value ->
-//      when (value) {
-//        R.string.volume_bad -> volumeGroup.check(volumeBadBtn.id)
-//        R.string.volume_okay -> volumeGroup.check(volumeOkayBtn.id)
-//        else -> volumeGroup.clearChecked()
-//      }
-//    }
-//    viewModel.bgNoiseRating.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { value ->
-//      when (value) {
-//        R.string.bgNoise_bad -> bgNoiseGroup.check(bgNoiseBadBtn.id)
-//        R.string.bgNoise_okay -> bgNoiseGroup.check(bgNoiseOkayBtn.id)
-//        else -> bgNoiseGroup.clearChecked()
-//      }
-//    }
-//
-//    viewModel.cSwitchRating.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { value ->
-//      when (value) {
-//        R.string.cSwitching_bad -> cSwitchingGroup.check(cSwitchingBadBtn.id)
-//        R.string.cSwitching_okay -> cSwitchingGroup.check(cSwitchingOkayBtn.id)
-//        else -> cSwitchingGroup.clearChecked()
-//      }
-//    }
-//    viewModel.bgChatterRating.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { value ->
-//      when (value) {
-//        R.string.bgChatter_bad -> bgChatterGroup.check(bgChatterBadBtn.id)
-//        R.string.bgChatter_okay -> bgChatterGroup.check(bgChatterOkayBtn.id)
-//        else -> bgChatterGroup.clearChecked()
-//      }
-//    }
-//
-//    viewModel.voLapRating.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { value ->
-//      when (value) {
-//        R.string.volap_bad -> volapGroup.check(volapBadBtn.id)
-//        R.string.volap_okay -> volapGroup.check(volapOkayBtn.id)
-//        else -> volapGroup.clearChecked()
-//      }
-//    }
-//    viewModel.sstRating.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { value ->
-//      when (value) {
-//        R.string.sst_bad -> sstGroup.check(sstBadBtn.id)
-//        R.string.sst_okay -> sstGroup.check(sstOkayBtn.id)
-//        else -> sstGroup.clearChecked()
-//      }
-//    }
-//    viewModel.handleReadQRating.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { value ->
-//      when (value) {
-//        R.string.readQuality_bad -> readQualityGroup.check(readQualityBadBtn.id)
-//        R.string.readQuality_okay -> readQualityGroup.check(readQualityOkayBtn.id)
-//        else -> readQualityGroup.clearChecked()
-//      }
-//    }
-//    viewModel.handleExtemporeQRating.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { value ->
-//      when (value) {
-//        R.string.extemporeQuality_bad -> extemporeQualityGroup.check(extemporeQualityBadBtn.id)
-//        R.string.extemporeQuality_okay -> extemporeQualityGroup.check(extemporeQualityOkayBtn.id)
-//        else -> extemporeQualityGroup.clearChecked()
-//      }
-//    }
-
-//    viewModel.fluencyRating.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { value ->
-//      when (value) {
-//        R.string.fluency_bad -> fluencyGroup.check(fluencyBadBtn.id)
-//        R.string.fluency_okay -> fluencyGroup.check(fluencyOkayBtn.id)
-//        R.string.fluency_good -> fluencyGroup.check(fluencyGoodBtn.id)
-//        else -> fluencyGroup.clearChecked()
-//      }
-//    }
 
     viewModel.reviewEnabled.observe(
       viewLifecycleOwner.lifecycle, viewLifecycleScope
@@ -524,8 +242,6 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
         showErrorDialog(msg)
       }
     }
-
-
   }
 
   private fun showErrorDialog(msg: String) {
@@ -542,160 +258,63 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
 
   /** Enable reviewing */
   private fun enableReviewing() {
-//    accuracyGoodBtn.enable()
-//    accuracyOkayBtn.enable()
-//    accuracyBadBtn.enable()
-//
-//    qualityGoodBtn.enable()
-//    qualityOkayBtn.enable()
-//    qualityBadBtn.enable()
-
-//    volumeGoodBtn.enable()
     decisionBadBtn.enable()
     decisionExcellentBtn.enable()
-    decisionOkayBtn.enable()
-
+//    decisionOkayBtn.enable()
     volumeTick.enable()
     objContTick.enable()
     skippingWordsTick.enable()
     incorrectTextTick.enable()
-    factualInaccuracyTick.enable()
+    incorrectStyleTick.enable()
     wrongLang.enable()
     echoTick.enable()
-//    miscTick.enable()
-
-//    noiseTick.enable()
-//    chatterTick.enable()
-    noiseTickIntermittent.enable()
+    noiseTick.enable()
     chatterTickIntermittent.enable()
-    noiseTickPersistent.enable()
-    chatterTickPersistent.enable()
-    unclearAudioTick.enable()
-
-    notOnTopicTick.enable()
+    fanTick.enable()
+    silenceTick.enable()
+    pageFlipTick.enable()
+    unnaturalTick.enable()
     repContentTick.enable()
-    longPausesTick.enable()
-
+    tooSlowTick.enable()
     misPronTick.enable()
-
-    readPromptTick.enable()
-    bookReadTick.enable()
-
-    sstTick.enable()
-    stretchingTick.enable()
-//    readQTick.enable()
-    badExtemporeTick.enable()
+    wrongSpeakerTick.enable()
+    weakEmotionTick.enable()
+    othersTick.enable()
+    tooFastTick.enable()
+    dramaticTick.enable()
     textComment.enable()
     otherTick.enable()
-//    volumeOkayBtn.enable()
-//    volumeBadBtn.enable()
-//
-//    bgNoiseBadBtn.enable()
-//    bgNoiseOkayBtn.enable()
-//
-//    cSwitchingBadBtn.enable()
-//    cSwitchingOkayBtn.enable()
-//
-//    bgChatterBadBtn.enable()
-//    bgChatterOkayBtn.enable()
-//
-//    volapBadBtn.enable()
-//    volapOkayBtn.enable()
-//
-//    sstBadBtn.enable()
-//    sstOkayBtn.enable()
-//
-//
-//    readQualityBadBtn.enable()
-//    readQualityOkayBtn.enable()
-//
-//    extemporeQualityBadBtn.enable()
-//    extemporeQualityOkayBtn.enable()
-
-//    commentCl.enable()
-
-//    fluencyBadBtn.enable()
-//    fluencyOkayBtn.enable()
-//    fluencyGoodBtn.enable()
   }
 
   /** Disable reviewing */
   private fun disableReview() {
-//    accuracyGoodBtn.disable()
-//    accuracyOkayBtn.disable()
-//    accuracyBadBtn.disable()
-//
-//    qualityGoodBtn.disable()
-//    qualityOkayBtn.disable()
-//    qualityBadBtn.disable()
-
-//    volumeGoodBtn.disable()
-
     decisionBadBtn.disable()
     decisionExcellentBtn.disable()
-    decisionOkayBtn.disable()
-//    miscTick.disable()
-
+//    decisionOkayBtn.disable()
     objContTick.disable()
     skippingWordsTick.disable()
     incorrectTextTick.disable()
-    factualInaccuracyTick.disable()
-
+    incorrectStyleTick.disable()
     volumeTick.disable()
-//    noiseTick.disable()
-//    chatterTick.disable()
-    noiseTickIntermittent.disable()
+    noiseTick.disable()
     chatterTickIntermittent.disable()
-    noiseTickPersistent.disable()
-    chatterTickPersistent.disable()
-    unclearAudioTick.disable()
-    unclearAudioTick.disable()
-
-    notOnTopicTick.disable()
+    fanTick.disable()
+    silenceTick.disable()
+    pageFlipTick.disable()
+    pageFlipTick.disable()
+    unnaturalTick.disable()
     repContentTick.disable()
-    longPausesTick.disable()
-
+    tooSlowTick.disable()
     misPronTick.disable()
-
-    readPromptTick.disable()
-    bookReadTick.disable()
-
-    sstTick.disable()
-    stretchingTick.disable()
-//    readQTick.disable()
-    badExtemporeTick.disable()
+    wrongSpeakerTick.disable()
+    weakEmotionTick.disable()
+    othersTick.disable()
+    tooFastTick.disable()
+    dramaticTick.disable()
     textComment.disable()
     otherTick.disable()
     wrongLang.disable()
     echoTick.disable()
-//    volumeOkayBtn.disable()
-//    volumeBadBtn.disable()
-//
-//    bgNoiseBadBtn.disable()
-//    bgNoiseOkayBtn.disable()
-//
-//    cSwitchingBadBtn.disable()
-//    cSwitchingOkayBtn.disable()
-//
-//    bgChatterBadBtn.disable()
-//    bgChatterOkayBtn.disable()
-//
-//    volapBadBtn.disable()
-//    volapOkayBtn.disable()
-//
-//    sstBadBtn.disable()
-//    sstOkayBtn.disable()
-//
-//    readQualityBadBtn.disable()
-//    readQualityOkayBtn.disable()
-//
-//    extemporeQualityBadBtn.disable()
-//    extemporeQualityOkayBtn.disable()
-
-//    commentCl.disable()
-//    fluencyBadBtn.disable()
-//    fluencyOkayBtn.disable()
-//    fluencyGoodBtn.disable()
   }
 
   /** Flush the button states */
@@ -735,8 +354,6 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
 
   override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
       viewModel.handleSeekBarChange(p1, p2)
-//    viewModel.updatePlaybackProgress(5)
-//    Log.e("OnProgressChange",p1.toString()+" "+p2.toString())
   }
 
   override fun onStartTrackingTouch(p0: SeekBar?) {
