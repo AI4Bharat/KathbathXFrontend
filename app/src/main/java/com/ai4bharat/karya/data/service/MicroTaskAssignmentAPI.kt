@@ -1,5 +1,6 @@
 package com.ai4bharat.karya.data.service
 
+import com.ai4bharat.karya.BuildConfig
 import com.ai4bharat.karya.data.model.karya.KaryaFileRecord
 import com.ai4bharat.karya.data.model.karya.MicroTaskAssignmentRecord
 import com.ai4bharat.karya.data.remote.response.GetAssignmentsResponse
@@ -14,6 +15,8 @@ interface MicroTaskAssignmentAPI {
   suspend fun submitCompletedAssignments(
     @Header("karya-id-token") idTokenHeader: String,
     @Body updates: List<MicroTaskAssignmentRecord>,
+    @Header("version") version: String = BuildConfig.VERSION_CODE.toString(),
+
   ): Response<List<String>>
 
   @PUT("/skipped_expired_assignments")
@@ -26,6 +29,7 @@ interface MicroTaskAssignmentAPI {
   suspend fun getNewAssignments(
     @Header("karya-id-token") idTokenHeader: String,
     @Query("from") from: String,
+    @Header("version") version: String = BuildConfig.VERSION_CODE.toString(),
     @Query("type") type: String = "new",
   ): Response<GetAssignmentsResponse>
 
@@ -33,6 +37,7 @@ interface MicroTaskAssignmentAPI {
   suspend fun getVerifiedAssignments(
     @Header("karya-id-token") idTokenHeader: String,
     @Query("from") from: String,
+    @Header("version") version: String = BuildConfig.VERSION_CODE.toString(),
     @Query("type") type: String = "verified",
   ): Response<List<MicroTaskAssignmentRecord>>
 

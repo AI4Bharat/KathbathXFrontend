@@ -26,7 +26,7 @@ android {
     minSdkVersion(24)
     targetSdkVersion(33)
     multiDexEnabled = true
-    versionCode = 75
+    versionCode = 74
     versionName = "1"
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     vectorDrawables.useSupportLibrary = true

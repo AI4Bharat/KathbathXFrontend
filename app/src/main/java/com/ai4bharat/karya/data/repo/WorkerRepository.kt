@@ -88,7 +88,7 @@ class WorkerRepository @Inject constructor(
   }
 
   fun verifyAccessCode(accessCode: String) = flow {
-    val response = workerAPI.getWorkerUsingAccessCode(accessCode,BuildConfig.VERSION_CODE.toString())
+    val response = workerAPI.getWorkerUsingAccessCode(accessCode)
     val responseBody = response.body()
 
     if (!response.isSuccessful) {
@@ -122,7 +122,7 @@ class WorkerRepository @Inject constructor(
   fun getWorkerFromBox(
     access_code: String,
   ) = flow {
-    val response = workerAPI.getWorkerUsingAccessCode(access_code,BuildConfig.VERSION_CODE.toString())
+    val response = workerAPI.getWorkerUsingAccessCode(access_code)
     val workerRecord = response.body()
 
     if (!response.isSuccessful) {

@@ -142,15 +142,20 @@ constructor(
 
       /** COMPLETED: release the media player */
       ActivityState.COMPLETED -> {
-        showVideoPlayer()
+//        showVideoPlayer()
         if (currentAssignment.status != MicrotaskAssignmentStatus.COMPLETED) {
           addOutputFile("recording", outputRecordingFileParams)
           viewModelScope.launch {
             completeAndSaveCurrentMicrotask()
-            setButtonStates(ENABLED, ENABLED, ENABLED)
+//            setButtonStates(ENABLED, ENABLED, ENABLED)
+
+            moveToNextMicrotask()
+            setActivityState(ActivityState.INIT)
           }
         } else {
-          setButtonStates(ENABLED, ENABLED, ENABLED)
+//          setButtonStates(ENABLED, ENABLED, ENABLED)
+          moveToNextMicrotask()
+          setActivityState(ActivityState.INIT)
         }
 
       }
@@ -176,7 +181,8 @@ constructor(
       /** FIRST PLAYBACK */
       ActivityState.FIRST_PLAYBACK -> {
         showVideoPlayer()
-        setButtonStates(DISABLED, DISABLED, DISABLED)
+//        setButtonStates(DISABLED, DISABLED, DISABLED)
+        setButtonStates(ENABLED, ENABLED, ENABLED)
       }
 
       /** FIRST PLAYBACK PAUSED */
@@ -217,9 +223,11 @@ constructor(
     message.addProperty("type", "o")
     message.addProperty("button", "NEXT")
     log(message)
+//    runBlocking {
+    onPlayerEnded()
+//    }
 
-    moveToNextMicrotask()
-    setActivityState(ActivityState.INIT)
+
   }
 
   /** Handle back button click */
@@ -231,7 +239,7 @@ constructor(
     log(message)
 
     moveToPreviousMicrotask()
-    setActivityState(ActivityState.INIT)
+//    setActivityState(ActivityState.INIT)
   }
 
   fun onBackPressed() {

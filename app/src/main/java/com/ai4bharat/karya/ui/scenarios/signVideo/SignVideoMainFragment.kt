@@ -55,8 +55,8 @@ class SignVideoMainFragment : BaseMTRendererFragment(R.layout.microtask_sign_vid
       if (result.resultCode == AppCompatActivity.RESULT_OK) {
         viewModel.setVideoSource(viewModel.outputRecordingFilePath)
         videoPlayer.pausePlayer()
-//        viewModel.onVideoReceived()
-        viewModel.onPlayerEnded()
+        viewModel.onVideoReceived()
+//        viewModel.onPlayerEnded()
 
 
 

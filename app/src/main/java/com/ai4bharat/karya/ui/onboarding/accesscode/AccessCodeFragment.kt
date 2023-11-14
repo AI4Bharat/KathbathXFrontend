@@ -82,7 +82,7 @@ class AccessCodeFragment : Fragment(R.layout.fragment_access_code) {
       "Tamil" -> "ta"
       "Telugu" -> "te"
       "Urdu" -> "ur"
-      else -> "NA"
+      else -> "legacy"
     }
     val accessCode = binding.accessCodeEt.text.toString().replace("-", "")
     val decodedURL = "https://dmubox-$url_change.centralindia.cloudapp.azure.com"

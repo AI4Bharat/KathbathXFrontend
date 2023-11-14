@@ -1,5 +1,6 @@
 package com.ai4bharat.karya.data.service
 
+import com.ai4bharat.karya.BuildConfig
 import com.ai4bharat.karya.data.model.karya.WorkerRecord
 import com.ai4bharat.karya.data.remote.request.RegisterOrUpdateWorkerRequest
 import okhttp3.ResponseBody
@@ -33,7 +34,7 @@ interface WorkerAPI {
   @GET("/worker")
   suspend fun getWorkerUsingAccessCode(
     @Header("access-code") accessCode: String,
-    @Header("version") version: String
+    @Header("version") version: String = BuildConfig.VERSION_CODE.toString(),
   ): Response<WorkerRecord>
 
   /*
@@ -42,6 +43,7 @@ interface WorkerAPI {
   @GET("/worker")
   suspend fun getWorkerUsingIdToken(
     @Header("karya-id-token") idToken: String,
+    @Header("version") version: String = BuildConfig.VERSION_CODE.toString(),
   ): Response<WorkerRecord>
 
   @PUT("/worker")
