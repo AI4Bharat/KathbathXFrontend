@@ -161,7 +161,7 @@ constructor(
       }
 
       ActivityState.COOLDOWN_COMPLETE -> {
-        setButtonStates(ENABLED, ENABLED, ENABLED)
+        setButtonStates(ENABLED, ENABLED, DISABLED)
       }
 
       /**

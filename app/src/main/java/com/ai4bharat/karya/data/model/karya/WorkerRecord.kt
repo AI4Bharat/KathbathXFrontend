@@ -21,7 +21,7 @@ data class WorkerRecord(
   @SerializedName("auth_id") val authId: String?,
   @SerializedName("params") val params: JsonElement?,
   @SerializedName("profile") val profile: JsonElement?,
-  @SerializedName("extras") val extras: JsonElement?,
+  @SerializedName("extras") var extras: JsonElement?,
   @SerializedName("phone_number") val phoneNumber: String?,
   @SerializedName("profile_picture") val profilePicturePath: String?,
   @SerializedName("username") val username: String?,

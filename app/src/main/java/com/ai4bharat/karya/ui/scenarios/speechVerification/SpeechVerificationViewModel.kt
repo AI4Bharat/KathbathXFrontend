@@ -118,6 +118,7 @@ constructor(
 
   private var _wrongGenderTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
   private var _wrongAgeGroupTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
+  private var _duplicateSpeakerTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
   private var _commentTickHandler: MutableStateFlow<Boolean> = MutableStateFlow(false)
   private var _commentTextHandler: MutableStateFlow<String> = MutableStateFlow("")
@@ -165,6 +166,9 @@ constructor(
 
   private val _fileID: MutableStateFlow<String> = MutableStateFlow("")
   val fileID = _fileID.asStateFlow()
+
+  private val _phoneNumber: MutableStateFlow<String> = MutableStateFlow("")
+  val phoneNumber = _phoneNumber.asStateFlow()
 
   private val _fileGender: MutableStateFlow<String> = MutableStateFlow("")
   val fileGender = _fileGender.asStateFlow()
@@ -239,6 +243,8 @@ constructor(
 
     _wrongGenderTickHandler.value = false
     _wrongAgeGroupTickHandler.value = false
+    _duplicateSpeakerTickHandler.value = false
+
 
 
 //    _volumeRating.value = R.string.rating_undefined
@@ -292,11 +298,13 @@ constructor(
             .collect {
               worker -> workerRepository.upsertWorker(worker)
               _fileGender.value = worker.profile?.asJsonObject?.get("gender").toString().trim('"')
+              _phoneNumber.value = worker.profile?.asJsonObject?.get("phone").toString().trim('"')
               _fileAgeGroup.value = age2group(worker.profile?.asJsonObject?.get("age")!!.asInt)
             }
         }
         else {
           _fileGender.value = localWorker.profile?.asJsonObject?.get("gender").toString().trim('"')
+          _phoneNumber.value = localWorker.profile?.asJsonObject?.get("phone").toString().trim('"')
           _fileAgeGroup.value = age2group(localWorker.profile?.asJsonObject?.get("age")!!.asInt)
         }
       }
@@ -314,6 +322,7 @@ constructor(
             .collect { worker ->
               workerRepository.upsertWorker(worker)
               _fileGender.value = worker.profile?.asJsonObject?.get("gender").toString().trim('"')
+              _phoneNumber.value = worker.profile?.asJsonObject?.get("phone").toString().trim('"')
               _fileAgeGroup.value = age2group(worker.profile?.asJsonObject?.get("age")!!.asInt)
 
             }
@@ -322,14 +331,17 @@ constructor(
             .collect { worker ->
               workerRepository.upsertWorker(worker)
               _fileGender.value += ", " + worker.profile?.asJsonObject?.get("gender").toString().trim('"')
+              _phoneNumber.value += ", " + worker.profile?.asJsonObject?.get("phone").toString().trim('"')
               _fileAgeGroup.value += ", " + age2group(worker.profile?.asJsonObject?.get("age")!!.asInt)
             }
         }
         else{
           _fileGender.value = localWorker1.profile?.asJsonObject?.get("gender").toString().trim('"')
+          _phoneNumber.value = localWorker1.profile?.asJsonObject?.get("phone").toString().trim('"')
           _fileAgeGroup.value = age2group(localWorker1.profile?.asJsonObject?.get("age")!!.asInt)
 
           _fileGender.value += ", " + localWorker2.profile?.asJsonObject?.get("gender").toString().trim('"')
+          _phoneNumber.value += ", " + localWorker2.profile?.asJsonObject?.get("phone").toString().trim('"')
           _fileAgeGroup.value += ", " + age2group(localWorker2.profile?.asJsonObject?.get("age")!!.asInt)
 
         }
@@ -617,6 +629,7 @@ constructor(
       var echo_present = _echoTickHandler.value
       var wrong_gender = _wrongGenderTickHandler.value
       var wrong_age_group = _wrongAgeGroupTickHandler.value
+      var duplicate_speaker = _duplicateSpeakerTickHandler.value
 
 
     if (decision == "excellent"){
@@ -645,6 +658,7 @@ constructor(
       echo_present = false
       wrong_gender = false
       wrong_age_group = false
+      duplicate_speaker = false
 //      bad_extempore_quality = false
 //      bad_read_quality = false
       comments = "excellent"
@@ -683,6 +697,7 @@ constructor(
     outputData.addProperty("echo_present",echo_present)
     outputData.addProperty("wrong_gender",wrong_gender)
     outputData.addProperty("wrong_age_group",wrong_age_group)
+    outputData.addProperty("duplicate_speaker",duplicate_speaker)
 
 //    outputData.addProperty("volume", volume)
 //    outputData.addProperty("bgnoise", bgNoise)
@@ -770,6 +785,12 @@ constructor(
     _wrongAgeGroupTickHandler.value = value
     updateReviewStatus()
   }
+
+  fun handleDuplicateSpeakerTickChange(@StringRes value: Boolean) {
+    _duplicateSpeakerTickHandler.value = value
+    updateReviewStatus()
+  }
+
 
   fun handleNoiseTickIntermittentChange(@StringRes value: Boolean) {
     _noiseTickHandlerIntermittent.value = value
@@ -925,7 +946,7 @@ constructor(
 
   private fun updateReviewStatus() {
 //    val baseCase = (_volumeTickHandler.value || _noiseTickHandler.value || _chatterTickHandler.value || _unclearAudioTickHandler.value || _notOnTopicTickHandler.value || _repContentTickHandler.value || _longPausesTickHandler.value || _misPronTickHandler.value || _readPromptTickHandler.value || _bookReadTickHandler.value || _sstTickHandler.value || _stretchingTickHandler.value || _badExtemporeTickHandler.value )
-    val baseCase = (_wrongAgeGroupTickHandler.value||_wrongGenderTickHandler.value||_echoTickHandler.value||_wrongLangTickHandler.value||_objContTickHandler.value || _skippingWordsTickHandler.value || _factualInaccuracyTickHandler.value || _incorrectTextTickHandler.value ||_volumeTickHandler.value ||
+    val baseCase = (_duplicateSpeakerTickHandler.value||_wrongAgeGroupTickHandler.value||_wrongGenderTickHandler.value||_echoTickHandler.value||_wrongLangTickHandler.value||_objContTickHandler.value || _skippingWordsTickHandler.value || _factualInaccuracyTickHandler.value || _incorrectTextTickHandler.value ||_volumeTickHandler.value ||
             _noiseTickHandlerIntermittent.value ||  _noiseTickHandlerPersistent.value ||
             _chatterTickHandlerIntermittent.value ||  _chatterTickHandlerPersistent.value ||
              _unclearAudioTickHandler.value || _notOnTopicTickHandler.value ||
@@ -1030,6 +1051,7 @@ constructor(
     _echoTickHandler.value = true
     _wrongGenderTickHandler.value = true
     _wrongAgeGroupTickHandler.value = true
+    _duplicateSpeakerTickHandler.value = true
 //    _volumeRating.value = R.string.volume_bad
 //    _bgNoiseRating.value = R.string.bgNoise_bad
 //    _cSwitchRating.value = R.string.cSwitching_bad

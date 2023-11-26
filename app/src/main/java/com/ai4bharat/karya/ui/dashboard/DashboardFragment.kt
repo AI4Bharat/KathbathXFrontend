@@ -1,13 +1,16 @@
 package com.ai4bharat.karya.ui.dashboard
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.*
@@ -18,10 +21,17 @@ import com.ai4bharat.karya.databinding.FragmentDashboardBinding
 import com.ai4bharat.karya.ui.base.SessionFragment
 import com.ai4bharat.karya.utils.extensions.*
 import com.ai4bharat.karya.BuildConfig
+import com.ai4bharat.karya.data.remote.request.RegisterOrUpdateWorkerRequest
 import com.ai4bharat.karya.data.service.WorkerAPI
+import com.ai4bharat.karya.ui.Destination
+import com.ai4bharat.karya.ui.MainActivity
+import com.google.gson.JsonElement
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.util.*
 import kotlin.math.round
@@ -55,7 +65,9 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
   private fun observeUi() {
     viewModel.dashboardUiState.observe(lifecycle, lifecycleScope) { dashboardUiState ->
       when (dashboardUiState) {
-        is DashboardUiState.Success -> showSuccessUi(dashboardUiState.data)
+        is DashboardUiState.Success -> {
+          showSuccessUi(dashboardUiState.data)
+        }
         is DashboardUiState.Error -> showErrorUi(
           dashboardUiState.throwable,
           ERROR_TYPE.TASK_ERROR,
@@ -165,8 +177,17 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
         }
       })
     binding.syncCv.enable()
+    var videoTask = 0
     data.apply {
       (binding.tasksRv.adapter as TaskListAdapter).updateList(taskInfoData)
+
+      // Get the count of sign video tasks
+      for (task in taskInfoData){
+        if (task.scenarioName == ScenarioType.SIGN_LANGUAGE_VIDEO){
+          videoTask += task.taskStatus.submittedMicrotasks + task.taskStatus.verifiedMicrotasks
+        }
+      }
+
       // Show total credits if it is greater than 0
       if (totalRecordedDuration.first > 0 || totalRecordedDuration.second > 0) {
         binding.rupeesEarnedCl.visible()
@@ -180,6 +201,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
         for (task in taskInfoData){
           completed += task.taskStatus.completedMicrotasks
           submitted += task.taskStatus.submittedMicrotasks + task.taskStatus.verifiedMicrotasks
+
         }
         completed += submitted
         binding.syncDurationOnPhone.text = "[On Phone: $completed  tasks]"
@@ -188,7 +210,23 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
       } else {
         binding.rupeesEarnedCl.gone()
       }
+
+      if (videoTask > 0){
+        runBlocking {
+          val loggedInWorker = authManager.getLoggedInWorker()
+          workerRepositoryBase.disableWorker(
+            loggedInWorker.idToken.toString(),"disable", RegisterOrUpdateWorkerRequest(loggedInWorker.extras!!))
+            .catch { throwable -> Log.e("DISABLING FAILED",throwable.toString()) }
+            .collect {
+              worker -> workerRepositoryBase.upsertWorker(worker)
+            }
+        }
+        authManager.expireSession()
+      }
     }
+
+    // expire the worker so that he is not able to submit any more tasks
+
 
     // Show a dialog box to sync with server if completed tasks and internet available
     if (requireContext().isNetworkAvailable()) {
@@ -202,6 +240,8 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
         }
       }
     }
+
+    // On seeing the person has done 1 or more video verification task, we disable the worker and use this task as proof of their work
   }
 
   private fun showDialogueToSync() {

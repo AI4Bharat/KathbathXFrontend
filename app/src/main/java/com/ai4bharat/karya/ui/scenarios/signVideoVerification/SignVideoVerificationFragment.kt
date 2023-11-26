@@ -81,7 +81,16 @@ class SignVideoVerificationFragment :
       viewLifecycleOwner.lifecycle, viewLifecycleScope
     ) { text ->
       videofileId.text = text
+      duplicateSpeaker.isChecked = false
+      wrongGender.isChecked = false
+      wrongAgeGroup.isChecked = false
       commonCl1.gone()
+    }
+
+    viewModel.videoPhoneNumber.observe(
+      viewLifecycleOwner.lifecycle, viewLifecycleScope
+    ) { text ->
+      videoPhoneNumber.text = text
     }
 
     viewModel.fileGender.observe(

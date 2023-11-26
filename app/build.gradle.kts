@@ -26,8 +26,8 @@ android {
     minSdkVersion(24)
     targetSdkVersion(33)
     multiDexEnabled = true
-    versionCode = 74
-    versionName = "1"
+    versionCode = 90
+    versionName = "2"
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     vectorDrawables.useSupportLibrary = true
     signingConfig = signingConfigs.getByName("standard-release")
@@ -138,8 +138,9 @@ dependencies {
   implementation(Dependencies.AndroidX.Navigation.fragmentKtx)
   implementation(Dependencies.AndroidX.Navigation.uiKtx)
   implementation("com.google.android.play:core-ktx:1.8.1")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
-  kapt(Dependencies.AndroidX.Room.roomCompiler)
+    kapt(Dependencies.AndroidX.Room.roomCompiler)
 
   implementation(Dependencies.Google.gson)
   implementation(Dependencies.Google.material)
@@ -191,5 +192,7 @@ dependencies {
 //  implementation ("com.google.android.gms:play-services-mlkit-face-detection:16.2.0")
 //  implementation ("com.google.mlkit:face-detection:16.1.2")
   implementation ("com.github.fishwjy:VideoCompressor:master")
+  implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+
 
 }

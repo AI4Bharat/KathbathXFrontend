@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/appTb"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_48sdp"
+    android:layout_height="@dimen/_30sdp"
     android:background="@color/c_white"
     android:elevation="@dimen/_6sdp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    tools:ignore="ContentDescription">
+    tools:ignore="ContentDescription"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,8 +18,8 @@
 
         <ImageView
             android:id="@+id/karyaLogo"
-            android:layout_width="@dimen/_36sdp"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:clickable="true"
             android:contentDescription="@string/karya_logo"
@@ -80,7 +81,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="@dimen/_40sdp"
+            android:minWidth="@dimen/_35sdp"
             android:text="@string/language_name"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

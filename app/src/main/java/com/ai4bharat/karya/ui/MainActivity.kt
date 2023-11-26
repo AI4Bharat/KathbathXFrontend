@@ -12,6 +12,8 @@ import com.ai4bharat.karya.R
 import com.ai4bharat.karya.data.manager.AuthManager
 import com.ai4bharat.karya.databinding.ActivityMainBinding
 import com.ai4bharat.karya.utils.extensions.viewBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType

@@ -1,6 +1,8 @@
 package com.ai4bharat.karya.ui.scenarios.signVideo
 
+import android.media.CamcorderProfile
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.util.Size
 import android.widget.Toast
@@ -12,12 +14,9 @@ import com.ai4bharat.karya.R
 import com.ai4bharat.karya.utils.extensions.gone
 import com.ai4bharat.karya.utils.extensions.invisible
 import com.ai4bharat.karya.utils.extensions.visible
-import com.otaliastudios.cameraview.CameraListener
-import com.otaliastudios.cameraview.CameraOptions
-import com.otaliastudios.cameraview.VideoResult
-import com.otaliastudios.cameraview.controls.Audio
-import com.otaliastudios.cameraview.controls.Facing
-import com.otaliastudios.cameraview.controls.Mode
+import com.otaliastudios.cameraview.*
+import com.otaliastudios.cameraview.controls.*
+import com.otaliastudios.cameraview.size.SizeSelectors
 import com.vincent.videocompressor.VideoCompress
 import kotlinx.android.synthetic.main.fragment_sign_video_record.*
 import java.io.File
@@ -39,10 +38,15 @@ class SignVideoRecord : AppCompatActivity() {
     compressionProgress.invisible()
     compressionProgress.progress = 0
 
+    innerVideoTextView.text = intent.getStringExtra("sentence")!!
+    innerVideoTextView.movementMethod = ScrollingMovementMethod()
+
     cameraView.setLifecycleOwner(this)
     cameraView.facing = Facing.FRONT
+//    cameraView.set() = VideoCodec.H_263
     cameraView.audio = Audio.ON;
     cameraView.mode = Mode.VIDEO
+    cameraView.setVideoSize(SizeSelectors.minWidth(720))
     cameraView.addCameraListener(object : CameraListener() {
       override fun onVideoTaken(video: VideoResult) {
         super.onVideoTaken(video)
@@ -86,13 +90,17 @@ class SignVideoRecord : AppCompatActivity() {
 //      override fun onVideoRecordingEnd() {
 //        super.onVideoRecordingEnd()
 //
-//        stopRecordButton.visible()
-//
 //      }
+      override fun onCameraError(exception: CameraException) {
+        super.onCameraError(exception)
+        innerVideoTextView.text = cameraView.videoSize.toString() + exception.stackTraceToString()
+
+//        Toast.makeText(applicationContext, exception.stackTraceToString(), Toast.LENGTH_LONG).show()
+      }
 
       override fun onVideoRecordingStart() {
         super.onVideoRecordingStart()
-
+        stopRecordButton.text = "Stop Recording"
         Toast.makeText(applicationContext, "Recording Started", Toast.LENGTH_SHORT).show()
 
       }
@@ -131,16 +139,15 @@ class SignVideoRecord : AppCompatActivity() {
   private fun handleStopRecordClick() {
     if (cameraView.isOpened && !cameraView.isTakingVideo){
       cameraView.takeVideo(File(scratch_video_file_path))
-      stopRecordButton.text = "Stop Recording"
 //      Toast.makeText(applicationContext, "Recording Started", Toast.LENGTH_SHORT).show()
-
     }
     else if (cameraView.isTakingVideo){
       cameraView.stopVideo()
+      stopRecordButton.text = "Start Recording"
+
 //      Toast.makeText(applicationContext, cameraView.videoSize.toString(), Toast.LENGTH_SHORT).show()
 //      Toast.makeText(applicationContext, "Recording Stopped", Toast.LENGTH_SHORT).show()
 //      stopRecordButton.gone()
-      stopRecordButton.text = "Start Recording"
     }
     else {
       Toast.makeText(applicationContext, "Not implemented", Toast.LENGTH_SHORT).show()

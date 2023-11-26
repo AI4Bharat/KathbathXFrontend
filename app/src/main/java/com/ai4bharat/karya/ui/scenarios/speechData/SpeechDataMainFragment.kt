@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -182,6 +183,7 @@ class SpeechDataMainFragment : BaseMTRendererFragment(R.layout.microtask_speech_
 
     viewModel.sentenceTvText.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { text ->
       sentenceTv.text = text
+      sentenceTv.movementMethod = ScrollingMovementMethod()
     }
 
     viewModel.recordSecondsTvText.observe(

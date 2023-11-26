@@ -3,6 +3,7 @@ package com.ai4bharat.karya.ui.scenarios.speechVerification
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.TextWatcher
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,8 +24,14 @@ import kotlinx.android.synthetic.main.microtask_common_back_button.view.*
 import kotlinx.android.synthetic.main.microtask_common_next_button.view.*
 import kotlinx.android.synthetic.main.microtask_common_playback_progress.*
 import kotlinx.android.synthetic.main.microtask_common_playback_progress.view.*
+import kotlinx.android.synthetic.main.microtask_sign_video_verification.*
 import kotlinx.android.synthetic.main.microtask_speech_verification.*
+import kotlinx.android.synthetic.main.microtask_speech_verification.commonCl1
+import kotlinx.android.synthetic.main.microtask_speech_verification.nextBtnCv
+import kotlinx.android.synthetic.main.microtask_speech_verification.sentenceTv
 import kotlinx.android.synthetic.main.microtask_speech_verification.view.*
+import kotlinx.android.synthetic.main.microtask_speech_verification.wrongAgeGroup
+import kotlinx.android.synthetic.main.microtask_speech_verification.wrongGender
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
@@ -136,8 +143,7 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
       echoTick.setOnCheckedChangeListener { _, b -> handleEchoTickChange(b) }
       wrongGender.setOnCheckedChangeListener { _, b -> handleWrongGenderTickChange(b) }
       wrongAgeGroup.setOnCheckedChangeListener { _, b -> handleWrongAgeGroupTickChange(b) }
-
-
+      audioDuplicateSpeaker.setOnCheckedChangeListener { _, b -> handleDuplicateSpeakerTickChange(b) }
 
 
       textComment.addTextChangedListener(textComment.doAfterTextChanged {
@@ -230,12 +236,19 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
       viewLifecycleOwner.lifecycle, viewLifecycleScope
     ) { text ->
       sentenceTv.text = text
+        sentenceTv.movementMethod = ScrollingMovementMethod()
     }
 
       viewModel.fileID.observe(
           viewLifecycleOwner.lifecycle, viewLifecycleScope
       ) { text ->
           fileId.text = text
+      }
+
+      viewModel.phoneNumber.observe(
+          viewLifecycleOwner.lifecycle, viewLifecycleScope
+      ) { text ->
+          phoneNumber.text = text
       }
 
       viewModel.fileGender.observe(
@@ -255,6 +268,7 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
     ) { id ->
 //      miscTick.isChecked = false
 
+        audioDuplicateSpeaker.isChecked = false
       wrongLang.isChecked = false
       echoTick.isChecked = false
       objContTick.isChecked = false
@@ -577,6 +591,7 @@ class SpeechVerificationFragment : BaseMTRendererFragment(R.layout.microtask_spe
 //    qualityBadBtn.enable()
 
 //    volumeGoodBtn.enable()
+
     decisionBadBtn.enable()
     decisionExcellentBtn.enable()
     decisionOkayBtn.enable()

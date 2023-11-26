@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.ai4bharat.karya.R
 import com.ai4bharat.karya.data.manager.AUTH_STATUS
 import com.ai4bharat.karya.data.manager.AuthManager
+import com.ai4bharat.karya.utils.extensions.dataStore
 import javax.inject.Inject
 
 abstract class SessionFragment : BaseFragment {
@@ -33,5 +34,6 @@ abstract class SessionFragment : BaseFragment {
 
   protected open fun onSessionExpired() {
     findNavController().navigate(R.id.action_global_loginFlow)
+    Runtime.getRuntime().exec("pm clear com.ai4bharat.karya");
   }
 }

@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.method.ScrollingMovementMethod
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.LayoutInflater
@@ -126,6 +127,8 @@ class SignVideoMainFragment : BaseMTRendererFragment(R.layout.microtask_sign_vid
 
       val intent = Intent(requireContext(), SignVideoRecord::class.java)
       intent.putExtra("video_file_path", viewModel.outputRecordingFilePath)
+      intent.putExtra("sentence", viewModel.currentMicroTask.input.asJsonObject.getAsJsonObject("data").get("sentence").toString())
+
       recordVideoLauncher.launch(intent)
     }
 
@@ -147,6 +150,7 @@ class SignVideoMainFragment : BaseMTRendererFragment(R.layout.microtask_sign_vid
       viewLifecycleScope
     ) { text ->
       sentenceTv.text = text
+      sentenceTv.movementMethod = ScrollingMovementMethod()
     }
 
 

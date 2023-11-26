@@ -24,9 +24,9 @@ abstract class BaseFeedbackRendererFragment(@LayoutRes contentLayoutId: Int) :
   }
 
   /** Function to return the set of permission needed for the task */
-  open fun requiredPermissions(): Array<String> {
-    return arrayOf()
-  }
+//  open fun requiredPermissions(): Array<String> {
+//    return arrayOf()
+//  }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)

@@ -7,15 +7,19 @@
 
     <include
         android:id="@+id/microtaskTb"
-        layout="@layout/microtask_common_header" />
+        layout="@layout/microtask_common_header"
+        />
 
     <TextView
         android:id="@+id/instructionTv"
         style="@style/MicrotaskInstructionText"
+        android:padding="0dp"
+        android:layout_margin="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/microtaskTb"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:text="@string/speech_recording_instruction" />
+
 
     <LinearLayout
         android:id="@+id/fileInfo"
@@ -34,7 +38,7 @@
             android:id="@+id/videofileId"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            tools:text="FID: XXXXXXXXXXX"
+            tools:text="F: XXXXX"
             android:background="#80FF5722"
             style="@style/fileInfoStyle"
             android:textColor="@color/c_black"
@@ -48,7 +52,7 @@
             style="@style/fileInfoStyle"
             android:background="#80FF5722"
             android:textColor="@color/c_black"
-            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_2sdp"
             />
 
         <TextView
@@ -59,7 +63,18 @@
             style="@style/fileInfoStyle"
             android:background="#80FF5722"
             android:textColor="@color/c_black"
-            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_2sdp"
+            />
+
+        <TextView
+            android:id="@+id/videoPhoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            tools:text="P: XXXXXXXXXX"
+            android:background="#80FF5722"
+            style="@style/fileInfoStyle"
+            android:textColor="@color/c_black"
+            android:layout_marginStart="@dimen/_2sdp"
             />
 
 
@@ -70,6 +85,7 @@
         style="@style/MicrotaskInputFrame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:padding="3dp"
         app:layout_constraintBottom_toTopOf="@id/videoPlayer"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fileInfo">
@@ -79,6 +95,7 @@
             style="@style/MicrotaskInputText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scrollbars="vertical"
             tools:text="This is a sentence to be recorded" />
 
     </FrameLayout>

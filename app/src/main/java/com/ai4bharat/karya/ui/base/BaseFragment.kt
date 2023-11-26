@@ -1,10 +1,12 @@
 package com.ai4bharat.karya.ui.base
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.ai4bharat.karya.R
 import com.ai4bharat.karya.data.exceptions.KaryaException
@@ -13,6 +15,7 @@ import com.ai4bharat.karya.ui.assistant.AssistantFactory
 import com.ai4bharat.karya.data.manager.AuthManager
 import com.ai4bharat.karya.data.model.karya.enums.LanguageType
 import com.ai4bharat.karya.data.repo.WorkerRepository
+import com.ai4bharat.karya.ui.scenarios.common.BaseMTRendererFragment
 import com.ai4bharat.karya.ui.views.KaryaToolbar
 import com.ai4bharat.karya.utils.extensions.finish
 import kotlinx.coroutines.CoroutineScope
@@ -35,6 +38,14 @@ abstract class BaseFragment : Fragment {
   lateinit var assistantFactory: AssistantFactory
   lateinit var assistant: Assistant
 
+  companion object {
+    /** Code to request necessary permissions */
+    private const val REQUEST_PERMISSIONS = 202
+
+    // Flag to indicate if app has all permissions
+    private var hasAllPermissions: Boolean = true
+  }
+
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
@@ -44,10 +55,32 @@ abstract class BaseFragment : Fragment {
     return super.onCreateView(inflater, container, savedInstanceState)
   }
 
+  open fun requiredPermissions(): Array<String> {
+    return arrayOf()
+  }
+
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    val toolbar = this.view?.findViewById<KaryaToolbar>(R.id.appTb)
-    toolbar?.setLanguageUpdater { l -> updateUserLanguage(l) }
+
+    val permissions = requiredPermissions()
+    if (permissions.isNotEmpty()) {
+      for (permission in permissions) {
+        if (ContextCompat.checkSelfPermission(
+            requireContext(),
+            permission
+          ) != PackageManager.PERMISSION_GRANTED
+        ) {
+          hasAllPermissions = false
+          requestPermissions(permissions, REQUEST_PERMISSIONS)
+          break
+        }
+      }
+    }
+
+    if (hasAllPermissions) {
+      val toolbar = this.view?.findViewById<KaryaToolbar>(R.id.appTb)
+      toolbar?.setLanguageUpdater { l -> updateUserLanguage(l) }
+    }
   }
 
   /**

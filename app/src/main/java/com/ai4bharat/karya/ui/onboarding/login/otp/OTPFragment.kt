@@ -2,6 +2,7 @@ package com.ai4bharat.karya.ui.onboarding.login.otp
 
 import android.Manifest
 import android.R.attr.thumbnail
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
@@ -9,6 +10,9 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.Geocoder
+import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -26,11 +30,21 @@ import com.ai4bharat.karya.R
 import com.ai4bharat.karya.data.model.karya.enums.AssistantAudio
 import com.ai4bharat.karya.databinding.FragmentOtpBinding
 import com.ai4bharat.karya.ui.Destination
+import com.ai4bharat.karya.ui.MainActivity
 import com.ai4bharat.karya.ui.base.BaseFragment
 import com.ai4bharat.karya.utils.extensions.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.CancellationToken
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.OnTokenCanceledListener
+import com.google.gson.JsonObject
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_otp.*
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.util.*
 
 
 private const val OTP_LENGTH = 6
@@ -40,6 +54,9 @@ class OTPFragment : BaseFragment(R.layout.fragment_otp) {
 
   private val binding by viewBinding(FragmentOtpBinding::bind)
   private val viewModel by viewModels<OTPViewModel>()
+  private lateinit var fusedLocationClient: FusedLocationProviderClient
+  private lateinit var geoCoder: Geocoder
+
 
   private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){ isGranted: Boolean ->
     if (isGranted) {
@@ -87,49 +104,118 @@ class OTPFragment : BaseFragment(R.layout.fragment_otp) {
 //    }
 //
 //  }
+  override fun requiredPermissions(): Array<String> {
+    return arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
+  }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     setupView()
     observeUi()
     observeEffects()
-
-
+    fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+    geoCoder = Geocoder(context!!, Locale.getDefault())
   }
+
 
   override fun onResume() {
     super.onResume()
     assistant.playAssistantAudio(AssistantAudio.OTP_PROMPT)
+    otpEt.disable()
+    numPad.gone()
+    hideKeyboard()
+    showError("Trying to fetch the location....")
+    fusedLocationClient.getCurrentLocation(
+      LocationRequest.PRIORITY_HIGH_ACCURACY,
+      object : CancellationToken() {
+        override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
+        override fun isCancellationRequested() = false
+      })
+      .addOnSuccessListener { location: Location? ->
+        if (location == null) {
+          showError("Fetching location failed.\nPlease close and open the application and ensure your location is turned on and permissions have been given")
+        }
+        else {
+          otpEt.enable()
+          numPad.visible()
+
+          var extraLocation = JsonObject()
+          extraLocation.addProperty("latitude",location.latitude.toString())
+          extraLocation.addProperty("longitude",location.longitude.toString())
+
+          val addresses = geoCoder.getFromLocation(
+            location.latitude,
+            location.longitude,
+            1
+          )
+
+          if (addresses != null && addresses.isNotEmpty()) {
+            val addressObj = addresses[0]
+            val address: String = addressObj.getAddressLine(0)
+            extraLocation.addProperty("google_location",addressObj.toString())
+          }
+
+          viewModel.extraLocation = extraLocation
+          showError("")
+        }
+      }
   }
 
 
   //Check for camera permissions
-  private fun checkCameraPermission() {
-    when {
-      ContextCompat.checkSelfPermission(
-        requireContext(),
-        Manifest.permission.CAMERA
-      ) == PackageManager.PERMISSION_GRANTED -> {
+//  private fun checkCameraPermission() {
+//    when {
+//      ContextCompat.checkSelfPermission(
+//        requireContext(),
+//        Manifest.permission.CAMERA
+//      ) == PackageManager.PERMISSION_GRANTED -> {
+//
+//      }
+//
+//      ActivityCompat.shouldShowRequestPermissionRationale(
+//        requireActivity(),
+//        Manifest.permission.CAMERA
+//      ) -> {
+//        requestPermissionLauncher.launch(
+//          Manifest.permission.CAMERA
+//        )
+//      }
+//
+//      else -> {
+//        requestPermissionLauncher.launch(
+//          Manifest.permission.CAMERA
+//        )
+//
+//      }
+//    }
+//  }
 
-      }
-
-      ActivityCompat.shouldShowRequestPermissionRationale(
-        requireActivity(),
-        Manifest.permission.CAMERA
-      ) -> {
-        requestPermissionLauncher.launch(
-          Manifest.permission.CAMERA
-        )
-      }
-
-      else -> {
-        requestPermissionLauncher.launch(
-          Manifest.permission.CAMERA
-        )
-
-      }
-    }
-  }
+//  private fun checkLocationPermission() {
+//    when {
+//      ContextCompat.checkSelfPermission(
+//        requireContext(),
+//        Manifest.permission.ACCESS_FINE_LOCATION
+//      ) == PackageManager.PERMISSION_GRANTED -> {
+//
+//      }
+//
+//      ActivityCompat.shouldShowRequestPermissionRationale(
+//        requireActivity(),
+//        Manifest.permission.ACCESS_FINE_LOCATION
+//      ) -> {
+//        requestPermissionLauncher.launch(
+//          Manifest.permission.ACCESS_FINE_LOCATION
+//        )
+//      }
+//
+//      else -> {
+//        requestPermissionLauncher.launch(
+//          Manifest.permission.ACCESS_FINE_LOCATION
+//        )
+//
+//      }
+//    }
+//  }
 
   private fun setupView() {
     viewModel.retrievePhoneNumber()

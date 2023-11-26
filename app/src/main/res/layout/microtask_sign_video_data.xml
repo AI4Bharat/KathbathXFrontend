@@ -20,7 +20,7 @@
         android:id="@+id/inputFrame"
         style="@style/MicrotaskInputFrame"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_58sdp"
+        android:layout_height="@dimen/_150sdp"
         app:layout_constraintBottom_toTopOf="@id/videoPlayer"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/instructionTv">
@@ -30,7 +30,9 @@
             style="@style/MicrotaskInputText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:text="Enter a sentence" />
+            tools:text="Enter a sentence"
+            android:scrollbars="vertical"
+            />
 
     </FrameLayout>
 
@@ -57,12 +59,14 @@
         android:id="@+id/videoPlayer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/_8sdp"
+        android:layout_margin="@dimen/_1sdp"
         app:andexo_show_controller="false"
 
         app:layout_constraintBottom_toTopOf="@id/buttonGroup"
-        app:layout_constraintHeight_percent="0.55"
-        app:layout_constraintTop_toBottomOf="@+id/inputFrame"/>
+        app:layout_constraintTop_toBottomOf="@+id/inputFrame"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        />
 
 <!--    <WebView-->
 <!--        android:id="@+id/hintVideoPlayer"-->
@@ -77,24 +81,26 @@
         android:id="@+id/videoPlayerPlaceHolder"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/_8sdp"
+        android:layout_margin="@dimen/_1sdp"
         android:background="#000"
         android:gravity="center"
         android:text="Video preview will appear here"
         android:textColor="#FFF"
         app:layout_constraintBottom_toTopOf="@id/buttonGroup"
-        app:layout_constraintHeight_percent="0.55"
-        app:layout_constraintTop_toBottomOf="@+id/inputFrame" />
+        app:layout_constraintTop_toBottomOf="@+id/inputFrame"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/buttonGroup"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_0sdp"
+        android:layout_height="@dimen/_50sdp"
         android:clipToPadding="false"
-        android:paddingVertical="@dimen/_8sdp"
+        android:paddingVertical="@dimen/_6sdp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintLeft_toLeftOf="parent">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/videoPlayer">
 
         <include
             android:id="@+id/backBtn"
@@ -111,10 +117,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="START RECORDING"
+            android:layout_margin="0dp"
             app:layout_constraintEnd_toStartOf="@+id/nextBtnCv"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/backBtn"
-            tools:layout_editor_absoluteY="0dp" />
+            />
 
         <include
             android:id="@+id/nextBtnCv"

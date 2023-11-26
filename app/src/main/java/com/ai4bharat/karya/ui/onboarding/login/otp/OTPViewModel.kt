@@ -2,21 +2,33 @@
 
 package com.ai4bharat.karya.ui.onboarding.login.otp
 
+import android.location.Location
+import android.location.LocationManager
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ai4bharat.karya.BuildConfig
 import com.ai4bharat.karya.data.manager.AuthManager
 import com.ai4bharat.karya.data.model.karya.WorkerRecord
 import com.ai4bharat.karya.data.remote.request.RegisterOrUpdateWorkerRequest
 import com.ai4bharat.karya.data.repo.WorkerRepository
 import com.ai4bharat.karya.ui.Destination
-import com.google.gson.JsonElement
-import com.google.gson.JsonParser
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.gson.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import org.json.JSONObject
+import org.json.JSONStringer
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 import javax.inject.Inject
+import kotlin.reflect.typeOf
 
 @HiltViewModel
 class OTPViewModel
@@ -36,6 +48,9 @@ constructor(
   var phoneNumber = _phoneNumber.asSharedFlow()
 
   var consent_form:String = ""
+
+  lateinit var extraLocation:JsonObject
+  private val KARYA_KEY = "KaryaExtrasDC"
   /**
    * Get the phone number of the worker to replace in the text.
    */
@@ -62,33 +77,79 @@ constructor(
     }
   }
 
+  private fun getFreshExtras(): JsonArray {
+    val phone = JsonObject()
+    phone.addProperty("manufacturer",Build.MANUFACTURER)
+    phone.addProperty("model",Build.MODEL)
+    phone.addProperty("product",Build.PRODUCT)
+    phone.addProperty("app_version", BuildConfig.VERSION_CODE.toString())
+
+    val extrasElement = JsonObject()
+    extrasElement.add("location",extraLocation)
+    extrasElement.add("phone",phone)
+    extrasElement.addProperty("date",LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+    ).toString())
+
+    val extrasArray = JsonArray()
+    extrasArray.add(extrasElement)
+
+//    Log.e("EXTRASARRAY",extrasArray.toString())
+//    val extrasKarya = JsonObject()
+//    extrasKarya.add("karya",extrasArray)
+    return extrasArray
+  }
+
   fun verifyOTP(otp: String) {
     viewModelScope.launch {
       _otpUiState.value = OTPUiState.Loading
-
       // We updated the worker phone number during first otp call, let's reuse that
       val worker = authManager.getLoggedInWorker()
       checkNotNull(worker.phoneNumber)
 
+      val extrasRaw = getFreshExtras()
       workerRepository
         .verifyOTP(accessCode = worker.accessCode, phoneNumber = worker.phoneNumber, otp)
         .onEach { worker ->
-          val extras = JsonParser.parseString("{\"phone_details\":{\"manufacturer\":\"" + Build.MANUFACTURER + "\",\"model\":\"" + Build.MODEL + "\",\"product\":\"" + Build.PRODUCT + "\"}," +
-                  "\"consent_details\":\""+ consent_form +"\"}");
+          val oldExtras = worker.extras
+
+          if (!oldExtras!!.isJsonNull) {
+            if ((oldExtras as JsonObject).keySet().contains(KARYA_KEY)) {
+                extrasRaw.addAll(oldExtras[KARYA_KEY] as JsonArray)
+//              extrasRaw.addAll(Gson().fromJson(Json.parseToJsonElement(oldExtras.asJsonObject.get(
+//                KARYA_KEY).asString).jsonArray.toString(), JsonArray::class.java))
+//              Log.e("ONE",Gson().fromJson(Json.parseToJsonElement(oldExtras.asJsonObject.get(
+//                KARYA_KEY).asString).jsonArray.toString(), JsonArray::class.java).toString())
+            }
+            else {
+              extrasRaw.add(oldExtras as JsonObject)
+//              extrasRaw.add(Gson().fromJson(Json.parseToJsonElement(oldExtras.asJsonObject.toString()).jsonObject.toString(),
+//                JsonObject::class.java))
+//              Log.e("ONE",Gson().fromJson(Json.parseToJsonElement(oldExtras.asJsonObject.toString()).jsonObject.toString(),
+//                JsonObject::class.java).toString())
+            }
+          }
+          val extras = JsonObject()
+//          Log.e("ONE",Gson().toJson(extrasRaw).toString())
+//          extras.addProperty(KARYA_KEY,Gson().toJson(extrasRaw))
+          extras.add(KARYA_KEY,extrasRaw)
           val updatedWorker = worker.copy(extras = extras, isConsentProvided = true)
-          workerRepository.updateWorker(worker.idToken.toString(),"update",RegisterOrUpdateWorkerRequest(extras))
+
+          workerRepository.updateWorker(
+            worker.idToken.toString(),"update",RegisterOrUpdateWorkerRequest(extras)
+            )
             .catch { throwable -> Log.e("TRYING_UPDATE",throwable.toString()) }
             .collect {
                 worker -> workerRepository.upsertWorker(updatedWorker)
-
             }
-//          workerRepository.upsertWorker(updatedWorker)
+          workerRepository.upsertWorker(updatedWorker)
           authManager.startSession(worker.copy(isConsentProvided = true))
+
           _otpUiState.value = OTPUiState.Success
 
           handleNavigation(worker)
         }
-        .catch { throwable -> _otpUiState.value = OTPUiState.Error(throwable) }
+        .catch {
+            throwable -> _otpUiState.value = OTPUiState.Error(throwable) }
         .collect()
     }
   }

@@ -15,6 +15,7 @@ import com.ai4bharat.karya.data.remote.request.UploadFileRequest
 import com.ai4bharat.karya.data.repo.AssignmentRepository
 import com.ai4bharat.karya.data.repo.KaryaFileRepository
 import com.ai4bharat.karya.data.repo.MicroTaskRepository
+import com.ai4bharat.karya.data.repo.TaskRepository
 import com.ai4bharat.karya.injection.qualifier.FilesDir
 import com.ai4bharat.karya.utils.DateUtils
 import com.ai4bharat.karya.utils.FileUtils
@@ -46,7 +47,6 @@ class DashboardSyncWorker(
 
   private val microtaskOutputContainer = MicrotaskAssignmentOutput(fileDirPath)
   private val microtaskInputContainer = MicrotaskInput(fileDirPath)
-
   private var warningMsg: String? = null
 
   /**
@@ -119,6 +119,7 @@ class DashboardSyncWorker(
     // Clean up karya files. This should never result in an error
     cleanupKaryaFiles()
     setProgressAsync(Data.Builder().putInt("progress", MAX_CLEANUP_PROGRESS).build())
+
   }
 
   /** Upload the files of completed assignments */

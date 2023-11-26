@@ -158,6 +158,27 @@ class WorkerRepository @Inject constructor(
       error("Request failed, response body was null")
     }
   }
+  fun disableWorker(
+    idToken: String,
+    accessCode: String,
+    registerOrUpdateWorkerRequest: RegisterOrUpdateWorkerRequest,
+  ) = flow {
+    val response = workerAPI.updateWorker(idToken, registerOrUpdateWorkerRequest, "disable")
+    val workerRecord = response.body()
+
+    if (!response.isSuccessful) {
+      throw when (response.code()) {
+        401 -> InvalidAccessCodeException()
+        else -> KaryaException()
+      }
+    }
+
+    if (workerRecord != null) {
+      emit(workerRecord)
+    } else {
+      error("Request failed, response body was null")
+    }
+  }
 
   fun updateWorker(
     idToken: String,

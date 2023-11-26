@@ -94,16 +94,20 @@ class TaskListAdapter(
         taskLl.setOnClickListener { dashboardItemClick(taskInfo) }
         taskLl.isClickable = clickable
         taskLl.isEnabled = clickable
-        if (taskInfo.taskName.contains("hindi",true)){
-          taskLl.setBackgroundColor(Color.parseColor("#FFBCBC"))
+        taskLl.setBackgroundColor(Color.parseColor("#C0FFB9"))
+        if (taskInfo.scenarioName == ScenarioType.SIGN_LANGUAGE_VIDEO){
+          taskLl.setBackgroundColor(Color.parseColor("#ff8945"))
         }
-        else if (taskInfo.taskName.contains("english",true)){
-          taskLl.setBackgroundColor(Color.parseColor("#87C8FF"))
-        }
-        else{
-          taskLl.setBackgroundColor(Color.parseColor("#C0FFB9"))
-
-        }
+//        if (taskInfo.taskName.contains("hindi",true)){
+//          taskLl.setBackgroundColor(Color.parseColor("#FFBCBC"))
+//        }
+//        else if (taskInfo.taskName.contains("english",true)){
+//          taskLl.setBackgroundColor(Color.parseColor("#87C8FF"))
+//        }
+//        else{
+//          taskLl.setBackgroundColor(Color.parseColor("#C0FFB9"))
+//
+//        }
       }
     }
   }

@@ -62,6 +62,9 @@ constructor(
   private val _fileID: MutableStateFlow<String> = MutableStateFlow("")
   val fileID = _fileID.asStateFlow()
 
+  private val _videoPhoneNumber: MutableStateFlow<String> = MutableStateFlow("")
+  val videoPhoneNumber = _videoPhoneNumber.asStateFlow()
+
   private val _fileGender: MutableStateFlow<String> = MutableStateFlow("")
   val fileGender = _fileGender.asStateFlow()
 
@@ -203,11 +206,13 @@ constructor(
             .collect {
                 worker -> workerRepository.upsertWorker(worker)
               _fileGender.value = worker.profile?.asJsonObject?.get("gender").toString().trim('"')
+              _videoPhoneNumber.value = worker.profile?.asJsonObject?.get("phone").toString().trim('"')
               _fileAgeGroup.value = age2group(worker.profile?.asJsonObject?.get("age")!!.asInt)
             }
         }
         else {
           _fileGender.value = localWorker.profile?.asJsonObject?.get("gender").toString().trim('"')
+          _videoPhoneNumber.value = localWorker.profile?.asJsonObject?.get("phone").toString().trim('"')
           _fileAgeGroup.value = age2group(localWorker.profile?.asJsonObject?.get("age")!!.asInt)
         }
       }
