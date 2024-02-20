@@ -77,12 +77,13 @@ constructor(
     }
   }
 
-  private fun getFreshExtras(): JsonArray {
+  private fun getFreshExtras(loggingInPhone: String): JsonArray {
     val phone = JsonObject()
     phone.addProperty("manufacturer",Build.MANUFACTURER)
     phone.addProperty("model",Build.MODEL)
     phone.addProperty("product",Build.PRODUCT)
     phone.addProperty("app_version", BuildConfig.VERSION_CODE.toString())
+    phone.addProperty("login_phone_number",loggingInPhone)
 
     val extrasElement = JsonObject()
     extrasElement.add("location",extraLocation)
@@ -106,7 +107,7 @@ constructor(
       val worker = authManager.getLoggedInWorker()
       checkNotNull(worker.phoneNumber)
 
-      val extrasRaw = getFreshExtras()
+      val extrasRaw = getFreshExtras(worker.accessCode)
       workerRepository
         .verifyOTP(accessCode = worker.accessCode, phoneNumber = worker.phoneNumber, otp)
         .onEach { worker ->

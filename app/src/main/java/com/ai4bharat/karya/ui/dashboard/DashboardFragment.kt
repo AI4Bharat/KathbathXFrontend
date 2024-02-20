@@ -7,6 +7,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.size
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +30,7 @@ import com.ai4bharat.karya.ui.Destination
 import com.ai4bharat.karya.ui.MainActivity
 import com.google.gson.JsonElement
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -60,6 +64,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
     setupViews()
     setupWorkRequests()
     observeUi()
+
   }
 
   private fun observeUi() {
@@ -157,6 +162,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
       binding.syncCv.setOnClickListener { syncWithServer() }
 
       loadProfilePic()
+//      loadPhone()
     }
 
   }
@@ -211,18 +217,24 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
         binding.rupeesEarnedCl.gone()
       }
 
-      if (videoTask > 0){
-        runBlocking {
-          val loggedInWorker = authManager.getLoggedInWorker()
-          workerRepositoryBase.disableWorker(
-            loggedInWorker.idToken.toString(),"disable", RegisterOrUpdateWorkerRequest(loggedInWorker.extras!!))
-            .catch { throwable -> Log.e("DISABLING FAILED",throwable.toString()) }
-            .collect {
+
+    }
+
+    if (videoTask > 0){
+      runBlocking {
+        val loggedInWorker = authManager.getLoggedInWorker()
+        workerRepositoryBase.disableWorker(
+          loggedInWorker.idToken.toString(),"disable", RegisterOrUpdateWorkerRequest(loggedInWorker.extras!!))
+          .catch { throwable -> Log.e("DISABLING FAILED",throwable.toString()) }
+          .collect {
               worker -> workerRepositoryBase.upsertWorker(worker)
-            }
-        }
-        authManager.expireSession()
+              Toast.makeText(context, "You have been logged out, Thanks!.", Toast.LENGTH_SHORT).show()
+//              authManager.expireSession()
+//              authManager.expireSession()
+          }
+          workerRepositoryBase.upsertWorker(loggedInWorker)
       }
+//        authManager.expireSession()
     }
 
     // expire the worker so that he is not able to submit any more tasks
@@ -300,6 +312,13 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 
   private fun hideLoading() = binding.syncProgressBar.gone()
 
+//  private fun loadPhone(){
+//    lifecycleScope.launchWhenStarted {
+//      withContext(Dispatchers.IO) {
+//        binding.appTb.setTitle("Dashboard | ${authManager.getLoggedInWorker().accessCode.toString()}")
+//      }
+//    }
+//  }
   private fun loadProfilePic() {
     binding.appTb.showProfilePicture()
 

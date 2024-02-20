@@ -21,6 +21,7 @@ import com.ai4bharat.karya.utils.extensions.finish
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 abstract class BaseFragment : Fragment {
@@ -80,6 +81,10 @@ abstract class BaseFragment : Fragment {
     if (hasAllPermissions) {
       val toolbar = this.view?.findViewById<KaryaToolbar>(R.id.appTb)
       toolbar?.setLanguageUpdater { l -> updateUserLanguage(l) }
+      runBlocking {
+        toolbar?.setTitle(authManagerBase.getLoggedInWorker().accessCode)
+      }
+
     }
   }
 

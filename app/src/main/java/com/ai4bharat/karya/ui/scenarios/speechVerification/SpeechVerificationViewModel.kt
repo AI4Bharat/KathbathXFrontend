@@ -316,7 +316,12 @@ constructor(
       viewModelScope.launch {
         val localWorker1 = workerRepository.getWorkerByAccessCode(wid1)
         val localWorker2 = workerRepository.getWorkerByAccessCode(wid2)
-        if (localWorker1 == null || localWorker2 == null) {
+        if (localWorker1 != null){
+          _fileGender.value = localWorker1.profile?.asJsonObject?.get("gender").toString().trim('"')
+          _phoneNumber.value = localWorker1.profile?.asJsonObject?.get("phone").toString().trim('"')
+          _fileAgeGroup.value = age2group(localWorker1.profile?.asJsonObject?.get("age")!!.asInt)
+        }
+        else{
           workerRepository.getWorkerFromBox(wid1)
             .catch { throwable -> Log.e("TRYING TO FETCH", throwable.toString()) }
             .collect { worker ->
@@ -324,8 +329,14 @@ constructor(
               _fileGender.value = worker.profile?.asJsonObject?.get("gender").toString().trim('"')
               _phoneNumber.value = worker.profile?.asJsonObject?.get("phone").toString().trim('"')
               _fileAgeGroup.value = age2group(worker.profile?.asJsonObject?.get("age")!!.asInt)
-
             }
+        }
+        if (localWorker2 != null) {
+          _fileGender.value += ", " + localWorker2.profile?.asJsonObject?.get("gender").toString().trim('"')
+          _phoneNumber.value += ", " + localWorker2.profile?.asJsonObject?.get("phone").toString().trim('"')
+          _fileAgeGroup.value += ", " + age2group(localWorker2.profile?.asJsonObject?.get("age")!!.asInt)
+        }
+        else{
           workerRepository.getWorkerFromBox(wid2)
             .catch { throwable -> Log.e("TRYING TO FETCH", throwable.toString()) }
             .collect { worker ->
@@ -334,16 +345,6 @@ constructor(
               _phoneNumber.value += ", " + worker.profile?.asJsonObject?.get("phone").toString().trim('"')
               _fileAgeGroup.value += ", " + age2group(worker.profile?.asJsonObject?.get("age")!!.asInt)
             }
-        }
-        else{
-          _fileGender.value = localWorker1.profile?.asJsonObject?.get("gender").toString().trim('"')
-          _phoneNumber.value = localWorker1.profile?.asJsonObject?.get("phone").toString().trim('"')
-          _fileAgeGroup.value = age2group(localWorker1.profile?.asJsonObject?.get("age")!!.asInt)
-
-          _fileGender.value += ", " + localWorker2.profile?.asJsonObject?.get("gender").toString().trim('"')
-          _phoneNumber.value += ", " + localWorker2.profile?.asJsonObject?.get("phone").toString().trim('"')
-          _fileAgeGroup.value += ", " + age2group(localWorker2.profile?.asJsonObject?.get("age")!!.asInt)
-
         }
       }
     }
@@ -659,7 +660,7 @@ constructor(
       wrong_gender = false
       wrong_age_group = false
       duplicate_speaker = false
-//      bad_extempore_quality = false
+      bad_extempore_quality = false
 //      bad_read_quality = false
       comments = "excellent"
     }

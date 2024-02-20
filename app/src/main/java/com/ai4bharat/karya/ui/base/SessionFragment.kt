@@ -1,5 +1,6 @@
 package com.ai4bharat.karya.ui.base
 
+import android.app.ActivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +34,7 @@ abstract class SessionFragment : BaseFragment {
   }
 
   protected open fun onSessionExpired() {
-    findNavController().navigate(R.id.action_global_loginFlow)
+//    findNavController().navigate(R.id.action_global_loginFlow)
     Runtime.getRuntime().exec("pm clear com.ai4bharat.karya");
   }
 }

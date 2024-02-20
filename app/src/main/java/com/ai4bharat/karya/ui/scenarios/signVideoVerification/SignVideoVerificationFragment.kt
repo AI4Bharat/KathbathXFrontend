@@ -194,7 +194,7 @@ class SignVideoVerificationFragment :
         viewModel.duplicateWorker = duplicateSpeaker.isChecked
         viewModel.remarks = feedbackEt.text.toString()
 
-        if (viewModel.wrongGender || viewModel.wrongAgeGroup || viewModel.duplicateWorker){
+        if (viewModel.wrongGender || viewModel.wrongAgeGroup || viewModel.duplicateWorker || viewModel.remarks.isNotEmpty()){
           viewModel.handleNextClick()
           resetUI()
         }

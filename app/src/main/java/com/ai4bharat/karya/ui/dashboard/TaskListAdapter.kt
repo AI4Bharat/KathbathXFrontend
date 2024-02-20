@@ -60,6 +60,7 @@ class TaskListAdapter(
       val assigned = status.assignedMicrotasks
       val skipped = status.skippedMicrotasks
       val expired = status.expiredMicrotasks
+
       val totalDuration = String.format("%.2f", (status.totalDuration/60))
       val clickable = (assigned + skipped) > 0
 

@@ -694,8 +694,8 @@ constructor(
     message.addProperty("from", activityState.toString())
     message.addProperty("to", targetState.toString())
     log(message)
-
-    // Switch states
+//    Log.d("TRANSITION", "$activityState->$targetState")
+    // Switch statess
     previousActivityState = activityState
     activityState = targetState
 
@@ -986,6 +986,7 @@ constructor(
       ActivityState.ASSISTANT_PLAYING,
       -> {
         resetMicrotask()
+        setActivityState(ActivityState.INIT)
       }
 
       /** If recorded, then move to first playback */
