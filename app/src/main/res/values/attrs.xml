@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App-specific theme attributes -->
+    <attr name="buttonPrimaryColor" format="color" />
+    <attr name="buttonContrastColor" format="color" />
+
+    <!-- Edit text -->
+    <attr name="editTextBorder" format="color" />
+
+    <!-- Numeric key pad -->
+    <attr name="numPadBackgroundColor" format="color" />
+    <attr name="numPadTextColor" format="color" />
+
+    <!-- Text views -->
+    <attr name="multiLineTextColor" format="color" />
+
+    <!-- Dashboard colors -->
+    <attr name="taskAvailableColor" format="color" />
+    <attr name="taskCompletedColor" format="color" />
+    <attr name="taskSubmittedColor" format="color" />
+    <attr name="taskVerifiedColor" format="color" />
+    <attr name="taskSkippedColor" format="color" />
+    <attr name="taskExpiredColor" format="color" />
+
+    <!-- Microtask instruction -->
+    <attr name="microtaskInstructionBackgroundColor" format="color" />
+    <attr name="microtaskInstructionTextColor" format="color" />
+
+    <!-- Microtask input -->
+    <attr name="microtaskInputBackgroundColor" format="color" />
+
+    <!-- Microtask input text box -->
+    <attr name="microtaskInputTextBackgroundColor" format="color" />
+    <attr name="microtaskInputTextBorderColor" format="color" />
+    <attr name="microtaskInputTextColor" format="color" />
+
+    <!-- Microtask output interaction -->
+    <attr name="microtaskOutputInteractionBackgroundColor" format="color" />
+
+    <!-- Other Styleables -->
+    <declare-styleable name="OutlineTextView">
+        <attr name="outlineSize" format="dimension" />
+        <attr name="outlineColor" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="NGKaryaToolbar">
+        <attr name="backgroundTint" format="color|reference" />
+        <attr name="cutoutMargin" format="dimension" />
+        <attr name="cutoutRoundedCornerRadius" format="dimension" />
+        <attr name="cutoutVerticalOffset" format="dimension" />
+        <attr name="elevation" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="KaryaToolbar">
+        <attr name="hideLanguage" format="boolean" />
+        <attr name="titleText" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="GenderCard">
+        <attr name="title" format="string|reference" />
+        <attr name="icon" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="NumPad">
+        <attr name="field" format="reference" />
+        <attr name="maxLength" format="integer" />
+    </declare-styleable>
+</resources>

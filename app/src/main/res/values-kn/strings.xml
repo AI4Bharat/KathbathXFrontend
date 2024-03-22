@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>      
+    <string name="language_name">ಕನ್ನಡ</string>
+    <string name="unknown_error">ಕೆಲವು ತಿಳಿಯದಿರುವ ತಪ್ಪು ಕಂಡು ಬಂದಿದೆ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸಂಯೋಜಕರನ್ನು ಸಂಪರ್ಕಿಸಿ. </string>
+    <string name="consent_form_title">ಧೃಡೀಕರಣ ನಮೂನೆ. </string>
+    <string name="consent_form_agree">ಸಮ್ಮತಿ</string>
+    <string name="consent_form_disagree">ನಾನು ಭಾಗವಹಿಸಲು ಬಯಸುವುದಿಲ್ಲ</string>
+    <string name="phone_number_title">ದೂರವಾಣಿ ಸಂಖ್ಯೆ</string>
+    <string name="phone_number_prompt">ದಯವಿಟ್ಟು ನಿಮ್ಮ ದೂರವಾಣಿ ಸಂಖ್ಯೆಯನ್ನು ʼಕಾರ್ಯʼದಲ್ಲಿ ದಾಖಲಿಸಿ.</string>
+    <string name="unable_to_generate_otp">ನಾವು ಈ ದೂರವಾಣಿ ಸಂಖ್ಯೆಗೆ ಸೂಕ್ತ ಓ.ಟಿ.ಪಿ ಯನ್ನು ನೀಡಲಾಗುತ್ತಿಲ್ಲ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸಂಖ್ಯೆಯನ್ನು ಪರೀಕ್ಷಿಸಿ ಅಥವಾ ನಂತರ ಪ್ರಯತ್ನಿಸಿ</string>
+    <string name="access_code_already_used">ಪ್ರವೇಶ ಸಂಕೇತವನ್ನು ಈಗಾಗಲೇ ಅನ್ಯ ದೂರವಾಣಿ ಸಂಖ್ಯೆಗೆ ನೀಡಲಾಗಿದೆ. ದಯವಿಟ್ಟು ಹೊಸ ಸಂಕೇತಕ್ಕಾಗಿ ಸಂಯೋಜಕರನ್ನು ಸಂಪರ್ಕಿಸಿ. </string>
+    <string name="otp_title">ಓ.ಟಿ.ಪಿ</string>
+    <string name="otp_prompt">ನಾವು ಆರು ಸಂಖ್ಯೆಯ ʼಓ.ಟಿ.ಪಿʼಯನ್ನು ʼ೦೦೦೦೦೦೦೦೦೦ʼ  ದೂರವಾಣಿ ಸಂಖ್ಯೆಗೆ ʼಎಸ್.ಎಮ್.ಎಸ್‌ʼ ಮುಖೇನ ಕಳುಹಿಸಿದ್ದೇವೆ. </string>
+    <string name="resend_otp">ಮತೋಮ್ಮೆ ʼಓ.ಟಿ.ಪಿʼಯನ್ನು ಕಳುಹಿಸಿ.</string>
+    <string name="change_phone_number">ದೂರವಾಣಿ ಸಂಖ್ಯೆಯನ್ನು ಬದಲಾಯಿಸಿ</string>
+    <string name="invalid_otp">ನೀವು ಅಸಿಂಧುವಲ್ಲದ ʼಓ.ಟಿ.ಪಿʼಯನ್ನು ನಮೂದಿಸಿದ್ದೀರಿ. </string>
+    <string name="dashboard_title">ಡ್ಯಾಶ್ ಬೋರ್ಡ್</string>
+    <string name="sync_prompt">ಗುರಿಯನ್ನು ಸಲ್ಲಿಸಿರಿ / ಹೊಸ ಗುರಿಯನ್ನು ಪಡೆಯಿರಿ. </string>
+    <string name="tasks_available">ಲಭ್ಯವಿದೆ</string>
+    <string name="tasks_completed">ಮುಕ್ತಾಯವಾಗಿದೆ</string>
+    <string name="tasks_submitted">ಸಲ್ಲಿಕೆಯಾಗಿದೆ</string>
+    <string name="tasks_verified">ಪರಿಶೀಲಿಸಿಲಾಗಿದೆ. </string>
+    <string name="sync_prompt_message">ಸರ್ವರ್‌ ಗೆ ಸಲ್ಲಿಸಿಲು ನೀವು ನೀಡಲಾಗಿರುವ ಗುರಿಗಳನ್ನು ಪೂರ್ಣಗೊಳಿಸಿದ್ದೀರಿ. ನೀವು ಈಗ ಗುರಿಗಳನ್ನು ಸಲ್ಲಿಕೆ ಮಾಡಲು ಬಯಸುವಿರಾ?</string>
+    <string name="yes">ಹೌದು</string>
+    <string name="no">ಇಲ್ಲ </string>
+    <string name="reset_assignment_warning">ಕೆಲವು ಔಟ್ಪುಟ್‌ ಪೈಲ್ಗಳು ಕಾಣೆಯಾಗಿವೆ. </string>
+    <string name="upload_file_error">ಪೈಲ್ಗಳನ್ನು ಅಪಲೋಡ್‌ ಮಾಡುವಾಗ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸಂಯೋಜಕರನ್ನು ಸಂಪರ್ಕಿಸಿ. </string>
+    <string name="send_db_error">ಗುರಿಗಳನ್ನು ಕಳುಹಿಸುವಾಗ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸಂಯೋಜಕರನ್ನು ಸಂಪರ್ಕಿಸಿ. </string>
+    <string name="receive_db_error">ಗುರಿಗಳನ್ನು ಸ್ವೀಕರಿಸುವಾಗ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸಂಯೋಜಕರನ್ನು ಸಂಪರ್ಕಿಸಿ. </string>
+    <string name="download_file_error">ಪೈಲ್ಗಳನ್ನು ಡೌನ್ಲೋಡ್‌ ಮಾಡುವಾಗ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸಂಯೋಜಕರನ್ನು ಸಂಪರ್ಕಿಸಿ. </string>
+    <string name="received_verified_error">ಮಾನ್ಯತೆಯನ್ನು ಸ್ವೀಕರಿಸುವಾಗ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸಂಯೋಜಕರನ್ನು ಸಂಪರ್ಕಿಸಿ. </string>
+    <string name="app_name">ಕಾರ್ಯ</string>
+    
+</resources>
