@@ -54,7 +54,7 @@ class CrowdsourceRegistration : Fragment() {
             val userName = binding.crowdsourceRegistrationNameTextField.text.toString()
             val age = binding.crowdsourceRegistrationAgeTextField.text.toString()
             val gender = getGender()
-            viewModel.setData(userName, age, gender, "", "")
+//            viewModel.setData(userName, age, gender, "", "")
         })
     }
 
