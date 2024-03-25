@@ -26,6 +26,9 @@
             app:destination="@id/loginFlow"
             app:popUpTo="@id/splashScreenFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_navigation"
+            app:destination="@id/navigation" />
     </fragment>
     <navigation
         android:id="@+id/loginFlow"
@@ -489,7 +492,7 @@
     </fragment>
     <navigation
         android:id="@+id/navigation"
-        app:startDestination="@id/crowdsourceRegistration">
+        app:startDestination="@id/crowdsourceLogin">
         <fragment
             android:id="@+id/crowdsourceRegistration"
             android:name="com.ai4bharat.karya.ui.crowdsource.registration.CrowdsourceRegistration"
