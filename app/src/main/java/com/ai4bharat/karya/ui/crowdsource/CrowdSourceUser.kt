@@ -1,7 +1,17 @@
 package com.ai4bharat.karya.ui.crowdsource
 
+data class LocationData(val states: Map<String, State>) {
+}
+
+data class State(val name: String, val district: Map<String, District>) {
+}
+
+data class District(val name: String, val taluk: Map<String, Taluk>)
+
+data class Taluk(val name: String)
+
 enum class Gender(val displayName: String) {
-    male("Male"), female("Female"), other("other")
+    male("Male"), female("Female"), other("Other")
 }
 
 enum class Education(val displayName: String) {
@@ -48,7 +58,7 @@ enum class Language(val displayName: String) {
 data class CrowdSourceUser(
     val name: String = "",
     val age: String = "",
-    val gender: Gender = Gender.male,
+    val gender: Gender? = Gender.male,
     val state: String = "",
     val district: String = "",
     val phoneNumber: String = "",
@@ -59,7 +69,9 @@ data class CrowdSourceUser(
 
 ) {
     override fun toString(): String {
-        return "Name ${name}, age ${age}, gender ${gender}, state ${state} , district ${district}"
+        return "Name ${name}, age ${age}, gender ${gender}, state ${state} , district ${district}," +
+                "Phone number ${phoneNumber}, Job Type ${jobType}, Education ${education}" +
+                "Occupation ${occupation}, Language ${language}"
     }
 }
 

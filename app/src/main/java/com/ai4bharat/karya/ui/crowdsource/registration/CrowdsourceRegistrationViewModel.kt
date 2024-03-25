@@ -20,7 +20,7 @@ class CrowdsourceRegistrationViewModel : ViewModel() {
         name: String,
         age: String,
         phoneNumber: String,
-        gender: Gender,
+        gender: Gender?,
         state: String = "",
         district: String = "",
         jobType: JobType,
