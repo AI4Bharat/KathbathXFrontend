@@ -15,7 +15,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:text="Welcome to Karya"
-        android:textColor="@color/black"
+        android:textColor="@color/c_black"
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
