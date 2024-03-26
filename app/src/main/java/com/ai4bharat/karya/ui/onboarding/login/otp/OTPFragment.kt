@@ -52,19 +52,20 @@ private const val OTP_LENGTH = 6
 @AndroidEntryPoint
 class OTPFragment : BaseFragment(R.layout.fragment_otp) {
 
-  private val binding by viewBinding(FragmentOtpBinding::bind)
-  private val viewModel by viewModels<OTPViewModel>()
-  private lateinit var fusedLocationClient: FusedLocationProviderClient
-  private lateinit var geoCoder: Geocoder
+    private val binding by viewBinding(FragmentOtpBinding::bind)
+    private val viewModel by viewModels<OTPViewModel>()
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var geoCoder: Geocoder
 
 
-  private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()){ isGranted: Boolean ->
-    if (isGranted) {
-      Log.i("Permission: ", "Granted")
-    } else {
-      Log.i("Permission: ", "Denied")
-    }
-  }
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                Log.i("Permission: ", "Granted")
+            } else {
+                Log.i("Permission: ", "Denied")
+            }
+        }
 
 //  private lateinit var captureUri: Uri
 
@@ -87,7 +88,7 @@ class OTPFragment : BaseFragment(R.layout.fragment_otp) {
 //
 //    }
 
-//  private var resultLauncherCapture = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    //  private var resultLauncherCapture = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 //    if (result.resultCode == Activity.RESULT_OK) {
 //      val photo = BitmapFactory.decodeStream(context?.contentResolver?.openInputStream(captureUri))
 //
@@ -104,65 +105,66 @@ class OTPFragment : BaseFragment(R.layout.fragment_otp) {
 //    }
 //
 //  }
-  override fun requiredPermissions(): Array<String> {
-    return arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
-  }
+    override fun requiredPermissions(): Array<String> {
+        return arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
+    }
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
-    setupView()
-    observeUi()
-    observeEffects()
-    fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
-    geoCoder = Geocoder(context!!, Locale.getDefault())
-  }
-
-
-  override fun onResume() {
-    super.onResume()
-    assistant.playAssistantAudio(AssistantAudio.OTP_PROMPT)
-    otpEt.disable()
-    numPad.gone()
-    hideKeyboard()
-    showError("Trying to fetch the location....")
-    fusedLocationClient.getCurrentLocation(
-      LocationRequest.PRIORITY_HIGH_ACCURACY,
-      object : CancellationToken() {
-        override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
-        override fun isCancellationRequested() = false
-      })
-      .addOnSuccessListener { location: Location? ->
-        if (location == null) {
-          showError("Fetching location failed.\nPlease close and open the application and ensure your location is turned on and permissions have been given")
-        }
-        else {
-          otpEt.enable()
-          numPad.visible()
-
-          var extraLocation = JsonObject()
-          extraLocation.addProperty("latitude",location.latitude.toString())
-          extraLocation.addProperty("longitude",location.longitude.toString())
-
-          val addresses = geoCoder.getFromLocation(
-            location.latitude,
-            location.longitude,
-            1
-          )
-
-          if (addresses != null && addresses.isNotEmpty()) {
-            val addressObj = addresses[0]
-            val address: String = addressObj.getAddressLine(0)
-            extraLocation.addProperty("google_location",addressObj.toString())
-          }
-
-          viewModel.extraLocation = extraLocation
-          showError("")
-        }
-      }
-  }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupView()
+        observeUi()
+        observeEffects()
+//    fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
+//    geoCoder = Geocoder(context!!, Locale.getDefault())
+    }
 
 
-  //Check for camera permissions
+    override fun onResume() {
+        super.onResume()
+        assistant.playAssistantAudio(AssistantAudio.OTP_PROMPT)
+        otpEt.disable()
+        numPad.gone()
+        hideKeyboard()
+//        showError("Trying to fetch the location....")
+//        fusedLocationClient.getCurrentLocation(
+//            LocationRequest.PRIORITY_HIGH_ACCURACY,
+//            object : CancellationToken() {
+//                override fun onCanceledRequested(p0: OnTokenCanceledListener) =
+//                    CancellationTokenSource().token
+//
+//                override fun isCancellationRequested() = false
+//            })
+//            .addOnSuccessListener { location: Location? ->
+//                if (location == null) {
+//                    showError("Fetching location failed.\nPlease close and open the application and ensure your location is turned on and permissions have been given")
+//                } else {
+//                    otpEt.enable()
+//                    numPad.visible()
+//
+//                    var extraLocation = JsonObject()
+//                    extraLocation.addProperty("latitude", location.latitude.toString())
+//                    extraLocation.addProperty("longitude", location.longitude.toString())
+//
+//                    val addresses = geoCoder.getFromLocation(
+//                        location.latitude,
+//                        location.longitude,
+//                        1
+//                    )
+//
+//                    if (addresses != null && addresses.isNotEmpty()) {
+//                        val addressObj = addresses[0]
+//                        val address: String = addressObj.getAddressLine(0)
+//                        extraLocation.addProperty("google_location", addressObj.toString())
+//                    }
+//
+//                    viewModel.extraLocation = extraLocation
+//                    showError("")
+//                }
+//            }
+    }
+
+
+    //Check for camera permissions
 //  private fun checkCameraPermission() {
 //    when {
 //      ContextCompat.checkSelfPermission(
@@ -217,9 +219,9 @@ class OTPFragment : BaseFragment(R.layout.fragment_otp) {
 //    }
 //  }
 
-  private fun setupView() {
-    viewModel.retrievePhoneNumber()
-    binding.appTb.setAssistantClickListener { assistant.playAssistantAudio(AssistantAudio.OTP_PROMPT) }
+    private fun setupView() {
+        viewModel.retrievePhoneNumber()
+        binding.appTb.setAssistantClickListener { assistant.playAssistantAudio(AssistantAudio.OTP_PROMPT) }
 
 //    binding.consentFormUploadBtn.setOnClickListener {
 //      val intent = Intent()
@@ -244,15 +246,15 @@ class OTPFragment : BaseFragment(R.layout.fragment_otp) {
 //      viewModel.resendOTP()
 //    }
 
-    // To change phone number, just go back
-    // TODO: this may not always be true.
-    binding.changePhoneNumberBtn.setOnClickListener {
-      requireActivity().onBackPressed()
-    }
+        // To change phone number, just go back
+        // TODO: this may not always be true.
+        binding.changePhoneNumberBtn.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
 
 
-    binding.otpEt.doAfterTextChanged { otp ->
-      hideError()
+        binding.otpEt.doAfterTextChanged { otp ->
+            hideError()
 
 //      if (otp?.length == OTP_LENGTH && viewModel.consent_form.isNotEmpty()) {
 //        enableNextButton()
@@ -262,108 +264,109 @@ class OTPFragment : BaseFragment(R.layout.fragment_otp) {
 //      }else{
 //        disableNextButton()
 //      }
-      if (otp?.length == OTP_LENGTH) {
-        enableNextButton()
-      } else{
+            if (otp?.length == OTP_LENGTH) {
+                enableNextButton()
+            } else {
+                disableNextButton()
+            }
+
+        }
+
+        binding.numPad.setOnDoneListener { viewModel.verifyOTP(binding.otpEt.text.toString()) }
+    }
+
+    private fun observeUi() {
+        viewModel.otpUiState.observe(viewLifecycle, viewLifecycleScope) { state ->
+            when (state) {
+                is OTPUiState.Success -> showSuccessUi()
+                // TODO: Change this to a correct mapping
+                is OTPUiState.Error -> showErrorUi(getErrorMessage(state.throwable))
+                OTPUiState.Initial -> showInitialUi()
+                OTPUiState.Loading -> showLoadingUi()
+            }
+        }
+
+        viewModel.phoneNumber.observe(viewLifecycle, viewLifecycleScope) { phoneNumber ->
+            binding.otpPromptTv.text =
+                "Enter Password"//getString(R.string.otp_prompt).replace("0000000000", phoneNumber)
+        }
+    }
+
+    private fun observeEffects() {
+        viewModel.otpEffects.observe(viewLifecycle, viewLifecycleScope) { effect ->
+            when (effect) {
+                is OTPEffects.Navigate -> navigate(effect.destination)
+            }
+        }
+    }
+
+    private fun showInitialUi() {
+        binding.otpEt.text.clear()
+        hideError()
+        hideLoading()
         disableNextButton()
-      }
-
     }
 
-    binding.numPad.setOnDoneListener { viewModel.verifyOTP(binding.otpEt.text.toString()) }
-  }
-
-  private fun observeUi() {
-    viewModel.otpUiState.observe(viewLifecycle, viewLifecycleScope) { state ->
-      when (state) {
-        is OTPUiState.Success -> showSuccessUi()
-        // TODO: Change this to a correct mapping
-        is OTPUiState.Error -> showErrorUi(getErrorMessage(state.throwable))
-        OTPUiState.Initial -> showInitialUi()
-        OTPUiState.Loading -> showLoadingUi()
-      }
+    private fun showLoadingUi() {
+        hideError()
+        showLoading()
+        disableNextButton()
     }
 
-    viewModel.phoneNumber.observe(viewLifecycle, viewLifecycleScope) { phoneNumber ->
-      binding.otpPromptTv.text = "Enter Password"//getString(R.string.otp_prompt).replace("0000000000", phoneNumber)
+    private fun showSuccessUi() {
+        hideError()
+        hideLoading()
+        enableNextButton()
     }
-  }
 
-  private fun observeEffects() {
-    viewModel.otpEffects.observe(viewLifecycle, viewLifecycleScope) { effect ->
-      when (effect) {
-        is OTPEffects.Navigate -> navigate(effect.destination)
-      }
+    private fun showErrorUi(message: String) {
+        showError(message)
+        hideLoading()
+        enableNextButton()
     }
-  }
 
-  private fun showInitialUi() {
-    binding.otpEt.text.clear()
-    hideError()
-    hideLoading()
-    disableNextButton()
-  }
-
-  private fun showLoadingUi() {
-    hideError()
-    showLoading()
-    disableNextButton()
-  }
-
-  private fun showSuccessUi() {
-    hideError()
-    hideLoading()
-    enableNextButton()
-  }
-
-  private fun showErrorUi(message: String) {
-    showError(message)
-    hideLoading()
-    enableNextButton()
-  }
-
-  private fun navigate(destination: Destination) {
-    when (destination) {
-      Destination.Dashboard -> navigateToDashBoard()
-      else -> {
-      }
+    private fun navigate(destination: Destination) {
+        when (destination) {
+            Destination.Dashboard -> navigateToDashBoard()
+            else -> {
+            }
+        }
     }
-  }
 
-  private fun navigateToDashBoard() {
-    findNavController().navigate(R.id.action_global_dashboardActivity)
-  }
-
-  private fun enableNextButton() {
-    binding.numPad.enableDoneButton()
-  }
-
-  private fun disableNextButton() {
-    binding.numPad.disableDoneButton()
-  }
-
-  private fun showLoading() {
-    with(binding) {
-      loadingPb.visible()
-      otpEt.disable()
+    private fun navigateToDashBoard() {
+        findNavController().navigate(R.id.action_global_dashboardActivity)
     }
-  }
 
-  private fun hideLoading() {
-    with(binding) {
-      loadingPb.gone()
-      otpEt.enable()
+    private fun enableNextButton() {
+        binding.numPad.enableDoneButton()
     }
-  }
 
-  private fun showError(message: String) {
-    with(binding) {
-      invalidOTPTv.text = message
-      invalidOTPTv.visible()
+    private fun disableNextButton() {
+        binding.numPad.disableDoneButton()
     }
-  }
 
-  private fun hideError() {
-    binding.invalidOTPTv.gone()
-  }
+    private fun showLoading() {
+        with(binding) {
+            loadingPb.visible()
+            otpEt.disable()
+        }
+    }
+
+    private fun hideLoading() {
+        with(binding) {
+            loadingPb.gone()
+            otpEt.enable()
+        }
+    }
+
+    private fun showError(message: String) {
+        with(binding) {
+            invalidOTPTv.text = message
+            invalidOTPTv.visible()
+        }
+    }
+
+    private fun hideError() {
+        binding.invalidOTPTv.gone()
+    }
 }
