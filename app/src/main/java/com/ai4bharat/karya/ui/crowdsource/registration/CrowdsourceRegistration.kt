@@ -9,15 +9,12 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.map
 import com.ai4bharat.karya.R
 import com.ai4bharat.karya.databinding.FragmentCrowdsourceRegistrationBinding
-import com.ai4bharat.karya.ui.crowdsource.Education
-import com.ai4bharat.karya.ui.crowdsource.Gender
-import com.ai4bharat.karya.ui.crowdsource.JobType
-import com.ai4bharat.karya.ui.crowdsource.Language
 import com.ai4bharat.karya.utils.extensions.viewBinding
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.microtask_speech_verification.phoneNumber
 import org.json.JSONObject
 
 class CrowdsourceRegistration : Fragment() {
@@ -26,7 +23,6 @@ class CrowdsourceRegistration : Fragment() {
         fun newInstance() = CrowdsourceRegistration()
     }
 
-    //    private val viewModel: CrowdsourceRegistrationViewModel by viewModels()
     private val viewModel by viewModels<CrowdsourceRegistrationViewModel>()
     private val binding by viewBinding(FragmentCrowdsourceRegistrationBinding::bind)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +40,62 @@ class CrowdsourceRegistration : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpUIElement()
+        setUpVariables()
+    }
+
+    private fun setUpVariables() {
+
+        val locationString = requireContext().assets.open("location.json")
+            .bufferedReader().use { it.readText() }
+        val jsonObject = JSONObject(locationString)
+        viewModel.initializeLocation(jsonObject)
+
+        viewModel.location.observe(viewLifecycleOwner, Observer { locationInfo ->
+            if (locationInfo.size > 0) {
+                val stateList = locationInfo.map { state: State ->
+                    state.name
+                }
+                setSpinner(stateList, binding.crowdsourceRegistrationState)
+            }
+        })
+
+        viewModel.userError.observe(viewLifecycleOwner, Observer { userErrors ->
+            println(userErrors)
+            if (userErrors.name.status) {
+                binding.crowdsourceRegistrationNameTextField.error = userErrors.name.message
+            }
+            if (userErrors.phoneNumber.status) {
+                binding.crowdsourceRegistrationNumberTextField.error =
+                    userErrors.phoneNumber.message
+            }
+            if (userErrors.age.status) {
+                binding.crowdsourceRegistrationAgeTextField.error = userErrors.age.message
+            }
+            if (userErrors.occupation.status) {
+                binding.crowdsourceRegistrationOccupationTextField.error = userErrors.age.message
+            }
+            if (userErrors.language.status) {
+                binding.crowdsourceRegistrationLanguageError.text = userErrors.occupation.message
+            }
+            if (userErrors.jobType.status) {
+                binding.crowdsourceRegistrationJobTypeError.text = userErrors.jobType.message
+            }
+            if (userErrors.jobType.status) {
+                binding.crowdsourceRegistrationJobTypeError.text = userErrors.jobType.message
+            }
+            if (userErrors.state.status) {
+                binding.crowdsourceRegistrationStateError.text = userErrors.state.message
+            }
+            if (userErrors.district.status) {
+                binding.crowdsourceRegistrationDistrictError.text = userErrors.district.message
+            }
+            if (userErrors.education.status) {
+                binding.crowdsourceRegistrationEducationError.text = userErrors.education.message
+            }
+            if (userErrors.gender.status) {
+                binding.crowdsourceRegistrationGenderError.text = userErrors.gender.message
+            }
+        })
     }
 
     private fun setUpUIElement() {
@@ -54,16 +106,20 @@ class CrowdsourceRegistration : Fragment() {
         setSpinner(jobTypeList, binding.crowdsourceRegistrationJobType)
         val educationList = Education.values().map { it.displayName }
         setSpinner(educationList, binding.crowdsourceRegistrationEducation)
-        val stateList: MutableList<String> = populateStateList()
-        setSpinner(stateList, binding.crowdsourceRegistrationState)
 
         binding.crowdsourceRegistrationState.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    println(p0?.selectedItem)
-                    val districtList: MutableList<String> =
-                        getDistrictList(p0?.getItemAtPosition(p2).toString())
-                    setSpinner(districtList, binding.crowdsourceRegistrationDistrict)
+
+                    val state = p0?.getItemAtPosition(p2).toString()
+                    val stateInfo: List<State> =
+                        viewModel.location.value!!.filter { it -> it.name == state }
+                    if (stateInfo.size == 1) {
+                        val selectedState: State = stateInfo[0]
+                        val districtList: List<String> =
+                            selectedState.district.map { district -> district.name }
+                        setSpinner(districtList, binding.crowdsourceRegistrationDistrict)
+                    }
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -76,7 +132,7 @@ class CrowdsourceRegistration : Fragment() {
             val name = binding.crowdsourceRegistrationNameTextField.text.toString()
             val age = binding.crowdsourceRegistrationAgeTextField.text.toString()
             val phoneNumber = binding.crowdsourceRegistrationNumberTextField.text.toString()
-            val gender: Gender? = getGender()
+            val gender: Gender = getGender()
             val language: Language =
                 Language.valueOf(
                     binding.crowdsourceRegistrationLanguage.selectedItem.toString().lowercase()
@@ -109,88 +165,19 @@ class CrowdsourceRegistration : Fragment() {
     }
 
 
-    private fun populateStateList(): MutableList<String> {
-        val inputStream =
-            requireContext().assets.open("location.json").bufferedReader().use { it.readText() }
-        val jsonObj = JSONObject(inputStream)
-
-        //District
-        //Getting the district keys
-        val stateKeys = jsonObj.names()
-        val stateNames: MutableList<String> = mutableListOf()
-        if (stateKeys != null) {
-            for (key in 0 until stateKeys.length()) {
-                stateNames.add(
-                    jsonObj.getJSONObject(stateKeys[key].toString()).get("name").toString()
-                )
-            }
-        } else {
-            print("District keys are empty")
-        }
-        return stateNames
-    }
-
-    private fun getDistrictList(state: String): MutableList<String> {
-        val stateKey = state.replace(" ", "_").lowercase()
-        println(stateKey)
-        val inputStream =
-            requireContext().assets.open("location.json").bufferedReader().use { it.readText() }
-        val jsonObj = JSONObject(inputStream)
-        val districtDetails = jsonObj.getJSONObject(stateKey).getJSONObject("district")
-        val districtNames: MutableList<String> = mutableListOf()
-        if (districtDetails.names() != null) {
-            for (key in 0 until districtDetails.names().length()) {
-                val districtKey: String = districtDetails.names()[key].toString()
-                val districtName: String =
-                    districtDetails.getJSONObject(districtKey.toString()).getString("name")
-                districtNames.add(districtName)
-                println(districtDetails.getJSONObject(districtKey.toString()))
-            }
-        }
-//        val districtNames: MutableList<String> = mutableListOf()
-//        println("The district names are $districtKeys")
-        return districtNames
-
-    }
-
     private fun setSpinner(values: List<String>, spinner: Spinner) {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, values)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
     }
 
-    private fun getGender(): Gender? {
+    private fun getGender(): Gender {
         val selectedChipId = binding.crowdsourceRegistrationgenderChipGroup.checkedChipId
-        if (selectedChipId != -1) {
-            val chip: Chip =
-                binding.crowdsourceRegistrationgenderChipGroup.findViewById(selectedChipId)
-            return Gender.valueOf(chip.text.toString().lowercase())
-        }
-        return null
+        val chip: Chip =
+            binding.crowdsourceRegistrationgenderChipGroup.findViewById(selectedChipId)
+        return Gender.valueOf(chip.text.toString().lowercase())
     }
-
-    private fun updateViewModel() {
-        viewModel
-    }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

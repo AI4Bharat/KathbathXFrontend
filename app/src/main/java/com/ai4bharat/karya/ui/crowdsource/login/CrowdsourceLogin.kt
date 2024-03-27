@@ -35,6 +35,20 @@ class CrowdsourceLogin : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUIElements()
+        setupUIVariables()
+    }
+
+    private fun setupUIVariables() {
+        viewModel.loginStatus.observe(viewLifecycleOwner, Observer { loginStatus ->
+            if (loginStatus) {
+                binding.crowdsourceLoginStatus.visibility = View.GONE
+                println("Login is successful")
+            } else {
+                println("Login failed")
+                binding.crowdsourceLoginStatus.visibility = View.VISIBLE
+                binding.crowdsourceLoginStatus.setText("Login failed")
+            }
+        })
     }
 
     private fun setupUIElements() {

@@ -52,12 +52,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationAge"
         app:singleLine="true"
+        app:selectionRequired="true"
         app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/maleChip"
             android:layout_width="wrap_content"
             android:checkable="true"
+            android:checked="true"
             android:layout_height="wrap_content"
             android:text="Male" />
 
@@ -99,66 +101,69 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="Register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationText"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Spinner
         android:id="@+id/crowdsourceRegistrationLanguage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationgenderChipGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationGenderError" />
 
     <Spinner
         android:id="@+id/crowdsourceRegistrationState"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationLanguage" />
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationLanguageError" />
 
     <Spinner
         android:id="@+id/crowdsourceRegistrationDistrict"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationState" />
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationStateError" />
 
     <Spinner
         android:id="@+id/crowdsourceRegistrationJobType"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationDistrict" />
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationDistrictError" />
 
     <Spinner
         android:id="@+id/crowdsourceRegistrationEducation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationJobType" />
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationJobTypeError" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/crowdsourceRegistrationNumber"
@@ -183,11 +188,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationEducation">
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationEducationError">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/crowdsourceRegistrationOccupationTextField"
@@ -195,4 +200,74 @@
             android:layout_height="wrap_content"
             android:hint="Occupation" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/crowdsourceRegistrationLanguageError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="#FF0000"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/crowdsourceRegistrationLanguage"
+        app:layout_constraintStart_toStartOf="@+id/crowdsourceRegistrationLanguage"
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationLanguage" />
+
+    <TextView
+        android:id="@+id/crowdsourceRegistrationGenderError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="#FF0000"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationgenderChipGroup" />
+
+    <TextView
+        android:id="@+id/crowdsourceRegistrationStateError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="#FF0000"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationState" />
+
+    <TextView
+        android:id="@+id/crowdsourceRegistrationDistrictError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="#FF0000"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationDistrict" />
+
+    <TextView
+        android:id="@+id/crowdsourceRegistrationJobTypeError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="#FF0000"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationJobType" />
+
+    <TextView
+        android:id="@+id/crowdsourceRegistrationEducationError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="#FF0000"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationEducation" />
 </androidx.constraintlayout.widget.ConstraintLayout>

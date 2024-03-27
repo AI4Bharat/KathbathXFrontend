@@ -3,16 +3,13 @@
     "name": "Andaman Nicobar",
     "district": {
       "nicobar": {
-        "name": "Nicobar",
-        "taluk": {}
+        "name": "Nicobar"
       },
       "north_middle_andaman": {
-        "name": "North Middle Andaman",
-        "taluk": {}
+        "name": "North Middle Andaman"
       },
       "south_andaman": {
-        "name": "South Andaman",
-        "taluk": {}
+        "name": "South Andaman"
       }
     }
   },
@@ -20,108 +17,82 @@
     "name": "Andhra Pradesh",
     "district": {
       "anantapur": {
-        "name": "Anantapur",
-        "taluk": {}
+        "name": "Anantapur"
       },
       "chittoor": {
-        "name": "Chittoor",
-        "taluk": {}
+        "name": "Chittoor"
       },
       "east_godavari": {
-        "name": "East Godavari",
-        "taluk": {}
+        "name": "East Godavari"
       },
       "alluri_sitarama_raju": {
-        "name": "Alluri Sitarama Raju",
-        "taluk": {}
+        "name": "Alluri Sitarama Raju"
       },
       "anakapalli": {
-        "name": "Anakapalli",
-        "taluk": {}
+        "name": "Anakapalli"
       },
       "annamaya": {
-        "name": "Annamaya",
-        "taluk": {}
+        "name": "Annamaya"
       },
       "bapatla": {
-        "name": "Bapatla",
-        "taluk": {}
+        "name": "Bapatla"
       },
       "eluru": {
-        "name": "Eluru",
-        "taluk": {}
+        "name": "Eluru"
       },
       "guntur": {
-        "name": "Guntur",
-        "taluk": {}
+        "name": "Guntur"
       },
       "kadapa": {
-        "name": "Kadapa",
-        "taluk": {}
+        "name": "Kadapa"
       },
       "kakinada": {
-        "name": "Kakinada",
-        "taluk": {}
+        "name": "Kakinada"
       },
       "konaseema": {
-        "name": "Konaseema",
-        "taluk": {}
+        "name": "Konaseema"
       },
       "krishna": {
-        "name": "Krishna",
-        "taluk": {}
+        "name": "Krishna"
       },
       "kurnool": {
-        "name": "Kurnool",
-        "taluk": {}
+        "name": "Kurnool"
       },
       "manyam": {
-        "name": "Manyam",
-        "taluk": {}
+        "name": "Manyam"
       },
       "n_t_rama_rao": {
-        "name": "N T Rama Rao",
-        "taluk": {}
+        "name": "N T Rama Rao"
       },
       "nandyal": {
-        "name": "Nandyal",
-        "taluk": {}
+        "name": "Nandyal"
       },
       "nellore": {
-        "name": "Nellore",
-        "taluk": {}
+        "name": "Nellore"
       },
       "palnadu": {
-        "name": "Palnadu",
-        "taluk": {}
+        "name": "Palnadu"
       },
       "prakasam": {
-        "name": "Prakasam",
-        "taluk": {}
+        "name": "Prakasam"
       },
       "sri_balaji": {
-        "name": "Sri Balaji",
-        "taluk": {}
+        "name": "Sri Balaji"
       },
       "sri_satya_sai": {
-        "name": "Sri Satya Sai",
-        "taluk": {}
+        "name": "Sri Satya Sai"
       },
       "srikakulam": {
-        "name": "Srikakulam",
-        "taluk": {}
+        "name": "Srikakulam"
       },
       "visakhapatnam": {
-        "name": "Visakhapatnam",
-        "taluk": {}
+        "name": "Visakhapatnam"
       },
       "vizianagaram": {
-        "name": "Vizianagaram",
-        "taluk": {}
+        "name": "Vizianagaram"
       },
       "west_godavari": {
-        "name": "West Godavari",
-        "taluk": {}
+        "name": "West Godavari"
       }
     }
   },
@@ -129,104 +100,79 @@
     "name": "Arunachal Pradesh",
     "district": {
       "anjaw": {
-        "name": "Anjaw",
-        "taluk": {}
+        "name": "Anjaw"
       },
       "central_siang": {
-        "name": "Central Siang",
-        "taluk": {}
+        "name": "Central Siang"
       },
       "changlang": {
-        "name": "Changlang",
-        "taluk": {}
+        "name": "Changlang"
       },
       "dibang_valley": {
-        "name": "Dibang Valley",
-        "taluk": {}
+        "name": "Dibang Valley"
       },
       "east_kameng": {
-        "name": "East Kameng",
-        "taluk": {}
+        "name": "East Kameng"
       },
       "east_siang": {
-        "name": "East Siang",
-        "taluk": {}
+        "name": "East Siang"
       },
       "kamle": {
-        "name": "Kamle",
-        "taluk": {}
+        "name": "Kamle"
       },
       "kra_daadi": {
-        "name": "Kra Daadi",
-        "taluk": {}
+        "name": "Kra Daadi"
       },
       "kurung_kumey": {
-        "name": "Kurung Kumey",
-        "taluk": {}
+        "name": "Kurung Kumey"
       },
       "lepa_rada": {
-        "name": "Lepa Rada",
-        "taluk": {}
+        "name": "Lepa Rada"
       },
       "lohit": {
-        "name": "Lohit",
-        "taluk": {}
+        "name": "Lohit"
       },
       "longding": {
-        "name": "Longding",
-        "taluk": {}
+        "name": "Longding"
       },
       "lower_dibang_valley": {
-        "name": "Lower Dibang Valley",
-        "taluk": {}
+        "name": "Lower Dibang Valley"
       },
       "lower_siang": {
-        "name": "Lower Siang",
-        "taluk": {}
+        "name": "Lower Siang"
       },
       "lower_subansiri": {
-        "name": "Lower Subansiri",
-        "taluk": {}
+        "name": "Lower Subansiri"
       },
       "namsai": {
-        "name": "Namsai",
-        "taluk": {}
+        "name": "Namsai"
       },
       "pakke_kessang": {
-        "name": "Pakke Kessang",
-        "taluk": {}
+        "name": "Pakke Kessang"
       },
       "papum_pare": {
-        "name": "Papum Pare",
-        "taluk": {}
+        "name": "Papum Pare"
       },
       "shi_yomi": {
-        "name": "Shi Yomi",
-        "taluk": {}
+        "name": "Shi Yomi"
       },
       "tawang": {
-        "name": "Tawang",
-        "taluk": {}
+        "name": "Tawang"
       },
       "tirap": {
-        "name": "Tirap",
-        "taluk": {}
+        "name": "Tirap"
       },
       "upper_siang": {
-        "name": "Upper Siang",
-        "taluk": {}
+        "name": "Upper Siang"
       },
       "upper_subansiri": {
-        "name": "Upper Subansiri",
-        "taluk": {}
+        "name": "Upper Subansiri"
       },
       "west_kameng": {
-        "name": "West Kameng",
-        "taluk": {}
+        "name": "West Kameng"
       },
       "west_siang": {
-        "name": "West Siang",
-        "taluk": {}
+        "name": "West Siang"
       }
     }
   },
@@ -234,144 +180,109 @@
     "name": "Assam",
     "district": {
       "bajali": {
-        "name": "Bajali",
-        "taluk": {}
+        "name": "Bajali"
       },
       "baksa": {
-        "name": "Baksa",
-        "taluk": {}
+        "name": "Baksa"
       },
       "barpeta": {
-        "name": "Barpeta",
-        "taluk": {}
+        "name": "Barpeta"
       },
       "biswanath": {
-        "name": "Biswanath",
-        "taluk": {}
+        "name": "Biswanath"
       },
       "bongaigaon": {
-        "name": "Bongaigaon",
-        "taluk": {}
+        "name": "Bongaigaon"
       },
       "cachar": {
-        "name": "Cachar",
-        "taluk": {}
+        "name": "Cachar"
       },
       "charaideo": {
-        "name": "Charaideo",
-        "taluk": {}
+        "name": "Charaideo"
       },
       "chirang": {
-        "name": "Chirang",
-        "taluk": {}
+        "name": "Chirang"
       },
       "darrang": {
-        "name": "Darrang",
-        "taluk": {}
+        "name": "Darrang"
       },
       "dhemaji": {
-        "name": "Dhemaji",
-        "taluk": {}
+        "name": "Dhemaji"
       },
       "dhubri": {
-        "name": "Dhubri",
-        "taluk": {}
+        "name": "Dhubri"
       },
       "dibrugarh": {
-        "name": "Dibrugarh",
-        "taluk": {}
+        "name": "Dibrugarh"
       },
       "dima_hasao": {
-        "name": "Dima Hasao",
-        "taluk": {}
+        "name": "Dima Hasao"
       },
       "goalpara": {
-        "name": "Goalpara",
-        "taluk": {}
+        "name": "Goalpara"
       },
       "golaghat": {
-        "name": "Golaghat",
-        "taluk": {}
+        "name": "Golaghat"
       },
       "hailakandi": {
-        "name": "Hailakandi",
-        "taluk": {}
+        "name": "Hailakandi"
       },
       "hojai": {
-        "name": "Hojai",
-        "taluk": {}
+        "name": "Hojai"
       },
       "jorhat": {
-        "name": "Jorhat",
-        "taluk": {}
+        "name": "Jorhat"
       },
       "kamrup": {
-        "name": "Kamrup",
-        "taluk": {}
+        "name": "Kamrup"
       },
       "kamrup_metropolitan": {
-        "name": "Kamrup Metropolitan",
-        "taluk": {}
+        "name": "Kamrup Metropolitan"
       },
       "karbi_anglong": {
-        "name": "Karbi Anglong",
-        "taluk": {}
+        "name": "Karbi Anglong"
       },
       "karimganj": {
-        "name": "Karimganj",
-        "taluk": {}
+        "name": "Karimganj"
       },
       "kokrajhar": {
-        "name": "Kokrajhar",
-        "taluk": {}
+        "name": "Kokrajhar"
       },
       "lakhimpur": {
-        "name": "Lakhimpur",
-        "taluk": {}
+        "name": "Lakhimpur"
       },
       "majuli": {
-        "name": "Majuli",
-        "taluk": {}
+        "name": "Majuli"
       },
       "morigaon": {
-        "name": "Morigaon",
-        "taluk": {}
+        "name": "Morigaon"
       },
       "nagaon": {
-        "name": "Nagaon",
-        "taluk": {}
+        "name": "Nagaon"
       },
       "nalbari": {
-        "name": "Nalbari",
-        "taluk": {}
+        "name": "Nalbari"
       },
       "sivasagar": {
-        "name": "Sivasagar",
-        "taluk": {}
+        "name": "Sivasagar"
       },
       "sonitpur": {
-        "name": "Sonitpur",
-        "taluk": {}
+        "name": "Sonitpur"
       },
       "south_salmara-mankachar": {
-        "name": "South Salmara-Mankachar",
-        "taluk": {}
+        "name": "South Salmara-Mankachar"
       },
       "tamulpur": {
-        "name": "Tamulpur",
-        "taluk": {}
+        "name": "Tamulpur"
       },
       "tinsukia": {
-        "name": "Tinsukia",
-        "taluk": {}
+        "name": "Tinsukia"
       },
       "udalguri": {
-        "name": "Udalguri",
-        "taluk": {}
+        "name": "Udalguri"
       },
       "west_karbi_anglong": {
-        "name": "West Karbi Anglong",
-        "taluk": {}
+        "name": "West Karbi Anglong"
       }
     }
   },
@@ -379,156 +290,118 @@
     "name": "Bihar",
     "district": {
       "araria": {
-        "name": "Araria",
-        "taluk": {}
+        "name": "Araria"
       },
       "arwal": {
-        "name": "Arwal",
-        "taluk": {}
+        "name": "Arwal"
       },
       "aurangabad": {
-        "name": "Aurangabad",
-        "taluk": {}
+        "name": "Aurangabad"
       },
       "banka": {
-        "name": "Banka",
-        "taluk": {}
+        "name": "Banka"
       },
       "begusarai": {
-        "name": "Begusarai",
-        "taluk": {}
+        "name": "Begusarai"
       },
       "bhagalpur": {
-        "name": "Bhagalpur",
-        "taluk": {}
+        "name": "Bhagalpur"
       },
       "bhojpur": {
-        "name": "Bhojpur",
-        "taluk": {}
+        "name": "Bhojpur"
       },
       "buxar": {
-        "name": "Buxar",
-        "taluk": {}
+        "name": "Buxar"
       },
       "darbhanga": {
-        "name": "Darbhanga",
-        "taluk": {}
+        "name": "Darbhanga"
       },
       "east_champaran": {
-        "name": "East Champaran",
-        "taluk": {}
+        "name": "East Champaran"
       },
       "gaya": {
-        "name": "Gaya",
-        "taluk": {}
+        "name": "Gaya"
       },
       "gopalganj": {
-        "name": "Gopalganj",
-        "taluk": {}
+        "name": "Gopalganj"
       },
       "jamui": {
-        "name": "Jamui",
-        "taluk": {}
+        "name": "Jamui"
       },
       "jehanabad": {
-        "name": "Jehanabad",
-        "taluk": {}
+        "name": "Jehanabad"
       },
       "kaimur": {
-        "name": "Kaimur",
-        "taluk": {}
+        "name": "Kaimur"
       },
       "katihar": {
-        "name": "Katihar",
-        "taluk": {}
+        "name": "Katihar"
       },
       "khagaria": {
-        "name": "Khagaria",
-        "taluk": {}
+        "name": "Khagaria"
       },
       "kishanganj": {
-        "name": "Kishanganj",
-        "taluk": {}
+        "name": "Kishanganj"
       },
       "lakhisarai": {
-        "name": "Lakhisarai",
-        "taluk": {}
+        "name": "Lakhisarai"
       },
       "madhepura": {
-        "name": "Madhepura",
-        "taluk": {}
+        "name": "Madhepura"
       },
       "madhubani": {
-        "name": "Madhubani",
-        "taluk": {}
+        "name": "Madhubani"
       },
       "munger": {
-        "name": "Munger",
-        "taluk": {}
+        "name": "Munger"
       },
       "muzaffarpur": {
-        "name": "Muzaffarpur",
-        "taluk": {}
+        "name": "Muzaffarpur"
       },
       "nalanda": {
-        "name": "Nalanda",
-        "taluk": {}
+        "name": "Nalanda"
       },
       "nawada": {
-        "name": "Nawada",
-        "taluk": {}
+        "name": "Nawada"
       },
       "patna": {
-        "name": "Patna",
-        "taluk": {}
+        "name": "Patna"
       },
       "purnia": {
-        "name": "Purnia",
-        "taluk": {}
+        "name": "Purnia"
       },
       "rohtas": {
-        "name": "Rohtas",
-        "taluk": {}
+        "name": "Rohtas"
       },
       "saharsa": {
-        "name": "Saharsa",
-        "taluk": {}
+        "name": "Saharsa"
       },
       "samastipur": {
-        "name": "Samastipur",
-        "taluk": {}
+        "name": "Samastipur"
       },
       "saran": {
-        "name": "Saran",
-        "taluk": {}
+        "name": "Saran"
       },
       "sheikhpura": {
-        "name": "Sheikhpura",
-        "taluk": {}
+        "name": "Sheikhpura"
       },
       "sheohar": {
-        "name": "Sheohar",
-        "taluk": {}
+        "name": "Sheohar"
       },
       "sitamarhi": {
-        "name": "Sitamarhi",
-        "taluk": {}
+        "name": "Sitamarhi"
       },
       "siwan": {
-        "name": "Siwan",
-        "taluk": {}
+        "name": "Siwan"
       },
       "supaul": {
-        "name": "Supaul",
-        "taluk": {}
+        "name": "Supaul"
       },
       "vaishali": {
-        "name": "Vaishali",
-        "taluk": {}
+        "name": "Vaishali"
       },
       "west_champaran": {
-        "name": "West Champaran",
-        "taluk": {}
+        "name": "West Champaran"
       }
     }
   },
@@ -536,8 +409,7 @@
     "name": "Chandigarh",
     "district": {
       "chandigarh": {
-        "name": "Chandigarh",
-        "taluk": {}
+        "name": "Chandigarh"
       }
     }
   },
@@ -545,136 +417,103 @@
     "name": "Chhattisgarh",
     "district": {
       "balod": {
-        "name": "Balod",
-        "taluk": {}
+        "name": "Balod"
       },
       "baloda_bazar": {
-        "name": "Baloda Bazar",
-        "taluk": {}
+        "name": "Baloda Bazar"
       },
       "balrampur": {
-        "name": "Balrampur",
-        "taluk": {}
+        "name": "Balrampur"
       },
       "bastar": {
-        "name": "Bastar",
-        "taluk": {}
+        "name": "Bastar"
       },
       "bemetara": {
-        "name": "Bemetara",
-        "taluk": {}
+        "name": "Bemetara"
       },
       "bijapur": {
-        "name": "Bijapur",
-        "taluk": {}
+        "name": "Bijapur"
       },
       "bilaspur": {
-        "name": "Bilaspur",
-        "taluk": {}
+        "name": "Bilaspur"
       },
       "dantewada": {
-        "name": "Dantewada",
-        "taluk": {}
+        "name": "Dantewada"
       },
       "dhamtari": {
-        "name": "Dhamtari",
-        "taluk": {}
+        "name": "Dhamtari"
       },
       "durg": {
-        "name": "Durg",
-        "taluk": {}
+        "name": "Durg"
       },
       "gariaband": {
-        "name": "Gariaband",
-        "taluk": {}
+        "name": "Gariaband"
       },
       "gaurela_pendra_marwahi": {
-        "name": "Gaurela Pendra Marwahi",
-        "taluk": {}
+        "name": "Gaurela Pendra Marwahi"
       },
       "janjgir_champa": {
-        "name": "Janjgir Champa",
-        "taluk": {}
+        "name": "Janjgir Champa"
       },
       "jashpur": {
-        "name": "Jashpur",
-        "taluk": {}
+        "name": "Jashpur"
       },
       "kabirdham": {
-        "name": "Kabirdham",
-        "taluk": {}
+        "name": "Kabirdham"
       },
       "kanker": {
-        "name": "Kanker",
-        "taluk": {}
+        "name": "Kanker"
       },
       "khairagarh": {
-        "name": "Khairagarh",
-        "taluk": {}
+        "name": "Khairagarh"
       },
       "kondagaon": {
-        "name": "Kondagaon",
-        "taluk": {}
+        "name": "Kondagaon"
       },
       "korba": {
-        "name": "Korba",
-        "taluk": {}
+        "name": "Korba"
       },
       "koriya": {
-        "name": "Koriya",
-        "taluk": {}
+        "name": "Koriya"
       },
       "mahasamund": {
-        "name": "Mahasamund",
-        "taluk": {}
+        "name": "Mahasamund"
       },
       "manendragarh": {
-        "name": "Manendragarh",
-        "taluk": {}
+        "name": "Manendragarh"
       },
       "mohla_manpur": {
-        "name": "Mohla Manpur",
-        "taluk": {}
+        "name": "Mohla Manpur"
       },
       "mungeli": {
-        "name": "Mungeli",
-        "taluk": {}
+        "name": "Mungeli"
       },
       "narayanpur": {
-        "name": "Narayanpur",
-        "taluk": {}
+        "name": "Narayanpur"
       },
       "raigarh": {
-        "name": "Raigarh",
-        "taluk": {}
+        "name": "Raigarh"
       },
       "raipur": {
-        "name": "Raipur",
-        "taluk": {}
+        "name": "Raipur"
       },
       "rajnandgaon": {
-        "name": "Rajnandgaon",
-        "taluk": {}
+        "name": "Rajnandgaon"
       },
       "sakti": {
-        "name": "Sakti",
-        "taluk": {}
+        "name": "Sakti"
       },
       "sarangarh_bilaigarh": {
-        "name": "Sarangarh Bilaigarh",
-        "taluk": {}
+        "name": "Sarangarh Bilaigarh"
       },
       "sukma": {
-        "name": "Sukma",
-        "taluk": {}
+        "name": "Sukma"
       },
       "surajpur": {
-        "name": "Surajpur",
-        "taluk": {}
+        "name": "Surajpur"
       },
       "surguja": {
-        "name": "Surguja",
-        "taluk": {}
+        "name": "Surguja"
       }
     }
   },
@@ -682,16 +521,13 @@
     "name": "Dadra and Nagar Haveli and Daman and Diu",
     "district": {
       "dadra_and_nagar_haveli": {
-        "name": "Dadra and Nagar Haveli",
-        "taluk": {}
+        "name": "Dadra and Nagar Haveli"
       },
       "daman": {
-        "name": "Daman",
-        "taluk": {}
+        "name": "Daman"
       },
       "diu": {
-        "name": "Diu",
-        "taluk": {}
+        "name": "Diu"
       }
     }
   },
@@ -699,48 +535,37 @@
     "name": "Delhi",
     "district": {
       "central_delhi": {
-        "name": "Central Delhi",
-        "taluk": {}
+        "name": "Central Delhi"
       },
       "east_delhi": {
-        "name": "East Delhi",
-        "taluk": {}
+        "name": "East Delhi"
       },
       "new_delhi": {
-        "name": "New Delhi",
-        "taluk": {}
+        "name": "New Delhi"
       },
       "north_delhi": {
-        "name": "North Delhi",
-        "taluk": {}
+        "name": "North Delhi"
       },
       "north_east_delhi": {
-        "name": "North East Delhi",
-        "taluk": {}
+        "name": "North East Delhi"
       },
       "north_west_delhi": {
-        "name": "North West Delhi",
-        "taluk": {}
+        "name": "North West Delhi"
       },
       "shahdara": {
-        "name": "Shahdara",
-        "taluk": {}
+        "name": "Shahdara"
       },
       "south_delhi": {
-        "name": "South Delhi",
-        "taluk": {}
+        "name": "South Delhi"
       },
       "south_east_delhi": {
-        "name": "South East Delhi",
-        "taluk": {}
+        "name": "South East Delhi"
       },
       "south_west_delhi": {
-        "name": "South West Delhi",
-        "taluk": {}
+        "name": "South West Delhi"
       },
       "west_delhi": {
-        "name": "West Delhi",
-        "taluk": {}
+        "name": "West Delhi"
       }
     }
   },
@@ -748,50 +573,10 @@
     "name": "Goa",
     "district": {
       "north_goa": {
-        "name": "North Goa",
-        "taluk": {
-          "pernem": {
-            "name": "Pernem"
-          },
-          "bardez": {
-            "name": "Bardez"
-          },
-          "bicholim": {
-            "name": "Bicholim"
-          },
-          "sattari": {
-            "name": "Sattari"
-          },
-          "tiswadi": {
-            "name": "Tiswadi"
-          }
-        }
+        "name": "North Goa"
       },
       "south_goa": {
-        "name": "South Goa",
-        "taluk": {
-          "ponda": {
-            "name": "Ponda"
-          },
-          "murmgao": {
-            "name": "Murmgao"
-          },
-          "salcete": {
-            "name": "Salcete"
-          },
-          "sanguem": {
-            "name": "Sanguem"
-          },
-          "quepem": {
-            "name": "Quepem"
-          },
-          "dharbandora": {
-            "name": "Dharbandora"
-          },
-          "canacona": {
-            "name": "Canacona"
-          }
-        }
+        "name": "South Goa"
       }
     }
   },
@@ -799,28 +584,22 @@
     "name": "Sikkim",
     "district": {
       "gyalshing": {
-        "name": "Gyalshing",
-        "taluk": {}
+        "name": "Gyalshing"
       },
       "namchi": {
-        "name": "Namchi",
-        "taluk": {}
+        "name": "Namchi"
       },
       "pakyong": {
-        "name": "Pakyong",
-        "taluk": {}
+        "name": "Pakyong"
       },
       "soreng": {
-        "name": "Soreng",
-        "taluk": {}
+        "name": "Soreng"
       },
       "mangan": {
-        "name": "Mangan",
-        "taluk": {}
+        "name": "Mangan"
       },
       "gangtok": {
-        "name": "Gangtok",
-        "taluk": {}
+        "name": "Gangtok"
       }
     }
   },
@@ -828,136 +607,103 @@
     "name": "Gujarat",
     "district": {
       "ahmedabad": {
-        "name": "Ahmedabad",
-        "taluk": {}
+        "name": "Ahmedabad"
       },
       "amreli": {
-        "name": "Amreli",
-        "taluk": {}
+        "name": "Amreli"
       },
       "anand": {
-        "name": "Anand",
-        "taluk": {}
+        "name": "Anand"
       },
       "aravalli": {
-        "name": "Aravalli",
-        "taluk": {}
+        "name": "Aravalli"
       },
       "banaskantha": {
-        "name": "Banaskantha",
-        "taluk": {}
+        "name": "Banaskantha"
       },
       "bharuch": {
-        "name": "Bharuch",
-        "taluk": {}
+        "name": "Bharuch"
       },
       "bhavnagar": {
-        "name": "Bhavnagar",
-        "taluk": {}
+        "name": "Bhavnagar"
       },
       "botad": {
-        "name": "Botad",
-        "taluk": {}
+        "name": "Botad"
       },
       "chhota_udaipur": {
-        "name": "Chhota Udaipur",
-        "taluk": {}
+        "name": "Chhota Udaipur"
       },
       "dahod": {
-        "name": "Dahod",
-        "taluk": {}
+        "name": "Dahod"
       },
       "dang": {
-        "name": "Dang",
-        "taluk": {}
+        "name": "Dang"
       },
       "devbhoomi_dwarka": {
-        "name": "Devbhoomi Dwarka",
-        "taluk": {}
+        "name": "Devbhoomi Dwarka"
       },
       "gandhinagar": {
-        "name": "Gandhinagar",
-        "taluk": {}
+        "name": "Gandhinagar"
       },
       "gir_somnath": {
-        "name": "Gir Somnath",
-        "taluk": {}
+        "name": "Gir Somnath"
       },
       "jamnagar": {
-        "name": "Jamnagar",
-        "taluk": {}
+        "name": "Jamnagar"
       },
       "junagadh": {
-        "name": "Junagadh",
-        "taluk": {}
+        "name": "Junagadh"
       },
       "kheda": {
-        "name": "Kheda",
-        "taluk": {}
+        "name": "Kheda"
       },
       "kutch": {
-        "name": "Kutch",
-        "taluk": {}
+        "name": "Kutch"
       },
       "mahisagar": {
-        "name": "Mahisagar",
-        "taluk": {}
+        "name": "Mahisagar"
       },
       "mehsana": {
-        "name": "Mehsana",
-        "taluk": {}
+        "name": "Mehsana"
       },
       "morbi": {
-        "name": "Morbi",
-        "taluk": {}
+        "name": "Morbi"
       },
       "narmada": {
-        "name": "Narmada",
-        "taluk": {}
+        "name": "Narmada"
       },
       "navsari": {
-        "name": "Navsari",
-        "taluk": {}
+        "name": "Navsari"
       },
       "panchmahal": {
-        "name": "Panchmahal",
-        "taluk": {}
+        "name": "Panchmahal"
       },
       "patan": {
-        "name": "Patan",
-        "taluk": {}
+        "name": "Patan"
       },
       "porbandar": {
-        "name": "Porbandar",
-        "taluk": {}
+        "name": "Porbandar"
       },
       "rajkot": {
-        "name": "Rajkot",
-        "taluk": {}
+        "name": "Rajkot"
       },
       "sabarkantha": {
-        "name": "Sabarkantha",
-        "taluk": {}
+        "name": "Sabarkantha"
       },
       "surat": {
-        "name": "Surat",
-        "taluk": {}
+        "name": "Surat"
       },
       "surendranagar": {
-        "name": "Surendranagar",
-        "taluk": {}
+        "name": "Surendranagar"
       },
       "tapi": {
-        "name": "Tapi",
-        "taluk": {}
+        "name": "Tapi"
       },
       "vadodara": {
-        "name": "Vadodara",
-        "taluk": {}
+        "name": "Vadodara"
       },
       "valsad": {
-        "name": "Valsad",
-        "taluk": {}
+        "name": "Valsad"
       }
     }
   },
@@ -965,92 +711,70 @@
     "name": "Haryana",
     "district": {
       "ambala": {
-        "name": "Ambala",
-        "taluk": {}
+        "name": "Ambala"
       },
       "bhiwani": {
-        "name": "Bhiwani",
-        "taluk": {}
+        "name": "Bhiwani"
       },
       "charkhi_dadri": {
-        "name": "Charkhi Dadri",
-        "taluk": {}
+        "name": "Charkhi Dadri"
       },
       "faridabad": {
-        "name": "Faridabad",
-        "taluk": {}
+        "name": "Faridabad"
       },
       "fatehabad": {
-        "name": "Fatehabad",
-        "taluk": {}
+        "name": "Fatehabad"
       },
       "gurugram": {
-        "name": "Gurugram",
-        "taluk": {}
+        "name": "Gurugram"
       },
       "hisar": {
-        "name": "Hisar",
-        "taluk": {}
+        "name": "Hisar"
       },
       "jhajjar": {
-        "name": "Jhajjar",
-        "taluk": {}
+        "name": "Jhajjar"
       },
       "jind": {
-        "name": "Jind",
-        "taluk": {}
+        "name": "Jind"
       },
       "kaithal": {
-        "name": "Kaithal",
-        "taluk": {}
+        "name": "Kaithal"
       },
       "karnal": {
-        "name": "Karnal",
-        "taluk": {}
+        "name": "Karnal"
       },
       "kurukshetra": {
-        "name": "Kurukshetra",
-        "taluk": {}
+        "name": "Kurukshetra"
       },
       "mahendragarh": {
-        "name": "Mahendragarh",
-        "taluk": {}
+        "name": "Mahendragarh"
       },
       "mewat": {
-        "name": "Mewat",
-        "taluk": {}
+        "name": "Mewat"
       },
       "palwal": {
-        "name": "Palwal",
-        "taluk": {}
+        "name": "Palwal"
       },
       "panchkula": {
-        "name": "Panchkula",
-        "taluk": {}
+        "name": "Panchkula"
       },
       "panipat": {
-        "name": "Panipat",
-        "taluk": {}
+        "name": "Panipat"
       },
       "rewari": {
-        "name": "Rewari",
-        "taluk": {}
+        "name": "Rewari"
       },
       "rohtak": {
-        "name": "Rohtak",
-        "taluk": {}
+        "name": "Rohtak"
       },
       "sirsa": {
-        "name": "Sirsa",
-        "taluk": {}
+        "name": "Sirsa"
       },
       "sonipat": {
-        "name": "Sonipat",
-        "taluk": {}
+        "name": "Sonipat"
       },
       "yamunanagar": {
-        "name": "Yamunanagar",
-        "taluk": {}
+        "name": "Yamunanagar"
       }
     }
   },
@@ -1058,52 +782,40 @@
     "name": "Himachal Pradesh",
     "district": {
       "bilaspur": {
-        "name": "Bilaspur",
-        "taluk": {}
+        "name": "Bilaspur"
       },
       "chamba": {
-        "name": "Chamba",
-        "taluk": {}
+        "name": "Chamba"
       },
       "hamirpur": {
-        "name": "Hamirpur",
-        "taluk": {}
+        "name": "Hamirpur"
       },
       "kangra": {
-        "name": "Kangra",
-        "taluk": {}
+        "name": "Kangra"
       },
       "kinnaur": {
-        "name": "Kinnaur",
-        "taluk": {}
+        "name": "Kinnaur"
       },
       "kullu": {
-        "name": "Kullu",
-        "taluk": {}
+        "name": "Kullu"
       },
       "lahaul_spiti": {
-        "name": "Lahaul Spiti",
-        "taluk": {}
+        "name": "Lahaul Spiti"
       },
       "mandi": {
-        "name": "Mandi",
-        "taluk": {}
+        "name": "Mandi"
       },
       "shimla": {
-        "name": "Shimla",
-        "taluk": {}
+        "name": "Shimla"
       },
       "sirmaur": {
-        "name": "Sirmaur",
-        "taluk": {}
+        "name": "Sirmaur"
       },
       "solan": {
-        "name": "Solan",
-        "taluk": {}
+        "name": "Solan"
       },
       "una": {
-        "name": "Una",
-        "taluk": {}
+        "name": "Una"
       }
     }
   },
@@ -1111,84 +823,64 @@
     "name": "Jammu Kashmir",
     "district": {
       "anantnag": {
-        "name": "Anantnag",
-        "taluk": {}
+        "name": "Anantnag"
       },
       "bandipora": {
-        "name": "Bandipora",
-        "taluk": {}
+        "name": "Bandipora"
       },
       "baramulla": {
-        "name": "Baramulla",
-        "taluk": {}
+        "name": "Baramulla"
       },
       "budgam": {
-        "name": "Budgam",
-        "taluk": {}
+        "name": "Budgam"
       },
       "doda": {
-        "name": "Doda",
-        "taluk": {}
+        "name": "Doda"
       },
       "ganderbal": {
-        "name": "Ganderbal",
-        "taluk": {}
+        "name": "Ganderbal"
       },
       "jammu": {
-        "name": "Jammu",
-        "taluk": {}
+        "name": "Jammu"
       },
       "kathua": {
-        "name": "Kathua",
-        "taluk": {}
+        "name": "Kathua"
       },
       "kishtwar": {
-        "name": "Kishtwar",
-        "taluk": {}
+        "name": "Kishtwar"
       },
       "kulgam": {
-        "name": "Kulgam",
-        "taluk": {}
+        "name": "Kulgam"
       },
       "kupwara": {
-        "name": "Kupwara",
-        "taluk": {}
+        "name": "Kupwara"
       },
       "poonch": {
-        "name": "Poonch",
-        "taluk": {}
+        "name": "Poonch"
       },
       "pulwama": {
-        "name": "Pulwama",
-        "taluk": {}
+        "name": "Pulwama"
       },
       "rajouri": {
-        "name": "Rajouri",
-        "taluk": {}
+        "name": "Rajouri"
       },
       "ramban": {
-        "name": "Ramban",
-        "taluk": {}
+        "name": "Ramban"
       },
       "reasi": {
-        "name": "Reasi",
-        "taluk": {}
+        "name": "Reasi"
       },
       "samba": {
-        "name": "Samba",
-        "taluk": {}
+        "name": "Samba"
       },
       "shopian": {
-        "name": "Shopian",
-        "taluk": {}
+        "name": "Shopian"
       },
       "srinagar": {
-        "name": "Srinagar",
-        "taluk": {}
+        "name": "Srinagar"
       },
       "udhampur": {
-        "name": "Udhampur",
-        "taluk": {}
+        "name": "Udhampur"
       }
     }
   },
@@ -1196,100 +888,76 @@
     "name": "Jharkhand",
     "district": {
       "bokaro": {
-        "name": "Bokaro",
-        "taluk": {}
+        "name": "Bokaro"
       },
       "chatra": {
-        "name": "Chatra",
-        "taluk": {}
+        "name": "Chatra"
       },
       "deoghar": {
-        "name": "Deoghar",
-        "taluk": {}
+        "name": "Deoghar"
       },
       "dhanbad": {
-        "name": "Dhanbad",
-        "taluk": {}
+        "name": "Dhanbad"
       },
       "dumka": {
-        "name": "Dumka",
-        "taluk": {}
+        "name": "Dumka"
       },
       "east_singhbhum": {
-        "name": "East Singhbhum",
-        "taluk": {}
+        "name": "East Singhbhum"
       },
       "garhwa": {
-        "name": "Garhwa",
-        "taluk": {}
+        "name": "Garhwa"
       },
       "giridih": {
-        "name": "Giridih",
-        "taluk": {}
+        "name": "Giridih"
       },
       "godda": {
-        "name": "Godda",
-        "taluk": {}
+        "name": "Godda"
       },
       "gumla": {
-        "name": "Gumla",
-        "taluk": {}
+        "name": "Gumla"
       },
       "hazaribagh": {
-        "name": "Hazaribagh",
-        "taluk": {}
+        "name": "Hazaribagh"
       },
       "jamtara": {
-        "name": "Jamtara",
-        "taluk": {}
+        "name": "Jamtara"
       },
       "khunti": {
-        "name": "Khunti",
-        "taluk": {}
+        "name": "Khunti"
       },
       "koderma": {
-        "name": "Koderma",
-        "taluk": {}
+        "name": "Koderma"
       },
       "latehar": {
-        "name": "Latehar",
-        "taluk": {}
+        "name": "Latehar"
       },
       "lohardaga": {
-        "name": "Lohardaga",
-        "taluk": {}
+        "name": "Lohardaga"
       },
       "pakur": {
-        "name": "Pakur",
-        "taluk": {}
+        "name": "Pakur"
       },
       "palamu": {
-        "name": "Palamu",
-        "taluk": {}
+        "name": "Palamu"
       },
       "ramgarh": {
-        "name": "Ramgarh",
-        "taluk": {}
+        "name": "Ramgarh"
       },
       "ranchi": {
-        "name": "Ranchi",
-        "taluk": {}
+        "name": "Ranchi"
       },
       "sahebganj": {
-        "name": "Sahebganj",
-        "taluk": {}
+        "name": "Sahebganj"
       },
       "seraikela_kharsawan": {
-        "name": "Seraikela Kharsawan",
-        "taluk": {}
+        "name": "Seraikela Kharsawan"
       },
       "simdega": {
-        "name": "Simdega",
-        "taluk": {}
+        "name": "Simdega"
       },
       "west_singhbhum": {
-        "name": "West Singhbhum",
-        "taluk": {}
+        "name": "West Singhbhum"
       }
     }
   },
@@ -1297,128 +965,97 @@
     "name": "Karnataka",
     "district": {
       "bagalkot": {
-        "name": "Bagalkot",
-        "taluk": {}
+        "name": "Bagalkot"
       },
       "bangalore_rural": {
-        "name": "Bangalore Rural",
-        "taluk": {}
+        "name": "Bangalore Rural"
       },
       "bangalore_urban": {
-        "name": "Bangalore Urban",
-        "taluk": {}
+        "name": "Bangalore Urban"
       },
       "belgaum": {
-        "name": "Belgaum",
-        "taluk": {}
+        "name": "Belgaum"
       },
       "bellary": {
-        "name": "Bellary",
-        "taluk": {}
+        "name": "Bellary"
       },
       "bidar": {
-        "name": "Bidar",
-        "taluk": {}
+        "name": "Bidar"
       },
       "chamarajanagar": {
-        "name": "Chamarajanagar",
-        "taluk": {}
+        "name": "Chamarajanagar"
       },
       "chikkaballapur": {
-        "name": "Chikkaballapur",
-        "taluk": {}
+        "name": "Chikkaballapur"
       },
       "chikkamagaluru": {
-        "name": "Chikkamagaluru",
-        "taluk": {}
+        "name": "Chikkamagaluru"
       },
       "chitradurga": {
-        "name": "Chitradurga",
-        "taluk": {}
+        "name": "Chitradurga"
       },
       "dakshina_kannada": {
-        "name": "Dakshina Kannada",
-        "taluk": {}
+        "name": "Dakshina Kannada"
       },
       "davanagere": {
-        "name": "Davanagere",
-        "taluk": {}
+        "name": "Davanagere"
       },
       "dharwad": {
-        "name": "Dharwad",
-        "taluk": {}
+        "name": "Dharwad"
       },
       "gadag": {
-        "name": "Gadag",
-        "taluk": {}
+        "name": "Gadag"
       },
       "gulbarga": {
-        "name": "Gulbarga",
-        "taluk": {}
+        "name": "Gulbarga"
       },
       "hassan": {
-        "name": "Hassan",
-        "taluk": {}
+        "name": "Hassan"
       },
       "haveri": {
-        "name": "Haveri",
-        "taluk": {}
+        "name": "Haveri"
       },
       "kodagu": {
-        "name": "Kodagu",
-        "taluk": {}
+        "name": "Kodagu"
       },
       "kolar": {
-        "name": "Kolar",
-        "taluk": {}
+        "name": "Kolar"
       },
       "koppal": {
-        "name": "Koppal",
-        "taluk": {}
+        "name": "Koppal"
       },
       "mandya": {
-        "name": "Mandya",
-        "taluk": {}
+        "name": "Mandya"
       },
       "mysore": {
-        "name": "Mysore",
-        "taluk": {}
+        "name": "Mysore"
       },
       "raichur": {
-        "name": "Raichur",
-        "taluk": {}
+        "name": "Raichur"
       },
       "ramanagara": {
-        "name": "Ramanagara",
-        "taluk": {}
+        "name": "Ramanagara"
       },
       "shimoga": {
-        "name": "Shimoga",
-        "taluk": {}
+        "name": "Shimoga"
       },
       "tumkur": {
-        "name": "Tumkur",
-        "taluk": {}
+        "name": "Tumkur"
       },
       "udupi": {
-        "name": "Udupi",
-        "taluk": {}
+        "name": "Udupi"
       },
       "uttara_kannada": {
-        "name": "Uttara Kannada",
-        "taluk": {}
+        "name": "Uttara Kannada"
       },
       "vijayanagara": {
-        "name": "Vijayanagara",
-        "taluk": {}
+        "name": "Vijayanagara"
       },
       "vijayapura": {
-        "name": "Vijayapura",
-        "taluk": {}
+        "name": "Vijayapura"
       },
       "yadgir": {
-        "name": "Yadgir",
-        "taluk": {}
+        "name": "Yadgir"
       }
     }
   },
@@ -1426,60 +1063,46 @@
     "name": "Kerala",
     "district": {
       "alappuzha": {
-        "name": "Alappuzha",
-        "taluk": {}
+        "name": "Alappuzha"
       },
       "ernakulam": {
-        "name": "Ernakulam",
-        "taluk": {}
+        "name": "Ernakulam"
       },
       "idukki": {
-        "name": "Idukki",
-        "taluk": {}
+        "name": "Idukki"
       },
       "kannur": {
-        "name": "Kannur",
-        "taluk": {}
+        "name": "Kannur"
       },
       "kasaragod": {
-        "name": "Kasaragod",
-        "taluk": {}
+        "name": "Kasaragod"
       },
       "kollam": {
-        "name": "Kollam",
-        "taluk": {}
+        "name": "Kollam"
       },
       "kottayam": {
-        "name": "Kottayam",
-        "taluk": {}
+        "name": "Kottayam"
       },
       "kozhikode": {
-        "name": "Kozhikode",
-        "taluk": {}
+        "name": "Kozhikode"
       },
       "malappuram": {
-        "name": "Malappuram",
-        "taluk": {}
+        "name": "Malappuram"
       },
       "palakkad": {
-        "name": "Palakkad",
-        "taluk": {}
+        "name": "Palakkad"
       },
       "pathanamthitta": {
-        "name": "Pathanamthitta",
-        "taluk": {}
+        "name": "Pathanamthitta"
       },
       "thiruvananthapuram": {
-        "name": "Thiruvananthapuram",
-        "taluk": {}
+        "name": "Thiruvananthapuram"
       },
       "thrissur": {
-        "name": "Thrissur",
-        "taluk": {}
+        "name": "Thrissur"
       },
       "wayanad": {
-        "name": "Wayanad",
-        "taluk": {}
+        "name": "Wayanad"
       }
     }
   },
@@ -1487,12 +1110,10 @@
     "name": "Ladakh",
     "district": {
       "kargil": {
-        "name": "Kargil",
-        "taluk": {}
+        "name": "Kargil"
       },
       "leh": {
-        "name": "Leh",
-        "taluk": {}
+        "name": "Leh"
       }
     }
   },
@@ -1500,8 +1121,7 @@
     "name": "Lakshadweep",
     "district": {
       "lakshadweep": {
-        "name": "Lakshadweep",
-        "taluk": {}
+        "name": "Lakshadweep"
       }
     }
   },
@@ -1509,224 +1129,169 @@
     "name": "Madhya Pradesh",
     "district": {
       "agar_malwa": {
-        "name": "Agar Malwa",
-        "taluk": {}
+        "name": "Agar Malwa"
       },
       "alirajpur": {
-        "name": "Alirajpur",
-        "taluk": {}
+        "name": "Alirajpur"
       },
       "anuppur": {
-        "name": "Anuppur",
-        "taluk": {}
+        "name": "Anuppur"
       },
       "ashoknagar": {
-        "name": "Ashoknagar",
-        "taluk": {}
+        "name": "Ashoknagar"
       },
       "balaghat": {
-        "name": "Balaghat",
-        "taluk": {}
+        "name": "Balaghat"
       },
       "barwani": {
-        "name": "Barwani",
-        "taluk": {}
+        "name": "Barwani"
       },
       "betul": {
-        "name": "Betul",
-        "taluk": {}
+        "name": "Betul"
       },
       "bhind": {
-        "name": "Bhind",
-        "taluk": {}
+        "name": "Bhind"
       },
       "bhopal": {
-        "name": "Bhopal",
-        "taluk": {}
+        "name": "Bhopal"
       },
       "burhanpur": {
-        "name": "Burhanpur",
-        "taluk": {}
+        "name": "Burhanpur"
       },
       "chachaura": {
-        "name": "Chachaura",
-        "taluk": {}
+        "name": "Chachaura"
       },
       "chhatarpur": {
-        "name": "Chhatarpur",
-        "taluk": {}
+        "name": "Chhatarpur"
       },
       "chhindwara": {
-        "name": "Chhindwara",
-        "taluk": {}
+        "name": "Chhindwara"
       },
       "damoh": {
-        "name": "Damoh",
-        "taluk": {}
+        "name": "Damoh"
       },
       "datia": {
-        "name": "Datia",
-        "taluk": {}
+        "name": "Datia"
       },
       "dewas": {
-        "name": "Dewas",
-        "taluk": {}
+        "name": "Dewas"
       },
       "dhar": {
-        "name": "Dhar",
-        "taluk": {}
+        "name": "Dhar"
       },
       "dindori": {
-        "name": "Dindori",
-        "taluk": {}
+        "name": "Dindori"
       },
       "guna": {
-        "name": "Guna",
-        "taluk": {}
+        "name": "Guna"
       },
       "gwalior": {
-        "name": "Gwalior",
-        "taluk": {}
+        "name": "Gwalior"
       },
       "harda": {
-        "name": "Harda",
-        "taluk": {}
+        "name": "Harda"
       },
       "hoshangabad": {
-        "name": "Hoshangabad",
-        "taluk": {}
+        "name": "Hoshangabad"
       },
       "indore": {
-        "name": "Indore",
-        "taluk": {}
+        "name": "Indore"
       },
       "jabalpur": {
-        "name": "Jabalpur",
-        "taluk": {}
+        "name": "Jabalpur"
       },
       "jhabua": {
-        "name": "Jhabua",
-        "taluk": {}
+        "name": "Jhabua"
       },
       "katni": {
-        "name": "Katni",
-        "taluk": {}
+        "name": "Katni"
       },
       "khandwa": {
-        "name": "Khandwa",
-        "taluk": {}
+        "name": "Khandwa"
       },
       "khargone": {
-        "name": "Khargone",
-        "taluk": {}
+        "name": "Khargone"
       },
       "maihar": {
-        "name": "Maihar",
-        "taluk": {}
+        "name": "Maihar"
       },
       "mandla": {
-        "name": "Mandla",
-        "taluk": {}
+        "name": "Mandla"
       },
       "mandsaur": {
-        "name": "Mandsaur",
-        "taluk": {}
+        "name": "Mandsaur"
       },
       "morena": {
-        "name": "Morena",
-        "taluk": {}
+        "name": "Morena"
       },
       "nagda": {
-        "name": "Nagda",
-        "taluk": {}
+        "name": "Nagda"
       },
       "narsinghpur": {
-        "name": "Narsinghpur",
-        "taluk": {}
+        "name": "Narsinghpur"
       },
       "neemuch": {
-        "name": "Neemuch",
-        "taluk": {}
+        "name": "Neemuch"
       },
       "niwari": {
-        "name": "Niwari",
-        "taluk": {}
+        "name": "Niwari"
       },
       "panna": {
-        "name": "Panna",
-        "taluk": {}
+        "name": "Panna"
       },
       "raisen": {
-        "name": "Raisen",
-        "taluk": {}
+        "name": "Raisen"
       },
       "rajgarh": {
-        "name": "Rajgarh",
-        "taluk": {}
+        "name": "Rajgarh"
       },
       "ratlam": {
-        "name": "Ratlam",
-        "taluk": {}
+        "name": "Ratlam"
       },
       "rewa": {
-        "name": "Rewa",
-        "taluk": {}
+        "name": "Rewa"
       },
       "sagar": {
-        "name": "Sagar",
-        "taluk": {}
+        "name": "Sagar"
       },
       "satna": {
-        "name": "Satna",
-        "taluk": {}
+        "name": "Satna"
       },
       "sehore": {
-        "name": "Sehore",
-        "taluk": {}
+        "name": "Sehore"
       },
       "seoni": {
-        "name": "Seoni",
-        "taluk": {}
+        "name": "Seoni"
       },
       "shahdol": {
-        "name": "Shahdol",
-        "taluk": {}
+        "name": "Shahdol"
       },
       "shajapur": {
-        "name": "Shajapur",
-        "taluk": {}
+        "name": "Shajapur"
       },
       "sheopur": {
-        "name": "Sheopur",
-        "taluk": {}
+        "name": "Sheopur"
       },
       "shivpuri": {
-        "name": "Shivpuri",
-        "taluk": {}
+        "name": "Shivpuri"
       },
       "sidhi": {
-        "name": "Sidhi",
-        "taluk": {}
+        "name": "Sidhi"
       },
       "singrauli": {
-        "name": "Singrauli",
-        "taluk": {}
+        "name": "Singrauli"
       },
       "tikamgarh": {
-        "name": "Tikamgarh",
-        "taluk": {}
+        "name": "Tikamgarh"
       },
       "ujjain": {
-        "name": "Ujjain",
-        "taluk": {}
+        "name": "Ujjain"
       },
       "umaria": {
-        "name": "Umaria",
-        "taluk": {}
+        "name": "Umaria"
       },
       "vidisha": {
-        "name": "Vidisha",
-        "taluk": {}
+        "name": "Vidisha"
       }
     }
   },
@@ -1734,148 +1299,112 @@
     "name": "Maharashtra",
     "district": {
       "ahmednagar": {
-        "name": "Ahmednagar",
-        "taluk": {}
+        "name": "Ahmednagar"
       },
       "akola": {
-        "name": "Akola",
-        "taluk": {}
+        "name": "Akola"
       },
       "amravati": {
-        "name": "Amravati",
-        "taluk": {}
+        "name": "Amravati"
       },
       "aurangabad": {
-        "name": "Aurangabad",
-        "taluk": {}
+        "name": "Aurangabad"
       },
       "beed": {
-        "name": "Beed",
-        "taluk": {}
+        "name": "Beed"
       },
       "bhandara": {
-        "name": "Bhandara",
-        "taluk": {}
+        "name": "Bhandara"
       },
       "buldhana": {
-        "name": "Buldhana",
-        "taluk": {}
+        "name": "Buldhana"
       },
       "chandrapur": {
-        "name": "Chandrapur",
-        "taluk": {}
+        "name": "Chandrapur"
       },
       "dhule": {
-        "name": "Dhule",
-        "taluk": {}
+        "name": "Dhule"
       },
       "gadchiroli": {
-        "name": "Gadchiroli",
-        "taluk": {}
+        "name": "Gadchiroli"
       },
       "gondia": {
-        "name": "Gondia",
-        "taluk": {}
+        "name": "Gondia"
       },
       "hingoli": {
-        "name": "Hingoli",
-        "taluk": {}
+        "name": "Hingoli"
       },
       "jalgaon": {
-        "name": "Jalgaon",
-        "taluk": {}
+        "name": "Jalgaon"
       },
       "jalna": {
-        "name": "Jalna",
-        "taluk": {}
+        "name": "Jalna"
       },
       "kolhapur": {
-        "name": "Kolhapur",
-        "taluk": {}
+        "name": "Kolhapur"
       },
       "latur": {
-        "name": "Latur",
-        "taluk": {}
+        "name": "Latur"
       },
       "mumbai_city": {
-        "name": "Mumbai City",
-        "taluk": {}
+        "name": "Mumbai City"
       },
       "mumbai_suburban": {
-        "name": "Mumbai Suburban",
-        "taluk": {}
+        "name": "Mumbai Suburban"
       },
       "nagpur": {
-        "name": "Nagpur",
-        "taluk": {}
+        "name": "Nagpur"
       },
       "nanded": {
-        "name": "Nanded",
-        "taluk": {}
+        "name": "Nanded"
       },
       "nandurbar": {
-        "name": "Nandurbar",
-        "taluk": {}
+        "name": "Nandurbar"
       },
       "nashik": {
-        "name": "Nashik",
-        "taluk": {}
+        "name": "Nashik"
       },
       "osmanabad": {
-        "name": "Osmanabad",
-        "taluk": {}
+        "name": "Osmanabad"
       },
       "palghar": {
-        "name": "Palghar",
-        "taluk": {}
+        "name": "Palghar"
       },
       "parbhani": {
-        "name": "Parbhani",
-        "taluk": {}
+        "name": "Parbhani"
       },
       "pune": {
-        "name": "Pune",
-        "taluk": {}
+        "name": "Pune"
       },
       "raigad": {
-        "name": "Raigad",
-        "taluk": {}
+        "name": "Raigad"
       },
       "ratnagiri": {
-        "name": "Ratnagiri",
-        "taluk": {}
+        "name": "Ratnagiri"
       },
       "sangli": {
-        "name": "Sangli",
-        "taluk": {}
+        "name": "Sangli"
       },
       "satara": {
-        "name": "Satara",
-        "taluk": {}
+        "name": "Satara"
       },
       "sindhudurg": {
-        "name": "Sindhudurg",
-        "taluk": {}
+        "name": "Sindhudurg"
       },
       "solapur": {
-        "name": "Solapur",
-        "taluk": {}
+        "name": "Solapur"
       },
       "thane": {
-        "name": "Thane",
-        "taluk": {}
+        "name": "Thane"
       },
       "wardha": {
-        "name": "Wardha",
-        "taluk": {}
+        "name": "Wardha"
       },
       "washim": {
-        "name": "Washim",
-        "taluk": {}
+        "name": "Washim"
       },
       "yavatmal": {
-        "name": "Yavatmal",
-        "taluk": {}
+        "name": "Yavatmal"
       }
     }
   },
@@ -1883,68 +1412,52 @@
     "name": "Manipur",
     "district": {
       "bishnupur": {
-        "name": "Bishnupur",
-        "taluk": {}
+        "name": "Bishnupur"
       },
       "chandel": {
-        "name": "Chandel",
-        "taluk": {}
+        "name": "Chandel"
       },
       "churachandpur": {
-        "name": "Churachandpur",
-        "taluk": {}
+        "name": "Churachandpur"
       },
       "imphal_east": {
-        "name": "Imphal East",
-        "taluk": {}
+        "name": "Imphal East"
       },
       "imphal_west": {
-        "name": "Imphal West",
-        "taluk": {}
+        "name": "Imphal West"
       },
       "jiribam": {
-        "name": "Jiribam",
-        "taluk": {}
+        "name": "Jiribam"
       },
       "kakching": {
-        "name": "Kakching",
-        "taluk": {}
+        "name": "Kakching"
       },
       "kamjong": {
-        "name": "Kamjong",
-        "taluk": {}
+        "name": "Kamjong"
       },
       "kangpokpi": {
-        "name": "Kangpokpi",
-        "taluk": {}
+        "name": "Kangpokpi"
       },
       "noney": {
-        "name": "Noney",
-        "taluk": {}
+        "name": "Noney"
       },
       "pherzawl": {
-        "name": "Pherzawl",
-        "taluk": {}
+        "name": "Pherzawl"
       },
       "senapati": {
-        "name": "Senapati",
-        "taluk": {}
+        "name": "Senapati"
       },
       "tamenglong": {
-        "name": "Tamenglong",
-        "taluk": {}
+        "name": "Tamenglong"
       },
       "tengnoupal": {
-        "name": "Tengnoupal",
-        "taluk": {}
+        "name": "Tengnoupal"
       },
       "thoubal": {
-        "name": "Thoubal",
-        "taluk": {}
+        "name": "Thoubal"
       },
       "ukhrul": {
-        "name": "Ukhrul",
-        "taluk": {}
+        "name": "Ukhrul"
       }
     }
   },
@@ -1952,52 +1465,40 @@
     "name": "Meghalaya",
     "district": {
       "east_garo_hills": {
-        "name": "East Garo Hills",
-        "taluk": {}
+        "name": "East Garo Hills"
       },
       "east_jaintia_hills": {
-        "name": "East Jaintia Hills",
-        "taluk": {}
+        "name": "East Jaintia Hills"
       },
       "east_khasi_hills": {
-        "name": "East Khasi Hills",
-        "taluk": {}
+        "name": "East Khasi Hills"
       },
       "mairang": {
-        "name": "Mairang",
-        "taluk": {}
+        "name": "Mairang"
       },
       "north_garo_hills": {
-        "name": "North Garo Hills",
-        "taluk": {}
+        "name": "North Garo Hills"
       },
       "ri_bhoi": {
-        "name": "Ri Bhoi",
-        "taluk": {}
+        "name": "Ri Bhoi"
       },
       "south_garo_hills": {
-        "name": "South Garo Hills",
-        "taluk": {}
+        "name": "South Garo Hills"
       },
       "south_west_garo_hills": {
-        "name": "South West Garo Hills",
-        "taluk": {}
+        "name": "South West Garo Hills"
       },
       "south_west_khasi_hills": {
-        "name": "South West Khasi Hills",
-        "taluk": {}
+        "name": "South West Khasi Hills"
       },
       "west_garo_hills": {
-        "name": "West Garo Hills",
-        "taluk": {}
+        "name": "West Garo Hills"
       },
       "west_jaintia_hills": {
-        "name": "West Jaintia Hills",
-        "taluk": {}
+        "name": "West Jaintia Hills"
       },
       "west_khasi_hills": {
-        "name": "West Khasi Hills",
-        "taluk": {}
+        "name": "West Khasi Hills"
       }
     }
   },
@@ -2005,48 +1506,37 @@
     "name": "Mizoram",
     "district": {
       "aizawl": {
-        "name": "Aizawl",
-        "taluk": {}
+        "name": "Aizawl"
       },
       "champhai": {
-        "name": "Champhai",
-        "taluk": {}
+        "name": "Champhai"
       },
       "hnahthial": {
-        "name": "Hnahthial",
-        "taluk": {}
+        "name": "Hnahthial"
       },
       "kolasib": {
-        "name": "Kolasib",
-        "taluk": {}
+        "name": "Kolasib"
       },
       "khawzawl": {
-        "name": "Khawzawl",
-        "taluk": {}
+        "name": "Khawzawl"
       },
       "lawngtlai": {
-        "name": "Lawngtlai",
-        "taluk": {}
+        "name": "Lawngtlai"
       },
       "lunglei": {
-        "name": "Lunglei",
-        "taluk": {}
+        "name": "Lunglei"
       },
       "mamit": {
-        "name": "Mamit",
-        "taluk": {}
+        "name": "Mamit"
       },
       "saiha": {
-        "name": "Saiha",
-        "taluk": {}
+        "name": "Saiha"
       },
       "serchhip": {
-        "name": "Serchhip",
-        "taluk": {}
+        "name": "Serchhip"
       },
       "saitual": {
-        "name": "Saitual",
-        "taluk": {}
+        "name": "Saitual"
       }
     }
   },
@@ -2054,68 +1544,52 @@
     "name": "Nagaland",
     "district": {
       "chumukedima": {
-        "name": "Chumukedima",
-        "taluk": {}
+        "name": "Chumukedima"
       },
       "dimapur": {
-        "name": "Dimapur",
-        "taluk": {}
+        "name": "Dimapur"
       },
       "kiphire": {
-        "name": "Kiphire",
-        "taluk": {}
+        "name": "Kiphire"
       },
       "kohima": {
-        "name": "Kohima",
-        "taluk": {}
+        "name": "Kohima"
       },
       "longleng": {
-        "name": "Longleng",
-        "taluk": {}
+        "name": "Longleng"
       },
       "mokokchung": {
-        "name": "Mokokchung",
-        "taluk": {}
+        "name": "Mokokchung"
       },
       "mon": {
-        "name": "Mon",
-        "taluk": {}
+        "name": "Mon"
       },
       "niuland": {
-        "name": "Niuland",
-        "taluk": {}
+        "name": "Niuland"
       },
       "noklak": {
-        "name": "Noklak",
-        "taluk": {}
+        "name": "Noklak"
       },
       "peren": {
-        "name": "Peren",
-        "taluk": {}
+        "name": "Peren"
       },
       "phek": {
-        "name": "Phek",
-        "taluk": {}
+        "name": "Phek"
       },
       "shamator": {
-        "name": "Shamator",
-        "taluk": {}
+        "name": "Shamator"
       },
       "tseminyu": {
-        "name": "Tseminyu",
-        "taluk": {}
+        "name": "Tseminyu"
       },
       "tuensang": {
-        "name": "Tuensang",
-        "taluk": {}
+        "name": "Tuensang"
       },
       "wokha": {
-        "name": "Wokha",
-        "taluk": {}
+        "name": "Wokha"
       },
       "zunheboto": {
-        "name": "Zunheboto",
-        "taluk": {}
+        "name": "Zunheboto"
       }
     }
   },
@@ -2123,124 +1597,94 @@
     "name": "Odisha",
     "district": {
       "angul": {
-        "name": "Angul",
-        "taluk": {}
+        "name": "Angul"
       },
       "balangir": {
-        "name": "Balangir",
-        "taluk": {}
+        "name": "Balangir"
       },
       "balasore": {
-        "name": "Balasore",
-        "taluk": {}
+        "name": "Balasore"
       },
       "bargarh": {
-        "name": "Bargarh",
-        "taluk": {}
+        "name": "Bargarh"
       },
       "bhadrak": {
-        "name": "Bhadrak",
-        "taluk": {}
+        "name": "Bhadrak"
       },
       "boudh": {
-        "name": "Boudh",
-        "taluk": {}
+        "name": "Boudh"
       },
       "cuttack": {
-        "name": "Cuttack",
-        "taluk": {}
+        "name": "Cuttack"
       },
       "debagarh": {
-        "name": "Debagarh",
-        "taluk": {}
+        "name": "Debagarh"
       },
       "dhenkanal": {
-        "name": "Dhenkanal",
-        "taluk": {}
+        "name": "Dhenkanal"
       },
       "gajapati": {
-        "name": "Gajapati",
-        "taluk": {}
+        "name": "Gajapati"
       },
       "ganjam": {
-        "name": "Ganjam",
-        "taluk": {}
+        "name": "Ganjam"
       },
       "jagatsinghpur": {
-        "name": "Jagatsinghpur",
-        "taluk": {}
+        "name": "Jagatsinghpur"
       },
       "jajpur": {
-        "name": "Jajpur",
-        "taluk": {}
+        "name": "Jajpur"
       },
       "jharsuguda": {
-        "name": "Jharsuguda",
-        "taluk": {}
+        "name": "Jharsuguda"
       },
       "kalahandi": {
-        "name": "Kalahandi",
-        "taluk": {}
+        "name": "Kalahandi"
       },
       "kandhamal": {
-        "name": "Kandhamal",
-        "taluk": {}
+        "name": "Kandhamal"
       },
       "kendrapara": {
-        "name": "Kendrapara",
-        "taluk": {}
+        "name": "Kendrapara"
       },
       "kendujhar": {
-        "name": "Kendujhar",
-        "taluk": {}
+        "name": "Kendujhar"
       },
       "khordha": {
-        "name": "Khordha",
-        "taluk": {}
+        "name": "Khordha"
       },
       "koraput": {
-        "name": "Koraput",
-        "taluk": {}
+        "name": "Koraput"
       },
       "malkangiri": {
-        "name": "Malkangiri",
-        "taluk": {}
+        "name": "Malkangiri"
       },
       "mayurbhanj": {
-        "name": "Mayurbhanj",
-        "taluk": {}
+        "name": "Mayurbhanj"
       },
       "nabarangpur": {
-        "name": "Nabarangpur",
-        "taluk": {}
+        "name": "Nabarangpur"
       },
       "nayagarh": {
-        "name": "Nayagarh",
-        "taluk": {}
+        "name": "Nayagarh"
       },
       "nuapada": {
-        "name": "Nuapada",
-        "taluk": {}
+        "name": "Nuapada"
       },
       "puri": {
-        "name": "Puri",
-        "taluk": {}
+        "name": "Puri"
       },
       "rayagada": {
-        "name": "Rayagada",
-        "taluk": {}
+        "name": "Rayagada"
       },
       "sambalpur": {
-        "name": "Sambalpur",
-        "taluk": {}
+        "name": "Sambalpur"
       },
       "subarnapur": {
-        "name": "Subarnapur",
-        "taluk": {}
+        "name": "Subarnapur"
       },
       "sundergarh": {
-        "name": "Sundergarh",
-        "taluk": {}
+        "name": "Sundergarh"
       }
     }
   },
@@ -2248,20 +1692,16 @@
     "name": "Puducherry",
     "district": {
       "karaikal": {
-        "name": "Karaikal",
-        "taluk": {}
+        "name": "Karaikal"
       },
       "mahe": {
-        "name": "Mahe",
-        "taluk": {}
+        "name": "Mahe"
       },
       "puducherry": {
-        "name": "Puducherry",
-        "taluk": {}
+        "name": "Puducherry"
       },
       "yanam": {
-        "name": "Yanam",
-        "taluk": {}
+        "name": "Yanam"
       }
     }
   },
@@ -2269,96 +1709,73 @@
     "name": "Punjab",
     "district": {
       "amritsar": {
-        "name": "Amritsar",
-        "taluk": {}
+        "name": "Amritsar"
       },
       "barnala": {
-        "name": "Barnala",
-        "taluk": {}
+        "name": "Barnala"
       },
       "bathinda": {
-        "name": "Bathinda",
-        "taluk": {}
+        "name": "Bathinda"
       },
       "faridkot": {
-        "name": "Faridkot",
-        "taluk": {}
+        "name": "Faridkot"
       },
       "fatehgarh_sahib": {
-        "name": "Fatehgarh Sahib",
-        "taluk": {}
+        "name": "Fatehgarh Sahib"
       },
       "fazilka": {
-        "name": "Fazilka",
-        "taluk": {}
+        "name": "Fazilka"
       },
       "firozpur": {
-        "name": "Firozpur",
-        "taluk": {}
+        "name": "Firozpur"
       },
       "gurdaspur": {
-        "name": "Gurdaspur",
-        "taluk": {}
+        "name": "Gurdaspur"
       },
       "hoshiarpur": {
-        "name": "Hoshiarpur",
-        "taluk": {}
+        "name": "Hoshiarpur"
       },
       "jalandhar": {
-        "name": "Jalandhar",
-        "taluk": {}
+        "name": "Jalandhar"
       },
       "kapurthala": {
-        "name": "Kapurthala",
-        "taluk": {}
+        "name": "Kapurthala"
       },
       "ludhiana": {
-        "name": "Ludhiana",
-        "taluk": {}
+        "name": "Ludhiana"
       },
       "malerkotla": {
-        "name": "Malerkotla",
-        "taluk": {}
+        "name": "Malerkotla"
       },
       "mansa": {
-        "name": "Mansa",
-        "taluk": {}
+        "name": "Mansa"
       },
       "moga": {
-        "name": "Moga",
-        "taluk": {}
+        "name": "Moga"
       },
       "mohali": {
-        "name": "Mohali",
-        "taluk": {}
+        "name": "Mohali"
       },
       "muktsar": {
-        "name": "Muktsar",
-        "taluk": {}
+        "name": "Muktsar"
       },
       "pathankot": {
-        "name": "Pathankot",
-        "taluk": {}
+        "name": "Pathankot"
       },
       "patiala": {
-        "name": "Patiala",
-        "taluk": {}
+        "name": "Patiala"
       },
       "rupnagar": {
-        "name": "Rupnagar",
-        "taluk": {}
+        "name": "Rupnagar"
       },
       "sangrur": {
-        "name": "Sangrur",
-        "taluk": {}
+        "name": "Sangrur"
       },
       "shaheed_bhagat_singh_nagar": {
-        "name": "Shaheed Bhagat Singh Nagar",
-        "taluk": {}
+        "name": "Shaheed Bhagat Singh Nagar"
       },
       "tarn_taran": {
-        "name": "Tarn Taran",
-        "taluk": {}
+        "name": "Tarn Taran"
       }
     }
   },
@@ -2366,136 +1783,103 @@
     "name": "Rajasthan",
     "district": {
       "ajmer": {
-        "name": "Ajmer",
-        "taluk": {}
+        "name": "Ajmer"
       },
       "alwar": {
-        "name": "Alwar",
-        "taluk": {}
+        "name": "Alwar"
       },
       "banswara": {
-        "name": "Banswara",
-        "taluk": {}
+        "name": "Banswara"
       },
       "baran": {
-        "name": "Baran",
-        "taluk": {}
+        "name": "Baran"
       },
       "barmer": {
-        "name": "Barmer",
-        "taluk": {}
+        "name": "Barmer"
       },
       "bharatpur": {
-        "name": "Bharatpur",
-        "taluk": {}
+        "name": "Bharatpur"
       },
       "bhilwara": {
-        "name": "Bhilwara",
-        "taluk": {}
+        "name": "Bhilwara"
       },
       "bikaner": {
-        "name": "Bikaner",
-        "taluk": {}
+        "name": "Bikaner"
       },
       "bundi": {
-        "name": "Bundi",
-        "taluk": {}
+        "name": "Bundi"
       },
       "chittorgarh": {
-        "name": "Chittorgarh",
-        "taluk": {}
+        "name": "Chittorgarh"
       },
       "churu": {
-        "name": "Churu",
-        "taluk": {}
+        "name": "Churu"
       },
       "dausa": {
-        "name": "Dausa",
-        "taluk": {}
+        "name": "Dausa"
       },
       "dholpur": {
-        "name": "Dholpur",
-        "taluk": {}
+        "name": "Dholpur"
       },
       "dungarpur": {
-        "name": "Dungarpur",
-        "taluk": {}
+        "name": "Dungarpur"
       },
       "hanumangarh": {
-        "name": "Hanumangarh",
-        "taluk": {}
+        "name": "Hanumangarh"
       },
       "jaipur": {
-        "name": "Jaipur",
-        "taluk": {}
+        "name": "Jaipur"
       },
       "jaisalmer": {
-        "name": "Jaisalmer",
-        "taluk": {}
+        "name": "Jaisalmer"
       },
       "jalore": {
-        "name": "Jalore",
-        "taluk": {}
+        "name": "Jalore"
       },
       "jhalawar": {
-        "name": "Jhalawar",
-        "taluk": {}
+        "name": "Jhalawar"
       },
       "jhunjhunu": {
-        "name": "Jhunjhunu",
-        "taluk": {}
+        "name": "Jhunjhunu"
       },
       "jodhpur": {
-        "name": "Jodhpur",
-        "taluk": {}
+        "name": "Jodhpur"
       },
       "karauli": {
-        "name": "Karauli",
-        "taluk": {}
+        "name": "Karauli"
       },
       "kota": {
-        "name": "Kota",
-        "taluk": {}
+        "name": "Kota"
       },
       "nagaur": {
-        "name": "Nagaur",
-        "taluk": {}
+        "name": "Nagaur"
       },
       "pali": {
-        "name": "Pali",
-        "taluk": {}
+        "name": "Pali"
       },
       "pratapgarh": {
-        "name": "Pratapgarh",
-        "taluk": {}
+        "name": "Pratapgarh"
       },
       "rajsamand": {
-        "name": "Rajsamand",
-        "taluk": {}
+        "name": "Rajsamand"
       },
       "sawai_madhopur": {
-        "name": "Sawai Madhopur",
-        "taluk": {}
+        "name": "Sawai Madhopur"
       },
       "sikar": {
-        "name": "Sikar",
-        "taluk": {}
+        "name": "Sikar"
       },
       "sirohi": {
-        "name": "Sirohi",
-        "taluk": {}
+        "name": "Sirohi"
       },
       "sri_ganganagar": {
-        "name": "Sri Ganganagar",
-        "taluk": {}
+        "name": "Sri Ganganagar"
       },
       "tonk": {
-        "name": "Tonk",
-        "taluk": {}
+        "name": "Tonk"
       },
       "udaipur": {
-        "name": "Udaipur",
-        "taluk": {}
+        "name": "Udaipur"
       }
     }
   },
@@ -2503,156 +1887,118 @@
     "name": "Tamil Nadu",
     "district": {
       "ariyalur": {
-        "name": "Ariyalur",
-        "taluk": {}
+        "name": "Ariyalur"
       },
       "chengalpattu": {
-        "name": "Chengalpattu",
-        "taluk": {}
+        "name": "Chengalpattu"
       },
       "chennai": {
-        "name": "Chennai",
-        "taluk": {}
+        "name": "Chennai"
       },
       "coimbatore": {
-        "name": "Coimbatore",
-        "taluk": {}
+        "name": "Coimbatore"
       },
       "cuddalore": {
-        "name": "Cuddalore",
-        "taluk": {}
+        "name": "Cuddalore"
       },
       "dharmapuri": {
-        "name": "Dharmapuri",
-        "taluk": {}
+        "name": "Dharmapuri"
       },
       "dindigul": {
-        "name": "Dindigul",
-        "taluk": {}
+        "name": "Dindigul"
       },
       "erode": {
-        "name": "Erode",
-        "taluk": {}
+        "name": "Erode"
       },
       "kallakurichi": {
-        "name": "Kallakurichi",
-        "taluk": {}
+        "name": "Kallakurichi"
       },
       "kanchipuram": {
-        "name": "Kanchipuram",
-        "taluk": {}
+        "name": "Kanchipuram"
       },
       "kanyakumari": {
-        "name": "Kanyakumari",
-        "taluk": {}
+        "name": "Kanyakumari"
       },
       "karur": {
-        "name": "Karur",
-        "taluk": {}
+        "name": "Karur"
       },
       "krishnagiri": {
-        "name": "Krishnagiri",
-        "taluk": {}
+        "name": "Krishnagiri"
       },
       "madurai": {
-        "name": "Madurai",
-        "taluk": {}
+        "name": "Madurai"
       },
       "mayiladuthurai": {
-        "name": "Mayiladuthurai",
-        "taluk": {}
+        "name": "Mayiladuthurai"
       },
       "nagapattinam": {
-        "name": "Nagapattinam",
-        "taluk": {}
+        "name": "Nagapattinam"
       },
       "namakkal": {
-        "name": "Namakkal",
-        "taluk": {}
+        "name": "Namakkal"
       },
       "nilgiris": {
-        "name": "Nilgiris",
-        "taluk": {}
+        "name": "Nilgiris"
       },
       "perambalur": {
-        "name": "Perambalur",
-        "taluk": {}
+        "name": "Perambalur"
       },
       "pudukkottai": {
-        "name": "Pudukkottai",
-        "taluk": {}
+        "name": "Pudukkottai"
       },
       "ramanathapuram": {
-        "name": "Ramanathapuram",
-        "taluk": {}
+        "name": "Ramanathapuram"
       },
       "ranipet": {
-        "name": "Ranipet",
-        "taluk": {}
+        "name": "Ranipet"
       },
       "salem": {
-        "name": "Salem",
-        "taluk": {}
+        "name": "Salem"
       },
       "sivaganga": {
-        "name": "Sivaganga",
-        "taluk": {}
+        "name": "Sivaganga"
       },
       "tenkasi": {
-        "name": "Tenkasi",
-        "taluk": {}
+        "name": "Tenkasi"
       },
       "thanjavur": {
-        "name": "Thanjavur",
-        "taluk": {}
+        "name": "Thanjavur"
       },
       "theni": {
-        "name": "Theni",
-        "taluk": {}
+        "name": "Theni"
       },
       "thoothukudi": {
-        "name": "Thoothukudi",
-        "taluk": {}
+        "name": "Thoothukudi"
       },
       "tiruchirappalli": {
-        "name": "Tiruchirappalli",
-        "taluk": {}
+        "name": "Tiruchirappalli"
       },
       "tirunelveli": {
-        "name": "Tirunelveli",
-        "taluk": {}
+        "name": "Tirunelveli"
       },
       "tirupattur": {
-        "name": "Tirupattur",
-        "taluk": {}
+        "name": "Tirupattur"
       },
       "tiruppur": {
-        "name": "Tiruppur",
-        "taluk": {}
+        "name": "Tiruppur"
       },
       "tiruvallur": {
-        "name": "Tiruvallur",
-        "taluk": {}
+        "name": "Tiruvallur"
       },
       "tiruvannamalai": {
-        "name": "Tiruvannamalai",
-        "taluk": {}
+        "name": "Tiruvannamalai"
       },
       "tiruvarur": {
-        "name": "Tiruvarur",
-        "taluk": {}
+        "name": "Tiruvarur"
       },
       "vellore": {
-        "name": "Vellore",
-        "taluk": {}
+        "name": "Vellore"
       },
       "viluppuram": {
-        "name": "Viluppuram",
-        "taluk": {}
+        "name": "Viluppuram"
       },
       "virudhunagar": {
-        "name": "Virudhunagar",
-        "taluk": {}
+        "name": "Virudhunagar"
       }
     }
   },
@@ -2660,136 +2006,103 @@
     "name": "Telangana",
     "district": {
       "adilabad": {
-        "name": "Adilabad",
-        "taluk": {}
+        "name": "Adilabad"
       },
       "bhadradri_kothagudem": {
-        "name": "Bhadradri Kothagudem",
-        "taluk": {}
+        "name": "Bhadradri Kothagudem"
       },
       "hyderabad": {
-        "name": "Hyderabad",
-        "taluk": {}
+        "name": "Hyderabad"
       },
       "jagtial": {
-        "name": "Jagtial",
-        "taluk": {}
+        "name": "Jagtial"
       },
       "jangaon": {
-        "name": "Jangaon",
-        "taluk": {}
+        "name": "Jangaon"
       },
       "jayashankar": {
-        "name": "Jayashankar",
-        "taluk": {}
+        "name": "Jayashankar"
       },
       "jogulamba": {
-        "name": "Jogulamba",
-        "taluk": {}
+        "name": "Jogulamba"
       },
       "kamareddy": {
-        "name": "Kamareddy",
-        "taluk": {}
+        "name": "Kamareddy"
       },
       "karimnagar": {
-        "name": "Karimnagar",
-        "taluk": {}
+        "name": "Karimnagar"
       },
       "khammam": {
-        "name": "Khammam",
-        "taluk": {}
+        "name": "Khammam"
       },
       "komaram_bheem": {
-        "name": "Komaram Bheem",
-        "taluk": {}
+        "name": "Komaram Bheem"
       },
       "mahabubabad": {
-        "name": "Mahabubabad",
-        "taluk": {}
+        "name": "Mahabubabad"
       },
       "mahbubnagar": {
-        "name": "Mahbubnagar",
-        "taluk": {}
+        "name": "Mahbubnagar"
       },
       "mancherial": {
-        "name": "Mancherial",
-        "taluk": {}
+        "name": "Mancherial"
       },
       "medak": {
-        "name": "Medak",
-        "taluk": {}
+        "name": "Medak"
       },
       "medchal": {
-        "name": "Medchal",
-        "taluk": {}
+        "name": "Medchal"
       },
       "mulugu": {
-        "name": "Mulugu",
-        "taluk": {}
+        "name": "Mulugu"
       },
       "nagarkurnool": {
-        "name": "Nagarkurnool",
-        "taluk": {}
+        "name": "Nagarkurnool"
       },
       "nalgonda": {
-        "name": "Nalgonda",
-        "taluk": {}
+        "name": "Nalgonda"
       },
       "narayanpet": {
-        "name": "Narayanpet",
-        "taluk": {}
+        "name": "Narayanpet"
       },
       "nirmal": {
-        "name": "Nirmal",
-        "taluk": {}
+        "name": "Nirmal"
       },
       "nizamabad": {
-        "name": "Nizamabad",
-        "taluk": {}
+        "name": "Nizamabad"
       },
       "peddapalli": {
-        "name": "Peddapalli",
-        "taluk": {}
+        "name": "Peddapalli"
       },
       "rajanna_sircilla": {
-        "name": "Rajanna Sircilla",
-        "taluk": {}
+        "name": "Rajanna Sircilla"
       },
       "ranga_reddy": {
-        "name": "Ranga Reddy",
-        "taluk": {}
+        "name": "Ranga Reddy"
       },
       "sangareddy": {
-        "name": "Sangareddy",
-        "taluk": {}
+        "name": "Sangareddy"
       },
       "siddipet": {
-        "name": "Siddipet",
-        "taluk": {}
+        "name": "Siddipet"
       },
       "suryapet": {
-        "name": "Suryapet",
-        "taluk": {}
+        "name": "Suryapet"
       },
       "vikarabad": {
-        "name": "Vikarabad",
-        "taluk": {}
+        "name": "Vikarabad"
       },
       "wanaparthy": {
-        "name": "Wanaparthy",
-        "taluk": {}
+        "name": "Wanaparthy"
       },
       "warangal": {
-        "name": "Warangal",
-        "taluk": {}
+        "name": "Warangal"
       },
       "hanamkonda": {
-        "name": "Hanamkonda",
-        "taluk": {}
+        "name": "Hanamkonda"
       },
       "yadadri_bhuvanagiri": {
-        "name": "Yadadri Bhuvanagiri",
-        "taluk": {}
+        "name": "Yadadri Bhuvanagiri"
       }
     }
   },
@@ -2797,36 +2110,28 @@
     "name": "Tripura",
     "district": {
       "dhalai": {
-        "name": "Dhalai",
-        "taluk": {}
+        "name": "Dhalai"
       },
       "gomati": {
-        "name": "Gomati",
-        "taluk": {}
+        "name": "Gomati"
       },
       "khowai": {
-        "name": "Khowai",
-        "taluk": {}
+        "name": "Khowai"
       },
       "north_tripura": {
-        "name": "North Tripura",
-        "taluk": {}
+        "name": "North Tripura"
       },
       "sepahijala": {
-        "name": "Sepahijala",
-        "taluk": {}
+        "name": "Sepahijala"
       },
       "south_tripura": {
-        "name": "South Tripura",
-        "taluk": {}
+        "name": "South Tripura"
       },
       "unakoti": {
-        "name": "Unakoti",
-        "taluk": {}
+        "name": "Unakoti"
       },
       "west_tripura": {
-        "name": "West Tripura",
-        "taluk": {}
+        "name": "West Tripura"
       }
     }
   },
@@ -2834,304 +2139,229 @@
     "name": "Uttar Pradesh",
     "district": {
       "agra": {
-        "name": "Agra",
-        "taluk": {}
+        "name": "Agra"
       },
       "aligarh": {
-        "name": "Aligarh",
-        "taluk": {}
+        "name": "Aligarh"
       },
       "ambedkar_nagar": {
-        "name": "Ambedkar Nagar",
-        "taluk": {}
+        "name": "Ambedkar Nagar"
       },
       "amethi": {
-        "name": "Amethi",
-        "taluk": {}
+        "name": "Amethi"
       },
       "amroha": {
-        "name": "Amroha",
-        "taluk": {}
+        "name": "Amroha"
       },
       "auraiya": {
-        "name": "Auraiya",
-        "taluk": {}
+        "name": "Auraiya"
       },
       "ayodhya": {
-        "name": "Ayodhya",
-        "taluk": {}
+        "name": "Ayodhya"
       },
       "azamgarh": {
-        "name": "Azamgarh",
-        "taluk": {}
+        "name": "Azamgarh"
       },
       "baghpat": {
-        "name": "Baghpat",
-        "taluk": {}
+        "name": "Baghpat"
       },
       "bahraich": {
-        "name": "Bahraich",
-        "taluk": {}
+        "name": "Bahraich"
       },
       "ballia": {
-        "name": "Ballia",
-        "taluk": {}
+        "name": "Ballia"
       },
       "balrampur": {
-        "name": "Balrampur",
-        "taluk": {}
+        "name": "Balrampur"
       },
       "banda": {
-        "name": "Banda",
-        "taluk": {}
+        "name": "Banda"
       },
       "barabanki": {
-        "name": "Barabanki",
-        "taluk": {}
+        "name": "Barabanki"
       },
       "bareilly": {
-        "name": "Bareilly",
-        "taluk": {}
+        "name": "Bareilly"
       },
       "basti": {
-        "name": "Basti",
-        "taluk": {}
+        "name": "Basti"
       },
       "bhadohi": {
-        "name": "Bhadohi",
-        "taluk": {}
+        "name": "Bhadohi"
       },
       "bijnor": {
-        "name": "Bijnor",
-        "taluk": {}
+        "name": "Bijnor"
       },
       "budaun": {
-        "name": "Budaun",
-        "taluk": {}
+        "name": "Budaun"
       },
       "bulandshahr": {
-        "name": "Bulandshahr",
-        "taluk": {}
+        "name": "Bulandshahr"
       },
       "chandauli": {
-        "name": "Chandauli",
-        "taluk": {}
+        "name": "Chandauli"
       },
       "chitrakoot": {
-        "name": "Chitrakoot",
-        "taluk": {}
+        "name": "Chitrakoot"
       },
       "deoria": {
-        "name": "Deoria",
-        "taluk": {}
+        "name": "Deoria"
       },
       "etah": {
-        "name": "Etah",
-        "taluk": {}
+        "name": "Etah"
       },
       "etawah": {
-        "name": "Etawah",
-        "taluk": {}
+        "name": "Etawah"
       },
       "farrukhabad": {
-        "name": "Farrukhabad",
-        "taluk": {}
+        "name": "Farrukhabad"
       },
       "fatehpur": {
-        "name": "Fatehpur",
-        "taluk": {}
+        "name": "Fatehpur"
       },
       "firozabad": {
-        "name": "Firozabad",
-        "taluk": {}
+        "name": "Firozabad"
       },
       "gautam_buddha_nagar": {
-        "name": "Gautam Buddha Nagar",
-        "taluk": {}
+        "name": "Gautam Buddha Nagar"
       },
       "ghaziabad": {
-        "name": "Ghaziabad",
-        "taluk": {}
+        "name": "Ghaziabad"
       },
       "ghazipur": {
-        "name": "Ghazipur",
-        "taluk": {}
+        "name": "Ghazipur"
       },
       "gonda": {
-        "name": "Gonda",
-        "taluk": {}
+        "name": "Gonda"
       },
       "gorakhpur": {
-        "name": "Gorakhpur",
-        "taluk": {}
+        "name": "Gorakhpur"
       },
       "hamirpur": {
-        "name": "Hamirpur",
-        "taluk": {}
+        "name": "Hamirpur"
       },
       "hapur": {
-        "name": "Hapur",
-        "taluk": {}
+        "name": "Hapur"
       },
       "hardoi": {
-        "name": "Hardoi",
-        "taluk": {}
+        "name": "Hardoi"
       },
       "hathras": {
-        "name": "Hathras",
-        "taluk": {}
+        "name": "Hathras"
       },
       "jalaun": {
-        "name": "Jalaun",
-        "taluk": {}
+        "name": "Jalaun"
       },
       "jaunpur": {
-        "name": "Jaunpur",
-        "taluk": {}
+        "name": "Jaunpur"
       },
       "jhansi": {
-        "name": "Jhansi",
-        "taluk": {}
+        "name": "Jhansi"
       },
       "kannauj": {
-        "name": "Kannauj",
-        "taluk": {}
+        "name": "Kannauj"
       },
       "kanpur_dehat": {
-        "name": "Kanpur Dehat",
-        "taluk": {}
+        "name": "Kanpur Dehat"
       },
       "kanpur_nagar": {
-        "name": "Kanpur Nagar",
-        "taluk": {}
+        "name": "Kanpur Nagar"
       },
       "kasganj": {
-        "name": "Kasganj",
-        "taluk": {}
+        "name": "Kasganj"
       },
       "kaushambi": {
-        "name": "Kaushambi",
-        "taluk": {}
+        "name": "Kaushambi"
       },
       "kheri": {
-        "name": "Kheri",
-        "taluk": {}
+        "name": "Kheri"
       },
       "kushinagar": {
-        "name": "Kushinagar",
-        "taluk": {}
+        "name": "Kushinagar"
       },
       "lalitpur": {
-        "name": "Lalitpur",
-        "taluk": {}
+        "name": "Lalitpur"
       },
       "lucknow": {
-        "name": "Lucknow",
-        "taluk": {}
+        "name": "Lucknow"
       },
       "maharajganj": {
-        "name": "Maharajganj",
-        "taluk": {}
+        "name": "Maharajganj"
       },
       "mahoba": {
-        "name": "Mahoba",
-        "taluk": {}
+        "name": "Mahoba"
       },
       "mainpuri": {
-        "name": "Mainpuri",
-        "taluk": {}
+        "name": "Mainpuri"
       },
       "mathura": {
-        "name": "Mathura",
-        "taluk": {}
+        "name": "Mathura"
       },
       "mau": {
-        "name": "Mau",
-        "taluk": {}
+        "name": "Mau"
       },
       "meerut": {
-        "name": "Meerut",
-        "taluk": {}
+        "name": "Meerut"
       },
       "mirzapur": {
-        "name": "Mirzapur",
-        "taluk": {}
+        "name": "Mirzapur"
       },
       "moradabad": {
-        "name": "Moradabad",
-        "taluk": {}
+        "name": "Moradabad"
       },
       "muzaffarnagar": {
-        "name": "Muzaffarnagar",
-        "taluk": {}
+        "name": "Muzaffarnagar"
       },
       "pilibhit": {
-        "name": "Pilibhit",
-        "taluk": {}
+        "name": "Pilibhit"
       },
       "pratapgarh": {
-        "name": "Pratapgarh",
-        "taluk": {}
+        "name": "Pratapgarh"
       },
       "prayagraj": {
-        "name": "Prayagraj",
-        "taluk": {}
+        "name": "Prayagraj"
       },
       "raebareli": {
-        "name": "Raebareli",
-        "taluk": {}
+        "name": "Raebareli"
       },
       "rampur": {
-        "name": "Rampur",
-        "taluk": {}
+        "name": "Rampur"
       },
       "saharanpur": {
-        "name": "Saharanpur",
-        "taluk": {}
+        "name": "Saharanpur"
       },
       "sambhal": {
-        "name": "Sambhal",
-        "taluk": {}
+        "name": "Sambhal"
       },
       "sant_kabir_nagar": {
-        "name": "Sant Kabir Nagar",
-        "taluk": {}
+        "name": "Sant Kabir Nagar"
       },
       "shahjahanpur": {
-        "name": "Shahjahanpur",
-        "taluk": {}
+        "name": "Shahjahanpur"
       },
       "shamli": {
-        "name": "Shamli",
-        "taluk": {}
+        "name": "Shamli"
       },
       "shravasti": {
-        "name": "Shravasti",
-        "taluk": {}
+        "name": "Shravasti"
       },
       "siddharthnagar": {
-        "name": "Siddharthnagar",
-        "taluk": {}
+        "name": "Siddharthnagar"
       },
       "sitapur": {
-        "name": "Sitapur",
-        "taluk": {}
+        "name": "Sitapur"
       },
       "sonbhadra": {
-        "name": "Sonbhadra",
-        "taluk": {}
+        "name": "Sonbhadra"
       },
       "sultanpur": {
-        "name": "Sultanpur",
-        "taluk": {}
+        "name": "Sultanpur"
       },
       "unnao": {
-        "name": "Unnao",
-        "taluk": {}
+        "name": "Unnao"
       },
       "varanasi": {
-        "name": "Varanasi",
-        "taluk": {}
+        "name": "Varanasi"
       }
     }
   },
@@ -3139,56 +2369,43 @@
     "name": "Uttarakhand",
     "district": {
       "almora": {
-        "name": "Almora",
-        "taluk": {}
+        "name": "Almora"
       },
       "bageshwar": {
-        "name": "Bageshwar",
-        "taluk": {}
+        "name": "Bageshwar"
       },
       "chamoli": {
-        "name": "Chamoli",
-        "taluk": {}
+        "name": "Chamoli"
       },
       "champawat": {
-        "name": "Champawat",
-        "taluk": {}
+        "name": "Champawat"
       },
       "dehradun": {
-        "name": "Dehradun",
-        "taluk": {}
+        "name": "Dehradun"
       },
       "haridwar": {
-        "name": "Haridwar",
-        "taluk": {}
+        "name": "Haridwar"
       },
       "nainital": {
-        "name": "Nainital",
-        "taluk": {}
+        "name": "Nainital"
       },
       "pauri": {
-        "name": "Pauri",
-        "taluk": {}
+        "name": "Pauri"
       },
       "pithoragarh": {
-        "name": "Pithoragarh",
-        "taluk": {}
+        "name": "Pithoragarh"
       },
       "rudraprayag": {
-        "name": "Rudraprayag",
-        "taluk": {}
+        "name": "Rudraprayag"
       },
       "tehri": {
-        "name": "Tehri",
-        "taluk": {}
+        "name": "Tehri"
       },
       "udham_singh_nagar": {
-        "name": "Udham Singh Nagar",
-        "taluk": {}
+        "name": "Udham Singh Nagar"
       },
       "uttarkashi": {
-        "name": "Uttarkashi",
-        "taluk": {}
+        "name": "Uttarkashi"
       }
     }
   },
@@ -3196,96 +2413,73 @@
     "name": "West Bengal",
     "district": {
       "alipurduar": {
-        "name": "Alipurduar",
-        "taluk": {}
+        "name": "Alipurduar"
       },
       "bankura": {
-        "name": "Bankura",
-        "taluk": {}
+        "name": "Bankura"
       },
       "birbhum": {
-        "name": "Birbhum",
-        "taluk": {}
+        "name": "Birbhum"
       },
       "cooch_behar": {
-        "name": "Cooch Behar",
-        "taluk": {}
+        "name": "Cooch Behar"
       },
       "dakshin_dinajpur": {
-        "name": "Dakshin Dinajpur",
-        "taluk": {}
+        "name": "Dakshin Dinajpur"
       },
       "darjeeling": {
-        "name": "Darjeeling",
-        "taluk": {}
+        "name": "Darjeeling"
       },
       "hooghly": {
-        "name": "Hooghly",
-        "taluk": {}
+        "name": "Hooghly"
       },
       "howrah": {
-        "name": "Howrah",
-        "taluk": {}
+        "name": "Howrah"
       },
       "jalpaiguri": {
-        "name": "Jalpaiguri",
-        "taluk": {}
+        "name": "Jalpaiguri"
       },
       "jhargram": {
-        "name": "Jhargram",
-        "taluk": {}
+        "name": "Jhargram"
       },
       "kalimpong": {
-        "name": "Kalimpong",
-        "taluk": {}
+        "name": "Kalimpong"
       },
       "kolkata": {
-        "name": "Kolkata",
-        "taluk": {}
+        "name": "Kolkata"
       },
       "malda": {
-        "name": "Malda",
-        "taluk": {}
+        "name": "Malda"
       },
       "murshidabad": {
-        "name": "Murshidabad",
-        "taluk": {}
+        "name": "Murshidabad"
       },
       "nadia": {
-        "name": "Nadia",
-        "taluk": {}
+        "name": "Nadia"
       },
       "north_24_parganas": {
-        "name": "North 24 Parganas",
-        "taluk": {}
+        "name": "North 24 Parganas"
       },
       "paschim_bardhaman": {
-        "name": "Paschim Bardhaman",
-        "taluk": {}
+        "name": "Paschim Bardhaman"
       },
       "paschim_medinipur": {
-        "name": "Paschim Medinipur",
-        "taluk": {}
+        "name": "Paschim Medinipur"
       },
       "purba_bardhaman": {
-        "name": "Purba Bardhaman",
-        "taluk": {}
+        "name": "Purba Bardhaman"
       },
       "purba_medinipur": {
-        "name": "Purba Medinipur",
-        "taluk": {}
+        "name": "Purba Medinipur"
       },
       "purulia": {
-        "name": "Purulia",
-        "taluk": {}
+        "name": "Purulia"
       },
       "south_24_parganas": {
-        "name": "South 24 Parganas",
-        "taluk": {}
+        "name": "South 24 Parganas"
       },
       "uttar_dinajpur": {
-        "name": "Uttar Dinajpur",
-        "taluk": {}
+        "name": "Uttar Dinajpur"
       }
     }
   }
