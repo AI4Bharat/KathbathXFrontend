@@ -64,7 +64,7 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
 
     private fun navigateToAccessCodeFlow() {
 //    navController.navigate(R.id.action_splashScreenFragment_to_accessCodeFragment)
-        navController.navigate(R.id.action_splashScreenFragment_to_navigation)
+        navController.navigate(R.id.action_splashScreenFragment_to_login)
     }
 
     private fun navigateToDashboard() {
@@ -72,6 +72,6 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
     }
 
     private fun navigateToLoginFlow() {
-        navController.navigate(R.id.action_splashScreenFragment_to_loginFlow)
+//        navController.navigate(R.id.action_splashScreenFragment_to_loginFlow)
     }
 }

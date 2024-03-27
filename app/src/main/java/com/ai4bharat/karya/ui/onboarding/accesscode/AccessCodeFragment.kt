@@ -42,9 +42,7 @@ class AccessCodeFragment : Fragment(R.layout.fragment_access_code) {
 //          }
 //        }
 //      )
-            binding.startContributionRegistration.setOnClickListener(android.view.View.OnClickListener {
-                startContributionWorkFlow()
-            })
+
             accessCodeEt.doAfterTextChanged {
                 if (accessCodeEt.length() > 0) {
                     numPad.enableDoneButton()
@@ -58,11 +56,6 @@ class AccessCodeFragment : Fragment(R.layout.fragment_access_code) {
             numPad.disableDoneButton()
         }
     }
-
-    private fun startContributionWorkFlow() {
-        findNavController().navigate(R.id.action_splashScreenFragment_to_navigation)
-    }
-
 
     private fun handleSubmit() {
         val language = binding.spinnerValue.selectedItem.toString()

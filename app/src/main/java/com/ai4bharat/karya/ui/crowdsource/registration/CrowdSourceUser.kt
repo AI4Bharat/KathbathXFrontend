@@ -67,7 +67,8 @@ class CrowdSourceUser(
     val jobType: JobType = JobType.white_collar,
     val education: Education = Education.no_schooling,
     val occupation: String = "",
-    val language: Language = Language.hindi
+    val language: Language = Language.hindi,
+    val acceptConsent: Boolean = true
 
 ) {
     override fun toString(): String {
@@ -191,6 +192,16 @@ class CrowdSourceUser(
         return RegistrationError(type, message, status)
     }
 
+    fun checkConsentAcceptance(): RegistrationError {
+        var status = false
+        var message = ""
+        if (!this.acceptConsent) {
+            status = true
+            message = "Please read and accept the consent form"
+        }
+        return RegistrationError("acceptConsent", message, status)
+    }
+
     fun checkState(locationInfo: MutableList<State>?): RegistrationError {
         var status = false
         var message = ""
@@ -247,12 +258,13 @@ class CrowdSourceUserError(
     val education: RegistrationError = RegistrationError("education", "", false),
     val occupation: RegistrationError = RegistrationError("occupation", "", false),
     val language: RegistrationError = RegistrationError("language", "", false),
+    val acceptConsent: RegistrationError = RegistrationError("acceptConsent", "", false)
 ) {
     override fun toString(): String {
         return "name $name age $age gender $gender" +
                 "state $state distrct $district phoneNumber $phoneNumber" +
                 "jobType $jobType education $education occupation $occupation" +
-                "language $language"
+                "language $language consent $acceptConsent"
 
     }
 }
@@ -263,6 +275,6 @@ data class RegistrationError(
     val status: Boolean = false
 ) {
     override fun toString(): String {
-        return "$type -> $message -> $status \n"
+        return "$type -> $message -> $status\n"
     }
 }

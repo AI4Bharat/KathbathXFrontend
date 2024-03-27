@@ -37,6 +37,7 @@
             android:id="@+id/crowdsourceRegistrationNameTextField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPersonName"
             android:hint="Name" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -51,30 +52,30 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationAge"
-        app:singleLine="true"
         app:selectionRequired="true"
+        app:singleLine="true"
         app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/maleChip"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:checkable="true"
             android:checked="true"
-            android:layout_height="wrap_content"
             android:text="Male" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/femaleChip"
-            android:checkable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checkable="true"
             android:text="Female" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/othersChip"
-            android:checkable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checkable="true"
             android:text="Other" />
     </com.google.android.material.chip.ChipGroup>
 
@@ -92,6 +93,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/crowdsourceRegistrationAgeTextField"
             android:layout_width="match_parent"
+            android:inputType="numberDecimal"
             android:layout_height="wrap_content"
             android:hint="Age" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -101,15 +103,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="Register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationText"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationConsent" />
 
     <Spinner
         android:id="@+id/crowdsourceRegistrationLanguage"
@@ -179,6 +179,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/crowdsourceRegistrationNumberTextField"
             android:layout_width="match_parent"
+            android:inputType="phone"
             android:layout_height="wrap_content"
             android:hint="Phone Number" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -270,4 +271,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationEducation" />
+
+    <CheckBox
+        android:id="@+id/crowdsourceRegistrationConsent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:clickable="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationText" />
+
+    <TextView
+        android:id="@+id/crowdsourceRegistrationReadConsent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Please click, read and accept the consent form"
+        app:layout_constraintBottom_toBottomOf="@+id/crowdsourceRegistrationConsent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/crowdsourceRegistrationConsent"
+        app:layout_constraintTop_toTopOf="@+id/crowdsourceRegistrationConsent" />
+
+    <TextView
+        android:id="@+id/crowdsourceRegistrationConsentFormError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/c_red"
+        app:layout_constraintEnd_toEndOf="@+id/crowdsourceRegistrationReadConsent"
+        app:layout_constraintStart_toStartOf="@+id/crowdsourceRegistrationConsent"
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationReadConsent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

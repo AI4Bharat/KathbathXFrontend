@@ -10,9 +10,10 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.lifecycle.Observer
-import androidx.lifecycle.map
 import com.ai4bharat.karya.R
 import com.ai4bharat.karya.databinding.FragmentCrowdsourceRegistrationBinding
+import com.ai4bharat.karya.ui.crowdsource.registration.ConsentDialog.showConsentForm
+import com.ai4bharat.karya.ui.onboarding.consentForm.ConsentFormFragmentDirections
 import com.ai4bharat.karya.utils.extensions.viewBinding
 import com.google.android.material.chip.Chip
 import org.json.JSONObject
@@ -59,42 +60,26 @@ class CrowdsourceRegistration : Fragment() {
             }
         })
 
+        viewModel.user.observe(viewLifecycleOwner, Observer {
+            binding.crowdsourceRegistrationConsent.isChecked = it.acceptConsent
+        })
+
         viewModel.userError.observe(viewLifecycleOwner, Observer { userErrors ->
-            println(userErrors)
-            if (userErrors.name.status) {
-                binding.crowdsourceRegistrationNameTextField.error = userErrors.name.message
-            }
-            if (userErrors.phoneNumber.status) {
-                binding.crowdsourceRegistrationNumberTextField.error =
-                    userErrors.phoneNumber.message
-            }
-            if (userErrors.age.status) {
-                binding.crowdsourceRegistrationAgeTextField.error = userErrors.age.message
-            }
-            if (userErrors.occupation.status) {
-                binding.crowdsourceRegistrationOccupationTextField.error = userErrors.age.message
-            }
-            if (userErrors.language.status) {
-                binding.crowdsourceRegistrationLanguageError.text = userErrors.occupation.message
-            }
-            if (userErrors.jobType.status) {
-                binding.crowdsourceRegistrationJobTypeError.text = userErrors.jobType.message
-            }
-            if (userErrors.jobType.status) {
-                binding.crowdsourceRegistrationJobTypeError.text = userErrors.jobType.message
-            }
-            if (userErrors.state.status) {
-                binding.crowdsourceRegistrationStateError.text = userErrors.state.message
-            }
-            if (userErrors.district.status) {
-                binding.crowdsourceRegistrationDistrictError.text = userErrors.district.message
-            }
-            if (userErrors.education.status) {
-                binding.crowdsourceRegistrationEducationError.text = userErrors.education.message
-            }
-            if (userErrors.gender.status) {
-                binding.crowdsourceRegistrationGenderError.text = userErrors.gender.message
-            }
+            if (userErrors.name.status) binding.crowdsourceRegistrationNameTextField.error =
+                userErrors.name.message
+            if (userErrors.phoneNumber.status) binding.crowdsourceRegistrationNumberTextField.error =
+                userErrors.phoneNumber.message
+            if (userErrors.age.status) binding.crowdsourceRegistrationAgeTextField.error =
+                userErrors.age.message
+            if (userErrors.occupation.status) binding.crowdsourceRegistrationOccupationTextField.error =
+                userErrors.occupation.message
+            binding.crowdsourceRegistrationLanguageError.text = userErrors.language.message
+            binding.crowdsourceRegistrationJobTypeError.text = userErrors.jobType.message
+            binding.crowdsourceRegistrationStateError.text = userErrors.state.message
+            binding.crowdsourceRegistrationDistrictError.text = userErrors.district.message
+            binding.crowdsourceRegistrationEducationError.text = userErrors.education.message
+            binding.crowdsourceRegistrationGenderError.text = userErrors.gender.message
+            binding.crowdsourceRegistrationConsentFormError.text = userErrors.acceptConsent.message
         })
     }
 
@@ -126,7 +111,16 @@ class CrowdsourceRegistration : Fragment() {
                 }
             }
 
-        binding.crowdsourceRegistrationLanguage
+        binding.crowdsourceRegistrationLanguage.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    val language = p0?.getItemAtPosition(p2).toString()
+                    viewModel.setData(language = Language.valueOf(language.lowercase()))
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                }
+            }
 
         binding.crowdsourceRegistrationButton.setOnClickListener(View.OnClickListener {
             val name = binding.crowdsourceRegistrationNameTextField.text.toString()
@@ -148,6 +142,7 @@ class CrowdsourceRegistration : Fragment() {
                 Education.values()
                     .filter { education: Education -> education.displayName == binding.crowdsourceRegistrationEducation.selectedItem.toString() }[0]
             val occupation = binding.crowdsourceRegistrationOccupationTextField.text.toString()
+            val consentFormAccept: Boolean = binding.crowdsourceRegistrationConsent.isChecked
 
             viewModel.setData(
                 name,
@@ -159,11 +154,25 @@ class CrowdsourceRegistration : Fragment() {
                 jobType,
                 education,
                 occupation,
-                language
+                language,
+                consentFormAccept
             )
+            viewModel.submitRegistrationData()
+        })
+        binding.crowdsourceRegistrationConsent.isActivated = false
+        binding.crowdsourceRegistrationReadConsent.setOnClickListener(View.OnClickListener {
+            showConsentForm()
         })
     }
 
+
+    private fun showConsentForm() {
+        showConsentForm(requireContext(), ::changeConsentFormStatus)
+    }
+
+    private fun changeConsentFormStatus(status: Boolean) {
+        viewModel.setData(acceptConsent = status)
+    }
 
     private fun setSpinner(values: List<String>, spinner: Spinner) {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, values)

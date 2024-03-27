@@ -11,46 +11,22 @@
         android:label="SplashScreenFragment"
         tools:layout="@layout/fragment_splash_screen">
         <action
-            android:id="@+id/action_splashScreenFragment_to_accessCodeFragment"
-            app:destination="@id/accessCodeFlow" />
-        <action
-            android:id="@+id/action_splashScreenFragment_to_consentFormFragment"
-            app:destination="@id/accessCodeFlow" />
-        <action
-            android:id="@+id/action_splashScreenFragment_to_fileDownloadFragment"
-            app:destination="@id/accessCodeFlow"
-            app:popUpTo="@id/splashScreenFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_splashScreenFragment_to_loginFlow"
-            app:destination="@id/loginFlow"
-            app:popUpTo="@id/splashScreenFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_splashScreenFragment_to_navigation"
-            app:destination="@id/navigation" />
+            android:id="@+id/action_splashScreenFragment_to_login"
+            app:destination="@id/login" />
     </fragment>
     <navigation
-        android:id="@+id/loginFlow"
+        android:id="@+id/oldLoginFlow"
         app:startDestination="@id/phoneNumberFragment">
         <fragment
             android:id="@+id/phoneNumberFragment"
             android:name="com.ai4bharat.karya.ui.onboarding.login.phone.PhoneNumberFragment"
             android:label="PhoneNumberFragment"
-            tools:layout="@layout/fragment_phone_number">
-            <action
-                android:id="@+id/action_phoneNumberFragment_to_OTPFragment"
-                app:destination="@id/OTPFragment" />
-        </fragment>
+            tools:layout="@layout/fragment_phone_number" />
         <fragment
             android:id="@+id/OTPFragment"
             android:name="com.ai4bharat.karya.ui.onboarding.login.otp.OTPFragment"
             android:label="OTPFragment"
-            tools:layout="@layout/fragment_otp">
-            <action
-                android:id="@+id/action_OTPFragment_to_DashboardActivity"
-                app:destination="@id/dashboardActivity" />
-        </fragment>
+            tools:layout="@layout/fragment_otp" />
     </navigation>
     <navigation
         android:id="@+id/accessCodeFlow"
@@ -59,24 +35,7 @@
             android:id="@+id/fileDownloadFragment"
             android:name="com.ai4bharat.karya.ui.onboarding.fileDownload.FileDownloadFragment"
             android:label="FileDownloadFragment"
-            tools:layout="@layout/fragment_file_download">
-            <action
-                android:id="@+id/action_fileDownloadFragment_to_consentFormFragment"
-                app:destination="@id/consentFormFragment"
-                app:popUpTo="@id/fileDownloadFragment"
-                app:popUpToInclusive="true" />
-        </fragment>
-        <fragment
-            android:id="@+id/consentFormFragment"
-            android:name="com.ai4bharat.karya.ui.onboarding.consentForm.ConsentFormFragment"
-            android:label="ConsentFormFragment"
-            tools:layout="@layout/fragment_consent_form">
-            <action
-                android:id="@+id/action_consentFormFragment_to_loginFlow"
-                app:destination="@id/loginFlow"
-                app:popUpTo="@id/consentFormFragment"
-                app:popUpToInclusive="true" />
-        </fragment>
+            tools:layout="@layout/fragment_file_download" />
         <fragment
             android:id="@+id/accessCodeFragment"
             android:name="com.ai4bharat.karya.ui.onboarding.accesscode.AccessCodeFragment"
@@ -117,19 +76,6 @@
                 app:argType="integer" />
         </action>
     </fragment>
-    <action
-        android:id="@+id/action_global_dashboardActivity"
-        app:destination="@id/dashboardActivity"
-        app:enterAnim="@anim/nav_default_enter_anim"
-        app:exitAnim="@anim/nav_default_exit_anim"
-        app:launchSingleTop="true"
-        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-        app:popExitAnim="@anim/nav_default_pop_exit_anim"
-        app:popUpTo="@id/app_nav_graph"
-        app:popUpToInclusive="true" />
-    <action
-        android:id="@+id/action_global_loginFlow"
-        app:destination="@id/loginFlow" />
     <fragment
         android:id="@+id/speechDataMainFragment"
         android:name="com.ai4bharat.karya.ui.scenarios.speechData.SpeechDataMainFragment"
@@ -167,13 +113,19 @@
             app:destination="@id/dashboardActivity" />
     </fragment>
     <navigation
-        android:id="@+id/navigation"
+        android:id="@+id/login"
         app:startDestination="@id/crowdsourceLogin">
         <fragment
-            android:id="@+id/crowdsourceRegistration"
-            android:name="com.ai4bharat.karya.ui.crowdsource.registration.CrowdsourceRegistration"
-            android:label="fragment_crowdsource_registration"
-            tools:layout="@layout/fragment_crowdsource_registration" />
+            android:id="@+id/consentFormFragment"
+            android:name="com.ai4bharat.karya.ui.onboarding.consentForm.ConsentFormFragment"
+            android:label="ConsentFormFragment">
+            <action
+                android:id="@+id/action_consentFormFragment_to_crowdsourceRegistration"
+                app:destination="@id/crowdsourceRegistration" />
+            <action
+                android:id="@+id/action_consentFormFragment_to_crowdsourceLogin"
+                app:destination="@id/crowdsourceLogin" />
+        </fragment>
         <fragment
             android:id="@+id/crowdsourceLogin"
             android:name="com.ai4bharat.karya.ui.crowdsource.login.CrowdsourceLogin"
@@ -183,5 +135,21 @@
                 android:id="@+id/action_crowdsourceLogin_to_crowdsourceRegistration"
                 app:destination="@id/crowdsourceRegistration" />
         </fragment>
+        <fragment
+            android:id="@+id/crowdsourceRegistration"
+            android:name="com.ai4bharat.karya.ui.crowdsource.registration.CrowdsourceRegistration"
+            android:label="fragment_crowdsource_registration"
+            tools:layout="@layout/fragment_crowdsource_registration">
+            <action
+                android:id="@+id/action_crowdsourceRegistration_to_consentFormFragment"
+                app:destination="@id/consentFormFragment" />
+            <argument
+                android:name="language"
+                app:argType="string"
+                android:defaultValue="hindi" />
+        </fragment>
+        <action
+            android:id="@+id/action_global_dashboardActivity"
+            app:destination="@id/dashboardActivity" />
     </navigation>
 </navigation>

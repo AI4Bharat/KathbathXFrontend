@@ -6,24 +6,25 @@ import org.json.JSONObject
 
 class CrowdsourceRegistrationViewModel() : ViewModel() {
 
-    var user: CrowdSourceUser? = null
+    var user: MutableLiveData<CrowdSourceUser> = MutableLiveData<CrowdSourceUser>()
     var userError: MutableLiveData<CrowdSourceUserError> = MutableLiveData<CrowdSourceUserError>()
     var location: MutableLiveData<MutableList<State>> =
         MutableLiveData<MutableList<State>>()
 
     fun setData(
-        name: String,
-        age: String,
-        phoneNumber: String,
-        gender: Gender,
+        name: String = "",
+        age: String = "",
+        phoneNumber: String = "",
+        gender: Gender = Gender.male,
         state: String = "",
         district: String = "",
-        jobType: JobType,
-        education: Education,
-        occupation: String,
-        language: Language,
+        jobType: JobType = JobType.blue_collar,
+        education: Education = Education.no_schooling,
+        occupation: String = "",
+        language: Language = Language.marathi,
+        acceptConsent: Boolean = false
     ) {
-        user = CrowdSourceUser(
+        user.value = CrowdSourceUser(
             name,
             age,
             gender,
@@ -33,10 +34,11 @@ class CrowdsourceRegistrationViewModel() : ViewModel() {
             jobType,
             education,
             occupation,
-            language
+            language,
+            acceptConsent
         )
-        submitRegistrationData()
     }
+
 
     fun initializeLocation(locationInfo: JSONObject) {
         val stateKeys = locationInfo.names()
@@ -64,22 +66,22 @@ class CrowdsourceRegistrationViewModel() : ViewModel() {
         location.value = stateList;
     }
 
-    private fun submitRegistrationData() {
+    fun submitRegistrationData() {
         validateInputs()
-        println(user)
     }
 
     private fun validateInputs() {
-        val nameError: RegistrationError = user!!.checkNameAndOccupation("name")
-        val occupationError: RegistrationError = user!!.checkNameAndOccupation("occupation")
-        val ageError: RegistrationError = user!!.checkAge()
-        val genderError: RegistrationError = user!!.checkPreDefinedVariable("gender")
-        val stateError: RegistrationError = user!!.checkState(location.value)
-        val districtError: RegistrationError = user!!.checkDistrict(location.value)
-        val phoneNumberError: RegistrationError = user!!.checkPhoneNumber()
-        val jobTypeError: RegistrationError = user!!.checkPreDefinedVariable("jobType")
-        val educationError: RegistrationError = user!!.checkPreDefinedVariable("education")
-        val languageError: RegistrationError = user!!.checkPreDefinedVariable("language")
+        val nameError: RegistrationError = user.value!!.checkNameAndOccupation("name")
+        val occupationError: RegistrationError = user.value!!.checkNameAndOccupation("occupation")
+        val ageError: RegistrationError = user.value!!.checkAge()
+        val genderError: RegistrationError = user.value!!.checkPreDefinedVariable("gender")
+        val stateError: RegistrationError = user.value!!.checkState(location.value)
+        val districtError: RegistrationError = user.value!!.checkDistrict(location.value)
+        val phoneNumberError: RegistrationError = user.value!!.checkPhoneNumber()
+        val jobTypeError: RegistrationError = user.value!!.checkPreDefinedVariable("jobType")
+        val educationError: RegistrationError = user.value!!.checkPreDefinedVariable("education")
+        val languageError: RegistrationError = user.value!!.checkPreDefinedVariable("language")
+        val consentAcceptError: RegistrationError = user.value!!.checkConsentAcceptance()
         val crowdSourceUserError: CrowdSourceUserError = CrowdSourceUserError(
             name = nameError,
             age = ageError,
@@ -90,7 +92,8 @@ class CrowdsourceRegistrationViewModel() : ViewModel() {
             jobType = jobTypeError,
             education = educationError,
             occupation = occupationError,
-            language = languageError
+            language = languageError,
+            acceptConsent = consentAcceptError
         )
         userError.value = crowdSourceUserError
     }

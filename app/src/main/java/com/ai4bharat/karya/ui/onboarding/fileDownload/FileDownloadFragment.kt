@@ -21,41 +21,42 @@ import com.ai4bharat.karya.utils.extensions.observe
 @AndroidEntryPoint
 class FileDownloadFragment : Fragment(R.layout.fragment_file_download) {
 
-  val viewModel by viewModels<AccessCodeViewModel>()
+    val viewModel by viewModels<AccessCodeViewModel>()
 
-  @Inject
-  lateinit var resourceManager: ResourceManager
+    @Inject
+    lateinit var resourceManager: ResourceManager
 
-  @Inject
-  lateinit var authManager: AuthManager
+    @Inject
+    lateinit var authManager: AuthManager
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
-    downloadResourceFiles()
-  }
-
-  private fun downloadResourceFiles() {
-    viewLifecycleScope.launch {
-      val worker = authManager.getLoggedInWorker()
-
-      val fileDownloadFlow =
-        resourceManager.downloadLanguageResources(worker.accessCode, "EN")//worker.language)
-
-      fileDownloadFlow.observe(viewLifecycle, viewLifecycleScope) { result ->
-        when (result) {
-          is Result.Success<*> -> navigateToRegistration()
-          is Result.Error -> {
-            // Toast.makeText(requireContext(), "Could not download resources", Toast.LENGTH_LONG).show()
-            navigateToRegistration()
-          }
-          Result.Loading -> {
-          }
-        }
-      }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        downloadResourceFiles()
     }
-  }
 
-  private fun navigateToRegistration() {
-    findNavController().navigate(R.id.action_fileDownloadFragment_to_consentFormFragment)
-  }
+    private fun downloadResourceFiles() {
+        viewLifecycleScope.launch {
+            val worker = authManager.getLoggedInWorker()
+
+            val fileDownloadFlow =
+                resourceManager.downloadLanguageResources(worker.accessCode, "EN")//worker.language)
+
+            fileDownloadFlow.observe(viewLifecycle, viewLifecycleScope) { result ->
+                when (result) {
+                    is Result.Success<*> -> navigateToRegistration()
+                    is Result.Error -> {
+                        // Toast.makeText(requireContext(), "Could not download resources", Toast.LENGTH_LONG).show()
+                        navigateToRegistration()
+                    }
+
+                    Result.Loading -> {
+                    }
+                }
+            }
+        }
+    }
+
+    private fun navigateToRegistration() {
+//    findNavController().navigate(R.id.action_fileDownloadFragment_to_consentFormFragment)
+    }
 }
