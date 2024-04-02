@@ -33,12 +33,7 @@ import com.ai4bharat.karya.ui.Destination
 import com.ai4bharat.karya.ui.MainActivity
 import com.ai4bharat.karya.ui.base.BaseFragment
 import com.ai4bharat.karya.utils.extensions.*
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.CancellationToken
-import com.google.android.gms.tasks.CancellationTokenSource
-import com.google.android.gms.tasks.OnTokenCanceledListener
+
 import com.google.gson.JsonObject
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_otp.*
@@ -54,8 +49,9 @@ class OTPFragment : BaseFragment(R.layout.fragment_otp) {
 
     private val binding by viewBinding(FragmentOtpBinding::bind)
     private val viewModel by viewModels<OTPViewModel>()
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var geoCoder: Geocoder
+
+    //    private lateinit var fusedLocationClient: FusedLocationProviderClient
+//    private lateinit var geoCoder: Geocoder
 
 
     private val requestPermissionLauncher =

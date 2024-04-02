@@ -14,7 +14,7 @@ import com.ai4bharat.karya.data.model.karya.WorkerRecord
 import com.ai4bharat.karya.data.remote.request.RegisterOrUpdateWorkerRequest
 import com.ai4bharat.karya.data.repo.WorkerRepository
 import com.ai4bharat.karya.ui.Destination
-import com.google.android.gms.location.FusedLocationProviderClient
+//import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.gson.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -89,11 +89,11 @@ constructor(
         val extrasElement = JsonObject()
         extrasElement.add("location", extraLocation)
         extrasElement.add("phone", phone)
-        extrasElement.addProperty(
-            "date", LocalDateTime.now().format(
-                DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
-            ).toString()
-        )
+//        extrasElement.addProperty(
+//            "date", LocalDateTime.now().format(
+//                DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")
+//            ).toString()
+//        )
 
         val extrasArray = JsonArray()
         extrasArray.add(extrasElement)

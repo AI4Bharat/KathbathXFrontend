@@ -139,7 +139,6 @@ dependencies {
     implementation(Dependencies.AndroidX.Navigation.fragmentKtx)
     implementation(Dependencies.AndroidX.Navigation.uiKtx)
     implementation("com.google.android.play:core-ktx:1.8.1")
-    implementation("com.google.android.gms:play-services-location:21.0.1")
 
     kapt(Dependencies.AndroidX.Room.roomCompiler)
 
@@ -159,41 +158,18 @@ dependencies {
     implementation(Dependencies.Kotlin.Coroutines.core)
     implementation(Dependencies.Kotlin.Coroutines.coroutines)
 
-    implementation(Dependencies.ThirdParty.circleImageView)
-    implementation(Dependencies.ThirdParty.glide)
     implementation(Dependencies.ThirdParty.okhttp)
     implementation(Dependencies.ThirdParty.loggingInterceptor)
-    implementation(Dependencies.ThirdParty.stateProgressBar)
 
     implementation(Dependencies.ThirdParty.Retrofit.retrofit)
     implementation(Dependencies.ThirdParty.Retrofit.gsonConverter)
 
-    debugImplementation(Dependencies.ThirdParty.debugDB)
-
-    implementation("com.mcxiaoke.volley:library:1.0.19")
-    implementation("com.nex3z:flow-layout:1.3.4-beta01")
-
     // Scaled dp and sp implemenations
-    implementation("com.intuit.ssp:ssp-android:1.0.6")
+    implementation("com.intuit.ssp:ssp-android:1.1.1")
     implementation("com.intuit.sdp:sdp-android:1.0.6")
 
-    // Themed button toggle group
-    implementation("nl.bryanderidder:themed-toggle-button-group:1.3.4")
-
-    // Camera view
-//  implementation("com.otaliastudios:cameraview:2.7.2")
-
-    // Android rating bar
-    implementation("me.zhanghai.android.materialratingbar:library:1.4.0")
     // Custom aars
     implementation(files("libs/zoomage-debug.aar"))
-
-    // Video data collection
-//    implementation("com.github.HamidrezaAmz:MagicalExoPlayer:2.0.6")
-//  implementation ("com.google.android.gms:play-services-mlkit-face-detection:16.2.0")
-//  implementation ("com.google.mlkit:face-detection:16.1.2")
-//    implementation("com.github.fishwjy:VideoCompressor:master")
-//    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
 
 
 }

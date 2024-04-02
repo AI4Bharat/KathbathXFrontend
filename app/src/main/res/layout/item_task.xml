@@ -245,15 +245,15 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.5" />
 
-                <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                    android:id="@+id/accuracyScore"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_20sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/accuracyLabel"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:mrb_progressTint="@color/c_dark_grey"
-                    app:mrb_secondaryProgressTint="@color/c_dark_grey" />
+                <!--                <me.zhanghai.android.materialratingbar.MaterialRatingBar-->
+                <!--                    android:id="@+id/accuracyScore"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="@dimen/_20sdp"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                    app:layout_constraintLeft_toRightOf="@id/accuracyLabel"-->
+                <!--                    app:layout_constraintTop_toTopOf="parent"-->
+                <!--                    app:mrb_progressTint="@color/c_dark_grey"-->
+                <!--                    app:mrb_secondaryProgressTint="@color/c_dark_grey" />-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -277,15 +277,15 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.5" />
 
-                <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                    android:id="@+id/volumeScore"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_20sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/volumeLabel"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:mrb_progressTint="@color/c_dark_grey"
-                    app:mrb_secondaryProgressTint="@color/c_dark_grey" />
+                <!--                <me.zhanghai.android.materialratingbar.MaterialRatingBar-->
+                <!--                    android:id="@+id/volumeScore"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="@dimen/_20sdp"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                    app:layout_constraintLeft_toRightOf="@id/volumeLabel"-->
+                <!--                    app:layout_constraintTop_toTopOf="parent"-->
+                <!--                    app:mrb_progressTint="@color/c_dark_grey"-->
+                <!--                    app:mrb_secondaryProgressTint="@color/c_dark_grey" />-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -309,15 +309,15 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_percent="0.5" />
 
-                <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                    android:id="@+id/qualityScore"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_20sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/qualityLabel"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:mrb_progressTint="@color/c_dark_grey"
-                    app:mrb_secondaryProgressTint="@color/c_dark_grey" />
+                <!--                <me.zhanghai.android.materialratingbar.MaterialRatingBar-->
+                <!--                    android:id="@+id/qualityScore"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="@dimen/_20sdp"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                    app:layout_constraintLeft_toRightOf="@id/qualityLabel"-->
+                <!--                    app:layout_constraintTop_toTopOf="parent"-->
+                <!--                    app:mrb_progressTint="@color/c_dark_grey"-->
+                <!--                    app:mrb_secondaryProgressTint="@color/c_dark_grey" />-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

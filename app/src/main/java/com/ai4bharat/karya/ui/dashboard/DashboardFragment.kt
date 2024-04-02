@@ -335,13 +335,6 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 
     private fun hideLoading() = binding.syncProgressBar.gone()
 
-    //  private fun loadPhone(){
-//    lifecycleScope.launchWhenStarted {
-//      withContext(Dispatchers.IO) {
-//        binding.appTb.setTitle("Dashboard | ${authManager.getLoggedInWorker().accessCode.toString()}")
-//      }
-//    }
-//  }
     private fun loadProfilePic() {
         binding.appTb.showProfilePicture()
 
@@ -370,76 +363,17 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
                         completed,
                         total
                     )
-//          ScenarioType.XLITERATION_DATA -> actionDashboardActivityToUniversalTransliterationMainFragment(
-//            taskId,
-//            completed,
-//            total
-//          )
+
                     ScenarioType.SPEECH_VERIFICATION -> actionDashboardActivityToSpeechVerificationFragment(
                         taskId,
                         completed,
                         total
                     )
-//          ScenarioType.IMAGE_TRANSCRIPTION -> actionDashboardActivityToImageTranscription(
-//            taskId,
-//            completed,
-//            total
-//          )
-//          ScenarioType.IMAGE_LABELLING -> actionDashboardActivityToImageLabelling(
-//            taskId,
-//            completed,
-//            total
-//          )
-//          ScenarioType.IMAGE_ANNOTATION -> actionDashboardActivityToImageAnnotationFragment(
-//            taskId,
-//            completed,
-//            total
-//          )
-//          ScenarioType.QUIZ -> actionDashboardActivityToQuiz(taskId, completed, total)
-//          ScenarioType.IMAGE_DATA -> actionDashboardActivityToImageData(taskId, completed, total)
-//          ScenarioType.SENTENCE_VALIDATION -> actionDashboardActivityToSentenceValidation(
-//            taskId,
-//            completed,
-//            total
-//          )
-//          ScenarioType.SPEECH_TRANSCRIPTION -> actionDashboardActivityToSpeechTranscriptionFragment(
-//            taskId,
-//            completed,
-//            total
-//          )
-//          ScenarioType.SENTENCE_CORPUS -> actionDashboardActivityToSentenceCorpusFragment(
-//            taskId,
-//            completed,
-//            total
-//          )
-//          ScenarioType.SIGN_LANGUAGE_VIDEO -> DashboardFragmentDirections.actionDashboardActivityToSignVideo(
-//            taskId,
-//            completed,
-//            total
-//          )
-//          ScenarioType.SGN_LANG_VIDEO_VERIFICATION -> DashboardFragmentDirections.actionDashboardActivityToSignVideoVerification(
-//            taskId,
-//            completed,
-//            total
-//          )
+
                     else -> null
                 }
             }
-//      if (action == null && BuildConfig.FLAVOR == "large") {
-//        action = when (task.scenarioName) {
-//          ScenarioType.SIGN_LANGUAGE_VIDEO -> DashboardFragmentDirections.actionDashboardActivityToSignVideo(
-//            taskId,
-//            completed,
-//            total
-//          )
-//          ScenarioType.SGN_LANG_VIDEO_VERIFICATION -> DashboardFragmentDirections.actionDashboardActivityToSignVideoVerification(
-//            taskId,
-//            completed,
-//            total
-//          )
-//          else -> null
-//        }
-//      }
+
             if (action != null) {
                 if (task.taskInstruction == null) {
                     findNavController().navigate(action)

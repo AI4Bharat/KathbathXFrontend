@@ -116,17 +116,6 @@
         android:id="@+id/login"
         app:startDestination="@id/crowdsourceLogin">
         <fragment
-            android:id="@+id/consentFormFragment"
-            android:name="com.ai4bharat.karya.ui.onboarding.consentForm.ConsentFormFragment"
-            android:label="ConsentFormFragment">
-            <action
-                android:id="@+id/action_consentFormFragment_to_crowdsourceRegistration"
-                app:destination="@id/crowdsourceRegistration" />
-            <action
-                android:id="@+id/action_consentFormFragment_to_crowdsourceLogin"
-                app:destination="@id/crowdsourceLogin" />
-        </fragment>
-        <fragment
             android:id="@+id/crowdsourceLogin"
             android:name="com.ai4bharat.karya.ui.crowdsource.login.CrowdsourceLogin"
             android:label="fragment_crowdsource_login"
@@ -140,9 +129,6 @@
             android:name="com.ai4bharat.karya.ui.crowdsource.registration.CrowdsourceRegistration"
             android:label="fragment_crowdsource_registration"
             tools:layout="@layout/fragment_crowdsource_registration">
-            <action
-                android:id="@+id/action_crowdsourceRegistration_to_consentFormFragment"
-                app:destination="@id/consentFormFragment" />
             <argument
                 android:name="language"
                 app:argType="string"

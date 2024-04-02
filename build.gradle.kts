@@ -41,8 +41,8 @@ allprojects {
         @Suppress("JcenterRepositoryObsolete")
         jcenter {
             content {
-                includeGroup("com.amitshekhar.android")
-                includeGroup("com.kofigyan.stateprogressbar")
+//                includeGroup("com.amitshekhar.android")
+//                includeGroup("com.kofigyan.stateprogressbar")
                 includeGroup("org.jetbrains.trove4j")
             }
         }

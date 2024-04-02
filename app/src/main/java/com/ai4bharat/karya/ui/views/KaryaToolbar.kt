@@ -17,136 +17,136 @@ import com.ai4bharat.karya.data.model.karya.enums.LanguageType
 
 class KaryaToolbar : Toolbar {
 
-  constructor(context: Context) : this(context, null)
-  constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-  constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-    context,
-    attrs,
-    defStyleAttr
-  ) {
-    initAttributes(context, attrs, defStyleAttr)
-  }
-
-  private lateinit var binding: AppToolbarBinding
-  private var hideLanguage: Boolean = false
-  private var titleText: String = ""
-  private lateinit var languageUpdater: (l: LanguageType) -> Unit
-
-  init {
-    initView(context)
-  }
-
-  private fun initAttributes(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
-    val attributes =
-      context.theme.obtainStyledAttributes(attrs, R.styleable.KaryaToolbar, defStyleAttr, 0)
-    hideLanguage = attributes.getBoolean(R.styleable.KaryaToolbar_hideLanguage, false)
-    titleText = attributes.getString(R.styleable.KaryaToolbar_titleText) ?: ""
-  }
-
-  private fun initView(context: Context) {
-    val view = inflate(context, R.layout.app_toolbar, this)
-    binding = AppToolbarBinding.bind(view)
-
-    binding.languageName.setOnClickListener {
-      showUpdateLanguageDialog(context)
-    }
-  }
-
-  override fun onFinishInflate() {
-    super.onFinishInflate()
-
-    if (hideLanguage) {
-      binding.languageName.gone()
-      binding.assistantCv.gone()
+    constructor(context: Context) : this(context, null)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        initAttributes(context, attrs, defStyleAttr)
     }
 
-    if (titleText.isNotEmpty()) {
-      setTitle(titleText)
-    }
-  }
+    private lateinit var binding: AppToolbarBinding
+    private var hideLanguage: Boolean = false
+    private var titleText: String = ""
+    private lateinit var languageUpdater: (l: LanguageType) -> Unit
 
-  fun setTitle(title: String) {
-    binding.title.apply {
-      text = title
-      visible()
-    }
-  }
-
-  fun showProfilePicture() {
-    binding.profilePictureIv.visible()
-  }
-
-  fun setProfilePicture(profilePicture: Bitmap) {
-    binding.profilePictureIv.apply {
-      setImageBitmap(profilePicture)
-      visible()
-    }
-  }
-
-  fun setProfileClickListener(onClick: () -> Unit) {
-    binding.profilePictureIv.apply {
-      visible()
-      setOnClickListener { onClick() }
-    }
-  }
-
-  fun setAssistantClickListener(onClick: () -> Unit) {
-    binding.assistantCv.apply {
-      visible()
-      setOnClickListener { onClick() }
-    }
-  }
-
-  private fun showUpdateLanguageDialog(context: Context) {
-    val languageDialog = inflate(context, R.layout.dialog_update_language, null)
-    val dialogBuilder = AlertDialog.Builder(context)
-    dialogBuilder.setView(languageDialog)
-    val dialog = dialogBuilder.create()
-    dialog.show()
-
-    languageDialog.findViewById<Button>(R.id.languageEnglish).setOnClickListener {
-      updateUserLanguage(LanguageType.EN)
-      dialog.cancel()
+    init {
+        initView(context)
     }
 
-    languageDialog.findViewById<Button>(R.id.languageHindi).setOnClickListener {
-      updateUserLanguage(LanguageType.HI)
-      dialog.cancel()
+    private fun initAttributes(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
+        val attributes =
+            context.theme.obtainStyledAttributes(attrs, R.styleable.KaryaToolbar, defStyleAttr, 0)
+        hideLanguage = attributes.getBoolean(R.styleable.KaryaToolbar_hideLanguage, false)
+        titleText = attributes.getString(R.styleable.KaryaToolbar_titleText) ?: ""
     }
 
-    languageDialog.findViewById<Button>(R.id.languageBengali).setOnClickListener {
-      updateUserLanguage(LanguageType.BN)
-      dialog.cancel()
+    private fun initView(context: Context) {
+        val view = inflate(context, R.layout.app_toolbar, this)
+        binding = AppToolbarBinding.bind(view)
+
+        binding.languageName.setOnClickListener {
+            showUpdateLanguageDialog(context)
+        }
     }
 
-    languageDialog.findViewById<Button>(R.id.languageMalayalam).setOnClickListener {
-      updateUserLanguage(LanguageType.ML)
-      dialog.cancel()
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+
+        if (hideLanguage) {
+            binding.languageName.gone()
+            binding.assistantCv.gone()
+        }
+
+        if (titleText.isNotEmpty()) {
+            setTitle(titleText)
+        }
     }
 
-    languageDialog.findViewById<Button>(R.id.languageBodo).setOnClickListener {
-      updateUserLanguage(LanguageType.BRX)
-      dialog.cancel()
+    fun setTitle(title: String) {
+        binding.title.apply {
+            text = title
+            visible()
+        }
     }
 
-    languageDialog.findViewById<Button>(R.id.languageMeitei).setOnClickListener {
-      updateUserLanguage(LanguageType.MNI)
-      dialog.cancel()
+    fun showProfilePicture() {
+//    binding.profilePictureIv.visible()
     }
 
-    languageDialog.findViewById<Button>(R.id.languageChokri).setOnClickListener {
-      updateUserLanguage(LanguageType.NRI)
-      dialog.cancel()
+    fun setProfilePicture(profilePicture: Bitmap) {
+//    binding.profilePictureIv.apply {
+//      setImageBitmap(profilePicture)
+//      visible()
+//    }
     }
-  }
 
-  fun setLanguageUpdater(updater: (l: LanguageType) -> Unit) {
-    languageUpdater = updater
-  }
-
-  private fun updateUserLanguage(lang: LanguageType) {
-    if (::languageUpdater.isInitialized) {
-      languageUpdater(lang)
+    fun setProfileClickListener(onClick: () -> Unit) {
+//    binding.profilePictureIv.apply {
+//      visible()
+//      setOnClickListener { onClick() }
+//    }
     }
-  }
+
+    fun setAssistantClickListener(onClick: () -> Unit) {
+        binding.assistantCv.apply {
+            visible()
+            setOnClickListener { onClick() }
+        }
+    }
+
+    private fun showUpdateLanguageDialog(context: Context) {
+        val languageDialog = inflate(context, R.layout.dialog_update_language, null)
+        val dialogBuilder = AlertDialog.Builder(context)
+        dialogBuilder.setView(languageDialog)
+        val dialog = dialogBuilder.create()
+        dialog.show()
+
+        languageDialog.findViewById<Button>(R.id.languageEnglish).setOnClickListener {
+            updateUserLanguage(LanguageType.EN)
+            dialog.cancel()
+        }
+
+        languageDialog.findViewById<Button>(R.id.languageHindi).setOnClickListener {
+            updateUserLanguage(LanguageType.HI)
+            dialog.cancel()
+        }
+
+        languageDialog.findViewById<Button>(R.id.languageBengali).setOnClickListener {
+            updateUserLanguage(LanguageType.BN)
+            dialog.cancel()
+        }
+
+        languageDialog.findViewById<Button>(R.id.languageMalayalam).setOnClickListener {
+            updateUserLanguage(LanguageType.ML)
+            dialog.cancel()
+        }
+
+        languageDialog.findViewById<Button>(R.id.languageBodo).setOnClickListener {
+            updateUserLanguage(LanguageType.BRX)
+            dialog.cancel()
+        }
+
+        languageDialog.findViewById<Button>(R.id.languageMeitei).setOnClickListener {
+            updateUserLanguage(LanguageType.MNI)
+            dialog.cancel()
+        }
+
+        languageDialog.findViewById<Button>(R.id.languageChokri).setOnClickListener {
+            updateUserLanguage(LanguageType.NRI)
+            dialog.cancel()
+        }
+    }
+
+    fun setLanguageUpdater(updater: (l: LanguageType) -> Unit) {
+        languageUpdater = updater
+    }
+
+    private fun updateUserLanguage(lang: LanguageType) {
+        if (::languageUpdater.isInitialized) {
+            languageUpdater(lang)
+        }
+    }
 }

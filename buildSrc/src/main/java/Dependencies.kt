@@ -97,18 +97,11 @@ object Dependencies {
     }
 
     object ThirdParty {
-
-        const val circleImageView = "de.hdodenhof:circleimageview:3.1.0"
-        const val debugDB = "com.amitshekhar.android:debug-db:1.0.6"
-        const val glide = "com.github.bumptech.glide:glide:4.12.0"
-        const val stateProgressBar = "com.kofigyan.stateprogressbar:stateprogressbar:1.0.0"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:4.9.1"
         const val okhttp = "com.squareup.okhttp3:okhttp:5.0.0-alpha.2"
-//    const val cameraview = "com.otaliastudios:cameraview:2.7.2"
 
         object Retrofit {
             private const val version = "2.9.0"
-
             const val retrofit = "com.squareup.retrofit2:retrofit:$version"
             const val gsonConverter = "com.squareup.retrofit2:converter-gson:$version"
         }

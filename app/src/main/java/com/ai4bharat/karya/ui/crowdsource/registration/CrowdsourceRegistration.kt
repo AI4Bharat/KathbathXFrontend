@@ -13,7 +13,6 @@ import androidx.lifecycle.Observer
 import com.ai4bharat.karya.R
 import com.ai4bharat.karya.databinding.FragmentCrowdsourceRegistrationBinding
 import com.ai4bharat.karya.ui.crowdsource.registration.ConsentDialog.showConsentForm
-import com.ai4bharat.karya.ui.onboarding.consentForm.ConsentFormFragmentDirections
 import com.ai4bharat.karya.utils.extensions.viewBinding
 import com.google.android.material.chip.Chip
 import org.json.JSONObject
@@ -167,7 +166,11 @@ class CrowdsourceRegistration : Fragment() {
 
 
     private fun showConsentForm() {
-        showConsentForm(requireContext(), ::changeConsentFormStatus)
+        showConsentForm(
+            requireContext(),
+            ::changeConsentFormStatus,
+            viewModel.user.value!!.language.displayName.lowercase()
+        )
     }
 
     private fun changeConsentFormStatus(status: Boolean) {
