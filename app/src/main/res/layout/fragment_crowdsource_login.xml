@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/crowdsourceLoginAccessCodeTextInput"
+        android:id="@+id/crowdsourceLoginPhoneNumberTextInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:errorEnabled="true"
@@ -34,24 +34,36 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/crowdsourceLoginAccessCode"
+            android:id="@+id/crowdsourceLoginPhoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Access Code" />
+            android:hint="Phone Number" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Spinner
+        android:id="@+id/crowdsourceLoginLanguage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceLoginPhoneNumberTextInput" />
+
 
     <Button
         android:id="@+id/crowdsourceLoginButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:text="Login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceLoginAccessCodeTextInput" />
+        app:layout_constraintTop_toBottomOf="@+id/crowdsourceLoginLanguage" />
 
     <TextView
         android:id="@+id/textView6"

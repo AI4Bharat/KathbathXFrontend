@@ -4,40 +4,31 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ai4bharat.karya.ui.crowdsource.registration.Language
 
 class CrowdsourceLoginViewModel : ViewModel() {
 
-    var accessCode: String? = null
-    private val _accessCodeError: MutableLiveData<String> = MutableLiveData<String>()
-    var loginStatus: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
+    var loginUser: MutableLiveData<LoginUser> = MutableLiveData<LoginUser>()
+    var loginUserError: MutableLiveData<LoginUserError> = MutableLiveData<LoginUserError>()
 
-    val accessCodeError: LiveData<String> get() = _accessCodeError
-
-    fun setData(accessCode: String) {
-        this.accessCode = accessCode
-    }
-
-    fun setError(type: String, msg: String) {
-        when (type) {
-            "accessCode" -> this._accessCodeError.value = msg
-        }
+    fun setData(phoneNumber: String = "", language: Language) {
+        loginUser.value = LoginUser(phoneNumber, language)
     }
 
     fun inputValidation(): Boolean {
-        if (this.accessCode?.trim() == "") {
-            setError("accessCode", "Empty")
-            return false
-        }
-        return true
+        val phoneNumberError: LoginError = loginUser.value!!.checkPhoneNumber()
+        val tmpLoginUserError = LoginUserError(phoneNumberError)
+        loginUserError.value = tmpLoginUserError
+        return phoneNumberError.status
     }
+
 
     fun login() {
         val inputIsValid: Boolean = inputValidation()
         if (inputIsValid) {
-            this.loginStatus.value = true
+
         } else {
-            this.loginStatus.value = false
+            print("Login success")
         }
-        println("The access code is $accessCode")
     }
 }
