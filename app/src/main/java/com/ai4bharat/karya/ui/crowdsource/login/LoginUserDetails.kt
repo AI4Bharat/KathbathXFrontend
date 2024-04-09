@@ -3,6 +3,13 @@ package com.ai4bharat.karya.ui.crowdsource.login
 import com.ai4bharat.karya.ui.crowdsource.registration.Language
 import com.ai4bharat.karya.ui.crowdsource.registration.RegistrationError
 
+enum class Status {
+    INITIAL, LOADING, SUCCESS, FAILED
+}
+
+data class LoginStatus(val status: Status, val message: String) {
+}
+
 class LoginUser(val phoneNumber: String = "", val language: Language) {
 
     fun basicValidation(type: String, value: String): LoginError {
@@ -11,7 +18,6 @@ class LoginUser(val phoneNumber: String = "", val language: Language) {
         if (value.trim() == "") {
             status = true
         }
-        println("Inside basic validation $type ${value.trim()}")
         return LoginError(type, "$type can't be empty", status)
     }
 
@@ -35,7 +41,6 @@ class LoginUser(val phoneNumber: String = "", val language: Language) {
     }
 
 }
-
 
 class LoginUserError(val phoneNumberError: LoginError) {
 }

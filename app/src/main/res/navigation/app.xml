@@ -123,6 +123,9 @@
             <action
                 android:id="@+id/action_crowdsourceLogin_to_crowdsourceRegistration"
                 app:destination="@id/crowdsourceRegistration" />
+            <action
+                android:id="@+id/action_crowdsourceLogin_to_dashboardActivity"
+                app:destination="@id/dashboardActivity" />
         </fragment>
         <fragment
             android:id="@+id/crowdsourceRegistration"
@@ -133,6 +136,9 @@
                 android:name="language"
                 app:argType="string"
                 android:defaultValue="hindi" />
+            <action
+                android:id="@+id/action_crowdsourceRegistration_to_crowdsourceLogin"
+                app:destination="@id/crowdsourceLogin" />
         </fragment>
         <action
             android:id="@+id/action_global_dashboardActivity"

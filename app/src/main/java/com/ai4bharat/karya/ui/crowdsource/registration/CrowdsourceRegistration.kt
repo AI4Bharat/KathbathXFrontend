@@ -10,13 +10,19 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.ai4bharat.karya.R
 import com.ai4bharat.karya.databinding.FragmentCrowdsourceRegistrationBinding
+import com.ai4bharat.karya.ui.crowdsource.login.Status
 import com.ai4bharat.karya.ui.crowdsource.registration.ConsentDialog.showConsentForm
 import com.ai4bharat.karya.utils.extensions.viewBinding
 import com.google.android.material.chip.Chip
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
+@AndroidEntryPoint
 class CrowdsourceRegistration : Fragment() {
 
     companion object {
@@ -59,6 +65,24 @@ class CrowdsourceRegistration : Fragment() {
             }
         })
 
+        viewModel.registrationStatus.observe(viewLifecycleOwner, Observer { registrationStatus ->
+            when (registrationStatus.status) {
+                Status.SUCCESS -> {
+                    findNavController().navigate(R.id.action_crowdsourceRegistration_to_crowdsourceLogin)
+                    binding.crowdsourceRegistrationProgressbar.visibility = View.INVISIBLE
+                }
+
+                Status.LOADING -> {
+                    binding.crowdsourceRegistrationProgressbar.visibility = View.VISIBLE
+                }
+
+                else -> {
+                    binding.crowdsourceRegistrationProgressbar.visibility = View.INVISIBLE
+                }
+            }
+            binding.textViewcrowdsourceRegistrationStatus.text = registrationStatus.message
+        })
+
         viewModel.user.observe(viewLifecycleOwner, Observer {
             binding.crowdsourceRegistrationConsent.isChecked = it.acceptConsent
         })
@@ -88,7 +112,7 @@ class CrowdsourceRegistration : Fragment() {
         setSpinner(languageList, binding.crowdsourceRegistrationLanguage)
         val jobTypeList = JobType.values().map { it.displayName }
         setSpinner(jobTypeList, binding.crowdsourceRegistrationJobType)
-        val educationList = Education.values().map { it.displayName }
+        val educationList = HighestQualification.values().map { it.displayName }
         setSpinner(educationList, binding.crowdsourceRegistrationEducation)
 
         binding.crowdsourceRegistrationState.onItemSelectedListener =
@@ -137,9 +161,9 @@ class CrowdsourceRegistration : Fragment() {
                     binding.crowdsourceRegistrationJobType.selectedItem.toString().replace(" ", "_")
                         .lowercase()
                 )
-            val education: Education =
-                Education.values()
-                    .filter { education: Education -> education.displayName == binding.crowdsourceRegistrationEducation.selectedItem.toString() }[0]
+            val highest_qualification: HighestQualification =
+                HighestQualification.values()
+                    .filter { education: HighestQualification -> education.displayName == binding.crowdsourceRegistrationEducation.selectedItem.toString() }[0]
             val occupation = binding.crowdsourceRegistrationOccupationTextField.text.toString()
             val consentFormAccept: Boolean = binding.crowdsourceRegistrationConsent.isChecked
 
@@ -151,12 +175,14 @@ class CrowdsourceRegistration : Fragment() {
                 state,
                 district,
                 jobType,
-                education,
+                highest_qualification,
                 occupation,
                 language,
                 consentFormAccept
             )
-            viewModel.submitRegistrationData()
+            lifecycleScope.launch {
+                viewModel.submitRegistrationData()
+            }
         })
         binding.crowdsourceRegistrationConsent.isActivated = false
         binding.crowdsourceRegistrationReadConsent.setOnClickListener(View.OnClickListener {

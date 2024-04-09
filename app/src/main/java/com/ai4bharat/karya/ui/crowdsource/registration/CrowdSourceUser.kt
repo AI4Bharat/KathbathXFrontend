@@ -1,10 +1,15 @@
 package com.ai4bharat.karya.ui.crowdsource.registration
 
+import com.ai4bharat.karya.ui.crowdsource.login.Status
+
 enum class Gender(val displayName: String) {
     male("Male"), female("Female"), other("Other")
 }
 
-enum class Education(val displayName: String) {
+data class RegistrationStatus(var status: Status, var message: String) {
+}
+
+enum class HighestQualification(val displayName: String) {
     no_schooling("No Schooling"),
     high_school("Higher Secondary Level at School (10th)"),
     senior_high_school("Senior Secondary Level at School (10+2)"),
@@ -20,28 +25,28 @@ enum class JobType(val displayName: String) {
 }
 
 enum class Language(val displayName: String) {
-    marathi("Marathi"),
-    maithili("Maithili"),
-    dogri("Dogri"),
-    bengali("Bengali"),
-    odia("Odia"),
-    kashmiri("Kashmiri"),
-    sanskrit("Sanskrit"),
     assamese("Assamese"),
-    malayalam("Malayalam"),
-    tamil("Tamil"),
-    gujarati("Gujarati"),
+    bengali("Bengali"),
     bodo("Bodo"),
-    nepali("Nepali"),
-    konkani("Konkani"),
-    telugu("Telugu"),
-    santali("Santali"),
-    punjabi("Punjabi"),
+    dogri("Dogri"),
+    gujarati("Gujarati"),
     hindi("Hindi"),
-    sindhi("Sindhi"),
-    urdu("Urdu"),
     kannada("Kannada"),
-    manipuri("Manipuri")
+    kashmiri("Kashmiri"),
+    konkani("Konkani"),
+    maithili("Maithili"),
+    malayalam("Malayalam"),
+    manipuri("Manipuri"),
+    marathi("Marathi"),
+    nepali("Nepali"),
+    odia("Odia"),
+    punjabi("Punjabi"),
+    sanskrit("Sanskrit"),
+    santali("Santali"),
+    sindhi("Sindhi"),
+    tamil("Tamil"),
+    telugu("Telugu"),
+    urdu("Urdu")
 }
 
 data class State(val key: String, val name: String, var district: List<District>) {
@@ -65,7 +70,7 @@ class CrowdSourceUser(
     val district: String = "",
     val phoneNumber: String = "",
     val jobType: JobType = JobType.white_collar,
-    val education: Education = Education.no_schooling,
+    val highestQualification: HighestQualification = HighestQualification.no_schooling,
     val occupation: String = "",
     val language: Language = Language.hindi,
     val acceptConsent: Boolean = true
@@ -73,7 +78,7 @@ class CrowdSourceUser(
 ) {
     override fun toString(): String {
         return "Name ${name}, age ${age}, gender ${gender}, state ${state} , district ${district}," +
-                "Phone number ${phoneNumber}, Job Type ${jobType}, Education ${education}" +
+                "Phone number ${phoneNumber}, Job Type ${jobType}, Education ${highestQualification}" +
                 "Occupation ${occupation}, Language ${language}"
     }
 
@@ -172,7 +177,7 @@ class CrowdSourceUser(
 
             "education" -> {
                 possibleValues = Gender.values().map { value -> value.name }
-                selectedValue = this.education.name
+                selectedValue = this.highestQualification.name
             }
 
             "language" -> {
@@ -206,7 +211,8 @@ class CrowdSourceUser(
         var status = false
         var message = ""
         val type = "state"
-        val basicValidationResult: RegistrationError = basicValidation("state", this.state)
+        val basicValidationResult: RegistrationError =
+            basicValidation("state", this.state)
         if (basicValidationResult.status) {
             return basicValidationResult
         }
@@ -226,11 +232,13 @@ class CrowdSourceUser(
         var status = false
         var message = ""
         val type = "district"
-        val basicValidationResult: RegistrationError = basicValidation("district", this.district)
+        val basicValidationResult: RegistrationError =
+            basicValidation("district", this.district)
         if (basicValidationResult.status) {
             return basicValidationResult
         }
-        val stateInfo: List<State> = locationInfo!!.filter { state -> state.name == this.state }
+        val stateInfo: List<State> =
+            locationInfo!!.filter { state -> state.name == this.state }
         if (stateInfo.size > 0) {
             val districtList = stateInfo[0].district.map { district -> district.name }
             if (!districtList.contains(this.district)) {
@@ -265,6 +273,14 @@ class CrowdSourceUserError(
                 "state $state distrct $district phoneNumber $phoneNumber" +
                 "jobType $jobType education $education occupation $occupation" +
                 "language $language consent $acceptConsent"
+
+    }
+
+    // Checks if any of the parameters are false. True means there is some issue
+    fun errorExist(): Boolean {
+        return name.status || age.status || gender.status || state.status || district.status
+                || phoneNumber.status || jobType.status || education.status || occupation.status
+                || language.status || acceptConsent.status
 
     }
 }

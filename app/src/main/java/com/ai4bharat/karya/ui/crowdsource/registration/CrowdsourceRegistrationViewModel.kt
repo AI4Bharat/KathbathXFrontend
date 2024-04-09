@@ -1,15 +1,37 @@
 package com.ai4bharat.karya.ui.crowdsource.registration
 
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ai4bharat.karya.data.manager.AuthManager
+import com.ai4bharat.karya.data.manager.BaseUrlManager
+import com.ai4bharat.karya.data.model.karya.WorkerRecord
+import com.ai4bharat.karya.data.repo.WorkerRepository
+import com.ai4bharat.karya.ui.crowdsource.login.Status
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import org.json.JSONObject
+import javax.inject.Inject
 
-class CrowdsourceRegistrationViewModel() : ViewModel() {
+@HiltViewModel
+class CrowdsourceRegistrationViewModel
+@Inject
+constructor(
+    private val workerRepository: WorkerRepository,
+    private val authManager: AuthManager,
+    private val baseUrlManager: BaseUrlManager
+) : ViewModel() {
 
     var user: MutableLiveData<CrowdSourceUser> = MutableLiveData<CrowdSourceUser>()
     var userError: MutableLiveData<CrowdSourceUserError> = MutableLiveData<CrowdSourceUserError>()
     var location: MutableLiveData<MutableList<State>> =
         MutableLiveData<MutableList<State>>()
+    var registrationStatus: MutableLiveData<RegistrationStatus> =
+        MutableLiveData<RegistrationStatus>(RegistrationStatus(Status.INITIAL, ""))
 
     fun setData(
         name: String = "",
@@ -19,7 +41,7 @@ class CrowdsourceRegistrationViewModel() : ViewModel() {
         state: String = "",
         district: String = "",
         jobType: JobType = JobType.blue_collar,
-        education: Education = Education.no_schooling,
+        highest_qualification: HighestQualification = HighestQualification.no_schooling,
         occupation: String = "",
         language: Language = Language.marathi,
         acceptConsent: Boolean = false
@@ -32,7 +54,7 @@ class CrowdsourceRegistrationViewModel() : ViewModel() {
             district,
             phoneNumber,
             jobType,
-            education,
+            highest_qualification,
             occupation,
             language,
             acceptConsent
@@ -67,10 +89,42 @@ class CrowdsourceRegistrationViewModel() : ViewModel() {
     }
 
     fun submitRegistrationData() {
-        validateInputs()
+
+        val tmpWorker = CrowdSourceUser(
+            "Crowd tester", "38", Gender.male,
+            "jammu_kashmir",
+            "anantnag",
+            "1222334455",
+            JobType.blue_collar,
+            HighestQualification.no_schooling,
+            "Farmer",
+            Language.kashmiri,
+            true
+        )
+
+
+        if (!validateInputs()) {
+            workerRepository.createNewWorker(this.user.value!!)
+            workerRepository.createNewWorker(tmpWorker)
+                .onStart {
+                    println("User registration starting")
+                    registrationStatus.value = RegistrationStatus(Status.LOADING, "")
+                }.onEach {
+                    println("The access code is $it")
+                    registrationStatus.value = RegistrationStatus(Status.SUCCESS, "")
+                }.catch {
+                    println(it)
+                    registrationStatus.value =
+                        RegistrationStatus(Status.FAILED, "Registration Failed")
+                }
+                .launchIn(viewModelScope)
+        } else {
+            println("Error in input data")
+        }
     }
 
-    private fun validateInputs() {
+    private fun validateInputs(): Boolean {
+        var status = false;
         val nameError: RegistrationError = user.value!!.checkNameAndOccupation("name")
         val occupationError: RegistrationError = user.value!!.checkNameAndOccupation("occupation")
         val ageError: RegistrationError = user.value!!.checkAge()
@@ -96,6 +150,7 @@ class CrowdsourceRegistrationViewModel() : ViewModel() {
             acceptConsent = consentAcceptError
         )
         userError.value = crowdSourceUserError
+        return userError.value!!.errorExist()
     }
 
 
