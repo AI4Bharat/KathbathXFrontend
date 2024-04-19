@@ -7,6 +7,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.AttributeSet
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.widget.Toolbar
 import com.ai4bharat.karya.R
@@ -14,6 +15,7 @@ import com.ai4bharat.karya.databinding.AppToolbarBinding
 import com.ai4bharat.karya.utils.extensions.gone
 import com.ai4bharat.karya.utils.extensions.visible
 import com.ai4bharat.karya.data.model.karya.enums.LanguageType
+import com.ai4bharat.karya.utils.extensions.dataStore
 
 class KaryaToolbar : Toolbar {
 
@@ -50,6 +52,10 @@ class KaryaToolbar : Toolbar {
         binding.languageName.setOnClickListener {
             showUpdateLanguageDialog(context)
         }
+
+        binding.assistantCv.setOnClickListener(View.OnClickListener {
+            println("Profile clicked")
+        })
     }
 
     override fun onFinishInflate() {
@@ -57,7 +63,7 @@ class KaryaToolbar : Toolbar {
 
         if (hideLanguage) {
             binding.languageName.gone()
-            binding.assistantCv.gone()
+//            binding.assistantCv.gone()
         }
 
         if (titleText.isNotEmpty()) {
@@ -91,10 +97,10 @@ class KaryaToolbar : Toolbar {
     }
 
     fun setAssistantClickListener(onClick: () -> Unit) {
-        binding.assistantCv.apply {
-            visible()
-            setOnClickListener { onClick() }
-        }
+//        binding.assistantCv.apply {
+//            visible()
+//            setOnClickListener { onClick() }
+//        }
     }
 
     private fun showUpdateLanguageDialog(context: Context) {

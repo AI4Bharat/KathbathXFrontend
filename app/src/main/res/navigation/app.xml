@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_splashScreenFragment_to_login"
             app:destination="@id/login" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_dashboardActivity"
+            app:destination="@id/dashboardActivity" />
     </fragment>
     <navigation
         android:id="@+id/oldLoginFlow"
@@ -75,6 +78,9 @@
                 android:name="total"
                 app:argType="integer" />
         </action>
+        <action
+            android:id="@+id/action_dashboardActivity_to_login"
+            app:destination="@id/login" />
     </fragment>
     <fragment
         android:id="@+id/speechDataMainFragment"

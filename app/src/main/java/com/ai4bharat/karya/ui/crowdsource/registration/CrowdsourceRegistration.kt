@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.widget.AutoCompleteTextView
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -88,21 +88,38 @@ class CrowdsourceRegistration : Fragment() {
         })
 
         viewModel.userError.observe(viewLifecycleOwner, Observer { userErrors ->
-            if (userErrors.name.status) binding.crowdsourceRegistrationNameTextField.error =
-                userErrors.name.message
-            if (userErrors.phoneNumber.status) binding.crowdsourceRegistrationNumberTextField.error =
+            if (userErrors.name.status) {
+                binding.crowdsourceRegistrationName.error =
+                    userErrors.name.message
+            }
+            if (userErrors.phoneNumber.status) binding.crowdsourceRegistrationNumber.error =
                 userErrors.phoneNumber.message
-            if (userErrors.age.status) binding.crowdsourceRegistrationAgeTextField.error =
+            if (userErrors.age.status) binding.crowdsourceRegistrationAge.error =
                 userErrors.age.message
-            if (userErrors.occupation.status) binding.crowdsourceRegistrationOccupationTextField.error =
+            if (userErrors.occupation.status) binding.crowdsourceRegistrationOccupation.error =
                 userErrors.occupation.message
-            binding.crowdsourceRegistrationLanguageError.text = userErrors.language.message
-            binding.crowdsourceRegistrationJobTypeError.text = userErrors.jobType.message
-            binding.crowdsourceRegistrationStateError.text = userErrors.state.message
-            binding.crowdsourceRegistrationDistrictError.text = userErrors.district.message
-            binding.crowdsourceRegistrationEducationError.text = userErrors.education.message
-            binding.crowdsourceRegistrationGenderError.text = userErrors.gender.message
-            binding.crowdsourceRegistrationConsentFormError.text = userErrors.acceptConsent.message
+            if (userErrors.language.status)
+                binding.crowdsourceRegistrationLanguage.error = userErrors.language.message
+            if (userErrors.jobType.status)
+                binding.crowdsourceRegistrationJobType.error = userErrors.jobType.message
+            if (userErrors.state.status) {
+                binding.crowdsourceRegistrationState.error = userErrors.state.message
+            }
+            if (userErrors.district.status) {
+                binding.crowdsourceRegistrationDistrict.error = userErrors.district.message
+            }
+            if (userErrors.education.status)
+                binding.crowdsourceRegistrationEducation.error = userErrors.education.message
+            if (userErrors.gender.status)
+                binding.crowdsourceRegistrationGenderError.text = userErrors.gender.message
+            if (userErrors.acceptConsent.status) {
+                binding.crowdsourceRegistrationConsentFormError.text =
+                    userErrors.acceptConsent.message
+            } else {
+                binding.crowdsourceRegistrationConsentFormError.text = ""
+            }
+            if (userErrors.referralCode.status)
+                binding.crowdsourceRegistrationReferralCode.error = userErrors.referralCode.message
         })
     }
 
@@ -115,57 +132,43 @@ class CrowdsourceRegistration : Fragment() {
         val educationList = HighestQualification.values().map { it.displayName }
         setSpinner(educationList, binding.crowdsourceRegistrationEducation)
 
-        binding.crowdsourceRegistrationState.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
-                    val state = p0?.getItemAtPosition(p2).toString()
-                    val stateInfo: List<State> =
-                        viewModel.location.value!!.filter { it -> it.name == state }
-                    if (stateInfo.size == 1) {
-                        val selectedState: State = stateInfo[0]
-                        val districtList: List<String> =
-                            selectedState.district.map { district -> district.name }
-                        setSpinner(districtList, binding.crowdsourceRegistrationDistrict)
-                    }
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                }
+        binding.crowdsourceRegistrationState.setOnItemClickListener { adapterView, view, i, l ->
+            val state = adapterView?.getItemAtPosition(i).toString()
+            val stateInfo: List<State> =
+                viewModel.location.value!!.filter { it -> it.name == state }
+            if (stateInfo.size == 1) {
+                val selectedState: State = stateInfo[0]
+                val districtList: List<String> =
+                    selectedState.district.map { district -> district.name }
+                setSpinner(districtList, binding.crowdsourceRegistrationDistrict)
             }
+        }
 
-        binding.crowdsourceRegistrationLanguage.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    val language = p0?.getItemAtPosition(p2).toString()
-                    viewModel.setData(language = Language.valueOf(language.lowercase()))
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                }
-            }
+        binding.crowdsourceRegistrationLanguage.setOnItemClickListener { adapterView, view, i, l ->
+            val language = adapterView?.getItemAtPosition(i).toString().lowercase()
+            viewModel.setData(language = language)
+        }
 
         binding.crowdsourceRegistrationButton.setOnClickListener(View.OnClickListener {
-            val name = binding.crowdsourceRegistrationNameTextField.text.toString()
-            val age = binding.crowdsourceRegistrationAgeTextField.text.toString()
-            val phoneNumber = binding.crowdsourceRegistrationNumberTextField.text.toString()
-            val gender: Gender = getGender()
-            val language: Language =
-                Language.valueOf(
-                    binding.crowdsourceRegistrationLanguage.selectedItem.toString().lowercase()
-                )
-            val state: String = binding.crowdsourceRegistrationState.selectedItem.toString()
-            val district: String = binding.crowdsourceRegistrationDistrict.selectedItem.toString()
-            val jobType: JobType =
-                JobType.valueOf(
-                    binding.crowdsourceRegistrationJobType.selectedItem.toString().replace(" ", "_")
-                        .lowercase()
-                )
-            val highest_qualification: HighestQualification =
-                HighestQualification.values()
-                    .filter { education: HighestQualification -> education.displayName == binding.crowdsourceRegistrationEducation.selectedItem.toString() }[0]
-            val occupation = binding.crowdsourceRegistrationOccupationTextField.text.toString()
+            val name = binding.crowdsourceRegistrationName.text.toString()
+            val age = binding.crowdsourceRegistrationAge.text.toString()
+            val phoneNumber = binding.crowdsourceRegistrationNumber.text.toString()
+            val gender = getGender()
+            val language =
+                binding.crowdsourceRegistrationLanguage.text.toString().lowercase()
+            val state: String = binding.crowdsourceRegistrationState.text.toString()
+            val district: String = binding.crowdsourceRegistrationDistrict.text.toString()
+            val jobType =
+                binding.crowdsourceRegistrationJobType.text.toString().replace(" ", "_")
+                    .lowercase()
+            val highestQualification = getKeyFromEnum(
+                binding.crowdsourceRegistrationEducation.text.toString(),
+                HighestQualification.values().associateBy({ it.name }, { it.displayName })
+            )
+            val occupation = binding.crowdsourceRegistrationOccupation.text.toString()
             val consentFormAccept: Boolean = binding.crowdsourceRegistrationConsent.isChecked
+            val referralCode = binding.crowdsourceRegistrationReferralCode.text.toString()
+            println("The consent form is $consentFormAccept")
 
             viewModel.setData(
                 name,
@@ -175,10 +178,11 @@ class CrowdsourceRegistration : Fragment() {
                 state,
                 district,
                 jobType,
-                highest_qualification,
+                highestQualification,
                 occupation,
                 language,
-                consentFormAccept
+                consentFormAccept,
+                referralCode
             )
             lifecycleScope.launch {
                 viewModel.submitRegistrationData()
@@ -190,30 +194,43 @@ class CrowdsourceRegistration : Fragment() {
         })
     }
 
+    private fun getKeyFromEnum(value: String, map: Map<String, String>): String {
+        val result = map.filter { t -> t.value == value }
+        if (result.isNotEmpty()) {
+            return result.keys.toList()[0]
+        }
+        return ""
+    }
 
     private fun showConsentForm() {
-        showConsentForm(
-            requireContext(),
-            ::changeConsentFormStatus,
-            viewModel.user.value!!.language.displayName.lowercase()
-        )
+        if (viewModel.user.value?.language != null) {
+            showConsentForm(
+                requireContext(),
+                ::changeConsentFormStatus,
+                viewModel.user.value!!.language.lowercase()
+            )
+        } else {
+            binding.crowdsourceRegistrationConsentFormError.text = "Please select a valid language"
+        }
     }
 
     private fun changeConsentFormStatus(status: Boolean) {
         viewModel.setData(acceptConsent = status)
     }
 
-    private fun setSpinner(values: List<String>, spinner: Spinner) {
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, values)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
+    private fun setSpinner(values: List<String>, textLayout: AutoCompleteTextView) {
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.custom_spinner_item, values)
+        textLayout.setAdapter(arrayAdapter)
+        textLayout.doOnTextChanged { text, start, count, after ->
+            textLayout.error = null
+        }
     }
 
-    private fun getGender(): Gender {
+    private fun getGender(): String {
         val selectedChipId = binding.crowdsourceRegistrationgenderChipGroup.checkedChipId
         val chip: Chip =
             binding.crowdsourceRegistrationgenderChipGroup.findViewById(selectedChipId)
-        return Gender.valueOf(chip.text.toString().lowercase())
+        return chip.text.toString().lowercase()
     }
 }
 

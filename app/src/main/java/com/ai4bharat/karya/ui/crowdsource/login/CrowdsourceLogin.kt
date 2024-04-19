@@ -2,14 +2,14 @@ package com.ai4bharat.karya.ui.crowdsource.login
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
-import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Spinner
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -53,6 +53,9 @@ class CrowdsourceLogin : Fragment() {
             if (loginUserError.phoneNumberError.status) {
                 binding.crowdsourceLoginPhoneNumber.error = loginUserError.phoneNumberError.message
             }
+            if (loginUserError.languageError.status) {
+                binding.crowdsourceLoginLanguage.error = loginUserError.languageError.message
+            }
         })
 
         viewModel.loginStatus.observe(viewLifecycleOwner, Observer { loginStatus ->
@@ -84,16 +87,15 @@ class CrowdsourceLogin : Fragment() {
     private fun setupUIElements() {
         val languageList = Language.values().map { it.displayName }
         setSpinner(languageList, binding.crowdsourceLoginLanguage)
-        binding.crowdsourceLoginPhoneNumber.setText("8593071949")
         binding.crowdsourceRegistration.setOnClickListener(View.OnClickListener {
             findNavController().navigate(R.id.action_crowdsourceLogin_to_crowdsourceRegistration)
         })
         binding.crowdsourceLoginButton.setOnClickListener(View.OnClickListener {
             val phoneNumber = binding.crowdsourceLoginPhoneNumber.text.toString()
-            val language: Language = Language.valueOf(
-                binding.crowdsourceLoginLanguage.selectedItem.toString().lowercase()
-            )
-            viewModel.setData(phoneNumber, language)
+            val selectedLanguage = binding.crowdsourceLoginLanguage.text.toString().lowercase()
+            println("The language is $selectedLanguage")
+
+            viewModel.setData(phoneNumber, selectedLanguage)
 
             lifecycleScope.launch {
                 viewModel.login()
@@ -101,10 +103,12 @@ class CrowdsourceLogin : Fragment() {
         })
     }
 
-    private fun setSpinner(values: List<String>, spinner: Spinner) {
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, values)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
+    private fun setSpinner(values: List<String>, textLayout: AutoCompleteTextView) {
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.custom_spinner_item, values)
+        textLayout.setAdapter(arrayAdapter)
+        textLayout.doOnTextChanged { text, start, count, after ->
+            textLayout.error = null
+        }
     }
 
 

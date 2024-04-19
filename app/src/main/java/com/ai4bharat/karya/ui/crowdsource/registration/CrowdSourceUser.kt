@@ -1,5 +1,6 @@
 package com.ai4bharat.karya.ui.crowdsource.registration
 
+import com.ai4bharat.karya.ui.crowdsource.login.LoginError
 import com.ai4bharat.karya.ui.crowdsource.login.Status
 
 enum class Gender(val displayName: String) {
@@ -65,21 +66,22 @@ data class District(val key: String, val name: String) {
 class CrowdSourceUser(
     val name: String = "",
     val age: String = "",
-    val gender: Gender = Gender.male,
+    val gender: String = "",
     val state: String = "",
     val district: String = "",
     val phoneNumber: String = "",
-    val jobType: JobType = JobType.white_collar,
-    val highestQualification: HighestQualification = HighestQualification.no_schooling,
+    val jobType: String = "",
+    val highestQualification: String = "",
     val occupation: String = "",
-    val language: Language = Language.hindi,
-    val acceptConsent: Boolean = true
+    val language: String = "",
+    val acceptConsent: Boolean = true,
+    val referalCode: String = ""
 
 ) {
     override fun toString(): String {
         return "Name ${name}, age ${age}, gender ${gender}, state ${state} , district ${district}," +
                 "Phone number ${phoneNumber}, Job Type ${jobType}, Education ${highestQualification}" +
-                "Occupation ${occupation}, Language ${language}"
+                "Occupation ${occupation}, Language ${language} Consent form -> $acceptConsent"
     }
 
     fun basicValidation(type: String, value: String): RegistrationError {
@@ -88,15 +90,21 @@ class CrowdSourceUser(
         if (value.trim() == "") {
             status = true
         }
-        println("Inside basic validation $type ${value.trim()}")
         return RegistrationError(type, "$type can't be empty", status)
     }
 
-    // Since occupation and name have similar regex pattern we could combine them
-    fun checkNameAndOccupation(type: String = "name"): RegistrationError {
+    fun checkReferalCode(): RegistrationError {
         var status = false
         var message = ""
-        val value = if (type == "name") this.name else this.occupation
+        var type = "Referal Code"
+        return basicValidation("Referal Code", this.referalCode)
+    }
+
+    // Since occupation and name have similar regex pattern we could combine them
+    fun checkNameAndOccupation(type: String = "Name"): RegistrationError {
+        var status = false
+        var message = ""
+        val value = if (type == "Name") this.name else this.occupation
         val basicValidationResult: RegistrationError = basicValidation(type, value)
 
         if (basicValidationResult.status) {
@@ -134,7 +142,7 @@ class CrowdSourceUser(
 
     fun checkAge(): RegistrationError {
         var status = false
-        var message = ""
+        var message: String = ""
         val type = "name"
 
         val basicValidationResult: RegistrationError = basicValidation(type, this.age)
@@ -164,33 +172,34 @@ class CrowdSourceUser(
         var selectedValue = ""
         var possibleValues: List<String> = listOf()
         when (type) {
-            "gender" -> {
+            "Gender" -> {
                 possibleValues = Gender.values()
-                    .map { t -> t.name.replaceFirstChar { char -> char.uppercase() } }
-                selectedValue = this.gender.name
+                    .map { value -> value.name }
+                selectedValue = this.gender
             }
 
-            "jobType" -> {
-                possibleValues = Gender.values().map { value -> value.name }
-                selectedValue = this.jobType.name
+            "Job Type" -> {
+                possibleValues = JobType.values().map { value -> value.name }
+                selectedValue = this.jobType
             }
 
-            "education" -> {
-                possibleValues = Gender.values().map { value -> value.name }
-                selectedValue = this.highestQualification.name
+            "Education" -> {
+                possibleValues = HighestQualification.values().map { value -> value.name }
+                selectedValue = this.highestQualification
             }
 
-            "language" -> {
-                possibleValues = Gender.values().map { value -> value.name }
-                selectedValue = this.language.name
+            "Language" -> {
+                possibleValues = Language.values().map { value -> value.name }
+                selectedValue = this.language
 
             }
         }
+        println("$type, $possibleValues ${this.gender}")
         val basicValidationResult: RegistrationError = basicValidation(type, selectedValue)
         if (basicValidationResult.status) {
             return basicValidationResult
         }
-        if (possibleValues.contains(selectedValue)) {
+        if (!possibleValues.contains(selectedValue)) {
             message = "$type is invalid"
             status = true
         }
@@ -243,11 +252,11 @@ class CrowdSourceUser(
             val districtList = stateInfo[0].district.map { district -> district.name }
             if (!districtList.contains(this.district)) {
                 status = true
-                message = "District is invalid"
+                message = "Invalid district selected"
             }
         } else {
             status = true
-            message = "State is invalid"
+            message = "Please select a valid State first"
 
         }
         return RegistrationError(type, message, status)
@@ -256,17 +265,18 @@ class CrowdSourceUser(
 }
 
 class CrowdSourceUserError(
-    var name: RegistrationError = RegistrationError("name", "", false),
-    val age: RegistrationError = RegistrationError("age", "", false),
-    val gender: RegistrationError = RegistrationError("gender", "", false),
-    val state: RegistrationError = RegistrationError("state", "", false),
-    val district: RegistrationError = RegistrationError("district", "", false),
-    val phoneNumber: RegistrationError = RegistrationError("phoneNumber", "", false),
-    val jobType: RegistrationError = RegistrationError("jobType", "", false),
-    val education: RegistrationError = RegistrationError("education", "", false),
-    val occupation: RegistrationError = RegistrationError("occupation", "", false),
-    val language: RegistrationError = RegistrationError("language", "", false),
-    val acceptConsent: RegistrationError = RegistrationError("acceptConsent", "", false)
+    var name: RegistrationError = RegistrationError("Name", "", false),
+    val age: RegistrationError = RegistrationError("Age", "", false),
+    val gender: RegistrationError = RegistrationError("Gender", "", false),
+    val state: RegistrationError = RegistrationError("State", "", false),
+    val district: RegistrationError = RegistrationError("District", "", false),
+    val phoneNumber: RegistrationError = RegistrationError("Phone Number", "", false),
+    val jobType: RegistrationError = RegistrationError("Job Type", "", false),
+    val education: RegistrationError = RegistrationError("Education", "", false),
+    val occupation: RegistrationError = RegistrationError("Occupation", "", false),
+    val language: RegistrationError = RegistrationError("Language", "", false),
+    var acceptConsent: RegistrationError = RegistrationError("Accept Consent", "", false),
+    val referralCode: RegistrationError = RegistrationError("Referral Code", "", false)
 ) {
     override fun toString(): String {
         return "name $name age $age gender $gender" +
@@ -283,6 +293,7 @@ class CrowdSourceUserError(
                 || language.status || acceptConsent.status
 
     }
+
 }
 
 data class RegistrationError(

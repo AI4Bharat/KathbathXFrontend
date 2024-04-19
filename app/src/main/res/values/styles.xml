@@ -97,4 +97,11 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
     </style>
+
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorAccent">@color/primary_color</item>
+    </style>
+
+
 </resources>

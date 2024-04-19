@@ -1,12 +1,15 @@
 package com.ai4bharat.karya.data.repo
 
+import android.util.Log
 import com.ai4bharat.karya.BuildConfig
 import com.ai4bharat.karya.data.exceptions.*
 import com.ai4bharat.karya.data.local.daos.WorkerDao
 import com.ai4bharat.karya.data.model.karya.WorkerRecord
 import com.ai4bharat.karya.data.remote.request.RegisterOrUpdateWorkerRequest
 import com.ai4bharat.karya.data.service.WorkerAPI
+import com.ai4bharat.karya.ui.crowdsource.login.Status
 import com.ai4bharat.karya.ui.crowdsource.registration.CrowdSourceUser
+import com.ai4bharat.karya.ui.crowdsource.registration.RegistrationStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
@@ -49,7 +52,6 @@ class WorkerRepository @Inject constructor(
     ) = flow {
         val response = workerAPI.resendOTP(accessCode, phoneNumber)
         val workerRecord = response.body()
-
         if (!response.isSuccessful) {
             throw when (response.code()) {
                 403 -> AccessCodeAlreadyUsedException()
@@ -108,16 +110,33 @@ class WorkerRepository @Inject constructor(
     }
 
     fun createNewWorker(worker: CrowdSourceUser) = flow {
+        println("Registration started inside create new worker")
         val response = workerAPI.createNewWorker(worker)
 
-        if (response.code() != 200) {
-            error("Creating user failed $response")
-        }
-        val workerRecord: String? = response.body()
-        if (workerRecord != null) {
-            emit(workerRecord)
-        }
+        var msg = ""
+        var status = Status.INITIAL
+        println("createNewWorker: ${response.body()?.accessCode}")
+        if (!response.isSuccessful) {
+            status = Status.FAILED
+            println("The response is $response")
+            msg = when (response.code()) {
+                409 -> {
+                    "Account with same number and language already exist"
+                }
 
+                422 -> {
+                    "Invalid entry"
+                }
+
+                else -> {
+                    "Registration failed"
+                }
+            }
+        } else {
+            msg = response.body().toString()
+            status = Status.SUCCESS
+        }
+        emit(RegistrationStatus(status, msg))
     }
 
     fun getWorkerUsingIdToken(

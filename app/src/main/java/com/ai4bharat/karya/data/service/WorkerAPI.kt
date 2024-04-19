@@ -1,10 +1,12 @@
 package com.ai4bharat.karya.data.service
 
 import com.ai4bharat.karya.BuildConfig
+import com.ai4bharat.karya.data.model.karya.WorkerCreationResponse
 import com.ai4bharat.karya.data.model.karya.WorkerRecord
 import com.ai4bharat.karya.data.remote.request.RegisterOrUpdateWorkerRequest
 import com.ai4bharat.karya.ui.crowdsource.registration.CrowdSourceUser
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -64,6 +66,6 @@ interface WorkerAPI {
     @POST("/misc/addUser")
     suspend fun createNewWorker(
         @Body worker: CrowdSourceUser
-    ): Response<String>
+    ): Response<WorkerCreationResponse>
 
 }

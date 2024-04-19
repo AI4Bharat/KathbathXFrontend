@@ -61,7 +61,7 @@
             android:foregroundGravity="center_vertical|center"
             android:padding="@dimen/_5sdp"
             android:translationZ="@dimen/_5sdp"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:cardCornerRadius="@dimen/_18sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/languageName"

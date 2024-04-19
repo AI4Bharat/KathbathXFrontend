@@ -1,323 +1,444 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout2"
-    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillViewport="true"
+    android:scrollbars="none"
     android:layout_height="match_parent"
-    tools:context=".ui.crowdsource.registration.CrowdsourceRegistration">
+    android:layout_width="match_parent">
 
-    <TextView
-        android:id="@+id/crowdsourceRegistrationHeading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:text="Registration"
-        android:textSize="24dp"
-        android:textColor="@color/c_black"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.crowdsource.registration.CrowdsourceRegistration">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/crowdsourceRegistrationName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationHeading">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/crowdsourceRegistrationNameTextField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="Name" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/crowdsourceRegistrationgenderChipGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationAge"
-        app:selectionRequired="true"
-        app:singleLine="true"
-        app:singleSelection="true">
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/maleChip"
+        <TextView
+            android:id="@+id/crowdsourceRegistrationHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checkable="true"
-            android:checked="true"
-            android:text="Male" />
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:text="Register"
+            android:textColor="@color/heading_color"
+            android:textSize="@dimen/_24sdp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/femaleChip"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/crowdsourceRegistrationNameLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:theme="@style/CustomTextInputLayout"
+            app:boxBackgroundColor="@color/c_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:startIconDrawable="@drawable/ic_perm_identity"
+            app:layout_constraintTop_toBottomOf="@+id/textView6">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/crowdsourceRegistrationName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:hint="Name"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/crowdsourceRegistrationgenderChipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checkable="true"
-            android:text="Female" />
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationAgeLayout"
+            app:selectionRequired="true"
+            app:singleLine="true"
+            app:singleSelection="true">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/othersChip"
+            <com.google.android.material.chip.Chip
+                android:id="@+id/maleChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:checked="true"
+                android:text="Male" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/femaleChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Female" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/othersChip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                android:text="Other" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/crowdsourceRegistrationAgeLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:theme="@style/CustomTextInputLayout"
+            app:boxBackgroundColor="@color/c_white"
+            app:helperText="Please note that only adult(age 18 or more) can participate in this data collection."
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:startIconDrawable="@drawable/outline_calendar_month_24"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationNumberLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/crowdsourceRegistrationAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Age"
+                android:maxLines="1"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/crowdsourceRegistrationButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/primary_color"
+            android:outlineProvider="none"
+            android:paddingVertical="@dimen/_8sdp"
+            android:text="Register"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewcrowdsourceRegistrationStatus" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/crowdsourceRegistrationLanguageLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Language"
+            android:theme="@style/CustomTextInputLayout"
+            app:boxBackgroundColor="@color/c_white"
+            app:boxStrokeColor="@color/primary_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationGenderError"
+            app:startIconDrawable="@drawable/language_icon">
+
+            <AutoCompleteTextView
+                android:id="@+id/crowdsourceRegistrationLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/crowdsourceRegistrationStateLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Native State"
+            android:theme="@style/CustomTextInputLayout"
+            app:boxBackgroundColor="@color/c_white"
+            app:boxStrokeColor="@color/primary_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView7"
+            app:startIconDrawable="@drawable/baseline_explore_24">
+
+            <AutoCompleteTextView
+                android:id="@+id/crowdsourceRegistrationState"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/crowdsourceRegistrationDistrictLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Native District"
+            android:theme="@style/CustomTextInputLayout"
+            app:boxBackgroundColor="@color/c_white"
+            app:boxStrokeColor="@color/primary_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationStateLayout"
+            app:startIconDrawable="@drawable/baseline_explore_24">
+
+            <AutoCompleteTextView
+                android:id="@+id/crowdsourceRegistrationDistrict"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/crowdsourceRegistrationJobTypeLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Job Type"
+            android:theme="@style/CustomTextInputLayout"
+            app:boxBackgroundColor="@color/c_white"
+            app:boxStrokeColor="@color/primary_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            app:startIconDrawable="@drawable/job_icon">
+
+            <AutoCompleteTextView
+                android:id="@+id/crowdsourceRegistrationJobType"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/crowdsourceRegistrationEducationLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Education"
+            android:theme="@style/CustomTextInputLayout"
+            app:boxBackgroundColor="@color/c_white"
+            app:boxStrokeColor="@color/primary_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationJobTypeLayout"
+            app:startIconDrawable="@drawable/education">
+
+            <AutoCompleteTextView
+                android:id="@+id/crowdsourceRegistrationEducation"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/crowdsourceRegistrationNumberLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:theme="@style/CustomTextInputLayout"
+            app:boxBackgroundColor="@color/c_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationNameLayout"
+            app:startIconDrawable="@drawable/outline_phone_24">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/crowdsourceRegistrationNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Phone Number"
+                android:maxLines="1"
+                android:inputType="phone" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/crowdsourceRegistrationOccupationLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:theme="@style/CustomTextInputLayout"
+            app:boxBackgroundColor="@color/c_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:startIconDrawable="@drawable/baseline_computer_24"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationEducationLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/crowdsourceRegistrationOccupation"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                android:layout_height="wrap_content"
+                android:hint="Occupation" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/crowdsourceRegistrationReferrelCodeLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:theme="@style/CustomTextInputLayout"
+            app:boxBackgroundColor="@color/c_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationOccupationLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/crowdsourceRegistrationReferralCode"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                android:layout_height="wrap_content"
+                android:hint="Referral Code" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/crowdsourceRegistrationGenderError"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:textColor="#FF0000"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationgenderChipGroup" />
+
+        <CheckBox
+            android:id="@+id/crowdsourceRegistrationConsent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:clickable="false"
+            android:backgroundTint="@color/primary_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationReferrelCodeLayout" />
+
+        <TextView
+            android:id="@+id/crowdsourceRegistrationReadConsent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:text="Please click, read and accept the consent form"
+            app:layout_constraintBottom_toBottomOf="@+id/crowdsourceRegistrationConsent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/crowdsourceRegistrationConsent"
+            app:layout_constraintTop_toTopOf="@+id/crowdsourceRegistrationConsent" />
+
+        <TextView
+            android:id="@+id/crowdsourceRegistrationConsentFormError"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/c_red"
+            app:layout_constraintEnd_toEndOf="@+id/crowdsourceRegistrationReadConsent"
+            app:layout_constraintStart_toStartOf="@+id/crowdsourceRegistrationConsent"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationReadConsent" />
+
+        <ProgressBar
+            android:id="@+id/crowdsourceRegistrationProgressbar"
+            style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checkable="true"
-            android:text="Other" />
-    </com.google.android.material.chip.ChipGroup>
+            android:indeterminateTint="@color/primary_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/crowdsourceRegistrationAge"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationNumber">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/crowdsourceRegistrationAgeTextField"
-            android:layout_width="match_parent"
-            android:inputType="numberDecimal"
+        <TextView
+            android:id="@+id/textViewcrowdsourceRegistrationStatus"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Age" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:textColor="@color/c_red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationConsentFormError" />
 
-    <Button
-        android:id="@+id/crowdsourceRegistrationButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="Register"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Spinner
-        android:id="@+id/crowdsourceRegistrationLanguage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationGenderError" />
-
-    <Spinner
-        android:id="@+id/crowdsourceRegistrationState"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationLanguageError" />
-
-    <Spinner
-        android:id="@+id/crowdsourceRegistrationDistrict"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationStateError" />
-
-    <Spinner
-        android:id="@+id/crowdsourceRegistrationJobType"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationDistrictError" />
-
-    <Spinner
-        android:id="@+id/crowdsourceRegistrationEducation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationJobTypeError" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/crowdsourceRegistrationNumber"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationName">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/crowdsourceRegistrationNumberTextField"
-            android:layout_width="match_parent"
-            android:inputType="phone"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Phone Number" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:text="Welcome to Karya!"
+            android:textColor="@color/heading_color"
+            app:layout_constraintStart_toStartOf="@+id/crowdsourceRegistrationHeading"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationHeading" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/crowdsourceRegistrationText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationEducationError">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/crowdsourceRegistrationOccupationTextField"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Occupation" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:text="Participant Basic Information"
+            android:textColor="@color/heading_color"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <TextView
-        android:id="@+id/crowdsourceRegistrationLanguageError"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="#FF0000"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/crowdsourceRegistrationLanguage"
-        app:layout_constraintStart_toStartOf="@+id/crowdsourceRegistrationLanguage"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationLanguage" />
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:text="Location Information "
+            android:textColor="@color/heading_color"
+            android:textSize="@dimen/_14sdp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationLanguageLayout" />
 
-    <TextView
-        android:id="@+id/crowdsourceRegistrationGenderError"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:textColor="#FF0000"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationgenderChipGroup" />
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:textStyle="bold"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/heading_color"
+            android:text="Education and Job Information"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationDistrictLayout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/crowdsourceRegistrationStateError"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:textColor="#FF0000"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationState" />
-
-    <TextView
-        android:id="@+id/crowdsourceRegistrationDistrictError"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:textColor="#FF0000"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationDistrict" />
-
-    <TextView
-        android:id="@+id/crowdsourceRegistrationJobTypeError"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:textColor="#FF0000"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationJobType" />
-
-    <TextView
-        android:id="@+id/crowdsourceRegistrationEducationError"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:textColor="#FF0000"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationEducation" />
-
-    <CheckBox
-        android:id="@+id/crowdsourceRegistrationConsent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:clickable="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationText" />
-
-    <TextView
-        android:id="@+id/crowdsourceRegistrationReadConsent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="Please click, read and accept the consent form"
-        app:layout_constraintBottom_toBottomOf="@+id/crowdsourceRegistrationConsent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/crowdsourceRegistrationConsent"
-        app:layout_constraintTop_toTopOf="@+id/crowdsourceRegistrationConsent" />
-
-    <TextView
-        android:id="@+id/crowdsourceRegistrationConsentFormError"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/c_red"
-        app:layout_constraintEnd_toEndOf="@+id/crowdsourceRegistrationReadConsent"
-        app:layout_constraintStart_toStartOf="@+id/crowdsourceRegistrationConsent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationReadConsent" />
-
-    <ProgressBar
-        android:id="@+id/crowdsourceRegistrationProgressbar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewcrowdsourceRegistrationStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/c_red"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationConsentFormError" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

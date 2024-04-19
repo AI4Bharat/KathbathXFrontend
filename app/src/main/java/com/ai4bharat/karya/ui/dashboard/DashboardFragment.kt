@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Database
 import androidx.work.*
 import com.ai4bharat.karya.R
 import com.ai4bharat.karya.data.model.karya.enums.ScenarioType
@@ -24,6 +25,7 @@ import com.ai4bharat.karya.databinding.FragmentDashboardBinding
 import com.ai4bharat.karya.ui.base.SessionFragment
 import com.ai4bharat.karya.utils.extensions.*
 import com.ai4bharat.karya.BuildConfig
+import com.ai4bharat.karya.data.manager.KaryaDatabase
 import com.ai4bharat.karya.data.remote.request.RegisterOrUpdateWorkerRequest
 import com.ai4bharat.karya.data.service.WorkerAPI
 import com.ai4bharat.karya.ui.Destination
@@ -58,6 +60,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
     private lateinit var syncWorkRequest: OneTimeWorkRequest
 
     private var dialog: AlertDialog? = null
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -136,10 +139,11 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 
     }
 
-    override fun onSessionExpired() {
-        WorkManager.getInstance(requireContext()).cancelAllWork()
-        super.onSessionExpired()
-    }
+//    override fun onSessionExpired() {
+//        WorkManager.getInstance(requireContext()).cancelAllWork()
+//        super.onSessionExpired()
+//    }
+
 
     override fun onResume() {
         super.onResume()
@@ -167,18 +171,30 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 
             binding.syncCv.setOnClickListener { syncWithServer() }
 
-            loadProfilePic()
+//            loadProfilePic()
 //      loadPhone()
+            dashboardLogout.setOnClickListener(View.OnClickListener {
+                clearAllDataAndLogout()
+
+            })
         }
 
     }
 
+    private fun clearAllDataAndLogout() {
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                KaryaDatabase.getInstance(requireContext())?.clearAllTables()
+                authManager.expireSession()
+            }
+        }
+        findNavController().navigate(R.id.action_dashboardActivity_to_login)
+    }
 
     private fun syncWithServer() {
         setupWorkRequests()
         WorkManager.getInstance(requireContext())
             .enqueueUniqueWork(UNIQUE_SYNC_WORK_NAME, ExistingWorkPolicy.KEEP, syncWorkRequest)
-//    binding.syncDuration.text = "[Uploaded: "+viewModel.uploadedDataDuration+" tasks]"
     }
 
     private fun showSuccessUi(data: DashboardStateSuccess) {
@@ -335,21 +351,22 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 
     private fun hideLoading() = binding.syncProgressBar.gone()
 
-    private fun loadProfilePic() {
-        binding.appTb.showProfilePicture()
-
-        lifecycleScope.launchWhenStarted {
-            withContext(Dispatchers.IO) {
-                val profilePicPath =
-                    authManager.getLoggedInWorker().profilePicturePath ?: return@withContext
-                val bitmap = BitmapFactory.decodeFile(profilePicPath)
-
-                withContext(Dispatchers.Main.immediate) { binding.appTb.setProfilePicture(bitmap) }
-            }
-        }
-    }
+//    private fun loadProfilePic() {
+////        binding.appTb.showProfilePicture()
+//
+//        lifecycleScope.launchWhenStarted {
+//            withContext(Dispatchers.IO) {
+//                val profilePicPath =
+//                    authManager.getLoggedInWorker().profilePicturePath ?: return@withContext
+//                val bitmap = BitmapFactory.decodeFile(profilePicPath)
+//
+//                withContext(Dispatchers.Main.immediate) { binding.appTb.setProfilePicture(bitmap) }
+//            }
+//        }
+//    }
 
     fun onDashboardItemClick(task: TaskInfo) {
+
         if (!task.isGradeCard && (task.taskStatus.assignedMicrotasks + task.taskStatus.skippedMicrotasks) > 0) {
             val taskId = task.taskID
             val status = task.taskStatus

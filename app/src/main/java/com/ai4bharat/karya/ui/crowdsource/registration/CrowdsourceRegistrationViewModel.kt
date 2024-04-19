@@ -37,14 +37,15 @@ constructor(
         name: String = "",
         age: String = "",
         phoneNumber: String = "",
-        gender: Gender = Gender.male,
+        gender: String = "",
         state: String = "",
         district: String = "",
-        jobType: JobType = JobType.blue_collar,
-        highest_qualification: HighestQualification = HighestQualification.no_schooling,
+        jobType: String = "",
+        highestQualification: String = "",
         occupation: String = "",
-        language: Language = Language.marathi,
-        acceptConsent: Boolean = false
+        language: String = "",
+        acceptConsent: Boolean = false,
+        referralCode: String = ""
     ) {
         user.value = CrowdSourceUser(
             name,
@@ -54,13 +55,13 @@ constructor(
             district,
             phoneNumber,
             jobType,
-            highest_qualification,
+            highestQualification,
             occupation,
             language,
-            acceptConsent
+            acceptConsent,
+            referralCode
         )
     }
-
 
     fun initializeLocation(locationInfo: JSONObject) {
         val stateKeys = locationInfo.names()
@@ -91,29 +92,32 @@ constructor(
     fun submitRegistrationData() {
 
         val tmpWorker = CrowdSourceUser(
-            "Crowd tester", "38", Gender.male,
+            "Crowd tester", "38", Gender.male.name,
             "jammu_kashmir",
             "anantnag",
-            "1222334455",
-            JobType.blue_collar,
-            HighestQualification.no_schooling,
+            "0001551000",
+            JobType.blue_collar.name,
+            HighestQualification.no_schooling.name,
             "Farmer",
-            Language.kashmiri,
-            true
+            Language.kashmiri.name,
+            true,
+            referalCode = "LJP"
         )
 
 
-        if (!validateInputs()) {
-            workerRepository.createNewWorker(this.user.value!!)
+//        if (!validateInputs() || true) {
+        if (true) {
+            println(this.user.value)
             workerRepository.createNewWorker(tmpWorker)
+//            workerRepository.createNewWorker(this.user.value!!)
                 .onStart {
                     println("User registration starting")
                     registrationStatus.value = RegistrationStatus(Status.LOADING, "")
                 }.onEach {
                     println("The access code is $it")
-                    registrationStatus.value = RegistrationStatus(Status.SUCCESS, "")
+                    registrationStatus.value = it
                 }.catch {
-                    println(it)
+                    println("The error in registration is $it")
                     registrationStatus.value =
                         RegistrationStatus(Status.FAILED, "Registration Failed")
                 }
@@ -125,16 +129,17 @@ constructor(
 
     private fun validateInputs(): Boolean {
         var status = false;
-        val nameError: RegistrationError = user.value!!.checkNameAndOccupation("name")
-        val occupationError: RegistrationError = user.value!!.checkNameAndOccupation("occupation")
+        val nameError: RegistrationError = user.value!!.checkNameAndOccupation("Name")
+        val occupationError: RegistrationError = user.value!!.checkNameAndOccupation("Occupation")
         val ageError: RegistrationError = user.value!!.checkAge()
-        val genderError: RegistrationError = user.value!!.checkPreDefinedVariable("gender")
+        val genderError: RegistrationError = user.value!!.checkPreDefinedVariable("Gender")
         val stateError: RegistrationError = user.value!!.checkState(location.value)
         val districtError: RegistrationError = user.value!!.checkDistrict(location.value)
         val phoneNumberError: RegistrationError = user.value!!.checkPhoneNumber()
-        val jobTypeError: RegistrationError = user.value!!.checkPreDefinedVariable("jobType")
-        val educationError: RegistrationError = user.value!!.checkPreDefinedVariable("education")
-        val languageError: RegistrationError = user.value!!.checkPreDefinedVariable("language")
+        val jobTypeError: RegistrationError = user.value!!.checkPreDefinedVariable("Job Type")
+        val educationError: RegistrationError = user.value!!.checkPreDefinedVariable("Education")
+        val languageError: RegistrationError = user.value!!.checkPreDefinedVariable("Language")
+        val referralCodeError: RegistrationError = user.value!!.checkReferalCode()
         val consentAcceptError: RegistrationError = user.value!!.checkConsentAcceptance()
         val crowdSourceUserError: CrowdSourceUserError = CrowdSourceUserError(
             name = nameError,
@@ -147,7 +152,8 @@ constructor(
             education = educationError,
             occupation = occupationError,
             language = languageError,
-            acceptConsent = consentAcceptError
+            acceptConsent = consentAcceptError,
+            referralCode = referralCodeError
         )
         userError.value = crowdSourceUserError
         return userError.value!!.errorExist()

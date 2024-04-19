@@ -31,10 +31,12 @@
 
             <TextView
                 android:id="@+id/taskNameTv"
+                android:textStyle="bold"
+                android:textColor="@color/heading_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:textSize="@dimen/_18ssp"
+                android:textSize="@dimen/_14ssp"
                 tools:text="Task name" />
 
             <ProgressBar
@@ -46,7 +48,7 @@
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:progress="60"
                 android:progressBackgroundTint="@color/c_light_grey"
-                android:progressTint="?colorSecondary"
+                android:progressTint="@color/primary_color"
                 android:scaleY="2" />
 
         </LinearLayout>
@@ -100,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="?taskSkippedColor"
-                    android:textSize="@dimen/_14ssp"
+                    android:textSize="@dimen/_11ssp"
                     tools:text="9" />
 
                 <TextView
@@ -109,7 +111,7 @@
                     android:layout_marginLeft="@dimen/_5sdp"
                     android:text="@string/tasks_skipped"
                     android:textColor="?taskSkippedColor"
-                    android:textSize="@dimen/_14ssp" />
+                    android:textSize="@dimen/_11ssp" />
             </LinearLayout>
 
             <LinearLayout
@@ -196,7 +198,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="?taskExpiredColor"
-                    android:textSize="@dimen/_14ssp"
+                    android:textSize="@dimen/_11ssp"
                     tools:text="9" />
 
                 <TextView
@@ -205,7 +207,7 @@
                     android:layout_marginLeft="@dimen/_5sdp"
                     android:text="@string/tasks_expired"
                     android:textColor="?taskExpiredColor"
-                    android:textSize="@dimen/_14ssp" />
+                    android:textSize="@dimen/_11ssp" />
             </LinearLayout>
 
         </GridLayout>
