@@ -120,6 +120,13 @@ class CrowdsourceRegistration : Fragment() {
             }
             if (userErrors.referralCode.status)
                 binding.crowdsourceRegistrationReferralCode.error = userErrors.referralCode.message
+
+            if (userErrors.errorExist()) {
+                binding.textViewcrowdsourceRegistrationStatus.text =
+                    "Please ensure all the inputs are valid"
+            } else {
+                binding.textViewcrowdsourceRegistrationStatus.text = ""
+            }
         })
     }
 

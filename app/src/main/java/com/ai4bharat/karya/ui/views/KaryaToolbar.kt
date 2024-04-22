@@ -66,17 +66,17 @@ class KaryaToolbar : Toolbar {
 //            binding.assistantCv.gone()
         }
 
-        if (titleText.isNotEmpty()) {
-            setTitle(titleText)
-        }
+//        if (titleText.isNotEmpty()) {
+//            setTitle(titleText)
+//        }
     }
 
-    fun setTitle(title: String) {
-        binding.title.apply {
-            text = title
-            visible()
-        }
-    }
+//    fun setTitle(title: String) {
+//        binding.title.apply {
+//            text = title
+//            visible()
+//        }
+//    }
 
     fun showProfilePicture() {
 //    binding.profilePictureIv.visible()

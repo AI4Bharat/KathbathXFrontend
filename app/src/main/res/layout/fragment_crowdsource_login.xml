@@ -46,11 +46,11 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/HeadingTextStyle"
+                android:includeFontPadding="false"
                 android:layout_marginTop="8dp"
                 android:text="Welcome to Karya"
-                android:textColor="@color/heading_color"
                 android:textSize="24dp"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/crowdsourceKaryaLogo"
                 app:layout_constraintStart_toStartOf="@+id/crowdsourceKaryaLogo"
                 app:layout_constraintTop_toBottomOf="@+id/crowdsourceKaryaLogo" />
@@ -80,6 +80,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/crowdsourceLoginPhoneNumber"
                 android:layout_width="match_parent"
+                style="@style/EditTextTextStyle"
                 android:layout_height="wrap_content"
                 android:hint="Phone Number"
                 android:inputType="phone" />
@@ -105,6 +106,8 @@
             <AutoCompleteTextView
                 android:id="@+id/crowdsourceLoginLanguage"
                 android:maxLines="1"
+                style="@style/EditTextTextStyle"
+                android:fontFamily="@font/poppins_regular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -117,6 +120,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
             android:backgroundTint="@color/primary_color"
+            android:fontFamily="@font/poppins_regular"
             android:outlineProvider="none"
             android:paddingVertical="@dimen/_8sdp"
             android:text="Log In"
@@ -132,6 +136,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
             android:text="Register Here"
+            style="@style/NormalTextStyle"
             android:textAlignment="center"
             android:textColor="@color/primary_color"
             app:layout_constraintEnd_toEndOf="parent"
@@ -147,6 +152,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:fontFamily="@font/poppins_regular"
             android:textColor="#FF0000"
             app:layout_constraintEnd_toEndOf="@+id/crowdsourceLoginButton"
             app:layout_constraintStart_toStartOf="@+id/crowdsourceLoginButton"
@@ -166,12 +172,12 @@
 
         <TextView
             android:id="@+id/textView4"
+            style="@style/NormalTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="8dp"
             android:text="Don't have an account?"
-            android:textColor="@color/heading_color"
             app:layout_constraintBaseline_toBaselineOf="@+id/crowdsourceRegistration"
             app:layout_constraintEnd_toStartOf="@+id/crowdsourceRegistration"
             app:layout_constraintHorizontal_bias="0.5"

@@ -8,6 +8,7 @@
 
     <application
         android:name="com.ai4bharat.karya.KaryaApp"
+        android:label="Karya Crowdsource"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"

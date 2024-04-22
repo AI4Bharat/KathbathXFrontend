@@ -31,7 +31,7 @@ constructor(
     private val workerAPI: WorkerAPI,
 ) : ViewModel() {
 
-    private var taskInfoList = listOf<TaskInfo>()
+    var taskInfoList = listOf<TaskInfo>()
     private val taskInfoComparator =
         compareBy<TaskInfo> { taskInfo -> taskInfo.taskID } //taskStatus.assignedMicrotasks }.thenBy { taskInfo ->
 

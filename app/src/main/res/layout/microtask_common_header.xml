@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:progressBackgroundTint="@color/c_light_grey"
-            android:progressTint="?colorSecondary"
+            android:progressTint="@color/primary_color"
             android:scaleY="1"
             android:visibility="visible"
             tools:max="5"

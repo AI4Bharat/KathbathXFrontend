@@ -91,25 +91,23 @@ constructor(
 
     fun submitRegistrationData() {
 
-        val tmpWorker = CrowdSourceUser(
-            "Crowd tester", "38", Gender.male.name,
-            "jammu_kashmir",
-            "anantnag",
-            "0001551000",
-            JobType.blue_collar.name,
-            HighestQualification.no_schooling.name,
-            "Farmer",
-            Language.kashmiri.name,
-            true,
-            referalCode = "LJP"
-        )
+//        val tmpWorker = CrowdSourceUser(
+//            "Crowd tester", "38", Gender.male.name,
+//            "jammu_kashmir",
+//            "anantnag",
+//            "0001551000",
+//            JobType.blue_collar.name,
+//            HighestQualification.no_schooling.name,
+//            "Farmer",
+//            Language.kashmiri.name,
+//            true,
+//            referalCode = "LJP"
+//        )
 
 
-//        if (!validateInputs() || true) {
-        if (true) {
+        if (!validateInputs()) {
             println(this.user.value)
-            workerRepository.createNewWorker(tmpWorker)
-//            workerRepository.createNewWorker(this.user.value!!)
+            workerRepository.createNewWorker(this.user.value!!)
                 .onStart {
                     println("User registration starting")
                     registrationStatus.value = RegistrationStatus(Status.LOADING, "")

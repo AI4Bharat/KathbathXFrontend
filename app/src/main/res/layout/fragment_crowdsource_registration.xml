@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
+            style="@style/HeadingTextStyle"
             android:text="Register"
             android:textColor="@color/heading_color"
             android:textSize="@dimen/_24sdp"
@@ -44,6 +45,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/crowdsourceRegistrationName"
                 android:layout_width="match_parent"
+                style="@style/EditTextTextStyle"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:hint="Name"
@@ -90,7 +92,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/crowdsourceRegistrationAgeLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            style="@style/TextInputLayoutTextStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -109,6 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Age"
+                style="@style/EditTextTextStyle"
                 android:maxLines="1"
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -150,6 +153,7 @@
                 android:id="@+id/crowdsourceRegistrationLanguage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/EditTextTextStyle"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -174,6 +178,7 @@
             <AutoCompleteTextView
                 android:id="@+id/crowdsourceRegistrationState"
                 android:layout_width="match_parent"
+                style="@style/EditTextTextStyle"
                 android:maxLines="1"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -200,6 +205,7 @@
                 android:id="@+id/crowdsourceRegistrationDistrict"
                 android:layout_width="match_parent"
                 android:maxLines="1"
+                style="@style/EditTextTextStyle"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -225,6 +231,7 @@
                 android:id="@+id/crowdsourceRegistrationJobType"
                 android:layout_width="match_parent"
                 android:maxLines="1"
+                style="@style/EditTextTextStyle"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -249,6 +256,7 @@
                 android:id="@+id/crowdsourceRegistrationEducation"
                 android:layout_width="match_parent"
                 android:maxLines="1"
+                style="@style/EditTextTextStyle"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -272,6 +280,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Phone Number"
+                style="@style/EditTextTextStyle"
                 android:maxLines="1"
                 android:inputType="phone" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -295,6 +304,7 @@
                 android:id="@+id/crowdsourceRegistrationOccupation"
                 android:layout_width="match_parent"
                 android:maxLines="1"
+                style="@style/EditTextTextStyle"
                 android:layout_height="wrap_content"
                 android:hint="Occupation" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -311,12 +321,14 @@
             app:boxBackgroundColor="@color/c_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:startIconDrawable="@drawable/outline_groups_24"
             app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationOccupationLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/crowdsourceRegistrationReferralCode"
                 android:layout_width="match_parent"
                 android:maxLines="1"
+                style="@style/EditTextTextStyle"
                 android:layout_height="wrap_content"
                 android:hint="Referral Code" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -335,11 +347,13 @@
 
         <CheckBox
             android:id="@+id/crowdsourceRegistrationConsent"
+            style="@style/RatingButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:clickable="false"
+            android:layout_marginTop="8dp"
             android:backgroundTint="@color/primary_color"
+            android:clickable="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationReferrelCodeLayout" />
 
@@ -358,6 +372,7 @@
             android:id="@+id/crowdsourceRegistrationConsentFormError"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:textColor="@color/c_red"
             app:layout_constraintEnd_toEndOf="@+id/crowdsourceRegistrationReadConsent"
             app:layout_constraintStart_toStartOf="@+id/crowdsourceRegistrationConsent"
@@ -380,6 +395,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
+            android:textAlignment="center"
             android:textColor="@color/c_red"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -389,6 +405,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/EditTextTextStyle"
             android:text="Welcome to Karya!"
             android:textColor="@color/heading_color"
             app:layout_constraintStart_toStartOf="@+id/crowdsourceRegistrationHeading"
@@ -396,6 +413,7 @@
 
         <TextView
             android:id="@+id/textView6"
+            style="@style/SubHeadingTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -416,6 +434,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
+            style="@style/SubHeadingTextStyle"
             android:layout_marginEnd="32dp"
             android:text="Location Information "
             android:textColor="@color/heading_color"
@@ -432,9 +451,9 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
+            style="@style/SubHeadingTextStyle"
             android:textStyle="bold"
             android:textSize="@dimen/_14sdp"
-            android:textColor="@color/heading_color"
             android:text="Education and Job Information"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -5,32 +5,15 @@
     android:id="@+id/dashBoardConstraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    tools:context=".ui.dashboard.DashboardFragment">
-
-    <!--    <com.ai4bharat.karya.ui.views.KaryaToolbar-->
-    <!--        android:id="@+id/appTb"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:clipToPadding="false"-->
-    <!--        android:paddingBottom="@dimen/_4sdp"-->
-    <!--        app:titleText="@string/dashboard_title"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+    android:animateLayoutChanges="true">
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/syncCv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_10sdp"
-        android:layout_marginVertical="@dimen/_5sdp"
         android:clickable="true"
-        android:elevation="@dimen/_8sdp"
         android:focusable="true"
-        android:translationZ="@dimen/_8sdp"
-        app:cardCornerRadius="@dimen/_5sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
@@ -44,12 +27,13 @@
 
             <TextView
                 android:id="@+id/syncPromptTv"
+                style="@style/SubHeadingTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_20sdp"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:textColor="@color/heading_color"
+                android:includeFontPadding="false"
                 android:text="@string/sync_prompt"
+                android:textColor="@color/heading_color"
                 app:autoSizeMaxTextSize="@dimen/_30ssp"
                 app:autoSizeMinTextSize="@dimen/_12ssp"
                 app:autoSizeStepGranularity="@dimen/_2ssp"
@@ -63,15 +47,14 @@
 
                 <TextView
                     android:id="@+id/syncDuration"
+                    style="@style/NormalTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/c_very_light_green"
                     android:gravity="center"
                     android:paddingTop="@dimen/_2sdp"
-                    android:paddingBottom="@dimen/_2sdp"
                     android:text="[Uploaded: 0 tasks]"
-                    android:textColor="@color/c_black"
                     app:autoSizeMaxTextSize="@dimen/_10ssp"
                     app:autoSizeMinTextSize="@dimen/_5ssp"
                     app:autoSizeStepGranularity="@dimen/_2ssp"
@@ -79,15 +62,14 @@
 
                 <TextView
                     android:id="@+id/syncDurationOnPhone"
+                    style="@style/NormalTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="#F49898"
                     android:gravity="center"
                     android:paddingTop="@dimen/_2sdp"
-                    android:paddingBottom="@dimen/_2sdp"
                     android:text="[On Phone: 0 tasks]"
-                    android:textColor="@color/c_black"
                     app:autoSizeMaxTextSize="@dimen/_10ssp"
                     app:autoSizeMinTextSize="@dimen/_5ssp"
                     app:autoSizeStepGranularity="@dimen/_2ssp"
@@ -126,7 +108,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_10sdp"
-        android:background="@color/c_very_light_grey"
+        android:background="@color/c_white"
         android:clipToPadding="false"
         android:paddingHorizontal="@dimen/_10sdp"
         android:paddingVertical="@dimen/_5sdp"
@@ -163,18 +145,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <!--            <ImageView-->
-            <!--                android:id="@+id/rupeeIconIv"-->
-            <!--                android:layout_width="@dimen/_48sdp"-->
-            <!--                android:layout_height="@dimen/_36sdp"-->
-            <!--                android:background="@drawable/rupee_note" />-->
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Read"
-                android:textColor="@color/c_black"
+                android:fontFamily="@font/poppins_medium"
+                android:includeFontPadding="false"
+                android:textColor="@color/heading_color"
                 android:textSize="@dimen/_15ssp" />
 
             <TextView
@@ -182,6 +161,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
+                android:fontFamily="sans-serif-medium"
                 android:textColor="@color/c_dark_green"
                 android:textSize="@dimen/_15ssp"
                 tools:text="0" />
@@ -191,8 +171,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
+                android:fontFamily="@font/poppins_medium"
+                android:includeFontPadding="false"
                 android:text="Extempore"
-                android:textColor="@color/c_black"
+                android:textColor="@color/heading_color"
                 android:textSize="@dimen/_15ssp" />
 
             <TextView
@@ -200,6 +182,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
+                android:fontFamily="sans-serif-medium"
                 android:textColor="@color/c_red"
                 android:textSize="@dimen/_15ssp"
                 tools:text="0" />
@@ -218,7 +201,6 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:elevation="@dimen/_6sdp"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -230,38 +212,59 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="Karya"
-                android:textColor="@color/c_black"
+                android:includeFontPadding="false"
+                android:fontFamily="@font/poppins_semibold"
+                android:textColor="@color/heading_color"
                 android:textSize="@dimen/_16sdp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageView3"
+                android:layout_width="@dimen/_28sdp"
+                android:layout_height="0dp"
+                android:src="@drawable/karya_logo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/logoutView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/baseline_logout_24"
-                app:layout_constraintBottom_toBottomOf="@+id/dashboardLogout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/dashboardLogout" />
-
-            <TextView
-                android:id="@+id/dashboardLogout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:text="Logout"
-                android:textColor="@color/heading_color"
-                android:textStyle="bold"
+                android:gravity="center"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageView"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_logout_icon" />
+
+                <TextView
+                    android:id="@+id/dashboardLogout"
+                    style="@style/NormalTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:text="Logout"
+                    android:includeFontPadding="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -269,3 +272,5 @@
     </androidx.appcompat.widget.Toolbar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

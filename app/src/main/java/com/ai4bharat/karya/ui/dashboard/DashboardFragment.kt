@@ -1,22 +1,14 @@
 package com.ai4bharat.karya.ui.dashboard
 
 import android.app.AlertDialog
-import android.content.Intent
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.view.size
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Database
 import androidx.work.*
 import com.ai4bharat.karya.R
 import com.ai4bharat.karya.data.model.karya.enums.ScenarioType
@@ -24,23 +16,12 @@ import com.ai4bharat.karya.data.model.karya.modelsExtra.TaskInfo
 import com.ai4bharat.karya.databinding.FragmentDashboardBinding
 import com.ai4bharat.karya.ui.base.SessionFragment
 import com.ai4bharat.karya.utils.extensions.*
-import com.ai4bharat.karya.BuildConfig
 import com.ai4bharat.karya.data.manager.KaryaDatabase
-import com.ai4bharat.karya.data.remote.request.RegisterOrUpdateWorkerRequest
-import com.ai4bharat.karya.data.service.WorkerAPI
-import com.ai4bharat.karya.ui.Destination
-import com.ai4bharat.karya.ui.MainActivity
-import com.google.gson.JsonElement
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_dashboard.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.util.*
-import kotlin.math.round
 
 private const val UNIQUE_SYNC_WORK_NAME = "syncWork"
 
@@ -89,11 +70,25 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 
         viewModel.progress.observe(lifecycle, lifecycleScope) { i ->
             binding.syncProgressBar.progress = i
+            var submitted = 0
+            var skipped = 0
+            println("The current status is ${viewModel.taskInfoList}")
+            viewModel.taskInfoList.forEach { taskInfo ->
+                val status = taskInfo.taskStatus
+                submitted += status.submittedMicrotasks
+                skipped += status.skippedMicrotasks
+            }
+            // TODO Change the condition
+            if (submitted > 0 && i == 100) {
+                val referralDialog = ReferralDialog(requireContext())
+                referralDialog.show()
+            }
+            println("The total skipped is $skipped and submitted is $submitted")
         }
 
         WorkManager.getInstance(requireContext())
             .getWorkInfosForUniqueWorkLiveData(UNIQUE_SYNC_WORK_NAME)
-            .observe(viewLifecycleOwner, { workInfos ->
+            .observe(viewLifecycleOwner) { workInfos ->
                 if (workInfos.size == 0) return@observe // Return if the workInfo List is empty
                 val workInfo = workInfos[0] // Picking the first workInfo
                 if (workInfo != null && workInfo.state == WorkInfo.State.SUCCEEDED) {
@@ -135,15 +130,9 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
                         viewModel.refreshList()
                     }
                 }
-            })
+            }
 
     }
-
-//    override fun onSessionExpired() {
-//        WorkManager.getInstance(requireContext()).cancelAllWork()
-//        super.onSessionExpired()
-//    }
-
 
     override fun onResume() {
         super.onResume()
@@ -171,9 +160,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 
             binding.syncCv.setOnClickListener { syncWithServer() }
 
-//            loadProfilePic()
-//      loadPhone()
-            dashboardLogout.setOnClickListener(View.OnClickListener {
+            logoutView.setOnClickListener(View.OnClickListener {
                 clearAllDataAndLogout()
 
             })
@@ -205,16 +192,16 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
                 }
             })
         binding.syncCv.enable()
-        var videoTask = 0
+//        var videoTask = 0
         data.apply {
             (binding.tasksRv.adapter as TaskListAdapter).updateList(taskInfoData)
 
             // Get the count of sign video tasks
-            for (task in taskInfoData) {
-                if (task.scenarioName == ScenarioType.SIGN_LANGUAGE_VIDEO) {
-                    videoTask += task.taskStatus.submittedMicrotasks + task.taskStatus.verifiedMicrotasks
-                }
-            }
+//            for (task in taskInfoData) {
+//                if (task.scenarioName == ScenarioType.SIGN_LANGUAGE_VIDEO) {
+//                    videoTask += task.taskStatus.submittedMicrotasks + task.taskStatus.verifiedMicrotasks
+//                }
+//            }
 
             // Show total credits if it is greater than 0
             if (totalRecordedDuration.first > 0 || totalRecordedDuration.second > 0) {
@@ -252,29 +239,29 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 
         }
 
-        if (videoTask > 0) {
-            runBlocking {
-                val loggedInWorker = authManager.getLoggedInWorker()
-                workerRepositoryBase.disableWorker(
-                    loggedInWorker.idToken.toString(),
-                    "disable",
-                    RegisterOrUpdateWorkerRequest(loggedInWorker.extras!!)
-                )
-                    .catch { throwable -> Log.e("DISABLING FAILED", throwable.toString()) }
-                    .collect { worker ->
-                        workerRepositoryBase.upsertWorker(worker)
-                        Toast.makeText(
-                            context,
-                            "You have been logged out, Thanks!.",
-                            Toast.LENGTH_SHORT
-                        ).show()
+//        if (videoTask > 0) {
+//            runBlocking {
+//                val loggedInWorker = authManager.getLoggedInWorker()
+//                workerRepositoryBase.disableWorker(
+//                    loggedInWorker.idToken.toString(),
+//                    "disable",
+//                    RegisterOrUpdateWorkerRequest(loggedInWorker.extras!!)
+//                )
+//                    .catch { throwable -> Log.e("DISABLING FAILED", throwable.toString()) }
+//                    .collect { worker ->
+//                        workerRepositoryBase.upsertWorker(worker)
+//                        Toast.makeText(
+//                            context,
+//                            "You have been logged out, Thanks!.",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
 //              authManager.expireSession()
 //              authManager.expireSession()
-                    }
-                workerRepositoryBase.upsertWorker(loggedInWorker)
-            }
+//                    }
+//                workerRepositoryBase.upsertWorker(loggedInWorker)
+//            }
 //        authManager.expireSession()
-        }
+//        }
 
         // expire the worker so that he is not able to submit any more tasks
 
@@ -292,7 +279,6 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
             }
         }
 
-        // On seeing the person has done 1 or more video verification task, we disable the worker and use this task as proof of their work
     }
 
     private fun showDialogueToSync() {
@@ -300,7 +286,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
         if (dialog != null && dialog!!.isShowing) return
 
         val builder: AlertDialog.Builder? = activity?.let {
-            AlertDialog.Builder(it)
+            AlertDialog.Builder(it, R.style.AlertDialogStyle)
         }
 
         builder?.setMessage(R.string.sync_prompt_message)
@@ -351,21 +337,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 
     private fun hideLoading() = binding.syncProgressBar.gone()
 
-//    private fun loadProfilePic() {
-////        binding.appTb.showProfilePicture()
-//
-//        lifecycleScope.launchWhenStarted {
-//            withContext(Dispatchers.IO) {
-//                val profilePicPath =
-//                    authManager.getLoggedInWorker().profilePicturePath ?: return@withContext
-//                val bitmap = BitmapFactory.decodeFile(profilePicPath)
-//
-//                withContext(Dispatchers.Main.immediate) { binding.appTb.setProfilePicture(bitmap) }
-//            }
-//        }
-//    }
-
-    fun onDashboardItemClick(task: TaskInfo) {
+    private fun onDashboardItemClick(task: TaskInfo) {
 
         if (!task.isGradeCard && (task.taskStatus.assignedMicrotasks + task.taskStatus.skippedMicrotasks) > 0) {
             val taskId = task.taskID
@@ -395,7 +367,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
                 if (task.taskInstruction == null) {
                     findNavController().navigate(action)
                 } else {
-                    val builder = AlertDialog.Builder(requireContext())
+                    val builder = AlertDialog.Builder(requireContext(), R.style.AlertDialogStyle)
                     val message = task.taskInstruction
                     builder.setMessage(message)
                     builder.setNeutralButton(R.string.okay) { _, _ ->

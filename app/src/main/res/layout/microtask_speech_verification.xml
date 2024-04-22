@@ -18,84 +18,104 @@
 
     <LinearLayout
         android:id="@+id/fileInfo"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_30sdp"
-        android:orientation="horizontal"
         style="@style/MicrotaskInputFrame"
-        app:layout_constraintBottom_toTopOf="@id/inputFrame"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/instructionTv"
-        android:gravity="center"
-        android:padding="@dimen/_3sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/_0sdp"
-        >
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/_3sdp"
+        app:layout_constraintBottom_toTopOf="@id/inputFrame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/instructionTv">
 
         <TextView
             android:id="@+id/fileId"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            tools:text="F: XXXXX"
-            android:background="#80FF5722"
             style="@style/fileInfoStyle"
-            android:textColor="@color/c_black"
-            />
+            android:padding="@dimen/_2sdp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_corner_verification"
+            android:fontFamily="@font/poppins_regular"
+            android:includeFontPadding="false"
+            android:textColor="@color/heading_color"
+            tools:text="F: XXXXX" />
 
         <TextView
             android:id="@+id/fileGender"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            tools:text="G: Male"
             style="@style/fileInfoStyle"
-            android:background="#80FF5722"
-            android:textColor="@color/c_black"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:layout_marginStart="@dimen/_2sdp"
-            />
+            android:background="@drawable/rounded_corner_verification"
+            android:includeFontPadding="false"
+            android:textColor="@color/heading_color"
+            tools:text="G: Male" />
 
         <TextView
             android:id="@+id/fileAgeGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            tools:text="AG: 18-30"
             style="@style/fileInfoStyle"
-            android:background="#80FF5722"
-            android:textColor="@color/c_black"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:layout_marginStart="@dimen/_2sdp"
-            />
+            android:background="@drawable/rounded_corner_verification"
+            android:fontFamily="@font/poppins_regular"
+            android:includeFontPadding="false"
+            android:textColor="@color/heading_color"
+            tools:text="AG: 18-30" />
 
         <TextView
             android:id="@+id/phoneNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            tools:text="P: XXXXXXXXXX"
-            android:background="#80FF5722"
             style="@style/fileInfoStyle"
-            android:textColor="@color/c_black"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:layout_marginStart="@dimen/_2sdp"
-
-            />
-
+            android:background="@drawable/rounded_corner_verification"
+            android:fontFamily="@font/poppins_regular"
+            android:includeFontPadding="false"
+            android:textColor="@color/heading_color"
+            tools:text="P: XXXXXXXXXX" />
 
 
     </LinearLayout>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/inputFrame"
         style="@style/MicrotaskInputFrame"
+        android:layout_width="match_parent"
+        android:paddingStart="@dimen/_8sdp"
+        android:paddingEnd="@dimen/_8sdp"
         app:layout_constraintBottom_toTopOf="@id/playbackProgress"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/background_white_color"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fileInfo"
-        >
+        app:layout_constraintTop_toBottomOf="@id/fileInfo">
 
-        <TextView
-            android:id="@+id/sentenceTv"
-            style="@style/MicrotaskInputText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:text="This is a sentence to be recorded"
-            android:scrollbars="vertical"
-            />
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/rounded_corner"
+            android:fillViewport="true"
+            android:scrollbars="none"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    </FrameLayout>
+            <TextView
+                android:id="@+id/sentenceTv"
+                style="@style/MicrotaskInputText"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:scrollbars="vertical"
+                tools:text="This is a sentence to be recorded" />
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
         android:id="@+id/playbackProgress"
@@ -109,6 +129,7 @@
         android:id="@+id/volumeCl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/commonCl1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -122,16 +143,16 @@
             android:textSize="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/decisionGroup"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.2"
-            app:layout_constraintRight_toLeftOf="@id/decisionGroup"/>
+            app:layout_constraintWidth_percent="0.2" />
 
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/decisionGroup"
             style="@style/RatingButtonGroup"
             app:layout_constraintLeft_toRightOf="@id/decisionLbl"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <Button
                 android:id="@+id/decisionBadBtn"
@@ -218,6 +239,7 @@
         android:id="@+id/commonCl1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@id/commonCl2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -251,9 +273,9 @@
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/noiseTickIntermittent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.454"
-            app:layout_constraintRight_toLeftOf="@id/noiseTickIntermittent"
 
             />
 
@@ -269,8 +291,8 @@
             android:text="Int- Noise"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/volumeTick"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toLeftOf="@id/noiseTickPersistent"
+            app:layout_constraintTop_toTopOf="parent"
 
             />
 
@@ -286,8 +308,8 @@
             android:text="Per- Noise"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/noiseTickIntermittent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toLeftOf="@id/chatterTickIntermittent"
+            app:layout_constraintTop_toTopOf="parent"
 
             />
         <!--        <CheckBox-->
@@ -315,9 +337,8 @@
             android:text="Int- cHtr"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/noiseTickPersistent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toLeftOf="@id/chatterTickPersistent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <CheckBox
             android:id="@+id/chatterTickPersistent"
@@ -339,13 +360,13 @@
             android:id="@+id/unclearAudioTick"
             style="@style/RatingButton"
             android:layout_width="@dimen/_49sdp"
-            android:layout_marginStart="@dimen/_1sdp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_1sdp"
+            android:layout_marginRight="@dimen/_5ssp"
             android:checked="false"
             android:layoutDirection="rtl"
             android:padding='0dp'
             android:text="Unc Aud"
-            android:layout_marginRight="@dimen/_5ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/chatterTickPersistent"
             app:layout_constraintRight_toRightOf="parent"
@@ -358,6 +379,7 @@
         android:id="@+id/commonCl2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@id/commonCl3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -376,9 +398,8 @@
             android:text="Off Topic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toLeftOf="@id/repContentTick"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <CheckBox
             android:id="@+id/repContentTick"
@@ -392,9 +413,8 @@
             android:text="Rep Cont."
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/notOnTopicTick"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toLeftOf="@id/longPausesTick"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <CheckBox
             android:id="@+id/longPausesTick"
@@ -408,8 +428,8 @@
             android:text="Long Pause"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/repContentTick"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toLeftOf="@id/stretchingTick"
+            app:layout_constraintTop_toTopOf="parent"
 
             />
 
@@ -426,27 +446,27 @@
             android:text="Stre tch"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/longPausesTick"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toLeftOf="@id/objContTick"
+            app:layout_constraintTop_toTopOf="parent"
 
             />
 
-<!--        <CheckBox-->
-<!--            android:id="@+id/miscTick"-->
-<!--            style="@style/RatingButton"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="@dimen/_1sdp"-->
-<!--            android:layout_marginRight="@dimen/_5ssp"-->
-<!--            android:checked="false"-->
-<!--            android:layoutDirection="rtl"-->
-<!--            android:padding='0dp'-->
-<!--            android:text="Misc"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintLeft_toRightOf="@id/stretchingTick"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintRight_toRightOf="parent"-->
-<!--            />-->
+        <!--        <CheckBox-->
+        <!--            android:id="@+id/miscTick"-->
+        <!--            style="@style/RatingButton"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="@dimen/_1sdp"-->
+        <!--            android:layout_marginRight="@dimen/_5ssp"-->
+        <!--            android:checked="false"-->
+        <!--            android:layoutDirection="rtl"-->
+        <!--            android:padding='0dp'-->
+        <!--            android:text="Misc"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintLeft_toRightOf="@id/stretchingTick"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            app:layout_constraintRight_toRightOf="parent"-->
+        <!--            />-->
         <CheckBox
             android:id="@+id/objContTick"
             style="@style/RatingButton"
@@ -459,9 +479,8 @@
             android:text="Obj cont"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/stretchingTick"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="@id/echoTick"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <CheckBox
             android:id="@+id/echoTick"
@@ -474,12 +493,12 @@
             android:text="Ec ho"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/objContTick"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/commonCl3"
         android:layout_width="match_parent"
@@ -488,7 +507,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
         <!--        app:layout_constraintBottom_toTopOf="@id/fluencyCl">-->
-
 
 
         <CheckBox
@@ -506,8 +524,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/skippingWordsTick"
-            />
+            app:layout_constraintRight_toLeftOf="@id/skippingWordsTick" />
+
         <CheckBox
             android:id="@+id/skippingWordsTick"
             style="@style/RatingButton"
@@ -521,8 +539,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/misPronTick"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/incorrectTextTick"
-            />
+            app:layout_constraintRight_toLeftOf="@id/incorrectTextTick" />
 
         <CheckBox
             android:id="@+id/incorrectTextTick"
@@ -577,6 +594,7 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/commonCl4"
         android:layout_width="match_parent"
@@ -599,8 +617,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@id/wrongAgeGroup"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            />
+            app:layout_constraintLeft_toLeftOf="parent" />
 
         <CheckBox
             android:id="@+id/wrongAgeGroup"
@@ -635,36 +652,36 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:id="@+id/readCl"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:visibility="visible"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/extemporeCl"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent">-->
-        <!--        app:layout_constraintBottom_toTopOf="@id/fluencyCl">-->
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:id="@+id/readCl"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:visibility="visible"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/extemporeCl"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent">-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/fluencyCl">-->
 
-<!--        <CheckBox-->
-<!--            android:id="@+id/misPronTick"-->
-<!--            style="@style/RatingButton"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="@dimen/_5sdp"-->
-<!--            android:checked="false"-->
-<!--            android:layoutDirection="rtl"-->
-<!--            android:padding='0dp'-->
-<!--            android:text="Mispronounciation"-->
-<!--            android:layout_marginRight="@dimen/_5ssp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintLeft_toLeftOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintRight_toRightOf="parent"-->
+    <!--        <CheckBox-->
+    <!--            android:id="@+id/misPronTick"-->
+    <!--            style="@style/RatingButton"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginStart="@dimen/_5sdp"-->
+    <!--            android:checked="false"-->
+    <!--            android:layoutDirection="rtl"-->
+    <!--            android:padding='0dp'-->
+    <!--            android:text="Mispronounciation"-->
+    <!--            android:layout_marginRight="@dimen/_5ssp"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent"-->
+    <!--            app:layout_constraintRight_toRightOf="parent"-->
 
-<!--            />-->
+    <!--            />-->
 
 
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/extemporeCl"
@@ -705,8 +722,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/readPromptTick"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/badExtemporeTick"
-            />
+            app:layout_constraintRight_toLeftOf="@id/badExtemporeTick" />
 
         <CheckBox
             android:id="@+id/badExtemporeTick"
@@ -828,11 +844,11 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textComment"
             android:layout_width="match_parent"
+            style="@style/NormalTextStyle"
             android:layout_height="wrap_content"
             android:layout_marginLeft="36dp"
             android:hint="Comments"
             android:textSize="@dimen/_8sdp"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/otherTick"

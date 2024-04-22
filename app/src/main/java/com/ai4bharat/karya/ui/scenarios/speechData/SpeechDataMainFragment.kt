@@ -88,6 +88,7 @@ class SpeechDataMainFragment : BaseMTRendererFragment(R.layout.microtask_speech_
         val view = super.onCreateView(inflater, container, savedInstanceState)
         // TODO: Remove this once we have viewModel Factory
         viewModel.setupViewModel(args.taskId, args.completed, args.total)
+
         requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         /** record instruction */
 
@@ -244,6 +245,7 @@ class SpeechDataMainFragment : BaseMTRendererFragment(R.layout.microtask_speech_
         ) { showAlert ->
             if (showAlert) {
                 val builder = AlertDialog.Builder(requireContext())
+                builder.setCancelable(false)
                 val message = getString(R.string.skip_task_warning)
                 builder.setMessage(message)
                 builder.setPositiveButton(R.string.yes) { _, _ ->
