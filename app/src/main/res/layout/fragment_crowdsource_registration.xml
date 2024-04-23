@@ -116,16 +116,18 @@
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/crowdsourceRegistrationButton"
+            style="@style/submitButton"
+            android:background="@drawable/rounded_button_background"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/primary_color"
             android:outlineProvider="none"
-            android:paddingVertical="@dimen/_8sdp"
             android:text="Register"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -203,6 +205,31 @@
 
             <AutoCompleteTextView
                 android:id="@+id/crowdsourceRegistrationDistrict"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                style="@style/EditTextTextStyle"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/crowdsourceRegistrationMostTimeSpendLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:hint="Spent most of your life in"
+            android:theme="@style/CustomTextInputLayout"
+            app:boxBackgroundColor="@color/c_white"
+            app:boxStrokeColor="@color/primary_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationDistrictLayout"
+            app:startIconDrawable="@drawable/baseline_explore_24">
+
+            <AutoCompleteTextView
+                android:id="@+id/crowdsourceRegistrationMostTimeSpend"
                 android:layout_width="match_parent"
                 android:maxLines="1"
                 style="@style/EditTextTextStyle"
@@ -457,7 +484,7 @@
             android:text="Education and Job Information"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationDistrictLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationMostTimeSpendLayout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

@@ -8,7 +8,7 @@
     android:animateLayoutChanges="true">
 
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/syncCv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -23,21 +23,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/_15sdp"
-            android:paddingVertical="@dimen/_10sdp">
+            android:paddingVertical="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/syncPromptTv"
-                style="@style/SubHeadingTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_20sdp"
-                android:gravity="center"
-                android:includeFontPadding="false"
-                android:text="@string/sync_prompt"
-                android:textColor="@color/heading_color"
-                app:autoSizeMaxTextSize="@dimen/_30ssp"
-                app:autoSizeMinTextSize="@dimen/_12ssp"
-                app:autoSizeStepGranularity="@dimen/_2ssp"
-                app:autoSizeTextType="uniform" />
 
             <LinearLayout
                 android:id="@+id/submit_area_duration"
@@ -50,10 +41,10 @@
                     style="@style/NormalTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/_2sdp"
                     android:layout_weight="1"
                     android:background="@color/c_very_light_green"
                     android:gravity="center"
-                    android:paddingTop="@dimen/_2sdp"
                     android:text="[Uploaded: 0 tasks]"
                     app:autoSizeMaxTextSize="@dimen/_10ssp"
                     app:autoSizeMinTextSize="@dimen/_5ssp"
@@ -65,16 +56,27 @@
                     style="@style/NormalTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/_2sdp"
                     android:layout_weight="1"
                     android:background="#F49898"
                     android:gravity="center"
-                    android:paddingTop="@dimen/_2sdp"
                     android:text="[On Phone: 0 tasks]"
                     app:autoSizeMaxTextSize="@dimen/_10ssp"
                     app:autoSizeMinTextSize="@dimen/_5ssp"
                     app:autoSizeStepGranularity="@dimen/_2ssp"
                     app:autoSizeTextType="uniform" />
             </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/syncPromptTv"
+                style="@style/submitButton"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:background="@drawable/rounded_button_background"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:text="@string/sync_prompt" />
 
             <ProgressBar
                 android:id="@+id/syncProgressBar"
@@ -100,14 +102,13 @@
         </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tasksRv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_10sdp"
         android:background="@color/c_white"
         android:clipToPadding="false"
         android:paddingHorizontal="@dimen/_10sdp"

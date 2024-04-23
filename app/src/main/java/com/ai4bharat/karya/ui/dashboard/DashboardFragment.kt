@@ -21,7 +21,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.sql.Ref
 import java.util.*
+import kotlin.math.log
 
 private const val UNIQUE_SYNC_WORK_NAME = "syncWork"
 
@@ -72,14 +74,17 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
             binding.syncProgressBar.progress = i
             var submitted = 0
             var skipped = 0
+            var available = 0
             println("The current status is ${viewModel.taskInfoList}")
             viewModel.taskInfoList.forEach { taskInfo ->
+                println("The task info is $taskInfo")
                 val status = taskInfo.taskStatus
                 submitted += status.submittedMicrotasks
                 skipped += status.skippedMicrotasks
+                available += status.assignedMicrotasks
             }
             // TODO Change the condition
-            if (submitted > 0 && i == 100) {
+            if (submitted > 0 && i == 100 && skipped == 0 && available == 0) {
                 val referralDialog = ReferralDialog(requireContext())
                 referralDialog.show()
             }
@@ -158,14 +163,32 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
                 layoutManager = LinearLayoutManager(context)
             }
 
-            binding.syncCv.setOnClickListener { syncWithServer() }
+            binding.syncPromptTv.setOnClickListener(View.OnClickListener {
+                syncWithServer()
+            })
 
             logoutView.setOnClickListener(View.OnClickListener {
-                clearAllDataAndLogout()
-
+//                clearAllDataAndLogout()
+                showLogoutDialog()
             })
-        }
 
+        }
+    }
+
+    private fun showLogoutDialog() {
+
+//        val referralDialog = ReferralDialog(requireContext())
+//        referralDialog.show()
+
+        val logoutAlertDialogBuilder: AlertDialog.Builder =
+            AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+        logoutAlertDialogBuilder.setTitle("Confirm Log Out")
+        logoutAlertDialogBuilder.setMessage("Make sure you submit all the recorded data before logging out.")
+        logoutAlertDialogBuilder.setPositiveButton("Log out") { _, _ ->
+            clearAllDataAndLogout()
+        }
+        logoutAlertDialogBuilder.setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+        logoutAlertDialogBuilder.show()
     }
 
     private fun clearAllDataAndLogout() {

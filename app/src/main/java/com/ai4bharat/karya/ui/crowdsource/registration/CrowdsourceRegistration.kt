@@ -105,6 +105,10 @@ class CrowdsourceRegistration : Fragment() {
             if (userErrors.state.status) {
                 binding.crowdsourceRegistrationState.error = userErrors.state.message
             }
+            if (userErrors.mostTimeSpend.status) {
+                binding.crowdsourceRegistrationMostTimeSpend.error =
+                    userErrors.mostTimeSpend.message
+            }
             if (userErrors.district.status) {
                 binding.crowdsourceRegistrationDistrict.error = userErrors.district.message
             }
@@ -138,6 +142,8 @@ class CrowdsourceRegistration : Fragment() {
         setSpinner(jobTypeList, binding.crowdsourceRegistrationJobType)
         val educationList = HighestQualification.values().map { it.displayName }
         setSpinner(educationList, binding.crowdsourceRegistrationEducation)
+        val mostTimeSpendList = MostTimeSpend.values().map { it.displayName }
+        setSpinner(mostTimeSpendList, binding.crowdsourceRegistrationMostTimeSpend)
 
         binding.crowdsourceRegistrationState.setOnItemClickListener { adapterView, view, i, l ->
             val state = adapterView?.getItemAtPosition(i).toString()
@@ -157,25 +163,28 @@ class CrowdsourceRegistration : Fragment() {
         }
 
         binding.crowdsourceRegistrationButton.setOnClickListener(View.OnClickListener {
-            val name = binding.crowdsourceRegistrationName.text.toString()
-            val age = binding.crowdsourceRegistrationAge.text.toString()
-            val phoneNumber = binding.crowdsourceRegistrationNumber.text.toString()
+            val name = binding.crowdsourceRegistrationName.text.toString().trim()
+            val age = binding.crowdsourceRegistrationAge.text.toString().trim()
+            val phoneNumber = binding.crowdsourceRegistrationNumber.text.toString().trim()
             val gender = getGender()
             val language =
-                binding.crowdsourceRegistrationLanguage.text.toString().lowercase()
-            val state: String = binding.crowdsourceRegistrationState.text.toString()
-            val district: String = binding.crowdsourceRegistrationDistrict.text.toString()
+                binding.crowdsourceRegistrationLanguage.text.toString().lowercase().trim()
+            val state: String = binding.crowdsourceRegistrationState.text.toString().trim()
+            val district: String = binding.crowdsourceRegistrationDistrict.text.toString().trim()
             val jobType =
-                binding.crowdsourceRegistrationJobType.text.toString().replace(" ", "_")
-                    .lowercase()
+                binding.crowdsourceRegistrationJobType.text.toString().trim().replace(" ", "_")
+                    .lowercase().trim()
             val highestQualification = getKeyFromEnum(
                 binding.crowdsourceRegistrationEducation.text.toString(),
                 HighestQualification.values().associateBy({ it.name }, { it.displayName })
             )
-            val occupation = binding.crowdsourceRegistrationOccupation.text.toString()
+            val occupation = binding.crowdsourceRegistrationOccupation.text.toString().trim()
             val consentFormAccept: Boolean = binding.crowdsourceRegistrationConsent.isChecked
-            val referralCode = binding.crowdsourceRegistrationReferralCode.text.toString()
-            println("The consent form is $consentFormAccept")
+            val referralCode = binding.crowdsourceRegistrationReferralCode.text.toString().trim()
+            val mostTimeSpend: String =
+                binding.crowdsourceRegistrationMostTimeSpend.text.toString().trim().lowercase()
+                    .replace(" ", "_")
+            println("The consent form is $mostTimeSpend")
 
             viewModel.setData(
                 name,
@@ -189,7 +198,8 @@ class CrowdsourceRegistration : Fragment() {
                 occupation,
                 language,
                 consentFormAccept,
-                referralCode
+                referralCode,
+                mostTimeSpend
             )
             lifecycleScope.launch {
                 viewModel.submitRegistrationData()
@@ -202,6 +212,7 @@ class CrowdsourceRegistration : Fragment() {
     }
 
     private fun getKeyFromEnum(value: String, map: Map<String, String>): String {
+        println("INSIDE $value $map")
         val result = map.filter { t -> t.value == value }
         if (result.isNotEmpty()) {
             return result.keys.toList()[0]

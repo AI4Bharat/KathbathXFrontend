@@ -45,7 +45,8 @@ constructor(
         occupation: String = "",
         language: String = "",
         acceptConsent: Boolean = false,
-        referralCode: String = ""
+        referralCode: String = "",
+        mostTimeSpend: String = ""
     ) {
         user.value = CrowdSourceUser(
             name,
@@ -59,7 +60,8 @@ constructor(
             occupation,
             language,
             acceptConsent,
-            referralCode
+            referralCode,
+            mostTimeSpend
         )
     }
 
@@ -139,6 +141,8 @@ constructor(
         val languageError: RegistrationError = user.value!!.checkPreDefinedVariable("Language")
         val referralCodeError: RegistrationError = user.value!!.checkReferalCode()
         val consentAcceptError: RegistrationError = user.value!!.checkConsentAcceptance()
+        val mostTimeSpendError: RegistrationError =
+            user.value!!.checkPreDefinedVariable("Most Time Spend")
         val crowdSourceUserError: CrowdSourceUserError = CrowdSourceUserError(
             name = nameError,
             age = ageError,
@@ -151,7 +155,8 @@ constructor(
             occupation = occupationError,
             language = languageError,
             acceptConsent = consentAcceptError,
-            referralCode = referralCodeError
+            referralCode = referralCodeError,
+            mostTimeSpend = mostTimeSpendError
         )
         userError.value = crowdSourceUserError
         return userError.value!!.errorExist()

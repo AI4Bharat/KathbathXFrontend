@@ -3,6 +3,10 @@ package com.ai4bharat.karya.ui.crowdsource.registration
 import com.ai4bharat.karya.ui.crowdsource.login.LoginError
 import com.ai4bharat.karya.ui.crowdsource.login.Status
 
+enum class MostTimeSpend(val displayName: String) {
+    city("City"), big_town("Big Town"), small_town("Small Town"), village("Village")
+}
+
 enum class Gender(val displayName: String) {
     male("Male"), female("Female"), other("Other")
 }
@@ -75,13 +79,14 @@ class CrowdSourceUser(
     val occupation: String = "",
     val language: String = "",
     val acceptConsent: Boolean = true,
-    val referalCode: String = ""
+    val referalCode: String = "",
+    val mostTimeSpend: String = ""
 
 ) {
     override fun toString(): String {
         return "Name ${name}, age ${age}, gender ${gender}, state ${state} , district ${district}," +
                 "Phone number ${phoneNumber}, Job Type ${jobType}, Education ${highestQualification}" +
-                "Occupation ${occupation}, Language ${language} Consent form -> $acceptConsent"
+                "Occupation ${occupation}, Language ${language} Consent form -> $acceptConsent, Most time spend -> ${mostTimeSpend}"
     }
 
     fun basicValidation(type: String, value: String): RegistrationError {
@@ -191,14 +196,19 @@ class CrowdSourceUser(
             "Language" -> {
                 possibleValues = Language.values().map { value -> value.name }
                 selectedValue = this.language
+            }
 
+            "Most Time Spend" -> {
+                possibleValues = MostTimeSpend.values().map { value -> value.name }
+                selectedValue = this.mostTimeSpend
             }
         }
-        println("$type, $possibleValues ${this.gender}")
+        println("$type, $possibleValues ${this.mostTimeSpend}")
         val basicValidationResult: RegistrationError = basicValidation(type, selectedValue)
         if (basicValidationResult.status) {
             return basicValidationResult
         }
+        selectedValue = selectedValue.replace(" ", "_").lowercase()
         if (!possibleValues.contains(selectedValue)) {
             message = "$type is invalid"
             status = true
@@ -276,7 +286,8 @@ class CrowdSourceUserError(
     val occupation: RegistrationError = RegistrationError("Occupation", "", false),
     val language: RegistrationError = RegistrationError("Language", "", false),
     var acceptConsent: RegistrationError = RegistrationError("Accept Consent", "", false),
-    val referralCode: RegistrationError = RegistrationError("Referral Code", "", false)
+    val referralCode: RegistrationError = RegistrationError("Referral Code", "", false),
+    val mostTimeSpend: RegistrationError = RegistrationError("Most Time Spend", "", false)
 ) {
     override fun toString(): String {
         return "name $name age $age gender $gender" +

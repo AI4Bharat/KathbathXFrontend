@@ -123,4 +123,8 @@
         <item name="android:windowBackground">@drawable/rounded_corner</item>
     </style>
 
+    <style name="CustomAlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="buttonPrimaryColor">@color/primary_color</item>
+    </style>
+
 </resources>

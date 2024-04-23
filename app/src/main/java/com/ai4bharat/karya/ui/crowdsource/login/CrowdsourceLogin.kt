@@ -23,7 +23,6 @@ import kotlin.math.log
 
 @AndroidEntryPoint
 class CrowdsourceLogin : Fragment() {
-
     companion object {
         fun newInstance() = CrowdsourceLogin()
     }
@@ -91,8 +90,9 @@ class CrowdsourceLogin : Fragment() {
             findNavController().navigate(R.id.action_crowdsourceLogin_to_crowdsourceRegistration)
         })
         binding.crowdsourceLoginButton.setOnClickListener(View.OnClickListener {
-            val phoneNumber = binding.crowdsourceLoginPhoneNumber.text.toString()
-            val selectedLanguage = binding.crowdsourceLoginLanguage.text.toString().lowercase()
+            val phoneNumber = binding.crowdsourceLoginPhoneNumber.text.toString().trim()
+            val selectedLanguage =
+                binding.crowdsourceLoginLanguage.text.toString().lowercase().trim()
             println("The language is $selectedLanguage")
 
             viewModel.setData(phoneNumber, selectedLanguage)

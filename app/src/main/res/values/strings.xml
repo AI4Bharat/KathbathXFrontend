@@ -195,7 +195,7 @@ I do hereby give permission to use the recordings of my voice under the CC BY 4.
 
     <!-- Dashboard -->
     <string name="dashboard_title">Dashboard</string>
-    <string name="sync_prompt">Submit Tasks / Get New Tasks</string>
+    <string name="sync_prompt">Click to Submit / Get Tasks</string>
     <string name="tasks_available">Available</string>
     <string name="tasks_completed">Completed</string>
     <string name="tasks_submitted">Submitted</string>
