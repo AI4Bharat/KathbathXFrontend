@@ -2,6 +2,7 @@ package com.ai4bharat.karya.ui.dashboard
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ai4bharat.karya.data.manager.AuthManager
@@ -33,12 +34,15 @@ constructor(
 
     var taskInfoList = listOf<TaskInfo>()
     private val taskInfoComparator =
-        compareBy<TaskInfo> { taskInfo -> taskInfo.taskID } //taskStatus.assignedMicrotasks }.thenBy { taskInfo ->
+        compareBy<TaskInfo> { taskInfo -> taskInfo.taskID }
 
-    //      taskInfo.taskID
-//    }
-//  var uploadedDataDuration: String = "0"
-//  var onPhoneDataDuration: String = "0"
+    var workerDetails: WorkerRecord? = null
+
+    suspend fun getWorkerDetails() {
+        val worker = authManager.getLoggedInWorker()
+        workerDetails = worker
+    }
+
     private val _dashboardUiState: MutableStateFlow<DashboardUiState> =
         MutableStateFlow(
             DashboardUiState.Success(
@@ -54,13 +58,6 @@ constructor(
         MutableStateFlow(0)
     val progress = _progress.asStateFlow()
 
-
-//    fun clearAllData(context: Context) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            KaryaDatabase.getInstance(context)?.clearAllTables()
-//
-//        }
-//    }
 
     suspend fun refreshList() {
         val worker = authManager.getLoggedInWorker()

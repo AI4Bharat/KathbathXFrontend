@@ -1,12 +1,10 @@
 package com.ai4bharat.karya.ui.crowdsource.registration
 
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ai4bharat.karya.data.manager.AuthManager
 import com.ai4bharat.karya.data.manager.BaseUrlManager
-import com.ai4bharat.karya.data.model.karya.WorkerRecord
 import com.ai4bharat.karya.data.repo.WorkerRepository
 import com.ai4bharat.karya.ui.crowdsource.login.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -139,7 +137,7 @@ constructor(
         val jobTypeError: RegistrationError = user.value!!.checkPreDefinedVariable("Job Type")
         val educationError: RegistrationError = user.value!!.checkPreDefinedVariable("Education")
         val languageError: RegistrationError = user.value!!.checkPreDefinedVariable("Language")
-        val referralCodeError: RegistrationError = user.value!!.checkReferalCode()
+        val referralCodeError: RegistrationError = user.value!!.checkReferralCode()
         val consentAcceptError: RegistrationError = user.value!!.checkConsentAcceptance()
         val mostTimeSpendError: RegistrationError =
             user.value!!.checkPreDefinedVariable("Most Time Spend")

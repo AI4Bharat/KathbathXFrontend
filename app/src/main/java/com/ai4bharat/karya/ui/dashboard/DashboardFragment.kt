@@ -7,7 +7,9 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.work.*
 import com.ai4bharat.karya.R
@@ -85,10 +87,18 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
             }
             // TODO Change the condition
             if (submitted > 0 && i == 100 && skipped == 0 && available == 0) {
-                val referralDialog = ReferralDialog(requireContext())
-                referralDialog.show()
+                if (viewModel.workerDetails != null) {
+                    val referralDialog = ReferralDialog(requireContext(), viewModel.workerDetails)
+                    referralDialog.show()
+                } else {
+                    println("The worker detail is ${viewModel.workerDetails}")
+                }
             }
             println("The total skipped is $skipped and submitted is $submitted")
+        }
+
+        viewModel.viewModelScope.launch {
+            viewModel.getWorkerDetails()
         }
 
         WorkManager.getInstance(requireContext())
@@ -168,8 +178,8 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
             })
 
             logoutView.setOnClickListener(View.OnClickListener {
-//                clearAllDataAndLogout()
                 showLogoutDialog()
+
             })
 
         }

@@ -231,7 +231,6 @@
             <AutoCompleteTextView
                 android:id="@+id/crowdsourceRegistrationMostTimeSpend"
                 android:layout_width="match_parent"
-                android:maxLines="1"
                 style="@style/EditTextTextStyle"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -282,7 +281,7 @@
             <AutoCompleteTextView
                 android:id="@+id/crowdsourceRegistrationEducation"
                 android:layout_width="match_parent"
-                android:maxLines="1"
+                android:inputType="textMultiLine"
                 style="@style/EditTextTextStyle"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -372,38 +371,52 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationgenderChipGroup" />
 
-        <CheckBox
-            android:id="@+id/crowdsourceRegistrationConsent"
-            style="@style/RatingButton"
-            android:layout_width="0dp"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/crowdsourceRegistrationConsentLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:backgroundTint="@color/primary_color"
-            android:clickable="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationReferrelCodeLayout" />
-
-        <TextView
-            android:id="@+id/crowdsourceRegistrationReadConsent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
-            android:text="Please click, read and accept the consent form"
-            app:layout_constraintBottom_toBottomOf="@+id/crowdsourceRegistrationConsent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/crowdsourceRegistrationConsent"
-            app:layout_constraintTop_toTopOf="@+id/crowdsourceRegistrationConsent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationReferrelCodeLayout">
+
+            <TextView
+                android:id="@+id/crowdsourceRegistrationReadConsent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Please click, read and accept the consent form"
+                app:layout_constraintBottom_toBottomOf="@+id/crowdsourceRegistrationConsent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/crowdsourceRegistrationConsent"
+                app:layout_constraintTop_toTopOf="@+id/crowdsourceRegistrationConsent" />
+
+            <CheckBox
+                android:id="@+id/crowdsourceRegistrationConsent"
+                style="@style/RatingButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/primary_color"
+                android:clickable="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/crowdsourceRegistrationConsentFormError"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:textAlignment="center"
             android:textColor="@color/c_red"
-            app:layout_constraintEnd_toEndOf="@+id/crowdsourceRegistrationReadConsent"
-            app:layout_constraintStart_toStartOf="@+id/crowdsourceRegistrationConsent"
-            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationReadConsent" />
+            app:layout_constraintEnd_toEndOf="@+id/crowdsourceRegistrationConsentLayout"
+            app:layout_constraintStart_toStartOf="@+id/crowdsourceRegistrationConsentLayout"
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationConsentLayout" />
 
         <ProgressBar
             android:id="@+id/crowdsourceRegistrationProgressbar"

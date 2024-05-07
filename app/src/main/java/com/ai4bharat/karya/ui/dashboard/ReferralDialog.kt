@@ -9,13 +9,19 @@ import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.widget.Button
+import androidx.work.workDataOf
 import com.ai4bharat.karya.R
+import com.ai4bharat.karya.data.model.karya.WorkerRecord
+import java.net.URLEncoder
 
 
-class ReferralDialog(context: Context) : Dialog(context, R.style.ReferralDialogStyle) {
+class ReferralDialog(context: Context, private val workerRecord: WorkerRecord?) :
+    Dialog(context, R.style.ReferralDialogStyle) {
+
     init {
         setCancelable(true)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,17 +30,35 @@ class ReferralDialog(context: Context) : Dialog(context, R.style.ReferralDialogS
         val referralButton: Button = findViewById(R.id.referralButton)
 
         referralButton.setOnClickListener(View.OnClickListener {
-            openWebPage("https://wa.me/?text=This%20is%20a%20test%20message.%20Check%20out%20the%20url%20https%3A%2F%2Fhttps://ai4bharat.iitm.ac.in%2F")
-            this.dismiss()
+            openWebPage()
         })
 
     }
 
+    private fun createReferralCode(): String? {
+        if (workerRecord != null) {
+            val name = workerRecord.fullName
+            val phoneNumber = workerRecord.accessCode
+            return name?.subSequence(0, 2).toString() + phoneNumber.subSequence(8, 11).toString()
+        }
+        return null
+    }
 
-    private fun openWebPage(url: String) {
-        println("The data was clicked")
-        val webpage: Uri = Uri.parse(url)
-        val intent = Intent(Intent.ACTION_VIEW, webpage)
-        context.startActivity(intent)
+    private fun openWebPage() {
+        val referralCode: String? = createReferralCode()
+        if (referralCode != null) {
+            val encodedUrl =
+                "https://api.whatsapp.com/send/?text=${
+                    URLEncoder.encode(
+                        "This is a test message. Use the referral code $referralCode",
+                        "UTF-8"
+                    )
+                }"
+            val webpage: Uri = Uri.parse(encodedUrl)
+            val intent = Intent(Intent.ACTION_VIEW, webpage)
+            context.startActivity(intent)
+        }
+        println("The data was clicked $referralCode")
+
     }
 }

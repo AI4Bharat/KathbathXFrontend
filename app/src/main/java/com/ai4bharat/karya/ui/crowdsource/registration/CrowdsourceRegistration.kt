@@ -68,8 +68,8 @@ class CrowdsourceRegistration : Fragment() {
         viewModel.registrationStatus.observe(viewLifecycleOwner, Observer { registrationStatus ->
             when (registrationStatus.status) {
                 Status.SUCCESS -> {
-                    findNavController().navigate(R.id.action_crowdsourceRegistration_to_crowdsourceLogin)
                     binding.crowdsourceRegistrationProgressbar.visibility = View.INVISIBLE
+                    findNavController().navigate(R.id.action_crowdsourceRegistration_to_crowdsourceLogin)
                 }
 
                 Status.LOADING -> {
@@ -78,9 +78,9 @@ class CrowdsourceRegistration : Fragment() {
 
                 else -> {
                     binding.crowdsourceRegistrationProgressbar.visibility = View.INVISIBLE
+                    binding.textViewcrowdsourceRegistrationStatus.text = registrationStatus.message
                 }
             }
-            binding.textViewcrowdsourceRegistrationStatus.text = registrationStatus.message
         })
 
         viewModel.user.observe(viewLifecycleOwner, Observer {
@@ -206,14 +206,16 @@ class CrowdsourceRegistration : Fragment() {
             }
         })
         binding.crowdsourceRegistrationConsent.isActivated = false
-        binding.crowdsourceRegistrationReadConsent.setOnClickListener(View.OnClickListener {
+        binding.crowdsourceRegistrationConsentLayout.setOnClickListener(View.OnClickListener {
             showConsentForm()
         })
     }
 
     private fun getKeyFromEnum(value: String, map: Map<String, String>): String {
         println("INSIDE $value $map")
-        val result = map.filter { t -> t.value == value }
+        val result = map.filter { t ->
+            t.value.lowercase().replace(" ", "_") == value.trim().lowercase().replace(" ", "_")
+        }
         if (result.isNotEmpty()) {
             return result.keys.toList()[0]
         }
@@ -221,15 +223,14 @@ class CrowdsourceRegistration : Fragment() {
     }
 
     private fun showConsentForm() {
-        if (viewModel.user.value?.language != null) {
-            showConsentForm(
-                requireContext(),
-                ::changeConsentFormStatus,
-                viewModel.user.value!!.language.lowercase()
-            )
-        } else {
-            binding.crowdsourceRegistrationConsentFormError.text = "Please select a valid language"
-        }
+        val selectedLanguage =
+            binding.crowdsourceRegistrationLanguage.text.toString().lowercase().trim()
+        showConsentForm(
+            requireContext(),
+            ::changeConsentFormStatus,
+            selectedLanguage
+        )
+
     }
 
     private fun changeConsentFormStatus(status: Boolean) {

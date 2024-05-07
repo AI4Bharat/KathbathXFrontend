@@ -1,6 +1,5 @@
 package com.ai4bharat.karya.ui.crowdsource.registration
 
-import com.ai4bharat.karya.ui.crowdsource.login.LoginError
 import com.ai4bharat.karya.ui.crowdsource.login.Status
 
 enum class MostTimeSpend(val displayName: String) {
@@ -98,11 +97,11 @@ class CrowdSourceUser(
         return RegistrationError(type, "$type can't be empty", status)
     }
 
-    fun checkReferalCode(): RegistrationError {
+    fun checkReferralCode(): RegistrationError {
         var status = false
         var message = ""
-        var type = "Referal Code"
-        return basicValidation("Referal Code", this.referalCode)
+        var type = "Referral Code"
+        return basicValidation("Referral Code", this.referalCode)
     }
 
     // Since occupation and name have similar regex pattern we could combine them
@@ -130,7 +129,7 @@ class CrowdSourceUser(
     fun checkPhoneNumber(): RegistrationError {
         var status = false
         var message = ""
-        val type = "phoneNumber"
+        val type = "Phone number"
 
         val basicValidationResult: RegistrationError = basicValidation(type, this.phoneNumber)
         if (basicValidationResult.status) {
@@ -148,7 +147,7 @@ class CrowdSourceUser(
     fun checkAge(): RegistrationError {
         var status = false
         var message: String = ""
-        val type = "name"
+        val type = "Age"
 
         val basicValidationResult: RegistrationError = basicValidation(type, this.age)
         if (basicValidationResult.status) {
@@ -229,17 +228,18 @@ class CrowdSourceUser(
     fun checkState(locationInfo: MutableList<State>?): RegistrationError {
         var status = false
         var message = ""
-        val type = "state"
+        val type = "State"
+        val value = this.state.lowercase()
         val basicValidationResult: RegistrationError =
-            basicValidation("state", this.state)
+            basicValidation("State", value)
         if (basicValidationResult.status) {
             return basicValidationResult
         }
 
-        println("State checker $basicValidationResult")
 
-        val stateList: List<String> = locationInfo!!.map { state -> state.name }
-        if (!stateList.contains(this.state)) {
+        val stateList: List<String> = locationInfo!!.map { state -> state.name.lowercase() }
+        println("State checker $stateList")
+        if (!stateList.contains(value)) {
             status = true
             message = "State is invalid"
         }
@@ -250,17 +250,18 @@ class CrowdSourceUser(
     fun checkDistrict(locationInfo: MutableList<State>?): RegistrationError {
         var status = false
         var message = ""
-        val type = "district"
+        val type = "District"
+        val value = this.district.lowercase()
         val basicValidationResult: RegistrationError =
-            basicValidation("district", this.district)
+            basicValidation("District", value)
         if (basicValidationResult.status) {
             return basicValidationResult
         }
         val stateInfo: List<State> =
             locationInfo!!.filter { state -> state.name == this.state }
-        if (stateInfo.size > 0) {
-            val districtList = stateInfo[0].district.map { district -> district.name }
-            if (!districtList.contains(this.district)) {
+        if (stateInfo.isNotEmpty()) {
+            val districtList = stateInfo[0].district.map { district -> district.name.lowercase() }
+            if (!districtList.contains(value)) {
                 status = true
                 message = "Invalid district selected"
             }
@@ -291,7 +292,7 @@ class CrowdSourceUserError(
 ) {
     override fun toString(): String {
         return "name $name age $age gender $gender" +
-                "state $state distrct $district phoneNumber $phoneNumber" +
+                "state $state district $district phoneNumber $phoneNumber" +
                 "jobType $jobType education $education occupation $occupation" +
                 "language $language consent $acceptConsent"
 

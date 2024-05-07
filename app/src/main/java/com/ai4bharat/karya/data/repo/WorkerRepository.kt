@@ -133,7 +133,7 @@ class WorkerRepository @Inject constructor(
                 }
             }
         } else {
-            msg = response.body().toString()
+            msg = response.body()?.accessCode.toString()
             status = Status.SUCCESS
         }
         emit(RegistrationStatus(status, msg))
