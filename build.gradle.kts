@@ -49,8 +49,8 @@ allprojects {
     }
 }
 
-tasks {
-    val clean by registering(Delete::class) {
-        delete(rootProject.buildDir)
-    }
-}
+//tasks {
+//    val clean by registering(Delete::class) {
+//        delete(commonCl4.buildDir)
+//    }
+//}

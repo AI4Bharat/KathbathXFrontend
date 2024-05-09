@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="com.ai4bharat.karya.ui.splashScreen.SplashScreenFragment"
+        android:name="com.ai4bharat.karyatts.ui.splashScreen.SplashScreenFragment"
         android:label="SplashScreenFragment"
         tools:layout="@layout/fragment_splash_screen">
         <action
@@ -32,7 +32,7 @@
         app:startDestination="@id/phoneNumberFragment">
         <fragment
             android:id="@+id/phoneNumberFragment"
-            android:name="com.ai4bharat.karya.ui.onboarding.login.phone.PhoneNumberFragment"
+            android:name="com.ai4bharat.karyatts.ui.onboarding.login.phone.PhoneNumberFragment"
             android:label="PhoneNumberFragment"
             tools:layout="@layout/fragment_phone_number">
             <action
@@ -41,7 +41,7 @@
         </fragment>
         <fragment
             android:id="@+id/OTPFragment"
-            android:name="com.ai4bharat.karya.ui.onboarding.login.otp.OTPFragment"
+            android:name="com.ai4bharat.karyatts.ui.onboarding.login.otp.OTPFragment"
             android:label="OTPFragment"
             tools:layout="@layout/fragment_otp">
             <action
@@ -54,7 +54,7 @@
         app:startDestination="@id/accessCodeFragment">
         <fragment
             android:id="@+id/fileDownloadFragment"
-            android:name="com.ai4bharat.karya.ui.onboarding.fileDownload.FileDownloadFragment"
+            android:name="com.ai4bharat.karyatts.ui.onboarding.fileDownload.FileDownloadFragment"
             android:label="FileDownloadFragment"
             tools:layout="@layout/fragment_file_download">
             <action
@@ -65,7 +65,7 @@
         </fragment>
         <fragment
             android:id="@+id/consentFormFragment"
-            android:name="com.ai4bharat.karya.ui.onboarding.consentForm.ConsentFormFragment"
+            android:name="com.ai4bharat.karyatts.ui.onboarding.consentForm.ConsentFormFragment"
             android:label="ConsentFormFragment"
             tools:layout="@layout/fragment_consent_form">
             <action
@@ -77,7 +77,7 @@
         </fragment>
         <fragment
             android:id="@+id/accessCodeFragment"
-            android:name="com.ai4bharat.karya.ui.onboarding.accesscode.AccessCodeFragment"
+            android:name="com.ai4bharat.karyatts.ui.onboarding.accesscode.AccessCodeFragment"
             android:label="AccessCodeFragment"
             tools:layout="@layout/fragment_access_code">
             <action
@@ -90,7 +90,7 @@
     </navigation>
     <fragment
         android:id="@+id/dashboardActivity"
-        android:name="com.ai4bharat.karya.ui.dashboard.DashboardFragment"
+        android:name="com.ai4bharat.karyatts.ui.dashboard.DashboardFragment"
         android:label="activity_dashboard"
         tools:layout="@layout/fragment_dashboard">
         <action
@@ -200,7 +200,7 @@
         app:destination="@id/loginFlow" />
     <fragment
         android:id="@+id/speechDataMainFragment"
-        android:name="com.ai4bharat.karya.ui.scenarios.speechData.SpeechDataMainFragment"
+        android:name="com.ai4bharat.karyatts.ui.scenarios.speechData.SpeechDataMainFragment"
         android:label="SpeechDataMainFragment"
         tools:layout="@layout/microtask_speech_data">
         <argument android:name="taskId" app:argType="string" />
@@ -213,7 +213,7 @@
     </fragment>
     <fragment
         android:id="@+id/universalTransliterationMainFragment"
-        android:name="com.ai4bharat.karya.ui.scenarios.transliteration.TransliterationMainFragment"
+        android:name="com.ai4bharat.karyatts.ui.scenarios.transliteration.TransliterationMainFragment"
         android:label="UniversalTransliterationMainFragment">
         <argument android:name="taskId" app:argType="string" />
         <argument android:name="completed" app:argType="integer" />
@@ -224,7 +224,7 @@
     </fragment>
     <fragment
         android:id="@+id/speechVerificationFragment"
-        android:name="com.ai4bharat.karya.ui.scenarios.speechVerification.SpeechVerificationFragment"
+        android:name="com.ai4bharat.karyatts.ui.scenarios.speechVerification.SpeechVerificationFragment"
         android:label="SpeechVerificationFragment">
         <argument android:name="taskId" app:argType="string" />
         <argument android:name="completed" app:argType="integer" />
@@ -235,7 +235,7 @@
     </fragment>
     <fragment
         android:id="@+id/imageTranscriptionFragment"
-        android:name="com.ai4bharat.karya.ui.scenarios.imageTranscription.ImageTranscriptionFragment"
+        android:name="com.ai4bharat.karyatts.ui.scenarios.imageTranscription.ImageTranscriptionFragment"
         android:label="imageTranscriptionFragment">
         <argument android:name="taskId" app:argType="string" />
         <argument android:name="completed" app:argType="integer" />
@@ -249,7 +249,7 @@
         app:startDestination="@id/imageLabellingFragment">
         <fragment
             android:id="@+id/imageLabellingFragment"
-            android:name="com.ai4bharat.karya.ui.scenarios.imageLabelling.ImageLabellingFragment"
+            android:name="com.ai4bharat.karyatts.ui.scenarios.imageLabelling.ImageLabellingFragment"
             android:label="imageLabellingFragment">
             <argument android:name="taskId" app:argType="string" />
             <argument android:name="completed" app:argType="integer" />
@@ -263,7 +263,7 @@
         </fragment>
         <fragment
             android:id="@+id/imageLabellingCameraFragment"
-            android:name="com.ai4bharat.karya.ui.scenarios.imageLabelling.CameraFragment"
+            android:name="com.ai4bharat.karyatts.ui.scenarios.imageLabelling.CameraFragment"
             android:label="imageLabellingCameraFragment">
 
             <action
@@ -273,7 +273,7 @@
     </navigation>
     <fragment
         android:id="@+id/quizFragment"
-        android:name="com.ai4bharat.karya.ui.scenarios.quiz.QuizMainFragment"
+        android:name="com.ai4bharat.karyatts.ui.scenarios.quiz.QuizMainFragment"
         android:label="quizFragment">
         <argument android:name="taskId" app:argType="string" />
         <argument android:name="completed" app:argType="integer" />
@@ -284,7 +284,7 @@
     </fragment>
     <fragment
         android:id="@+id/imageDataFragment"
-        android:name="com.ai4bharat.karya.ui.scenarios.imageData.ImageDataFragment"
+        android:name="com.ai4bharat.karyatts.ui.scenarios.imageData.ImageDataFragment"
         android:label="imageDataFragment">
         <argument android:name="taskId" app:argType="string" />
         <argument android:name="completed" app:argType="integer" />
@@ -295,7 +295,7 @@
     </fragment>
     <fragment
         android:id="@+id/sentenceValidationFragment"
-        android:name="com.ai4bharat.karya.ui.scenarios.sentenceValidation.SentenceValidationFragment"
+        android:name="com.ai4bharat.karyatts.ui.scenarios.sentenceValidation.SentenceValidationFragment"
         android:label="sentenceValidationFragment">
         <argument android:name="taskId" app:argType="string" />
         <argument android:name="completed" app:argType="integer" />
@@ -306,7 +306,7 @@
     </fragment>
     <fragment
         android:id="@+id/signVideoFragment"
-        android:name="com.ai4bharat.karya.ui.scenarios.signVideo.SignVideoMainFragment"
+        android:name="com.ai4bharat.karyatts.ui.scenarios.signVideo.SignVideoMainFragment"
         android:label="signVideoFragment">
         <argument android:name="taskId" app:argType="string" />
         <argument android:name="completed" app:argType="integer" />
@@ -317,7 +317,7 @@
     </fragment>
     <fragment
         android:id="@+id/signVideoVerificationFragment"
-        android:name="com.ai4bharat.karya.ui.scenarios.signVideoVerification.SignVideoVerificationFragment"
+        android:name="com.ai4bharat.karyatts.ui.scenarios.signVideoVerification.SignVideoVerificationFragment"
         android:label="signVideoVerificationFragment">
         <argument android:name="taskId" app:argType="string" />
         <argument android:name="completed" app:argType="integer" />
@@ -328,7 +328,7 @@
     </fragment>
     <fragment
         android:id="@+id/speechTranscriptionFragment"
-        android:name="com.ai4bharat.karya.ui.scenarios.speechTranscription.SpeechTranscriptionFragment"
+        android:name="com.ai4bharat.karyatts.ui.scenarios.speechTranscription.SpeechTranscriptionFragment"
         android:label="SpeechTranscriptionFragment">
         <argument android:name="taskId" app:argType="string" />
         <argument android:name="completed" app:argType="integer" />
@@ -339,7 +339,7 @@
     </fragment>
     <fragment
         android:id="@+id/imageAnnotationFragment"
-        android:name="com.ai4bharat.karya.ui.scenarios.imageAnnotation.ImageAnnotationFragment"
+        android:name="com.ai4bharat.karyatts.ui.scenarios.imageAnnotation.ImageAnnotationFragment"
         android:label="ImageAnnotationFragment" >
         <argument android:name="taskId" app:argType="string" />
         <argument android:name="completed" app:argType="integer" />
@@ -350,7 +350,7 @@
     </fragment>
     <fragment
         android:id="@+id/sentenceCorpusFragment"
-        android:name="com.ai4bharat.karya.ui.scenarios.sentenceCorpus.SentenceCorpusFragment"
+        android:name="com.ai4bharat.karyatts.ui.scenarios.sentenceCorpus.SentenceCorpusFragment"
         android:label="SentenceCorpusFragment" >
         <argument android:name="taskId" app:argType="string" />
         <argument android:name="completed" app:argType="integer" />

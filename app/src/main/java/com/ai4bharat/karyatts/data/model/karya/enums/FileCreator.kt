@@ -1,0 +1,16 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+package com.ai4bharat.karyatts.data.model.karya.enums
+
+import com.google.gson.annotations.SerializedName
+
+enum class FileCreator {
+  @SerializedName("WORKER")
+  WORKER,
+
+  @SerializedName("BOX")
+  BOX,
+
+  @SerializedName("SERVER")
+  SERVER
+}

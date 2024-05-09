@@ -8,7 +8,7 @@
     android:animateLayoutChanges="true"
     tools:context=".ui.dashboard.DashboardFragment">
 
-    <com.ai4bharat.karya.ui.views.KaryaToolbar
+    <com.ai4bharat.karyatts.ui.views.KaryaToolbar
         android:id="@+id/appTb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

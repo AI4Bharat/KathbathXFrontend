@@ -15,14 +15,14 @@ android {
   signingConfigs {
     create("standard-release") {
       storePassword = "ai4bharat@123"
-      keyAlias = "karya"
+      keyAlias = "karyatts"
       keyPassword = "ai4bharat@123"
       storeFile = file("/Users/svp/Documents/AI4Bharat/TTS/TTS_DC/Karya/Karya/keystore/Untitled")
     }
   }
   compileSdkVersion(31)
   defaultConfig {
-    applicationId = "com.ai4bharat.karya"
+    applicationId = "com.ai4bharat.karyatts"
     minSdkVersion(24)
     targetSdkVersion(31)
     multiDexEnabled = true
@@ -82,6 +82,7 @@ android {
     create ("mit") {
       dimension = "size"
       applicationIdSuffix = "mit2022"
+      applicationId = "karyatts"
     }
     create("large") {
       dimension = "size"
