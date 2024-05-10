@@ -13,9 +13,14 @@ import com.ai4bharat.karya.R
 import com.ai4bharat.karya.data.manager.AuthManager
 import com.ai4bharat.karya.databinding.ActivityMainBinding
 import com.ai4bharat.karya.utils.extensions.viewBinding
+import com.android.installreferrer.api.InstallReferrerClient
+import com.android.installreferrer.api.InstallReferrerClient.InstallReferrerResponse
+import com.android.installreferrer.api.InstallReferrerStateListener
+import com.android.installreferrer.api.ReferrerDetails
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.firebase.installations.remote.InstallationResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +45,44 @@ class MainActivity : AppCompatActivity() {
         hideStatusBar()
         updateApp(FORCE_UPDATE)
         setContentView(binding.root)
+        getReferralCode()
+    }
+
+
+    private fun getReferralCode() {
+
+        val referrerClient: InstallReferrerClient = InstallReferrerClient.newBuilder(this).build()
+        referrerClient.startConnection(object : InstallReferrerStateListener {
+
+            override fun onInstallReferrerServiceDisconnected() {
+            }
+
+            override fun onInstallReferrerSetupFinished(responseCode: Int) {
+                when (responseCode) {
+                    InstallReferrerResponse.OK -> {
+                        val response: ReferrerDetails = referrerClient.installReferrer
+                        val referrerUrl: String = response.installReferrer
+                        val referrerClickTime: Long = response.referrerClickTimestampSeconds
+                        val appInstallTime: Long = response.installBeginTimestampServerSeconds
+                        val instantExperiencedLaunched: Boolean = response.googlePlayInstantParam
+
+                        println("The reffereffff is $referrerUrl")
+                        referrerClient.endConnection()
+                    }
+
+                    InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
+                    }
+
+                    InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
+                    }
+
+                }
+            }
+
+
+        })
+
+
     }
 
     private fun hideStatusBar() {

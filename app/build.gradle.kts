@@ -171,5 +171,8 @@ dependencies {
     // Custom aars
     implementation(files("libs/zoomage-debug.aar"))
 
+    //Referral code
+    implementation("com.android.installreferrer:installreferrer:2.2")
+
 
 }

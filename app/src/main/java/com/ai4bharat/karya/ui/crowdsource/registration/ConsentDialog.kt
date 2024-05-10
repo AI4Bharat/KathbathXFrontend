@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.content.Context
 import android.text.Html
 import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.widget.TextView
 import com.ai4bharat.karya.R
 
 object ConsentDialog {
@@ -32,10 +34,19 @@ object ConsentDialog {
 
         val dialog = builder.create()
         dialog.show()
+
+        val textView: TextView? = dialog.findViewById(android.R.id.message)
+        if (textView != null) {
+            println("The text view is not null")
+            textView.movementMethod = LinkMovementMethod.getInstance()
+        } else {
+            println("The text view is null")
+        }
+
     }
 
     private fun text2html(text: String): Spanned {
-        return Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT)
+        return Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY)
     }
 
     private fun getConsentFormText(language: String, context: Context): String {
@@ -105,7 +116,9 @@ object ConsentDialog {
                 consent = context.getString(R.string.consent_form_text_english)
             }
         }
-        return consent
+        val extraConsentText: String =
+            "<h5>Read more about our privacy policy here <a href='https://ai4bharat.iitm.ac.in/kathbath-lite/'>link</a></h5>"
+        return "$consent $extraConsentText"
 
     }
 
