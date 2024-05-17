@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="com.ai4bharat.karya.ui.splashScreen.SplashScreenFragment"
+        android:name="com.ai4bharat.kathbath.ui.splashScreen.SplashScreenFragment"
         android:label="SplashScreenFragment"
         tools:layout="@layout/fragment_splash_screen">
         <action
@@ -22,12 +22,12 @@
         app:startDestination="@id/phoneNumberFragment">
         <fragment
             android:id="@+id/phoneNumberFragment"
-            android:name="com.ai4bharat.karya.ui.onboarding.login.phone.PhoneNumberFragment"
+            android:name="com.ai4bharat.kathbath.ui.onboarding.login.phone.PhoneNumberFragment"
             android:label="PhoneNumberFragment"
             tools:layout="@layout/fragment_phone_number" />
         <fragment
             android:id="@+id/OTPFragment"
-            android:name="com.ai4bharat.karya.ui.onboarding.login.otp.OTPFragment"
+            android:name="com.ai4bharat.kathbath.ui.onboarding.login.otp.OTPFragment"
             android:label="OTPFragment"
             tools:layout="@layout/fragment_otp" />
     </navigation>
@@ -36,12 +36,12 @@
         app:startDestination="@id/accessCodeFragment">
         <fragment
             android:id="@+id/fileDownloadFragment"
-            android:name="com.ai4bharat.karya.ui.onboarding.fileDownload.FileDownloadFragment"
+            android:name="com.ai4bharat.kathbath.ui.onboarding.fileDownload.FileDownloadFragment"
             android:label="FileDownloadFragment"
             tools:layout="@layout/fragment_file_download" />
         <fragment
             android:id="@+id/accessCodeFragment"
-            android:name="com.ai4bharat.karya.ui.onboarding.accesscode.AccessCodeFragment"
+            android:name="com.ai4bharat.kathbath.ui.onboarding.accesscode.AccessCodeFragment"
             android:label="AccessCodeFragment"
             tools:layout="@layout/fragment_access_code">
             <action
@@ -53,7 +53,7 @@
     </navigation>
     <fragment
         android:id="@+id/dashboardActivity"
-        android:name="com.ai4bharat.karya.ui.dashboard.DashboardFragment"
+        android:name="com.ai4bharat.kathbath.ui.dashboard.DashboardFragment"
         android:label="activity_dashboard"
         tools:layout="@layout/fragment_dashboard">
         <action
@@ -84,7 +84,7 @@
     </fragment>
     <fragment
         android:id="@+id/speechDataMainFragment"
-        android:name="com.ai4bharat.karya.ui.scenarios.speechData.SpeechDataMainFragment"
+        android:name="com.ai4bharat.kathbath.ui.scenarios.speechData.SpeechDataMainFragment"
         android:label="SpeechDataMainFragment"
         tools:layout="@layout/microtask_speech_data">
         <argument
@@ -103,7 +103,7 @@
     </fragment>
     <fragment
         android:id="@+id/speechVerificationFragment"
-        android:name="com.ai4bharat.karya.ui.scenarios.speechVerification.SpeechVerificationFragment"
+        android:name="com.ai4bharat.kathbath.ui.scenarios.speechVerification.SpeechVerificationFragment"
         android:label="SpeechVerificationFragment">
         <argument
             android:name="taskId"
@@ -123,7 +123,7 @@
         app:startDestination="@id/crowdsourceLogin">
         <fragment
             android:id="@+id/crowdsourceLogin"
-            android:name="com.ai4bharat.karya.ui.crowdsource.login.CrowdsourceLogin"
+            android:name="com.ai4bharat.kathbath.ui.crowdsource.login.CrowdsourceLogin"
             android:label="fragment_crowdsource_login"
             tools:layout="@layout/fragment_crowdsource_login">
             <action
@@ -135,7 +135,7 @@
         </fragment>
         <fragment
             android:id="@+id/crowdsourceRegistration"
-            android:name="com.ai4bharat.karya.ui.crowdsource.registration.CrowdsourceRegistration"
+            android:name="com.ai4bharat.kathbath.ui.crowdsource.registration.CrowdsourceRegistration"
             android:label="fragment_crowdsource_registration"
             tools:layout="@layout/fragment_crowdsource_registration">
             <argument

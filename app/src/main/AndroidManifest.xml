@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.ai4bharat.karya">
+    package="com.ai4bharat.kathbath">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:name="com.ai4bharat.karya.KaryaApp"
-        android:label="Karya Crowdsource"
+        android:name="com.ai4bharat.kathbath.KaryaApp"
+        android:label="Kathbath Lite"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +18,8 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity
-            android:name="com.ai4bharat.karya.ui.MainActivity"
+            android:name="com.ai4bharat.kathbath.ui.MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:exported="true">
             <intent-filter>

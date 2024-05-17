@@ -19,11 +19,12 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/_15sdp"
-            android:paddingVertical="@dimen/_10sdp"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingVertical="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,11 +42,11 @@
                     style="@style/NormalTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="@dimen/_2sdp"
                     android:layout_weight="1"
                     android:background="@color/c_very_light_green"
                     android:gravity="center"
-                    android:text="[Uploaded: 0 tasks]"
+                    android:paddingVertical="@dimen/_2sdp"
+                    android:text="[Uploaded: 0 Tasks]"
                     app:autoSizeMaxTextSize="@dimen/_10ssp"
                     app:autoSizeMinTextSize="@dimen/_5ssp"
                     app:autoSizeStepGranularity="@dimen/_2ssp"
@@ -56,26 +57,27 @@
                     style="@style/NormalTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="@dimen/_2sdp"
                     android:layout_weight="1"
                     android:background="#F49898"
                     android:gravity="center"
-                    android:text="[On Phone: 0 tasks]"
+                    android:paddingVertical="@dimen/_2sdp"
+                    android:text="[On Phone: 0 Tasks]"
                     app:autoSizeMaxTextSize="@dimen/_10ssp"
                     app:autoSizeMinTextSize="@dimen/_5ssp"
                     app:autoSizeStepGranularity="@dimen/_2ssp"
                     app:autoSizeTextType="uniform" />
             </LinearLayout>
 
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/syncPromptTv"
                 style="@style/submitButton"
-                android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:background="@drawable/rounded_button_background"
-                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_width="match_parent"
                 android:layout_height="36dp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/rounded_button_background"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
                 android:text="@string/sync_prompt" />
 
             <ProgressBar
@@ -112,7 +114,7 @@
         android:background="@color/c_white"
         android:clipToPadding="false"
         android:paddingHorizontal="@dimen/_10sdp"
-        android:paddingVertical="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_5sdp"
         android:scrollbars="none"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"

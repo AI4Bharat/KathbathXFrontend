@@ -23,12 +23,12 @@ android {
     }
     compileSdkVersion(33)
     defaultConfig {
-        applicationId = "com.ai4bharat.karya"
+        applicationId = "com.ai4bharat.kathbath.lite"
         minSdkVersion(24)
         targetSdkVersion(33)
         multiDexEnabled = true
-        versionCode = 97
-        versionName = "2"
+        versionCode = 1
+        versionName = "1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         signingConfig = signingConfigs.getByName("standard-release")

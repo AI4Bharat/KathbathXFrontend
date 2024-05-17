@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.ai4bharat.karya.ui.views.KaryaToolbar
+    <com.ai4bharat.kathbath.ui.views.KaryaToolbar
         android:id="@+id/appTb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

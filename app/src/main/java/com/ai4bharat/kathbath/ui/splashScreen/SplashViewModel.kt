@@ -1,0 +1,71 @@
+package com.ai4bharat.kathbath.ui.splashScreen
+
+import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ai4bharat.kathbath.data.manager.AuthManager
+import com.ai4bharat.kathbath.data.model.karya.WorkerRecord
+import com.ai4bharat.kathbath.data.repo.WorkerRepository
+import com.ai4bharat.kathbath.ui.Destination
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class SplashViewModel
+@Inject
+constructor(
+    private val authManager: AuthManager,
+    private val workerRepository: WorkerRepository
+) : ViewModel() {
+
+    private val _splashDestination = MutableSharedFlow<Destination>()
+    val splashDestination = _splashDestination.asSharedFlow()
+
+    private val _splashEffects = MutableSharedFlow<SplashEffects>()
+    val splashEffects = _splashEffects.asSharedFlow()
+
+    fun navigate() {
+        viewModelScope.launch {
+            val workers = getAllWorkers().size
+
+            when (workers) {
+                0 -> handleNewUser()
+                1 -> handleSingleUser()
+                else -> handleMultipleUsers()
+            }
+        }
+    }
+
+    private suspend fun getAllWorkers(): List<WorkerRecord> {
+        return workerRepository.getAllWorkers()
+    }
+
+    private suspend fun getLoggedInWorker(): WorkerRecord {
+        return authManager.getLoggedInWorker()
+    }
+
+    private suspend fun handleNewUser() {
+        _splashDestination.emit(Destination.AccessCodeFlow)
+    }
+
+    private suspend fun handleSingleUser() {
+        val worker = getLoggedInWorker()
+        Log.e("LOGGED IN", worker.toString())
+        _splashEffects.emit(SplashEffects.UpdateLanguage("EN"))//worker.language))
+
+        val destination =
+            when {
+                worker.idToken.isNullOrEmpty() -> Destination.LoginFlow
+                else -> Destination.Dashboard
+            }
+
+        _splashDestination.emit(destination)
+    }
+
+    private suspend fun handleMultipleUsers() {
+        _splashDestination.emit(Destination.UserSelection)
+    }
+}

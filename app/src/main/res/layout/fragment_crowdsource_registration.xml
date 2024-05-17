@@ -446,7 +446,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/EditTextTextStyle"
-            android:text="Welcome to Karya!"
+            android:text="Welcome to Kathbath!"
             android:textColor="@color/heading_color"
             app:layout_constraintStart_toStartOf="@+id/crowdsourceRegistrationHeading"
             app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationHeading" />
