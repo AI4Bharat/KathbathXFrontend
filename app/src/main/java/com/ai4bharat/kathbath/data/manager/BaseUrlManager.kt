@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 
 class BaseUrlManager(val applicationContext: Context) {
 
-    private var baseUrl: String = "https://dmubox-lite.centralindia.cloudapp.azure.com/box"
+    private var baseUrl: String = "https://dmubox-lite.centralindia.cloudapp.azure.com/box-server"
 
     suspend fun updateBaseUrl(url: String) {
         check(url.isNotEmpty()) { "URL cannot be null" }

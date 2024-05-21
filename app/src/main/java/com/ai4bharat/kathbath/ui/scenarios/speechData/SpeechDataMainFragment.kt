@@ -150,7 +150,7 @@ class SpeechDataMainFragment : BaseMTRendererFragment(R.layout.microtask_speech_
                 val language = LanguageUtils.getLanguageFromCode(languageCode)
                 if (language == "")
                     instructionTv.text = "Instruction: $recordInstruction"
-                instructionTv.text = "Instruction: Please speak in $language"
+                instructionTv.text = getInstructionSentence(language)
             }
 
         })
