@@ -83,7 +83,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
                 skipped += status.skippedMicrotasks
                 available += status.assignedMicrotasks
             }
-            // TODO Change the condition
+//             TODO Change the condition
             if (submitted > 0 && i == 100 && skipped == 0 && available == 0) {
                 if (viewModel.workerDetails != null) {
                     val referralDialog = ReferralDialog(requireContext(), viewModel.workerDetails)

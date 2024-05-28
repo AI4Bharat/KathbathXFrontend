@@ -127,6 +127,7 @@ constructor(
         val response = assignmentAPI.submitAssignmentOutputFile(idToken, assignmentId, json, file)
         val responseBody = response.body()
 
+        println("RESP ${response.message()}")
         if (!response.isSuccessful) {
             error("Failed to upload file")
         }

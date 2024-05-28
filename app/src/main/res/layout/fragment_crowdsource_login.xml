@@ -44,12 +44,12 @@
 
             <TextView
                 android:id="@+id/textView5"
+                style="@style/HeadingTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/HeadingTextStyle"
-                android:includeFontPadding="false"
                 android:layout_marginTop="8dp"
-                android:text="Welcome to Karya"
+                android:includeFontPadding="false"
+                android:text="Welcome to Kathbath"
                 android:textSize="24dp"
                 app:layout_constraintEnd_toEndOf="@+id/crowdsourceKaryaLogo"
                 app:layout_constraintStart_toStartOf="@+id/crowdsourceKaryaLogo"
