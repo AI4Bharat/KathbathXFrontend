@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:includeFontPadding="false"
-            android:text="Karya"
+            android:text="Kathbath"
             android:textColor="@color/heading_color"
             android:textSize="@dimen/_16sdp"
             app:layout_constraintBottom_toBottomOf="parent"

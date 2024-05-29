@@ -32,6 +32,7 @@ constructor(
         compareBy<TaskInfo> { taskInfo -> taskInfo.taskID }
 
     var workerDetails: WorkerRecord? = null
+    var shownReferralDialog: Boolean = false
 
     suspend fun getWorkerDetails() {
         val worker = authManager.getLoggedInWorker()

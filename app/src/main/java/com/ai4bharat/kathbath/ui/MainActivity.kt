@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         updateApp(FORCE_UPDATE)
         setContentView(binding.root)
         //getReferralCode()
+
     }
 
 
@@ -61,7 +62,6 @@ class MainActivity : AppCompatActivity() {
                         val appInstallTime: Long = response.installBeginTimestampServerSeconds
                         val instantExperiencedLaunched: Boolean = response.googlePlayInstantParam
 
-                        println("The reffereffff is $referrerUrl")
                         referrerClient.endConnection()
                     }
 

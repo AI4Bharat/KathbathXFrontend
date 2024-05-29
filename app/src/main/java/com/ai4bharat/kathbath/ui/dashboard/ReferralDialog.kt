@@ -35,8 +35,10 @@ class ReferralDialog(context: Context, private val workerRecord: WorkerRecord?) 
     private fun createReferralCode(): String? {
         if (workerRecord != null) {
             val name = workerRecord.fullName
+            val karyaId: String? = workerRecord.id
             val phoneNumber = workerRecord.accessCode
-            return name?.subSequence(0, 2).toString() + phoneNumber.subSequence(8, 11).toString()
+//            return name?.subSequence(0, 2).toString() + phoneNumber.subSequence(8, 11).toString()
+            return karyaId
         }
         return null
     }
@@ -48,8 +50,8 @@ class ReferralDialog(context: Context, private val workerRecord: WorkerRecord?) 
                 "https://api.whatsapp.com/send/?text=${
                     URLEncoder.encode(
                         "AI4Bharat has just launched an Android app to help collect audio data for Indian languages.\n\n" +
-                                "Download the app from the Play Store, record your voice, and contribute to preserving our linguistic heritage.\nYour participation will make a huge difference! \n\nUse the referral code: $referralCode\n\n"
-                                + "https://play.google.com/store/apps/details?id=com.ai4bharat.karya&hl=en&gl=US\n",
+                                "Download the app from the Play Store, record your voice, and contribute to preserving our linguistic heritage.\nYour participation will make a huge difference! \n\n"
+                                + "https://play.google.com/store/apps/details?id=com.ai4bharat.kathbath.lite&hl=en&gl=US&referralCode=${referralCode}\n",
                         "UTF-8"
                     )
                 }"

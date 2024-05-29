@@ -1,9 +1,11 @@
 package com.ai4bharat.kathbath.ui.dashboard
 
 import android.app.AlertDialog
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -53,6 +55,22 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        val callback = object : OnBackPressedCallback(
+            true
+        ) {
+            override fun handleOnBackPressed() {
+//                showLogoutDialog()
+                finish()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+
     private fun observeUi() {
         viewModel.dashboardUiState.observe(lifecycle, lifecycleScope) { dashboardUiState ->
             when (dashboardUiState) {
@@ -75,22 +93,22 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
             var submitted = 0
             var skipped = 0
             var available = 0
-            println("The current status is ${viewModel.taskInfoList}")
             viewModel.taskInfoList.forEach { taskInfo ->
-                println("The task info is $taskInfo")
                 val status = taskInfo.taskStatus
                 submitted += status.submittedMicrotasks
                 skipped += status.skippedMicrotasks
                 available += status.assignedMicrotasks
             }
-//             TODO Change the condition
-            if (submitted > 0 && i == 100 && skipped == 0 && available == 0) {
+            println("The current status is ${viewModel.taskInfoList}")
+            if (submitted > 0 && i == 100 && skipped == 0 && available == 0 && !viewModel.shownReferralDialog) {
                 if (viewModel.workerDetails != null) {
+                    viewModel.shownReferralDialog = true
                     val referralDialog = ReferralDialog(requireContext(), viewModel.workerDetails)
                     referralDialog.show()
                 } else {
                     println("The worker detail is ${viewModel.workerDetails}")
                 }
+                println("Showwn ${viewModel.shownReferralDialog}")
             }
             println("The total skipped is $skipped and submitted is $submitted")
         }
@@ -152,6 +170,26 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
         viewModel.getAllTasks() // TODO: Remove onResume and get taskId from scenario viewmodel (similar to onActivity Result)
     }
 
+    // Share button will be shown only if all the task are completed
+    private fun showShareButton() {
+        var submitted = 0
+        var skipped = 0
+        var available = 0
+        viewModel.taskInfoList.forEach { taskInfo ->
+            val status = taskInfo.taskStatus
+            submitted += status.submittedMicrotasks
+            skipped += status.skippedMicrotasks
+            available += status.assignedMicrotasks
+        }
+        println("The current status is ${submitted} $skipped $available")
+        if (submitted > 0 && skipped == 0 && available == 0) {
+            binding.shareAppButton.visibility = View.VISIBLE
+        } else {
+            binding.shareAppButton.visibility = View.GONE
+        }
+
+    }
+
     private fun setupWorkRequests() {
         // TODO: SHIFT IT FROM HERE
         val constraints = Constraints.Builder()
@@ -180,13 +218,17 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 
             })
 
+            shareAppButton.setOnClickListener(View.OnClickListener {
+                viewModel.shownReferralDialog = true
+                val referralDialog = ReferralDialog(requireContext(), viewModel.workerDetails)
+                referralDialog.show()
+            })
+
+
         }
     }
 
     private fun showLogoutDialog() {
-
-//        val referralDialog = ReferralDialog(requireContext())
-//        referralDialog.show()
 
         val logoutAlertDialogBuilder: AlertDialog.Builder =
             AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
@@ -223,16 +265,10 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
                 }
             })
         binding.syncCv.enable()
-//        var videoTask = 0
         data.apply {
             (binding.tasksRv.adapter as TaskListAdapter).updateList(taskInfoData)
 
-            // Get the count of sign video tasks
-//            for (task in taskInfoData) {
-//                if (task.scenarioName == ScenarioType.SIGN_LANGUAGE_VIDEO) {
-//                    videoTask += task.taskStatus.submittedMicrotasks + task.taskStatus.verifiedMicrotasks
-//                }
-//            }
+            showShareButton()
 
             // Show total credits if it is greater than 0
             if (totalRecordedDuration.first > 0 || totalRecordedDuration.second > 0) {
@@ -271,39 +307,9 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 
         }
 
-//        if (videoTask > 0) {
-//            runBlocking {
-//                val loggedInWorker = authManager.getLoggedInWorker()
-//                workerRepositoryBase.disableWorker(
-//                    loggedInWorker.idToken.toString(),
-//                    "disable",
-//                    RegisterOrUpdateWorkerRequest(loggedInWorker.extras!!)
-//                )
-//                    .catch { throwable -> Log.e("DISABLING FAILED", throwable.toString()) }
-//                    .collect { worker ->
-//                        workerRepositoryBase.upsertWorker(worker)
-//                        Toast.makeText(
-//                            context,
-//                            "You have been logged out, Thanks!.",
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//              authManager.expireSession()
-//              authManager.expireSession()
-//                    }
-//                workerRepositoryBase.upsertWorker(loggedInWorker)
-//            }
-//        authManager.expireSession()
-//        }
-
-        // expire the worker so that he is not able to submit any more tasks
-
-
         // Show a dialog box to sync with server if completed tasks and internet available
         if (requireContext().isNetworkAvailable()) {
             for (taskInfo in data.taskInfoData) {
-//        if (taskInfo.scenarioName == ScenarioType.SPEECH_VERIFICATION){
-//          binding.submitAreaDuration.invisible()
-//        }
                 if (taskInfo.taskStatus.completedMicrotasks > 0) {
                     showDialogueToSync()
                     return
