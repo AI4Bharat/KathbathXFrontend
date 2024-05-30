@@ -46,7 +46,7 @@ class SignVideoRecord : AppCompatActivity() {
 //    cameraView.set() = VideoCodec.H_263
     cameraView.audio = Audio.ON;
     cameraView.mode = Mode.VIDEO
-    cameraView.setVideoSize(SizeSelectors.minWidth(720))
+    cameraView.setVideoSize(SizeSelectors.minWidth(360))
     cameraView.addCameraListener(object : CameraListener() {
       override fun onVideoTaken(video: VideoResult) {
         super.onVideoTaken(video)
