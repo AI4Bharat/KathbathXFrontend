@@ -105,7 +105,7 @@ constructor(
     }
 
     /** UI strings */
-    private var noForcedReplay: Boolean = false
+    private var noForcedReplay: Boolean = true
 
     /** Audio recorder and media player */
     private var audioRecorder: AudioRecord? = null

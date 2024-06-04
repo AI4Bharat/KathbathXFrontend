@@ -99,7 +99,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/crowdsourceLoginPhoneNumberTextInput"
-            app:startIconDrawable="@drawable/language_icon">
+            app:startIconDrawable="@drawable/language_icon"
+            >
 
             <AutoCompleteTextView
                 android:id="@+id/crowdsourceLoginLanguage"
@@ -107,7 +108,9 @@
                 style="@style/EditTextTextStyle"
                 android:fontFamily="@font/poppins_regular"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
