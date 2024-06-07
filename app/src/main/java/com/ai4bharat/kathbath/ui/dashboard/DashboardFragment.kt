@@ -2,10 +2,13 @@ package com.ai4bharat.kathbath.ui.dashboard
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.edit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +23,7 @@ import com.ai4bharat.kathbath.databinding.FragmentDashboardBinding
 import com.ai4bharat.kathbath.ui.base.SessionFragment
 import com.ai4bharat.kathbath.utils.extensions.*
 import com.ai4bharat.kathbath.data.manager.KaryaDatabase
+import com.ai4bharat.kathbath.data.manager.SharedPreferenceManager
 import com.ai4bharat.kathbath.utils.LanguageUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +47,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
     val binding by viewBinding(FragmentDashboardBinding::bind)
     val viewModel: DashboardViewModel by viewModels()
     private lateinit var syncWorkRequest: OneTimeWorkRequest
+    private var sharedPreferenceManager: SharedPreferenceManager? = null
 
     private var dialog: AlertDialog? = null
 
@@ -62,11 +67,11 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
             true
         ) {
             override fun handleOnBackPressed() {
-//                showLogoutDialog()
                 finish()
             }
         }
 
+        sharedPreferenceManager = SharedPreferenceManager(context)
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
     }
 
@@ -75,6 +80,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
         viewModel.dashboardUiState.observe(lifecycle, lifecycleScope) { dashboardUiState ->
             when (dashboardUiState) {
                 is DashboardUiState.Success -> {
+                    println("The current available status iss ${dashboardUiState.data}")
                     showSuccessUi(dashboardUiState.data)
                 }
 
@@ -90,27 +96,6 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 
         viewModel.progress.observe(lifecycle, lifecycleScope) { i ->
             binding.syncProgressBar.progress = i
-            var submitted = 0
-            var skipped = 0
-            var available = 0
-            viewModel.taskInfoList.forEach { taskInfo ->
-                val status = taskInfo.taskStatus
-                submitted += status.submittedMicrotasks
-                skipped += status.skippedMicrotasks
-                available += status.assignedMicrotasks
-            }
-            println("The current status is ${viewModel.taskInfoList}")
-            if (submitted > 0 && i == 100 && skipped == 0 && available == 0 && !viewModel.shownReferralDialog) {
-                if (viewModel.workerDetails != null) {
-                    viewModel.shownReferralDialog = true
-                    val referralDialog = ReferralDialog(requireContext(), viewModel.workerDetails)
-                    referralDialog.show()
-                } else {
-                    println("The worker detail is ${viewModel.workerDetails}")
-                }
-                println("Showwn ${viewModel.shownReferralDialog}")
-            }
-            println("The total skipped is $skipped and submitted is $submitted")
         }
 
         viewModel.viewModelScope.launch {
@@ -170,26 +155,6 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
         viewModel.getAllTasks() // TODO: Remove onResume and get taskId from scenario viewmodel (similar to onActivity Result)
     }
 
-    // Share button will be shown only if all the task are completed
-    private fun showShareButton() {
-        var submitted = 0
-        var skipped = 0
-        var available = 0
-        viewModel.taskInfoList.forEach { taskInfo ->
-            val status = taskInfo.taskStatus
-            submitted += status.submittedMicrotasks
-            skipped += status.skippedMicrotasks
-            available += status.assignedMicrotasks
-        }
-        println("The current status is ${submitted} $skipped $available")
-        if (submitted > 0 && skipped == 0 && available == 0) {
-            binding.shareAppButton.visibility = View.VISIBLE
-        } else {
-            binding.shareAppButton.visibility = View.GONE
-        }
-
-    }
-
     private fun setupWorkRequests() {
         // TODO: SHIFT IT FROM HERE
         val constraints = Constraints.Builder()
@@ -219,7 +184,8 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
             })
 
             shareAppButton.setOnClickListener(View.OnClickListener {
-                viewModel.shownReferralDialog = true
+//                viewModel.shownReferralDialog = true
+//                setShowReferral()
                 val referralDialog = ReferralDialog(requireContext(), viewModel.workerDetails)
                 referralDialog.show()
             })
@@ -248,6 +214,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
                 authManager.expireSession()
             }
         }
+        sharedPreferenceManager?.clearAllValue()
         findNavController().navigate(R.id.action_dashboardActivity_to_login)
     }
 
@@ -257,18 +224,29 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
             .enqueueUniqueWork(UNIQUE_SYNC_WORK_NAME, ExistingWorkPolicy.KEEP, syncWorkRequest)
     }
 
+    private fun showReferralDialog(completed: Int, submitted: Int, assigned: Int) {
+        val referralDialogShown = sharedPreferenceManager!!.getBooleanValue("referralDialogShown")
+        println("COMPLETED AND SUBMITTED $referralDialogShown")
+        if (completed > 0 && submitted > 0 && assigned == 0 && completed == submitted
+            && !referralDialogShown
+        ) {
+            val referralDialog = ReferralDialog(requireContext(), viewModel.workerDetails)
+            referralDialog.show()
+            sharedPreferenceManager!!.setBooleanValue("referralDialogShown", true)
+        }
+    }
+
     private fun showSuccessUi(data: DashboardStateSuccess) {
         WorkManager.getInstance(requireContext()).getWorkInfoByIdLiveData(syncWorkRequest.id)
             .observe(viewLifecycleOwner, Observer { workInfo ->
                 if (workInfo == null || workInfo.state == WorkInfo.State.SUCCEEDED || workInfo.state == WorkInfo.State.FAILED) {
                     hideLoading() // Only hide loading if no work is in queue
                 }
+                println("The job was done ${data.taskInfoData}")
             })
         binding.syncCv.enable()
         data.apply {
             (binding.tasksRv.adapter as TaskListAdapter).updateList(taskInfoData)
-
-            showShareButton()
 
             // Show total credits if it is greater than 0
             if (totalRecordedDuration.first > 0 || totalRecordedDuration.second > 0) {
@@ -290,20 +268,23 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 //        binding.syncDurationOnPhone.text = "[On Phone: "+totalRecordedDuration.second.toString()+" tasks]"
                 var completed = 0
                 var submitted = 0
+                var assigned = 0
                 for (task in taskInfoData) {
                     completed += task.taskStatus.completedMicrotasks
                     submitted += task.taskStatus.submittedMicrotasks + task.taskStatus.verifiedMicrotasks
+                    assigned += task.taskStatus.assignedMicrotasks
 
                 }
                 completed += submitted
-                println("COMPLETED AND SUBMITTED is $completed $submitted")
+                showReferralDialog(completed, submitted, assigned)
+
+                println("COMPLETED AND SUBMITTED is $completed $submitted $assigned IS")
                 binding.syncDurationOnPhone.text = "[On Phone: $completed  Tasks]"
                 binding.syncDuration.text = "[Uploaded: $submitted Tasks]"
 
             } else {
                 binding.rupeesEarnedCl.gone()
             }
-
 
         }
 

@@ -47,13 +47,14 @@ class ReferralDialog(context: Context, private val workerRecord: WorkerRecord?) 
         val referralCode: String? = createReferralCode()
         if (referralCode != null) {
             val encodedUrl =
-                "https://api.whatsapp.com/send/?text=${
-                    URLEncoder.encode(
-                        "AI4Bharat has just launched an Android app to help collect audio data for Indian languages.\n\n" +
-                                "Download the app from the Play Store, record your voice, and contribute to preserving our linguistic heritage.\nYour participation will make a huge difference! \n\n"
-                                + "https://play.google.com/store/apps/details?id=com.ai4bharat.kathbath.lite&hl=en&gl=US&referralCode=${referralCode}\n",
-                        "UTF-8"
-                    )
+                "https://api.whatsapp.com/send/?phone=15550990252&text=${
+                    URLEncoder.encode("Hello", "UTF-8")
+//                    URLEncoder.encode(
+//                        "AI4Bharat has just launched an Android app to help collect audio data for Indian languages.\n\n" +
+//                                "Download the app from the Play Store, record your voice, and contribute to preserving our linguistic heritage.\nYour participation will make a huge difference! \n\n"
+//                                + "https://play.google.com/store/apps/details?id=com.ai4bharat.kathbath.lite&hl=en&gl=US&referralCode=${referralCode}\n",
+//                        "UTF-8"
+//                    )
                 }"
             val webpage: Uri = Uri.parse(encodedUrl)
             val intent = Intent(Intent.ACTION_VIEW, webpage)

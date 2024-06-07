@@ -40,8 +40,7 @@ class MainActivity : AppCompatActivity() {
         hideStatusBar()
         updateApp(FORCE_UPDATE)
         setContentView(binding.root)
-        //getReferralCode()
-
+        getReferralCode()
     }
 
 
@@ -61,6 +60,11 @@ class MainActivity : AppCompatActivity() {
                         val referrerClickTime: Long = response.referrerClickTimestampSeconds
                         val appInstallTime: Long = response.installBeginTimestampServerSeconds
                         val instantExperiencedLaunched: Boolean = response.googlePlayInstantParam
+
+                        println(
+                            "The referral info is $referrerUrl $referrerClickTime $appInstallTime" +
+                                    "$instantExperiencedLaunched"
+                        )
 
                         referrerClient.endConnection()
                     }

@@ -32,7 +32,6 @@ constructor(
         compareBy<TaskInfo> { taskInfo -> taskInfo.taskID }
 
     var workerDetails: WorkerRecord? = null
-    var shownReferralDialog: Boolean = false
 
     suspend fun getWorkerDetails() {
         val worker = authManager.getLoggedInWorker()
@@ -49,6 +48,7 @@ constructor(
             )
         )
     val dashboardUiState = _dashboardUiState.asStateFlow()
+
 
     private val _progress: MutableStateFlow<Int> =
         MutableStateFlow(0)
