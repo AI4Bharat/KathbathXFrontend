@@ -65,6 +65,7 @@ class SplashScreenFragment : Fragment(R.layout.fragment_splash_screen) {
     private fun navigateToAccessCodeFlow() {
 //    navController.navigate(R.id.action_splashScreenFragment_to_accessCodeFragment)
         navController.navigate(R.id.action_splashScreenFragment_to_login)
+//        navController.navigate(R.id.action_splashScreenFragment_to_speechImageDataFragment)
     }
 
     private fun navigateToDashboard() {

@@ -3,19 +3,16 @@ package com.ai4bharat.kathbath.ui.scenarios.speechData
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentResolver
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.webkit.MimeTypeMap
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
@@ -36,7 +33,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.microtask_common_back_button.view.*
 import kotlinx.android.synthetic.main.microtask_common_next_button.view.*
 import kotlinx.android.synthetic.main.microtask_speech_data.*
-import kotlinx.android.synthetic.main.microtask_speech_data.view.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File

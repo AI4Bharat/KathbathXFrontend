@@ -366,10 +366,14 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
             val total = status.assignedMicrotasks + completed
             var action = with(DashboardFragmentDirections) {
                 when (task.scenarioName) {
-                    ScenarioType.SPEECH_DATA -> actionDashboardActivityToSpeechDataMainFragment(
-                        taskId,
-                        completed,
-                        total
+//                    ScenarioType.SPEECH_DATA -> actionDashboardActivityToSpeechDataMainFragment(
+//                        taskId,
+//                        completed,
+//                        total
+//                    )
+
+                    ScenarioType.SPEECH_DATA -> actionDashboardActivityToSpeechImageDataFragment(
+                        taskId, completed, total
                     )
 
                     ScenarioType.SPEECH_VERIFICATION -> actionDashboardActivityToSpeechVerificationFragment(

@@ -16,8 +16,6 @@ import com.ai4bharat.kathbath.ui.scenarios.speechData.SpeechDataMainFragmentArgs
 import com.ai4bharat.kathbath.ui.scenarios.speechVerification.SpeechVerificationViewModel.ButtonState
 import com.ai4bharat.kathbath.utils.extensions.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_otp.view.*
-import kotlinx.android.synthetic.main.item_task.*
 import kotlinx.android.synthetic.main.microtask_common_back_button.view.*
 import kotlinx.android.synthetic.main.microtask_common_next_button.view.*
 import kotlinx.android.synthetic.main.microtask_common_playback_progress.*
@@ -26,7 +24,6 @@ import kotlinx.android.synthetic.main.microtask_speech_verification.*
 import kotlinx.android.synthetic.main.microtask_speech_verification.commonCl1
 import kotlinx.android.synthetic.main.microtask_speech_verification.nextBtnCv
 import kotlinx.android.synthetic.main.microtask_speech_verification.sentenceTv
-import kotlinx.android.synthetic.main.microtask_speech_verification.view.*
 import kotlinx.android.synthetic.main.microtask_speech_verification.wrongAgeGroup
 import kotlinx.android.synthetic.main.microtask_speech_verification.wrongGender
 

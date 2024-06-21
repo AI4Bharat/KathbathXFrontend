@@ -82,10 +82,12 @@ constructor(
     }
 
     open fun setupViewModel(taskId: String, completed: Int, total: Int) {
+        println("Setting up view model oneee ")
         this.taskId = taskId
         _totalAssignments.value = total
         _completedAssignments.value = completed
 
+        println("Setting up view model two ")
         // TODO: Shift this to init once we move to viewmodel factory
         runBlocking {
             task = taskRepository.getById(taskId)
@@ -94,7 +96,7 @@ constructor(
                     task.id,
                     arrayListOf(MicrotaskAssignmentStatus.ASSIGNED)
                 ) // TODO: Generalise the includeCompleted parameter (Can be done when we have viewModel factory)
-
+            println("Setting up view model three $microtaskAssignmentIDs")
             // Get Skipped Assignments
             microtaskAssignmentIDs = microtaskAssignmentIDs +
                     assignmentRepository.getIDsForTask(
@@ -443,6 +445,7 @@ constructor(
     protected fun getAssignmentScratchFile(params: Pair<String, String>): File {
         val filePath = getAssignmentScratchFilePath(params)
         val file = File(filePath)
+        println("FILEPATH iS ${filePath}")
         if (file.exists()) file.delete()
         file.createNewFile()
         return file
