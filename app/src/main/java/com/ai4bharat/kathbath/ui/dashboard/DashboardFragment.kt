@@ -372,7 +372,11 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
 //                        total
 //                    )
 
-                    ScenarioType.SPEECH_DATA -> actionDashboardActivityToSpeechImageDataFragment(
+//                    ScenarioType.SPEECH_DATA -> actionDashboardActivityToSpeechImageDataFragment(
+//                        taskId, completed, total
+//                    )
+
+                    ScenarioType.SPEECH_DATA -> actionDashboardActivityToSpeechAudioDataFragment(
                         taskId, completed, total
                     )
 

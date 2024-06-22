@@ -92,6 +92,17 @@
                 android:name="total"
                 app:argType="integer" />
         </action>
+        <action
+            android:id="@+id/action_dashboardActivity_to_speechAudioDataFragment"
+            app:destination="@id/speechAudioDataFragment">
+            <argument android:name="taskId" />
+            <argument
+                android:name="completed"
+                app:argType="integer" />
+            <argument
+                android:name="total"
+                app:argType="integer" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/speechDataMainFragment"
@@ -177,6 +188,24 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_speechImageDataFragment_to_dashboardActivity"
+            app:destination="@id/dashboardActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/speechAudioDataFragment"
+        android:name="com.ai4bharat.kathbath.ui.scenarios.speechAudioData.SpeechAudioDataFragment"
+        android:label="microtask_speech_audio_data"
+        tools:layout="@layout/microtask_speech_audio_data">
+        <argument
+            android:name="taskId"
+            app:argType="string" />
+        <argument
+            android:name="completed"
+            app:argType="integer" />
+        <argument
+            android:name="total"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_speechAudioDataFragment_to_dashboardActivity"
             app:destination="@id/dashboardActivity" />
     </fragment>
 </navigation>

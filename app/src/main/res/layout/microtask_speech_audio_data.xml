@@ -1,13 +1,282 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.scenarios.speechAudioData.SpeechAudioData">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.scenarios.speechAudioData.SpeechAudioDataFragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="Hello" />
 
-</FrameLayout>
+    <include
+        android:id="@+id/microtaskSpeechAudioTb"
+        layout="@layout/microtask_common_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/microtaskSpeechAudioInputAudioLayout_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        android:paddingVertical="@dimen/_4sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/microtaskSpeechAudioTb">
+
+        <ProgressBar
+            android:id="@+id/microtaskSpeechAudioInputAudioProgressBar_1"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/microtaskSpeechAudioInputAudioPlayButton_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/microtaskSpeechAudioInputAudioPlayButton_1" />
+
+        <ImageButton
+            android:id="@+id/microtaskSpeechAudioInputAudioPlayButton_1"
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/baseline_play_circle_outline_24"
+            android:text="Play Audio"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/microtaskSpeechAudioInputAudioLayout_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        android:paddingVertical="@dimen/_4sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/microtaskSpeechAudioInputAudioLayout_1">
+
+        <ProgressBar
+            android:id="@+id/microtaskSpeechAudioInputAudioProgressBar_2"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/microtaskSpeechAudioInputAudioPlayButton_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/microtaskSpeechAudioInputAudioPlayButton_2" />
+
+        <ImageButton
+            android:id="@+id/microtaskSpeechAudioInputAudioPlayButton_2"
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/baseline_play_circle_outline_24"
+            android:text="Play Audio"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/microtaskSpeechAudioconstraintLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/microtaskSpeechAudiobuttonGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/microtaskSpeechAudioInputAudioLayout_2"
+        app:layout_constraintVertical_bias="1.0">
+
+        <TextView
+            android:id="@+id/microtaskSpeechAudioinstructionTv"
+            style="@style/MicrotaskInstructionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/c_red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/speech_recording_instruction" />
+
+
+        <TextView
+            android:id="@+id/microtaskSpeechAudiorecordSecondsTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/c_red"
+            android:textSize="@dimen/_44sdp"
+            app:layout_constraintEnd_toStartOf="@+id/microtaskSpeechAudiorecordCentiSecondsTv"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/microtaskSpeechAudioinstructionTv" />
+
+        <TextView
+            android:id="@+id/microtaskSpeechAudiorecordCentiSecondsTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/c_red"
+            android:textSize="@dimen/_32sdp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/microtaskSpeechAudiorecordSecondsTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/microtaskSpeechAudiorecordSecondsTv" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/microtaskSpeechAudioplaybackProgressPb"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progressBackgroundTint="@color/c_light_grey"
+        android:progressTint="@color/c_red"
+        android:scaleY="2"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/microtaskSpeechAudiobuttonGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:clipToPadding="false"
+        android:paddingVertical="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include
+            android:id="@+id/microtaskSpeechAudioBackButton"
+            layout="@layout/microtask_common_back_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/microtaskSpeechAudioRecordButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/microtaskSpeechAudioRecordButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/ic_mic_enabled"
+            app:layout_constraintBottom_toBottomOf="@+id/microtaskSpeechAudioBackButton"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/microtaskSpeechAudioPlayButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/microtaskSpeechAudioBackButton"
+            app:layout_constraintTop_toTopOf="@+id/microtaskSpeechAudioBackButton" />
+
+        <ImageButton
+            android:id="@+id/microtaskSpeechAudioPlayButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/ic_speaker_enabled"
+            app:layout_constraintBottom_toBottomOf="@+id/microtaskSpeechAudioRecordButton"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toStartOf="@+id/microtaskSpeechAudioNextButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/microtaskSpeechAudioRecordButton"
+            app:layout_constraintTop_toTopOf="@+id/microtaskSpeechAudioRecordButton" />
+
+        <include
+            android:id="@+id/microtaskSpeechAudioNextButton"
+            layout="@layout/microtask_common_next_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/microtaskSpeechAudioPlayButton"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/microtaskSpeechAudioPlayButton"
+            app:layout_constraintTop_toTopOf="@+id/microtaskSpeechAudioPlayButton" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:id="@+id/constraintLayout3"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/buttonGroup"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent">-->
+
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/backPointerIv"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@drawable/ic_pointer"-->
+    <!--            android:rotation="180"-->
+    <!--            android:visibility="visible"-->
+    <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--            app:layout_constraintRight_toLeftOf="@id/recordPointerIv"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/recordPointerIv"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@drawable/ic_pointer"-->
+    <!--            android:rotation="180"-->
+    <!--            android:visibility="visible"-->
+    <!--            app:layout_constraintLeft_toRightOf="@id/backPointerIv"-->
+    <!--            app:layout_constraintRight_toLeftOf="@id/playPointerIv"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/playPointerIv"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@drawable/ic_pointer"-->
+    <!--            android:rotation="180"-->
+    <!--            android:visibility="visible"-->
+    <!--            app:layout_constraintLeft_toRightOf="@id/recordPointerIv"-->
+    <!--            app:layout_constraintRight_toLeftOf="@id/nextPointerIv"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/nextPointerIv"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@drawable/ic_pointer"-->
+    <!--            android:rotation="180"-->
+    <!--            android:visibility="visible"-->
+    <!--            app:layout_constraintLeft_toRightOf="@id/playPointerIv"-->
+    <!--            app:layout_constraintRight_toRightOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+

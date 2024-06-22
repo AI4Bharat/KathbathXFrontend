@@ -70,7 +70,7 @@ class SpeechImageDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
         setupObservers()
         viewModel.setupSpeechDataViewModel()
 
-        //TODO Move this to setUpMicrotask()
+        // TODO("move this to setupMicrotask")
         viewModel.setUpInputAudio(requireContext(), R.raw.test)
 
         setupUI()

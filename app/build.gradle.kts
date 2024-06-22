@@ -140,9 +140,6 @@ dependencies {
     implementation(Dependencies.AndroidX.Navigation.uiKtx)
     implementation("com.google.android.play:core-ktx:1.8.1")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
-    implementation("androidx.fragment:fragment-ktx:1.6.2")
 
     kapt(Dependencies.AndroidX.Room.roomCompiler)
 
