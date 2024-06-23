@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.ai4bharat.kathbath.R
 import com.ai4bharat.kathbath.data.model.karya.enums.AssistantAudio
+import com.ai4bharat.kathbath.data.model.karya.enums.InputAudioPlayerState
 import com.ai4bharat.kathbath.ui.scenarios.common.BaseMTRendererFragment
 import com.ai4bharat.kathbath.ui.scenarios.speechData.getInstructionSentence
 import com.ai4bharat.kathbath.utils.LanguageUtils
@@ -138,7 +139,7 @@ class SpeechImageDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
 
         viewModel.inputAudioPlayerState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                SpeechImageDataViewModel.InputAudioPlayerState.PLAYING -> {
+                InputAudioPlayerState.PLAYING -> {
                     inputAudioPlayButton.setBackgroundResource(R.drawable.baseline_pause_circle_outline_24)
                 }
 
@@ -434,7 +435,7 @@ class SpeechImageDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
 //                R.raw.test
 //            )
             when (viewModel.inputAudioPlayerState.value) {
-                SpeechImageDataViewModel.InputAudioPlayerState.PLAYING ->
+                InputAudioPlayerState.PLAYING ->
                     viewModel.controlInputAudio("Pause")
 
                 else -> viewModel.controlInputAudio("Start")
@@ -444,6 +445,7 @@ class SpeechImageDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
 
         inputAudioProgressBar.max = 100
     }
+
 
 }
 

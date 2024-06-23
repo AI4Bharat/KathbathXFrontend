@@ -35,20 +35,57 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/microtaskSpeechAudioInputAudioPlayButton_1"
+            android:progressTint="#FF5722"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/microtaskSpeechAudioInputAudioPlayButton_1" />
+            app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
         <ImageButton
             android:id="@+id/microtaskSpeechAudioInputAudioPlayButton_1"
-            android:layout_width="24dp"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
             android:background="@drawable/baseline_play_circle_outline_24"
             android:text="Play Audio"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/microtaskSpeechAudioInputAudioPlayButton_1TotalTime"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/microtaskSpeechAudioInputAudioPlayButton_1CurrentTime"
+            app:layout_constraintTop_toBottomOf="@+id/microtaskSpeechAudioInputAudioProgressBar_1" />
+
+        <TextView
+            android:id="@+id/microtaskSpeechAudioInputAudioPlayButton_1CurrentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="00:00"
+            style="@style/NormalTextStyle"
+            app:layout_constraintBottom_toBottomOf="@+id/microtaskSpeechAudioInputAudioPlayButton_1"
+            app:layout_constraintEnd_toStartOf="@+id/microtaskSpeechAudioInputAudioPlayButton_1"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/microtaskSpeechAudioInputAudioPlayButton_1" />
+
+        <TextView
+            android:id="@+id/microtaskSpeechAudioInputAudioPlayButton_1TotalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="00:00"
+            style="@style/NormalTextStyle"
+            app:layout_constraintBaseline_toBaselineOf="@+id/microtaskSpeechAudioInputAudioPlayButton_1CurrentTime"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/microtaskSpeechAudioInputAudioPlayButton_1" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/HeadingTextStyle"
+            android:textSize="@dimen/_14sdp"
+            android:text="Audio 1"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -59,6 +96,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_8sdp"
+        android:layout_marginTop="16dp"
         android:paddingVertical="@dimen/_4sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,20 +107,57 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/microtaskSpeechAudioInputAudioPlayButton_2"
+            android:progressTint="#FF5722"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/microtaskSpeechAudioInputAudioPlayButton_2" />
+            app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
         <ImageButton
             android:id="@+id/microtaskSpeechAudioInputAudioPlayButton_2"
-            android:layout_width="24dp"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
             android:background="@drawable/baseline_play_circle_outline_24"
             android:text="Play Audio"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/microtaskSpeechAudioInputAudioPlayButton_2TotalTime"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/microtaskSpeechAudioInputAudioPlayButton_2CurrentTime"
+            app:layout_constraintTop_toBottomOf="@id/microtaskSpeechAudioInputAudioProgressBar_2" />
+
+        <TextView
+            android:id="@+id/microtaskSpeechAudioInputAudioPlayButton_2CurrentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="00:00"
+            style="@style/NormalTextStyle"
+            app:layout_constraintBottom_toBottomOf="@+id/microtaskSpeechAudioInputAudioPlayButton_2"
+            app:layout_constraintEnd_toStartOf="@+id/microtaskSpeechAudioInputAudioPlayButton_2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/microtaskSpeechAudioInputAudioPlayButton_2" />
+
+        <TextView
+            android:id="@+id/microtaskSpeechAudioInputAudioPlayButton_2TotalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="00:00"
+            style="@style/NormalTextStyle"
+            app:layout_constraintBaseline_toBaselineOf="@+id/microtaskSpeechAudioInputAudioPlayButton_2CurrentTime"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/microtaskSpeechAudioInputAudioPlayButton_2" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Audio 2"
+            style="@style/SubHeadingTextStyle"
+            android:textSize="@dimen/_14sdp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -92,6 +167,7 @@
         android:id="@+id/microtaskSpeechAudioconstraintLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_8sdp"
         app:layout_constraintBottom_toTopOf="@+id/microtaskSpeechAudiobuttonGroup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -137,23 +213,21 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/microtaskSpeechAudiorecordSecondsTv" />
 
+        <ProgressBar
+            android:id="@+id/microtaskSpeechAudioplaybackProgressPb"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progressBackgroundTint="@color/c_light_grey"
+            android:progressTint="@color/c_red"
+            android:scaleY="2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/microtaskSpeechAudiorecordSecondsTv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ProgressBar
-        android:id="@+id/microtaskSpeechAudioplaybackProgressPb"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:max="100"
-        android:progressBackgroundTint="@color/c_light_grey"
-        android:progressTint="@color/c_red"
-        android:scaleY="2"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="parent" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

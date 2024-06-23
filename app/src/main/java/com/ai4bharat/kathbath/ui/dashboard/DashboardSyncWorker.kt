@@ -16,7 +16,7 @@ import com.ai4bharat.kathbath.data.repo.AssignmentRepository
 import com.ai4bharat.kathbath.data.repo.KaryaFileRepository
 import com.ai4bharat.kathbath.data.repo.MicroTaskRepository
 import com.ai4bharat.kathbath.injection.qualifier.FilesDir
-import com.ai4bharat.kathbath.utils.DateUtils
+import com.ai4bharat.kathbath.utils.DateTimeUtils
 import com.ai4bharat.kathbath.utils.FileUtils
 import com.ai4bharat.kathbath.utils.MicrotaskAssignmentOutput
 import com.ai4bharat.kathbath.utils.MicrotaskInput
@@ -155,7 +155,7 @@ class DashboardSyncWorker(
             var allFilesExist = true
             for (path in outputFilePaths) {
                 if (!File(path).exists()) {
-                    assignmentRepository.markAssigned(assignment.id, DateUtils.getCurrentDate())
+                    assignmentRepository.markAssigned(assignment.id, DateTimeUtils.getCurrentDate())
                     warningMsg = applicationContext.getString(R.string.reset_assignment_warning)
                     allFilesExist = false
                     break

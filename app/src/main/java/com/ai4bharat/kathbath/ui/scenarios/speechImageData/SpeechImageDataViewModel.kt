@@ -18,6 +18,7 @@ import androidx.lifecycle.viewModelScope
 import com.ai4bharat.kathbath.data.manager.AuthManager
 import com.ai4bharat.kathbath.data.model.karya.WorkerRecord
 import com.ai4bharat.kathbath.data.model.karya.enums.AudioRecordingState
+import com.ai4bharat.kathbath.data.model.karya.enums.InputAudioPlayerState
 import com.ai4bharat.kathbath.data.model.karya.enums.MicrotaskAssignmentStatus
 import com.ai4bharat.kathbath.data.repo.AssignmentRepository
 import com.ai4bharat.kathbath.data.repo.MicroTaskRepository
@@ -87,14 +88,6 @@ constructor(
         DISABLED,
         ENABLED,
         ACTIVE
-    }
-
-    enum class InputAudioPlayerState {
-        DISABLED,
-        PREPARED,
-        PLAYING,
-        PAUSED,
-        RELEASED
     }
 
     /** Activity states */

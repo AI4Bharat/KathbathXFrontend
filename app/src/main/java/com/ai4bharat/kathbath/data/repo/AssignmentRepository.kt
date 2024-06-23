@@ -12,7 +12,7 @@ import com.ai4bharat.kathbath.data.service.MicroTaskAssignmentAPI
 import com.ai4bharat.kathbath.data.model.karya.enums.MicrotaskAssignmentStatus
 import com.ai4bharat.kathbath.data.model.karya.enums.ScenarioType
 import com.ai4bharat.kathbath.data.model.karya.modelsExtra.SpeechDataReport
-import com.ai4bharat.kathbath.utils.DateUtils
+import com.ai4bharat.kathbath.utils.DateTimeUtils
 import com.google.gson.JsonParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -38,10 +38,10 @@ constructor(
             error("Either Access Code or ID Token is required")
         }
 
-        print("NEW ASSIGN: fetching")
+        println("NEW ASSIGN: fetching ${idToken}")
         val response = assignmentAPI.getNewAssignments(idToken, from)
         val assignmentResponse = response.body()
-        print("NEW ASSIGN: result $assignmentResponse ${response.code()}")
+        println("NEW ASSIGN: result $assignmentResponse")
 
         if (!response.isSuccessful) {
             error("Failed to get assignments")
@@ -248,7 +248,7 @@ constructor(
     }
 
     suspend fun updateExpired(worker_id: String) {
-        val currentTime = DateUtils.getCurrentDate()
+        val currentTime = DateTimeUtils.getCurrentDate()
         assignmentDaoExtra.updateExpired(worker_id, currentTime)
     }
 

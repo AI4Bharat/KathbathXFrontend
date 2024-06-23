@@ -13,7 +13,7 @@ import com.ai4bharat.kathbath.data.model.karya.enums.MicrotaskAssignmentStatus
 import com.ai4bharat.kathbath.data.repo.AssignmentRepository
 import com.ai4bharat.kathbath.data.repo.MicroTaskRepository
 import com.ai4bharat.kathbath.data.repo.TaskRepository
-import com.ai4bharat.kathbath.utils.DateUtils
+import com.ai4bharat.kathbath.utils.DateTimeUtils
 import com.ai4bharat.kathbath.utils.FileUtils
 import com.ai4bharat.kathbath.utils.MicrotaskAssignmentOutput
 import com.ai4bharat.kathbath.utils.MicrotaskInput
@@ -149,7 +149,7 @@ constructor(
     /** Add a string message to the log */
     protected fun log(message: String) {
         val logObj = JsonObject()
-        val currentTime = DateUtils.getCurrentDate()
+        val currentTime = DateTimeUtils.getCurrentDate()
         logObj.add("ts", Gson().toJsonTree(currentTime))
         logObj.add("message", Gson().toJsonTree(message))
         logs.add(logObj)
@@ -158,7 +158,7 @@ constructor(
     /** Add a string message to the log */
     protected fun log(obj: JsonObject) {
         val logObj = JsonObject()
-        val currentTime = DateUtils.getCurrentDate()
+        val currentTime = DateTimeUtils.getCurrentDate()
         logObj.addProperty("ts", currentTime)
         logObj.add("message", obj)
         logs.add(logObj)
@@ -204,7 +204,7 @@ constructor(
                 microtaskAssignmentIDs[currentAssignmentIndex],
                 output,
                 logObj,
-                date = DateUtils.getCurrentDate()
+                date = DateTimeUtils.getCurrentDate()
             )
         }
 
@@ -218,7 +218,7 @@ constructor(
         withContext(Dispatchers.IO) {
             assignmentRepository.markSkip(
                 microtaskAssignmentIDs[currentAssignmentIndex],
-                date = DateUtils.getCurrentDate()
+                date = DateTimeUtils.getCurrentDate()
             )
         }
 
@@ -236,7 +236,7 @@ constructor(
         withContext(Dispatchers.IO) {
             assignmentRepository.markExpire(
                 microtaskAssignmentIDs[currentAssignmentIndex],
-                date = DateUtils.getCurrentDate()
+                date = DateTimeUtils.getCurrentDate()
             )
         }
 
@@ -318,7 +318,7 @@ constructor(
 
             // Check if the current microtask is expired
             if (!(currentMicroTask.deadline).isNullOrEmpty()
-                && (currentMicroTask.deadline!!) < DateUtils.getCurrentDate()
+                && (currentMicroTask.deadline!!) < DateTimeUtils.getCurrentDate()
             ) {
                 // Mark the microtask as expired
                 expireAndSaveCurrentMicrotask()
