@@ -42,7 +42,6 @@ import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImageBac
 import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImageNextButton
 import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImagePlayButton
 import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImageRecordButton
-import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImageSentenceTv
 import kotlinx.android.synthetic.main.microtask_common_back_button.view.backIv
 import kotlinx.android.synthetic.main.microtask_common_next_button.view.nextIv
 import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImageCurrentTime
@@ -76,12 +75,8 @@ class SpeechImageDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
 
         setupObservers()
         viewModel.setupSpeechDataViewModel()
-
-        // TODO("move this to setupMicrotask")
         setupUI()
-
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { viewModel.onBackPressed() }
-//        viewModel.setUpInputAudio(requireContext(), R.raw.test)
     }
 
     private fun setupObservers() {
@@ -89,11 +84,10 @@ class SpeechImageDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
         viewModel.inputImageSource.observe(viewLifecycleOwner) {
             val imgFile = java.io.File(it)
             if (imgFile.exists()) {
-                println("SID Image exist ${imgFile.absolutePath}")
                 val bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
                 speechImageImageView.setImageBitmap(bitmap)
             } else {
-                println("SID Image doesn't exist")
+                TODO("Put a dummy image")
             }
         }
 
@@ -119,13 +113,6 @@ class SpeechImageDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
         viewModel.inputAudioPlayerTimestamp.observe(viewLifecycleOwner) {
             speechImageCurrentTime.text = it.first
             speechImageTotalTime.text = it.second
-        }
-
-        viewModel.inputAudioPath.observe(
-            viewLifecycleOwner.lifecycle,
-            viewLifecycleScope
-        ) { audioPath ->
-            println("The audiopath is $audioPath")
         }
 
         viewModel.backBtnState.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { state ->
@@ -203,10 +190,10 @@ class SpeechImageDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
             }
         }
 
-        viewModel.sentenceTvText.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { text ->
-            speechImageSentenceTv.text = text
-            speechImageSentenceTv.movementMethod = ScrollingMovementMethod()
-        }
+//        viewModel.sentenceTvText.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { text ->
+//            speechImageSentenceTv.text = text
+//            speechImageSentenceTv.movementMethod = ScrollingMovementMethod()
+//        }
 
         viewModel.recordSecondsTvText.observe(
             viewLifecycleOwner.lifecycle,
@@ -269,17 +256,17 @@ class SpeechImageDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
     }
 
     private fun playRecordPrompt() {
-        val oldColor = speechImageSentenceTv.currentTextColor
+//        val oldColor = speechImageSentenceTv.currentTextColor
 
         assistant.playAssistantAudio(
             AssistantAudio.RECORD_SENTENCE,
             uiCue = {
-                speechImageSentenceTv.setTextColor(Color.parseColor("#CC6666"))
+//                speechImageSentenceTv.setTextColor(Color.parseColor("#CC6666"))
                 sentencePointerIv.visible()
             },
             onCompletionListener = {
                 lifecycleScope.launch {
-                    speechImageSentenceTv.setTextColor(oldColor)
+//                    speechImageSentenceTv.setTextColor(oldColor)
                     sentencePointerIv.invisible()
                     delay(500)
                     playRecordAction()
@@ -451,6 +438,9 @@ class SpeechImageDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
         speechImageRecordButton.setOnClickListener { viewModel.handleRecordClick() }
         speechImagePlayButton.setOnClickListener { viewModel.handlePlayClick() }
 
+        speechImageNextButton.setOnClickListener { viewModel.handleNextClick() }
+        speechImageBackButton.setOnClickListener { viewModel.handleBackClick() }
+
         inputAudioPlayButton.setOnClickListener {
             when (viewModel.inputAudioPlayerState.value) {
                 InputAudioPlayerState.PLAYING ->
@@ -462,7 +452,15 @@ class SpeechImageDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
 
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.cleanupOnStop()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.resetOnResume()
+    }
 }
 
 

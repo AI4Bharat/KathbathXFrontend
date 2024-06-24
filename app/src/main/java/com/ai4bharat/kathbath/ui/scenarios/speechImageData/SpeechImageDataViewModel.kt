@@ -283,9 +283,9 @@ constructor(
         }
     }
 
-
     private fun setupInputAudioAndImage() {
 
+        println("SIDDD ${currentMicroTask.input}")
         val inputAudioPromptFileName = currentMicroTask.input.asJsonObject.getAsJsonObject("files")
             .get("audio_prompt").toString()
         val inputImagePromptFileName = currentMicroTask.input.asJsonObject.getAsJsonObject("files")
@@ -351,7 +351,6 @@ constructor(
         getFileDur(scratchRecordingFilePath)
         releasePlayer()
 //    setButtonStates(ENABLED,ENABLED,ENABLED,ENABLED)
-
 
     }
 
@@ -785,6 +784,7 @@ constructor(
     /** On assistant click, take user through the recording process */
     fun onAssistantClick() {
 
+        println("SADD# assistant")
         when (activityState) {
             ActivityState.INIT -> {
                 viewModelScope.launch {
@@ -1236,6 +1236,7 @@ constructor(
     private fun resetRecordingLength(duration: Int? = null) {
         viewModelScope.launch {
             val milliseconds = duration ?: samplesToTime(totalRecordedBytes / 2)
+            println("SADD#D -- $duration $milliseconds $totalRecordedBytes")
             val centiSeconds = (milliseconds / 10) % 100
             val seconds = milliseconds / 1000
             recordingLength = milliseconds.toFloat() / 1000
@@ -1274,6 +1275,7 @@ constructor(
 
                     preRecordBufferConsumed[currentPreRecordBufferIndex] += readBytes
 
+//                    println("SADD# readbytes remainding $readBytes $remainingBytes")
                     if (readBytes == remainingBytes) {
                         currentPreRecordBufferIndex = 1 - currentPreRecordBufferIndex
                         preRecordBufferConsumed[currentPreRecordBufferIndex] = 0
@@ -1348,13 +1350,16 @@ constructor(
                     var currentBufferBytes = preRecordBufferConsumed[bufferIndex]
                     val otherBufferBytes = preRecordBufferConsumed[otherIndex]
 
+                    println("SADD# finishRecordingAndFinalizeWavFile -2 $otherIndex ${preRecordBufferConsumed[0]} ${preRecordBufferConsumed[1]} $totalRecordedBytes $otherIndex $otherBufferBytes")
                     if (currentBufferBytes < 0) {
                         currentBufferBytes = 0
                     }
 
+                    println("SADD# finishRecordingAndFinalizeWavFile -1 $totalRecordedBytes $otherBufferBytes")
                     val currentBuffer = preRecordBuffer[bufferIndex]
                     val otherBuffer = preRecordBuffer[otherIndex]
 
+                    println("SADD# finishRecordingAndFinalizeWavFile 1 $totalRecordedBytes $otherBufferBytes")
                     // If other buffer is not empty, first write tail from other buffer
                     if (otherBufferBytes != 0) {
                         scratchRecordingFile.write(
@@ -1365,11 +1370,13 @@ constructor(
                         totalRecordedBytes = maxPreRecordBytes - currentBufferBytes
                     }
 
+                    println("SADD# finishRecordingAndFinalizeWavFile 2 $totalRecordedBytes")
                     // write current buffer
                     scratchRecordingFile.write(currentBuffer, 0, currentBufferBytes)
                     totalRecordedBytes += currentBufferBytes
 
                     /** Write the main record buffer */
+                    println("SADD# finishRecordingAndFinalizeWavFile 3 $totalRecordedBytes ${recordBuffers.lastIndex} $_recorderBufferBytes")
                     for (i in 0 until recordBuffers.lastIndex) {
                         scratchRecordingFile.write(recordBuffers[i], 0, _recorderBufferBytes)
                         totalRecordedBytes += _recorderBufferBytes

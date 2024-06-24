@@ -7,6 +7,8 @@ import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -50,7 +52,6 @@ import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImageBac
 import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImageNextButton
 import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImagePlayButton
 import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImageRecordButton
-import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImageSentenceTv
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -65,26 +66,20 @@ class SpeechAudioDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
         viewModel.setupViewModel(args.taskId, args.completed, args.total)
-        return super.onCreateView(inflater, container, savedInstanceState)
+        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupListener()
-        // TODO Show/Hide the extra audio player based on the microtask
         viewModel.setupSpeechDataViewModel()
-
-        setupAudioPlayer()
         setupObservables()
         setupUI()
-    }
-
-    private fun setupAudioPlayer() {
-        microtaskSpeechAudioInputAudioProgressBar_1.max = 100
-        microtaskSpeechAudioInputAudioProgressBar_2.max = 100
-        viewModel.setUpInputAudio(requireContext(), R.raw.test)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { viewModel.onBackPressed() }
     }
 
     private fun setupObservables() {
@@ -98,9 +93,9 @@ class SpeechAudioDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
             microtaskSpeechAudioInputAudioPlayButton_2TotalTime.text = it.second
         }
         viewModel.inputAudioPlayerOneState.observe(
-            viewLifecycleOwner.lifecycle,
-            viewLifecycleScope
+            viewLifecycleOwner
         ) { state ->
+            println("MADD state one $state")
             when (state) {
                 InputAudioPlayerState.PLAYING -> microtaskSpeechAudioInputAudioPlayButton_1.setBackgroundResource(
                     R.drawable.baseline_pause_circle_outline_24
@@ -113,9 +108,9 @@ class SpeechAudioDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
         }
 
         viewModel.inputAudioPlayerTwoState.observe(
-            viewLifecycleOwner.lifecycle,
-            viewLifecycleScope
+            viewLifecycleOwner,
         ) { state ->
+            println("MADD state two $state")
             when (state) {
                 InputAudioPlayerState.PLAYING -> microtaskSpeechAudioInputAudioPlayButton_2.setBackgroundResource(
                     R.drawable.baseline_pause_circle_outline_24
@@ -165,6 +160,7 @@ class SpeechAudioDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
                 }
             )
         }
+
         viewModel.playBtnState.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { state ->
             microtaskSpeechAudioPlayButton.isClickable =
                 state != AudioRecorderButtonState.DISABLED
@@ -188,16 +184,6 @@ class SpeechAudioDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
                 }
             )
         }
-
-        // Set microtask instruction if available
-//        viewModel.microTaskInstruction.observe(
-//            viewLifecycleOwner.lifecycle,
-//            viewLifecycleScope
-//        ) { text ->
-//            if (!text.isNullOrEmpty()) {
-//                instructionTv.text = text
-//            }
-//        }
 
         viewModel.recordSecondsTvText.observe(
             viewLifecycleOwner.lifecycle,
@@ -262,34 +248,45 @@ class SpeechAudioDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
 
     private fun setupListener() {
         microtaskSpeechAudioInputAudioPlayButton_1.setOnClickListener {
-            if (viewModel.inputAudioPlayerOneState.value != InputAudioPlayerState.PLAYING) {
-                viewModel.controlAudioPlayer("Start", "One")
-            } else {
-                viewModel.controlAudioPlayer("Pause", "One")
+            println("MADD one ${viewModel.inputAudioPlayerOneState.value}")
+            when (viewModel.inputAudioPlayerOneState.value) {
+                InputAudioPlayerState.PLAYING -> {
+                    viewModel.controlAudioPlayer("Pause", "One")
+                }
+
+                InputAudioPlayerState.PREPARED,
+                InputAudioPlayerState.PAUSED -> {
+                    viewModel.controlAudioPlayer("Start", "One")
+                }
             }
         }
-
         microtaskSpeechAudioInputAudioPlayButton_2.setOnClickListener {
-            if (viewModel.inputAudioPlayerTwoState.value != InputAudioPlayerState.PLAYING) {
-                viewModel.controlAudioPlayer("Start", "Two")
-            } else {
-                viewModel.controlAudioPlayer("Pause", "Two")
+            println("MADD two ${viewModel.inputAudioPlayerTwoState.value}")
+            when (viewModel.inputAudioPlayerTwoState.value) {
+                InputAudioPlayerState.PLAYING -> {
+                    viewModel.controlAudioPlayer("Pause", "Two")
+                }
+
+                InputAudioPlayerState.PREPARED,
+                InputAudioPlayerState.PAUSED -> {
+                    viewModel.controlAudioPlayer("Start", "Two")
+                }
             }
         }
     }
 
     private fun playRecordPrompt() {
-        val oldColor = speechImageSentenceTv.currentTextColor
+//        val oldColor = speechImageSentenceTv.currentTextColor
 
         assistant.playAssistantAudio(
             AssistantAudio.RECORD_SENTENCE,
             uiCue = {
-                speechImageSentenceTv.setTextColor(Color.parseColor("#CC6666"))
+//                speechImageSentenceTv.setTextColor(Color.parseColor("#CC6666"))
                 sentencePointerIv.visible()
             },
             onCompletionListener = {
                 lifecycleScope.launch {
-                    speechImageSentenceTv.setTextColor(oldColor)
+//                    speechImageSentenceTv.setTextColor(oldColor)
                     sentencePointerIv.invisible()
                     delay(500)
                     playRecordAction()
@@ -462,4 +459,14 @@ class SpeechAudioDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
 
     }
 
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.cleanupOnStop()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.resetOnResume()
+    }
 }
