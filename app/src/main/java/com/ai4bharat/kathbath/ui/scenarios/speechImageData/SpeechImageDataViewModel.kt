@@ -27,6 +27,7 @@ import com.ai4bharat.kathbath.injection.qualifier.FilesDir
 import com.ai4bharat.kathbath.media_handler.KathbathAudioRecorderHelper
 import com.ai4bharat.kathbath.ui.scenarios.common.BaseMTRendererViewModel
 import com.ai4bharat.kathbath.ui.scenarios.speechImageData.SpeechImageDataViewModel.ButtonState.*
+import com.ai4bharat.kathbath.utils.DateTimeUtils
 import com.ai4bharat.kathbath.utils.PreferenceKeys
 import com.ai4bharat.kathbath.utils.RawToAACEncoder
 import com.google.gson.JsonObject
@@ -135,12 +136,16 @@ constructor(
     val recordBtnState = _recordBtnState.asStateFlow()
 
     // Input audio player and properties
-    var inputAudioCurrentTime: MutableLiveData<Int> = MutableLiveData<Int>(0)
+    var inputAudioProgress = MutableLiveData<Int>(0)
+
+    /** first -> current time, second -> total time */
+    var inputAudioPlayerTimestamp = MutableLiveData(Pair("0:00", "0:00"))
     var inputAudioPlayerState: MutableLiveData<InputAudioPlayerState> =
         MutableLiveData<InputAudioPlayerState>(
             InputAudioPlayerState.DISABLED
         )
     var inputMediaPlayer: MediaPlayer? = null
+    var inputImageSource: MutableLiveData<String> = MutableLiveData<String>()
 
     private val _playBtnState: MutableStateFlow<ButtonState> = MutableStateFlow(DISABLED)
     val playBtnState = _playBtnState.asStateFlow()
@@ -166,10 +171,10 @@ constructor(
     private val _inputAudioPath: MutableStateFlow<String> = MutableStateFlow("")
     val inputAudioPath = _inputAudioPath.asStateFlow()
 
-    private val _recordSecondsTvText: MutableStateFlow<String> = MutableStateFlow("")
+    private val _recordSecondsTvText: MutableStateFlow<String> = MutableStateFlow("0")
     val recordSecondsTvText = _recordSecondsTvText.asStateFlow()
 
-    private val _recordCentiSecondsTvText: MutableStateFlow<String> = MutableStateFlow("")
+    private val _recordCentiSecondsTvText: MutableStateFlow<String> = MutableStateFlow("00")
     val recordCentiSecondsTvText = _recordCentiSecondsTvText.asStateFlow()
 
     private val _playbackProgressPbProgress: MutableStateFlow<Int> = MutableStateFlow(0)
@@ -236,7 +241,15 @@ constructor(
                 println("IAP coroutine ${inputMediaPlayer?.isPlaying}")
                 val currentTime =
                     ((inputMediaPlayer!!.currentPosition.toDouble() / inputMediaPlayer!!.duration.toDouble()) * 100).toInt()
-                inputAudioCurrentTime.postValue(currentTime)
+                inputAudioProgress.postValue(currentTime)
+                inputAudioPlayerTimestamp.postValue(
+                    Pair(
+                        DateTimeUtils.millisecondToTime(
+                            inputMediaPlayer!!.currentPosition.toDouble()
+                        ),
+                        DateTimeUtils.millisecondToTime(inputMediaPlayer!!.duration.toDouble())
+                    )
+                )
                 delay(500)
             }
         }
@@ -271,21 +284,54 @@ constructor(
     }
 
 
-    fun setUpInputAudio(context: Context, audioFilePath: Int) {
-        inputMediaPlayer = MediaPlayer.create(context, audioFilePath)
-        if (inputMediaPlayer == null) {
-            return
-        }
-        var cu = 0
-        inputMediaPlayer!!.setOnPreparedListener {
-            inputAudioPlayerState.value = InputAudioPlayerState.PREPARED
-        }
+    private fun setupInputAudioAndImage() {
 
-        inputMediaPlayer!!.setOnCompletionListener {
-            inputAudioCurrentTime.value = 100
+        val inputAudioPromptFileName = currentMicroTask.input.asJsonObject.getAsJsonObject("files")
+            .get("audio_prompt").toString()
+        val inputImagePromptFileName = currentMicroTask.input.asJsonObject.getAsJsonObject("files")
+            .get("image").toString()
+
+
+        val inputAudioPromptFile = microtaskInputContainer.getMicrotaskInputFilePath(
+            currentMicroTask.id,
+            inputAudioPromptFileName
+        ).replace("\"", "")
+
+        val inputImagePromptFile = microtaskInputContainer.getMicrotaskInputFilePath(
+            currentMicroTask.id,
+            inputImagePromptFileName
+        ).replace("\"", "")
+
+        println("SID $inputAudioPromptFileName, $inputImagePromptFileName $inputAudioPromptFile $inputImagePromptFile")
+
+        /** Setting up the media player for playing the audio*/
+        inputMediaPlayer = MediaPlayer()
+        inputMediaPlayer?.setDataSource(inputAudioPromptFile)
+        inputMediaPlayer?.prepare()
+        inputMediaPlayer?.setOnPreparedListener {
+            inputAudioPlayerState.value = InputAudioPlayerState.PREPARED
+            inputAudioPlayerTimestamp.value =
+                Pair(
+                    "0:00",
+                    DateTimeUtils.millisecondToTime(it.duration.toDouble())
+                )
+        }
+        inputMediaPlayer?.setOnCompletionListener {
+            inputAudioProgress.value = 100
+            inputAudioPlayerTimestamp.value =
+                Pair(
+                    DateTimeUtils.millisecondToTime(
+                        it.duration.toDouble()
+                    ),
+                    DateTimeUtils.millisecondToTime(it.duration.toDouble())
+                )
             inputAudioTimeUpdateJob?.cancel()
             inputAudioPlayerState.value = InputAudioPlayerState.RELEASED
+
         }
+
+        inputImageSource.value = inputImagePromptFile
+
 
     }
 
@@ -379,6 +425,7 @@ constructor(
                 outputRecordingFileParams
             )
 
+
         /** Write wav file */
         scratchRecordingFileInitJob = CoroutineScope(Dispatchers.IO).launch { resetWavFile() }
 
@@ -397,8 +444,8 @@ constructor(
 
         val hints = currentMicroTask.input.asJsonObject.getAsJsonObject("data").get("hints")
 
-        _sentenceTvText.value =
-            currentMicroTask.input.asJsonObject.getAsJsonObject("data").get("sentence").toString()
+//        _sentenceTvText.value =
+//            currentMicroTask.input.asJsonObject.getAsJsonObject("data").get("sentence").toString()
 
         if (hints != null) {
             val hintList = hints.toString().removeSurrounding("[", "]")
@@ -433,7 +480,11 @@ constructor(
         } else {
             moveToPrerecording()
         }
+
+        setupInputAudioAndImage()
+
     }
+
 
     /** Handle record button click */
     fun handleRecordClick() {
@@ -443,6 +494,9 @@ constructor(
         message.addProperty("button", "RECORD")
         message.addProperty("state", recordBtnState.toString())
         log(message)
+
+        if (inputAudioPlayerState.value == InputAudioPlayerState.PLAYING)
+            controlInputAudio("Pause")
 
         /** Determine action based on current state */
         when (activityState) {
@@ -515,6 +569,9 @@ constructor(
         message.addProperty("button", "PLAY")
         message.addProperty("state", playBtnState.toString())
         log(message)
+
+        if (inputAudioPlayerState.value == InputAudioPlayerState.PLAYING)
+            controlInputAudio("Pause")
 
         when (activityState) {
             /** If coming from first play back, just move to pause */
@@ -672,6 +729,8 @@ constructor(
         message.addProperty("type", "o")
         message.addProperty("button", "ANDROID_BACK")
         log(message)
+
+        inputMediaPlayer?.release()
 
         when (activityState) {
             ActivityState.INIT,

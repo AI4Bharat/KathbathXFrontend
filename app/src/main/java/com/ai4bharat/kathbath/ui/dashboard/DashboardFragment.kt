@@ -137,6 +137,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
                         }
                 }
                 if (workInfo != null && workInfo.state == WorkInfo.State.FAILED) {
+                    println("Dashboaaard error")
                     lifecycleScope.launch {
                         showErrorUi(
                             Throwable(workInfo.outputData.getString("errorMsg")),
@@ -257,15 +258,12 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
                     (totalRecordedDuration.first / 60).toInt(),
                     totalRecordedDuration.first % 60
                 )
-//          "%.2f M".format(Locale.ENGLISH, totalRecordedDuration.first)
                 binding.rupeesEarnedTv2.text = String.format(
                     Locale.US,
                     "%02d:%02.0f",
                     (totalRecordedDuration.second / 60).toInt(),
                     totalRecordedDuration.second % 60
                 )
-//          "%.2f M".format(Locale.ENGLISH, totalRecordedDuration.second)
-//        binding.syncDurationOnPhone.text = "[On Phone: "+totalRecordedDuration.second.toString()+" tasks]"
                 var completed = 0
                 var submitted = 0
                 var assigned = 0
@@ -366,19 +364,19 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
             val total = status.assignedMicrotasks + completed
             var action = with(DashboardFragmentDirections) {
                 when (task.scenarioName) {
-//                    ScenarioType.SPEECH_DATA -> actionDashboardActivityToSpeechDataMainFragment(
-//                        taskId,
-//                        completed,
-//                        total
-//                    )
+                    ScenarioType.SPEECH_DATA -> actionDashboardActivityToSpeechDataMainFragment(
+                        taskId,
+                        completed,
+                        total
+                    )
 
-//                    ScenarioType.SPEECH_DATA -> actionDashboardActivityToSpeechImageDataFragment(
-//                        taskId, completed, total
-//                    )
-
-                    ScenarioType.SPEECH_DATA -> actionDashboardActivityToSpeechAudioDataFragment(
+                    ScenarioType.SPEECH_DATA_FROM_IMAGE_AUDIO -> actionDashboardActivityToSpeechImageDataFragment(
                         taskId, completed, total
                     )
+
+//                    ScenarioType.SPEECH_DATA -> actionDashboardActivityToSpeechAudioDataFragment(
+//                        taskId, completed, total
+//                    )
 
                     ScenarioType.SPEECH_VERIFICATION -> actionDashboardActivityToSpeechVerificationFragment(
                         taskId,

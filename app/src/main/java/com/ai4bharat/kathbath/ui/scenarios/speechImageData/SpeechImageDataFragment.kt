@@ -1,6 +1,7 @@
 package com.ai4bharat.kathbath.ui.scenarios.speechImageData
 
 import android.app.AlertDialog
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.ai4bharat.kathbath.ui.scenarios.speechImageData.SpeechImageDataViewModel.ButtonState.*
 import com.ai4bharat.kathbath.utils.extensions.invisible
 import com.ai4bharat.kathbath.utils.extensions.visible
+import com.google.firebase.crashlytics.internal.model.CrashlyticsReport.FilesPayload.File
 import kotlinx.android.synthetic.main.microtask_speech_image_data.backPointerIv
 import kotlinx.android.synthetic.main.microtask_speech_image_data.inputAudioPlayButton
 import kotlinx.android.synthetic.main.microtask_speech_image_data.inputAudioProgressBar
@@ -42,6 +45,9 @@ import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImageRec
 import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImageSentenceTv
 import kotlinx.android.synthetic.main.microtask_common_back_button.view.backIv
 import kotlinx.android.synthetic.main.microtask_common_next_button.view.nextIv
+import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImageCurrentTime
+import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImageImageView
+import kotlinx.android.synthetic.main.microtask_speech_image_data.speechImageTotalTime
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -72,12 +78,24 @@ class SpeechImageDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
         viewModel.setupSpeechDataViewModel()
 
         // TODO("move this to setupMicrotask")
-        viewModel.setUpInputAudio(requireContext(), R.raw.test)
-
         setupUI()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { viewModel.onBackPressed() }
+//        viewModel.setUpInputAudio(requireContext(), R.raw.test)
     }
 
     private fun setupObservers() {
+
+        viewModel.inputImageSource.observe(viewLifecycleOwner) {
+            val imgFile = java.io.File(it)
+            if (imgFile.exists()) {
+                println("SID Image exist ${imgFile.absolutePath}")
+                val bitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
+                speechImageImageView.setImageBitmap(bitmap)
+            } else {
+                println("SID Image doesn't exist")
+            }
+        }
 
         viewModel.workerDetails.observe(viewLifecycleOwner, Observer { workerRecord ->
             val recordInstruction =
@@ -94,11 +112,14 @@ class SpeechImageDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
 
         })
 
-        viewModel.inputAudioCurrentTime.observe(viewLifecycleOwner) {
-            println("INPUT PLAYER $it")
+        viewModel.inputAudioProgress.observe(viewLifecycleOwner) {
             inputAudioProgressBar.progress = it
         }
 
+        viewModel.inputAudioPlayerTimestamp.observe(viewLifecycleOwner) {
+            speechImageCurrentTime.text = it.first
+            speechImageTotalTime.text = it.second
+        }
 
         viewModel.inputAudioPath.observe(
             viewLifecycleOwner.lifecycle,
@@ -429,21 +450,16 @@ class SpeechImageDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
     private fun setupUI() {
         speechImageRecordButton.setOnClickListener { viewModel.handleRecordClick() }
         speechImagePlayButton.setOnClickListener { viewModel.handlePlayClick() }
+
         inputAudioPlayButton.setOnClickListener {
-//            viewModel.setUpInputAudio(
-//                requireContext(),
-//                R.raw.test
-//            )
             when (viewModel.inputAudioPlayerState.value) {
                 InputAudioPlayerState.PLAYING ->
                     viewModel.controlInputAudio("Pause")
 
                 else -> viewModel.controlInputAudio("Start")
             }
-//            viewModel.controlInputAudio("Start")
         }
 
-        inputAudioProgressBar.max = 100
     }
 
 

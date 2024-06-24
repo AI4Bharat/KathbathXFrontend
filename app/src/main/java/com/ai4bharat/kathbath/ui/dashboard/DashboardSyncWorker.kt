@@ -245,7 +245,7 @@ class DashboardSyncWorker(
                     }
                 )
 
-        // Download each file
+//        Download each file
         var count = 0
         for (assignment in filteredAssignments) {
             assignmentRepository
@@ -264,6 +264,7 @@ class DashboardSyncWorker(
                 (count * 25) / filteredAssignments.size + MAX_RECEIVE_DB_UPDATES_PROGRESS
             setProgressAsync(Data.Builder().putInt("progress", localProgress).build())
         }
+        println("KF: called downloadInputFiles $count")
     }
 
     /**

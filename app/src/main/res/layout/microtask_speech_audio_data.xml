@@ -54,11 +54,11 @@
 
         <TextView
             android:id="@+id/microtaskSpeechAudioInputAudioPlayButton_1CurrentTime"
+            style="@style/TimeTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="00:00"
-            style="@style/NormalTextStyle"
             app:layout_constraintBottom_toBottomOf="@+id/microtaskSpeechAudioInputAudioPlayButton_1"
             app:layout_constraintEnd_toStartOf="@+id/microtaskSpeechAudioInputAudioPlayButton_1"
             app:layout_constraintHorizontal_bias="0.5"
@@ -68,11 +68,11 @@
 
         <TextView
             android:id="@+id/microtaskSpeechAudioInputAudioPlayButton_1TotalTime"
+            style="@style/TimeTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="00:00"
-            style="@style/NormalTextStyle"
             app:layout_constraintBaseline_toBaselineOf="@+id/microtaskSpeechAudioInputAudioPlayButton_1CurrentTime"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -126,11 +126,11 @@
 
         <TextView
             android:id="@+id/microtaskSpeechAudioInputAudioPlayButton_2CurrentTime"
+            style="@style/TimeTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="00:00"
-            style="@style/NormalTextStyle"
             app:layout_constraintBottom_toBottomOf="@+id/microtaskSpeechAudioInputAudioPlayButton_2"
             app:layout_constraintEnd_toStartOf="@+id/microtaskSpeechAudioInputAudioPlayButton_2"
             app:layout_constraintHorizontal_bias="0.5"
@@ -140,11 +140,11 @@
 
         <TextView
             android:id="@+id/microtaskSpeechAudioInputAudioPlayButton_2TotalTime"
+            style="@style/TimeTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="00:00"
-            style="@style/NormalTextStyle"
             app:layout_constraintBaseline_toBaselineOf="@+id/microtaskSpeechAudioInputAudioPlayButton_2CurrentTime"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

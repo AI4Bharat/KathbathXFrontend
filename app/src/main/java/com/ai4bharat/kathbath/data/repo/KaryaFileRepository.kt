@@ -9,13 +9,18 @@ import javax.inject.Inject
 class KaryaFileRepository
 @Inject
 constructor(private val karyaFileDao: KaryaFileDao) {
-  suspend fun insertKaryaFile(karyaFileRecord: KaryaFileRecord) {
-    withContext(Dispatchers.IO) {
-      try {
-        karyaFileDao.insert(karyaFileRecord)
-      } catch (e: Exception) {
-        karyaFileDao.upsert(karyaFileRecord)
-      }
+    suspend fun insertKaryaFile(karyaFileRecord: KaryaFileRecord) {
+        withContext(Dispatchers.IO) {
+            try {
+                karyaFileDao.insert(karyaFileRecord)
+            } catch (e: Exception) {
+                karyaFileDao.upsert(karyaFileRecord)
+            }
+        }
     }
-  }
+
+    fun getKaryaFileData(idToken: String, accessCode: String, fileId: String) {
+
+    }
+
 }
