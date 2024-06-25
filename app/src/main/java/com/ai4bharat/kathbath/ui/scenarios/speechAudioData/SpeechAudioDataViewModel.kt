@@ -5,6 +5,7 @@ import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaPlayer
 import android.media.MediaRecorder
+import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -22,6 +23,7 @@ import com.ai4bharat.kathbath.data.model.karya.enums.AudioRecorderButtonState
 import com.ai4bharat.kathbath.data.model.karya.enums.AudioRecorderButtonState.*
 import com.ai4bharat.kathbath.data.model.karya.enums.InputAudioPlayerState
 import com.ai4bharat.kathbath.data.model.karya.enums.MicrotaskAssignmentStatus
+import com.ai4bharat.kathbath.data.model.karya.enums.ScenarioType
 import com.ai4bharat.kathbath.injection.qualifier.FilesDir
 import com.ai4bharat.kathbath.ui.scenarios.common.BaseMTRendererViewModel
 import com.ai4bharat.kathbath.utils.DateTimeUtils
@@ -121,17 +123,6 @@ constructor(
         MutableStateFlow(AudioRecorderButtonState.DISABLED)
     val recordBtnState = _recordBtnState.asStateFlow()
 
-    // Input audio player and properties
-    var inputAudioProgress = MutableLiveData<Int>(0)
-
-    /** first -> current time, second -> total time */
-//    var inputAudioPlayerTimestamp = MutableLiveData(Pair("0:00", "0:00"))
-//    var inputAudioPlayerState: MutableLiveData<InputAudioPlayerState> =
-//        MutableLiveData<InputAudioPlayerState>(
-//            InputAudioPlayerState.DISABLED
-//        )
-//    var inputMediaPlayer: MediaPlayer? = null
-//    var inputImageSource: MutableLiveData<String> = MutableLiveData<String>()
 
     private val _playBtnState: MutableStateFlow<AudioRecorderButtonState> =
         MutableStateFlow(DISABLED)
@@ -526,6 +517,7 @@ constructor(
 
         /** Disable all buttons when NEXT is clicked */
         setButtonStates(DISABLED, DISABLED, DISABLED, DISABLED)
+        releaseInputMediaPlayer()
 
         when (activityState) {
             AudioRecorderActivityState.COMPLETED_PRERECORDING, AudioRecorderActivityState.OLD_PLAYING, AudioRecorderActivityState.OLD_PAUSED -> {
@@ -569,6 +561,7 @@ constructor(
 
         /** Disable all buttons when NEXT is clicked */
         setButtonStates(DISABLED, DISABLED, DISABLED, DISABLED)
+        releaseInputMediaPlayer()
 
         when (activityState) {
             AudioRecorderActivityState.PRERECORDING,
@@ -1367,10 +1360,8 @@ constructor(
 
         /** Check if the task is uploadable **/
 
-//    Log.e("[duration]",recordingLength.toString())
         outputData.addProperty("duration", recordingLength)
         addOutputFile("recording", outputRecordingFileParams)
-//    Log.e("{OP EXT}",outputRecordingFileParams.toString())
 
     }
 
@@ -1424,6 +1415,13 @@ constructor(
         mediaPlayer?.reset()
         mediaPlayer?.release()
         mediaPlayer = null
+    }
+
+    private fun releaseInputMediaPlayer() {
+        inputAudioPlayerOne?.stop()
+        inputAudioPlayerOne?.release()
+        inputAudioPlayerTwo?.stop()
+        inputAudioPlayerTwo?.release()
     }
 
     /** Release the audio recorder */
@@ -1481,7 +1479,13 @@ constructor(
         control: String,
         player: String
     ) {
-
+        if (arrayOf(
+                AudioRecorderActivityState.RECORDING,
+                AudioRecorderActivityState.NEW_PLAYING
+            ).contains(activityState)
+        ) {
+            return
+        }
         when (control) {
             "Start" -> {
                 when (player) {
@@ -1547,10 +1551,8 @@ constructor(
 
     private fun setUpInputAudio() {
 
+
         val inputAudioPromptFileNameOne =
-            currentMicroTask.input.asJsonObject.getAsJsonObject("files")
-                .get("audio_prompt").toString()
-        val inputAudioPromptFileNameTwo =
             currentMicroTask.input.asJsonObject.getAsJsonObject("files")
                 .get("audio_prompt").toString()
 
@@ -1559,30 +1561,17 @@ constructor(
             inputAudioPromptFileNameOne
         ).replace("\"", "")
 
-        val inputAudioPromptFileTwo = microtaskInputContainer.getMicrotaskInputFilePath(
-            currentMicroTask.id,
-            inputAudioPromptFileNameTwo
-        ).replace("\"", "")
-
-        println("MAA $inputAudioPromptFileOne $inputAudioPromptFileTwo")
-
         inputAudioPlayerOne = MediaPlayer()
         inputAudioPlayerOne?.setDataSource(inputAudioPromptFileOne)
         inputAudioPlayerOne?.prepare()
-        inputAudioPlayerTwo = MediaPlayer()
-        inputAudioPlayerTwo?.setDataSource(inputAudioPromptFileTwo)
-        inputAudioPlayerTwo?.prepare()
+
 
         inputAudioPlayerOne!!.setOnPreparedListener {
             inputAudioPlayerOneState.value = InputAudioPlayerState.PREPARED
             inputAudioPlayerOneTimestamp.value =
                 Pair("0:00", DateTimeUtils.millisecondToTime(it.duration.toDouble()))
         }
-        inputAudioPlayerTwo!!.setOnPreparedListener {
-            inputAudioPlayerTwoState.value = InputAudioPlayerState.PREPARED
-            inputAudioPlayerTwoTimestamp.value =
-                Pair("0:00", DateTimeUtils.millisecondToTime(it.duration.toDouble()))
-        }
+
         inputAudioPlayerOne!!.setOnCompletionListener {
             inputAudioPlayerOneTime.value = 100
             inputAudioPlayerOneTimestamp.value =
@@ -1591,14 +1580,40 @@ constructor(
                     DateTimeUtils.millisecondToTime(it.duration.toDouble())
                 )
         }
-        inputAudioPlayerTwo!!.setOnCompletionListener {
-            inputAudioPlayerTwoTime.value = 100
-            inputAudioPlayerTwoTimestamp.value =
-                Pair(
-                    DateTimeUtils.millisecondToTime(it.duration.toDouble()),
-                    DateTimeUtils.millisecondToTime(it.duration.toDouble())
-                )
+
+
+        if (task.scenario_name != ScenarioType.SPEECH_DATA_FROM_IMAGE_AUDIO) {
+
+            val inputAudioPromptFileNameTwo =
+                currentMicroTask.input.asJsonObject.getAsJsonObject("files")
+                    .get("audio_prompt").toString()
+
+            val inputAudioPromptFileTwo = microtaskInputContainer.getMicrotaskInputFilePath(
+                currentMicroTask.id,
+                inputAudioPromptFileNameTwo
+            ).replace("\"", "")
+
+            inputAudioPlayerTwo = MediaPlayer()
+            inputAudioPlayerTwo?.setDataSource(inputAudioPromptFileTwo)
+            inputAudioPlayerTwo?.prepare()
+
+            inputAudioPlayerTwo!!.setOnPreparedListener {
+                inputAudioPlayerTwoState.value = InputAudioPlayerState.PREPARED
+                inputAudioPlayerTwoTimestamp.value =
+                    Pair("0:00", DateTimeUtils.millisecondToTime(it.duration.toDouble()))
+            }
+
+            inputAudioPlayerTwo!!.setOnCompletionListener {
+                inputAudioPlayerTwoTime.value = 100
+                inputAudioPlayerTwoTimestamp.value =
+                    Pair(
+                        DateTimeUtils.millisecondToTime(it.duration.toDouble()),
+                        DateTimeUtils.millisecondToTime(it.duration.toDouble())
+                    )
+            }
         }
+
+
     }
 
 }

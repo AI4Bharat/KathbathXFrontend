@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ai4bharat.kathbath.data.manager.AuthManager
 import com.ai4bharat.kathbath.data.model.karya.WorkerRecord
+import com.ai4bharat.kathbath.data.model.karya.enums.AudioRecorderActivityState
 import com.ai4bharat.kathbath.data.model.karya.enums.AudioRecordingState
 import com.ai4bharat.kathbath.data.model.karya.enums.InputAudioPlayerState
 import com.ai4bharat.kathbath.data.model.karya.enums.MicrotaskAssignmentStatus
@@ -256,7 +257,13 @@ constructor(
     }
 
     fun controlInputAudio(control: String) {
-
+        if (arrayOf(
+                ActivityState.RECORDING,
+                ActivityState.NEW_PLAYING
+            ).contains(activityState)
+        ) {
+            return
+        }
         when (control) {
             "Start" -> {
                 println("IAP $inputMediaPlayer ")

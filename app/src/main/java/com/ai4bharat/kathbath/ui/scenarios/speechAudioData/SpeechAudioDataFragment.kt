@@ -2,6 +2,7 @@ package com.ai4bharat.kathbath.ui.scenarios.speechAudioData
 
 import android.app.AlertDialog
 import android.graphics.Color
+import android.opengl.Visibility
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
@@ -26,6 +27,7 @@ import com.ai4bharat.kathbath.utils.extensions.visible
 import kotlinx.android.synthetic.main.microtask_common_back_button.view.backIv
 import kotlinx.android.synthetic.main.microtask_common_next_button.view.nextIv
 import kotlinx.android.synthetic.main.microtask_speech_audio_data.microtaskSpeechAudioBackButton
+import kotlinx.android.synthetic.main.microtask_speech_audio_data.microtaskSpeechAudioInputAudioLayout_2
 import kotlinx.android.synthetic.main.microtask_speech_audio_data.microtaskSpeechAudioInputAudioPlayButton_1
 import kotlinx.android.synthetic.main.microtask_speech_audio_data.microtaskSpeechAudioInputAudioPlayButton_1CurrentTime
 import kotlinx.android.synthetic.main.microtask_speech_audio_data.microtaskSpeechAudioInputAudioPlayButton_1TotalTime
@@ -110,11 +112,13 @@ class SpeechAudioDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
         viewModel.inputAudioPlayerTwoState.observe(
             viewLifecycleOwner,
         ) { state ->
-            println("MADD state two $state")
             when (state) {
                 InputAudioPlayerState.PLAYING -> microtaskSpeechAudioInputAudioPlayButton_2.setBackgroundResource(
                     R.drawable.baseline_pause_circle_outline_24
                 )
+
+                InputAudioPlayerState.DISABLED -> microtaskSpeechAudioInputAudioLayout_2.visibility =
+                    View.GONE
 
                 else -> {
                     microtaskSpeechAudioInputAudioPlayButton_2.setBackgroundResource(R.drawable.baseline_play_circle_outline_24)
@@ -454,10 +458,11 @@ class SpeechAudioDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
     }
 
     private fun setupUI() {
+
         microtaskSpeechAudioRecordButton.setOnClickListener { viewModel.handleRecordClick() }
         microtaskSpeechAudioPlayButton.setOnClickListener { viewModel.handlePlayClick() }
-        speechImageNextButton.setOnClickListener { viewModel.handleNextClick() }
-        speechImageBackButton.setOnClickListener { viewModel.handleBackClick() }
+        microtaskSpeechAudioNextButton.setOnClickListener { viewModel.handleNextClick() }
+        microtaskSpeechAudioBackButton.setOnClickListener { viewModel.handleBackClick() }
 
     }
 
