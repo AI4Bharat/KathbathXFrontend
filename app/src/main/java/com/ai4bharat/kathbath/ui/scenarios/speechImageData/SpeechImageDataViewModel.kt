@@ -256,15 +256,14 @@ constructor(
     }
 
     fun controlInputAudio(control: String) {
-        if (inputMediaPlayer == null) {
-            println("IAP is null")
-        }
+
         when (control) {
             "Start" -> {
                 println("IAP $inputMediaPlayer ")
                 inputMediaPlayer!!.start()
                 updateInputAudioTime()
                 inputAudioPlayerState.value = InputAudioPlayerState.PLAYING
+                setButtonStates(DISABLED, DISABLED, DISABLED, DISABLED)
             }
 
             "Stop" -> {
@@ -273,12 +272,14 @@ constructor(
                 inputMediaPlayer!!.stop()
                 inputMediaPlayer!!.release()
                 inputAudioPlayerState.value = InputAudioPlayerState.RELEASED
+                setButtonStates(ENABLED, ENABLED, ENABLED, ENABLED)
             }
 
             "Pause" -> {
                 inputMediaPlayer!!.pause()
                 inputAudioTimeUpdateJob?.cancel()
                 inputAudioPlayerState.value = InputAudioPlayerState.PAUSED
+                setButtonStates(ENABLED, ENABLED, ENABLED, ENABLED)
             }
         }
     }
@@ -402,18 +403,7 @@ constructor(
         _nextBtnState.value = n
     }
 
-    //
-    fun getScratchPath(pair: Pair<String, String>): String {
-        return getAssignmentScratchFilePath(pair)
-    }
 
-    suspend fun getWorkerDetails() {
-        val worker = authManager.getLoggedInWorker()
-        workerDetails.value = worker
-
-    }
-
-    //
     override fun setupMicrotask() {
 
         /** Get the scratch and output file paths */
@@ -483,7 +473,6 @@ constructor(
         setupInputAudioAndImage()
 
     }
-
 
     /** Handle record button click */
     fun handleRecordClick() {

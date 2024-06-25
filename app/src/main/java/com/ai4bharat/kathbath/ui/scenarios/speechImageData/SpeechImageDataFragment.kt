@@ -79,6 +79,7 @@ class SpeechImageDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { viewModel.onBackPressed() }
     }
 
+
     private fun setupObservers() {
 
         viewModel.inputImageSource.observe(viewLifecycleOwner) {

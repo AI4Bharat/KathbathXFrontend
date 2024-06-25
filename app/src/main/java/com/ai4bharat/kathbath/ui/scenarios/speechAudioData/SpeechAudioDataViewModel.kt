@@ -75,7 +75,6 @@ constructor(
     val inputAudioPlayerTwoState =
         MutableLiveData<InputAudioPlayerState>(InputAudioPlayerState.DISABLED)
 
-    //    val inputAudioPlayerTwoState = _inputAudioPlayerTwoState.asStateFlow()
     var inputAudioPlayerOneTime: MutableLiveData<Int> = MutableLiveData<Int>(0)
     var inputAudioPlayerTwoTime: MutableLiveData<Int> = MutableLiveData<Int>(0)
 
@@ -126,13 +125,13 @@ constructor(
     var inputAudioProgress = MutableLiveData<Int>(0)
 
     /** first -> current time, second -> total time */
-    var inputAudioPlayerTimestamp = MutableLiveData(Pair("0:00", "0:00"))
-    var inputAudioPlayerState: MutableLiveData<InputAudioPlayerState> =
-        MutableLiveData<InputAudioPlayerState>(
-            InputAudioPlayerState.DISABLED
-        )
-    var inputMediaPlayer: MediaPlayer? = null
-    var inputImageSource: MutableLiveData<String> = MutableLiveData<String>()
+//    var inputAudioPlayerTimestamp = MutableLiveData(Pair("0:00", "0:00"))
+//    var inputAudioPlayerState: MutableLiveData<InputAudioPlayerState> =
+//        MutableLiveData<InputAudioPlayerState>(
+//            InputAudioPlayerState.DISABLED
+//        )
+//    var inputMediaPlayer: MediaPlayer? = null
+//    var inputImageSource: MutableLiveData<String> = MutableLiveData<String>()
 
     private val _playBtnState: MutableStateFlow<AudioRecorderButtonState> =
         MutableStateFlow(DISABLED)
@@ -210,7 +209,6 @@ constructor(
 
     private var firstTimeActivityVisit: Boolean = true
 
-    var workerDetails: MutableLiveData<WorkerRecord> = MutableLiveData<WorkerRecord>()
 
     init {
         /** setup [preRecordBuffer] */
@@ -221,27 +219,6 @@ constructor(
             val data = datastore.data.first()
             firstTimeActivityVisit = data[firstRunKey] ?: true
             datastore.edit { prefs -> prefs[firstRunKey] = false }
-        }
-    }
-
-    private fun updateInputAudioTime() {
-        inputAudioTimeUpdateJob?.cancel()
-        inputAudioTimeUpdateJob = viewModelScope.launch(Dispatchers.IO) {
-            while (true) {
-                println("IAP coroutine ${inputMediaPlayer?.isPlaying}")
-                val currentTime =
-                    ((inputMediaPlayer!!.currentPosition.toDouble() / inputMediaPlayer!!.duration.toDouble()) * 100).toInt()
-                inputAudioProgress.postValue(currentTime)
-                inputAudioPlayerTimestamp.postValue(
-                    Pair(
-                        DateTimeUtils.millisecondToTime(
-                            inputMediaPlayer!!.currentPosition.toDouble()
-                        ),
-                        DateTimeUtils.millisecondToTime(inputMediaPlayer!!.duration.toDouble())
-                    )
-                )
-                delay(500)
-            }
         }
     }
 
@@ -317,18 +294,6 @@ constructor(
         _nextBtnState.value = n
     }
 
-    //
-    fun getScratchPath(pair: Pair<String, String>): String {
-        return getAssignmentScratchFilePath(pair)
-    }
-
-    suspend fun getWorkerDetails() {
-        val worker = authManager.getLoggedInWorker()
-        workerDetails.value = worker
-
-    }
-
-    //
     override fun setupMicrotask() {
 
         /** Get the scratch and output file paths */
@@ -399,7 +364,6 @@ constructor(
 
     }
 
-
     /** Handle record button click */
     fun handleRecordClick() {
         // log the state transition
@@ -409,6 +373,12 @@ constructor(
         message.addProperty("state", recordBtnState.toString())
         log(message)
 
+        if (inputAudioPlayerOneState.value == InputAudioPlayerState.PLAYING) {
+            controlInputAudioPlayer("Stop", "One")
+        }
+        if (inputAudioPlayerTwoState.value == InputAudioPlayerState.PLAYING) {
+            controlInputAudioPlayer("Stop", "Two")
+        }
         /** Determine action based on current state */
         when (activityState) {
             /**
@@ -638,7 +608,8 @@ constructor(
         message.addProperty("button", "ANDROID_BACK")
         log(message)
 
-        inputMediaPlayer?.release()
+        inputAudioPlayerOne?.release()
+        inputAudioPlayerTwo?.release()
 
         when (activityState) {
             AudioRecorderActivityState.INIT,
@@ -973,8 +944,10 @@ constructor(
         setButtonStates(DISABLED, DISABLED, DISABLED, DISABLED)
         setActivityState(AudioRecorderActivityState.ACTIVITY_STOPPED)
 
+        inputAudioPlayerOne?.release()
+        inputAudioPlayerTwo?.release()
+
         when (previousActivityState) {
-            /** If prerecording, join the prerecording job. Reset buffers and release recorder. */
             /** If prerecording, join the prerecording job. Reset buffers and release recorder. */
             AudioRecorderActivityState.PRERECORDING,
             AudioRecorderActivityState.COMPLETED_PRERECORDING -> {
@@ -1472,7 +1445,6 @@ constructor(
             while (true) {
                 when (player) {
                     "One" -> {
-                        println("MADD $player ")
                         val currentTime =
                             ((inputAudioPlayerOne!!.currentPosition.toDouble() / inputAudioPlayerOne!!.duration.toDouble()) * 100).toInt()
                         // For showing the progress in the progress bar
@@ -1487,7 +1459,6 @@ constructor(
                     }
 
                     "Two" -> {
-                        println("MADD $player ")
                         val currentTime =
                             ((inputAudioPlayerTwo!!.currentPosition.toDouble() / inputAudioPlayerTwo!!.duration.toDouble()) * 100).toInt()
                         // For showing the progress in the progress bar
@@ -1506,12 +1477,11 @@ constructor(
         }
     }
 
-    fun controlAudioPlayer(
+    fun controlInputAudioPlayer(
         control: String,
         player: String
     ) {
 
-        println("MADD $control $player")
         when (control) {
             "Start" -> {
                 when (player) {
@@ -1533,6 +1503,7 @@ constructor(
                         }
                     }
                 }
+                setButtonStates(DISABLED, DISABLED, DISABLED, DISABLED)
                 updateInputAudioTime(player)
             }
 
@@ -1550,7 +1521,9 @@ constructor(
                         inputAudioPlayerTwo!!.release()
                         inputAudioPlayerTwoState.value = InputAudioPlayerState.RELEASED
                     }
+
                 }
+                setButtonStates(ENABLED, ENABLED, ENABLED, ENABLED)
             }
 
             "Pause" -> {
@@ -1567,6 +1540,7 @@ constructor(
                     }
                 }
                 inputAudioTimeUpdateJob?.cancel()
+                setButtonStates(ENABLED, ENABLED, ENABLED, ENABLED)
             }
         }
     }

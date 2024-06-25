@@ -251,12 +251,12 @@ class SpeechAudioDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
             println("MADD one ${viewModel.inputAudioPlayerOneState.value}")
             when (viewModel.inputAudioPlayerOneState.value) {
                 InputAudioPlayerState.PLAYING -> {
-                    viewModel.controlAudioPlayer("Pause", "One")
+                    viewModel.controlInputAudioPlayer("Pause", "One")
                 }
 
                 InputAudioPlayerState.PREPARED,
                 InputAudioPlayerState.PAUSED -> {
-                    viewModel.controlAudioPlayer("Start", "One")
+                    viewModel.controlInputAudioPlayer("Start", "One")
                 }
             }
         }
@@ -264,12 +264,12 @@ class SpeechAudioDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
             println("MADD two ${viewModel.inputAudioPlayerTwoState.value}")
             when (viewModel.inputAudioPlayerTwoState.value) {
                 InputAudioPlayerState.PLAYING -> {
-                    viewModel.controlAudioPlayer("Pause", "Two")
+                    viewModel.controlInputAudioPlayer("Pause", "Two")
                 }
 
                 InputAudioPlayerState.PREPARED,
                 InputAudioPlayerState.PAUSED -> {
-                    viewModel.controlAudioPlayer("Start", "Two")
+                    viewModel.controlInputAudioPlayer("Start", "Two")
                 }
             }
         }
@@ -456,6 +456,8 @@ class SpeechAudioDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
     private fun setupUI() {
         microtaskSpeechAudioRecordButton.setOnClickListener { viewModel.handleRecordClick() }
         microtaskSpeechAudioPlayButton.setOnClickListener { viewModel.handlePlayClick() }
+        speechImageNextButton.setOnClickListener { viewModel.handleNextClick() }
+        speechImageBackButton.setOnClickListener { viewModel.handleBackClick() }
 
     }
 

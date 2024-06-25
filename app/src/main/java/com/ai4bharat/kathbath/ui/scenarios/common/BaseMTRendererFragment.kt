@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.lifecycle.lifecycleScope
@@ -13,6 +15,8 @@ import com.ai4bharat.kathbath.utils.extensions.observe
 import com.ai4bharat.kathbath.R
 import com.ai4bharat.kathbath.utils.DateTimeUtils
 import kotlinx.android.synthetic.main.microtask_common_header.*
+import java.security.Permission
+import java.util.jar.Manifest
 
 abstract class BaseMTRendererFragment(@LayoutRes contentLayoutId: Int) :
     BaseFragment(contentLayoutId) {
@@ -28,9 +32,9 @@ abstract class BaseMTRendererFragment(@LayoutRes contentLayoutId: Int) :
     }
 
     /** Function to return the set of permission needed for the task */
-//  open fun requiredPermissions(): Array<String> {
-//    return arrayOf()
-//  }
+    override fun requiredPermissions(): Array<String> {
+        return arrayOf(android.Manifest.permission.RECORD_AUDIO)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
