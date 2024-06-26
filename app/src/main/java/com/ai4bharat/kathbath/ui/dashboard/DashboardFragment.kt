@@ -370,16 +370,16 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
                         total
                     )
 
-//                    ScenarioType.SPEECH_DATA_FROM_IMAGE_AUDIO -> actionDashboardActivityToSpeechImageDataFragment(
-//                        taskId, completed, total
-//                    )
+                    ScenarioType.SPEECH_DATA_FROM_IMAGE_AUDIO -> actionDashboardActivityToSpeechImageDataFragment(
+                        taskId, completed, total
+                    )
 
-//                    ScenarioType.SPEECH_DATA_FROM_IMAGE_AUDIO -> actionDashboardActivityToSpeechAudioDataFragment(
-//                        taskId, completed, total
-//                    )
+                    ScenarioType.SPEECH_DATA_FROM_IMAGE_AUDIO -> actionDashboardActivityToSpeechAudioDataFragment(
+                        taskId, completed, total
+                    )
 
 
-                    ScenarioType.SPEECH_DATA_FROM_IMAGE_AUDIO -> actionDashboardActivityToSpeechVerificationMultiModalFragment(
+                    ScenarioType.SPEECH_VERIFICATION_IMAGE_AUDIO -> actionDashboardActivityToSpeechVerificationMultiModalFragment(
                         taskId, completed, total
                     )
 

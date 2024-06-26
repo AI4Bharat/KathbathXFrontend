@@ -33,4 +33,13 @@ object DateTimeUtils {
         if (seconds.length < 2) seconds = "0$seconds"
         return "$minutes:$seconds"
     }
+
+    fun millisecondToPercentage(current: Double, totalDuration: Double): Int {
+        if (totalDuration == 0.0 || current == 0.0) {
+            return 0
+        }
+
+        return ((current / totalDuration) * 100).toInt()
+    }
+
 }

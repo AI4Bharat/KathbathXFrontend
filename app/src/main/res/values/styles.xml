@@ -65,6 +65,10 @@
         <item name="android:paddingBottom">@dimen/_5sdp</item>
     </style>
 
+    <style name="MultiModalVerificationMicrotaskInputFrame">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
     <!-- Microtask Input Text Box -->
     <style name="MicrotaskInputText">
         <!--        <item name="android:background">@drawable/background_microtask_input_text</item>-->

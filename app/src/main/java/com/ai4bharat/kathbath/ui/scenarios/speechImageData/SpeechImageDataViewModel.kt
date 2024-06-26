@@ -318,6 +318,7 @@ constructor(
         inputMediaPlayer?.prepare()
         inputMediaPlayer?.setOnPreparedListener {
             inputAudioPlayerState.value = InputAudioPlayerState.PREPARED
+            inputAudioProgress.value = 0
             inputAudioPlayerTimestamp.value =
                 Pair(
                     "0:00",
@@ -335,6 +336,7 @@ constructor(
                 )
             inputAudioTimeUpdateJob?.cancel()
             inputAudioPlayerState.value = InputAudioPlayerState.RELEASED
+            setButtonStates(ENABLED, ENABLED, ENABLED, ENABLED)
 
         }
 
@@ -632,6 +634,7 @@ constructor(
             }
         }
     }
+
 
     /** Handle next button click */
     fun handleNextClick() {
