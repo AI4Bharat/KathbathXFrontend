@@ -1582,7 +1582,7 @@ constructor(
         }
 
 
-        if (task.scenario_name != ScenarioType.SPEECH_DATA_FROM_IMAGE_AUDIO) {
+        if (task.scenario_name != ScenarioType.SPEECH_DC_IMGAUD) {
 
             val inputAudioPromptFileNameTwo =
                 currentMicroTask.input.asJsonObject.getAsJsonObject("files")

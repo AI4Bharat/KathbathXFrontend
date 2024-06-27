@@ -346,7 +346,8 @@ constructor(
 
         println("SVMMVM ${currentMicroTask.input}")
         val inputAudioFileName =
-            currentMicroTask.input.asJsonObject.getAsJsonObject("files").get("recording").asString
+            currentMicroTask.input.asJsonObject.getAsJsonObject("files")
+                .get("audio_prompt").asString
         val inputAudioFile =
             microtaskInputContainer.getMicrotaskInputFilePath(
                 currentMicroTask.id,

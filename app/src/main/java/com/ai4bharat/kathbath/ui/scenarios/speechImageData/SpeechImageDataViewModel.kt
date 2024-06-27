@@ -29,6 +29,7 @@ import com.ai4bharat.kathbath.media_handler.KathbathAudioRecorderHelper
 import com.ai4bharat.kathbath.ui.scenarios.common.BaseMTRendererViewModel
 import com.ai4bharat.kathbath.ui.scenarios.speechImageData.SpeechImageDataViewModel.ButtonState.*
 import com.ai4bharat.kathbath.utils.DateTimeUtils
+import com.ai4bharat.kathbath.utils.FileUtils
 import com.ai4bharat.kathbath.utils.PreferenceKeys
 import com.ai4bharat.kathbath.utils.RawToAACEncoder
 import com.google.gson.JsonObject
@@ -147,6 +148,7 @@ constructor(
         )
     var inputMediaPlayer: MediaPlayer? = null
     var inputImageSource: MutableLiveData<String> = MutableLiveData<String>()
+    var inputAudioSource: String? = null
 
     private val _playBtnState: MutableStateFlow<ButtonState> = MutableStateFlow(DISABLED)
     val playBtnState = _playBtnState.asStateFlow()
@@ -212,6 +214,8 @@ constructor(
     /** Final recording file */
     var outputRecordingFileParams = Pair("", "wav")
     lateinit var outputRecordingFilePath: String
+    lateinit var outputRecordingInputAudioFilePath: String
+    lateinit var outputRecordingInputImageFilePath: String
     private var encodingJob: Job? = null
     var extempore: Boolean = false
 
@@ -291,6 +295,7 @@ constructor(
         }
     }
 
+
     private fun setupInputAudioAndImage() {
 
         println("SIDDD ${currentMicroTask.input}")
@@ -298,6 +303,17 @@ constructor(
             .get("audio_prompt").toString()
         val inputImagePromptFileName = currentMicroTask.input.asJsonObject.getAsJsonObject("files")
             .get("image").toString()
+
+        outputRecordingInputAudioFilePath = assignmentOutputContainer.getAssignmentOutputFilePath(
+            microtaskAssignmentIDs[currentAssignmentIndex],
+            FileUtils.splitFileName(inputAudioPromptFileName)
+        )
+        outputRecordingInputImageFilePath = assignmentOutputContainer.getAssignmentOutputFilePath(
+            microtaskAssignmentIDs[currentAssignmentIndex],
+            FileUtils.splitFileName(inputImagePromptFileName)
+        )
+
+        println("SIDDD ${outputRecordingInputImageFilePath} ${outputRecordingInputAudioFilePath}")
 
 
         val inputAudioPromptFile = microtaskInputContainer.getMicrotaskInputFilePath(
@@ -341,6 +357,7 @@ constructor(
         }
 
         inputImageSource.value = inputImagePromptFile
+        inputAudioSource = inputAudioPromptFile
 
 
     }
@@ -858,6 +875,8 @@ constructor(
         message.addProperty("from", activityState.toString())
         message.addProperty("to", targetState.toString())
         log(message)
+
+        println("SIDVM compress audio -> $compressAudio")
 //    Log.d("TRANSITION", "$activityState->$targetState")
         // Switch statess
         previousActivityState = activityState
@@ -1459,6 +1478,7 @@ constructor(
                     source.copyTo(destination)
                     destination.close()
                     source.close()
+
                 }
             }
             .join()
@@ -1468,6 +1488,8 @@ constructor(
 //    Log.e("[duration]",recordingLength.toString())
         outputData.addProperty("duration", recordingLength)
         addOutputFile("recording", outputRecordingFileParams)
+        println("SIDVM image file -> ${inputImageSource.value} audio file -> ${inputAudioPath.value}")
+        println("SIDVM output -> $outputData outputparams -> $outputRecordingFileParams source -> ${scratchRecordingFilePath} destination $outputRecordingFilePath")
 //    Log.e("{OP EXT}",outputRecordingFileParams.toString())
 
     }

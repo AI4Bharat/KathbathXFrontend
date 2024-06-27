@@ -169,6 +169,7 @@ constructor(
         val assignmentId = microtaskAssignmentIDs[currentAssignmentIndex]
         val fileName = assignmentOutputContainer.getAssignmentFileName(assignmentId, params)
 
+        println("SIDVM AssignmentId -> $assignmentId Filename -> $fileName key -> $key params -> $params")
         outputFiles.addProperty(key, fileName)
 
         // log the output file addition
@@ -177,6 +178,18 @@ constructor(
         logObj.addProperty("filename", fileName)
         log(logObj)
     }
+
+    protected fun addInputPromptFile(key: String, fullPathFileName: String?) {
+        println("SIDVM input prompt file $key $fullPathFileName")
+        val assignmentId = microtaskAssignmentIDs[currentAssignmentIndex]
+        if (fullPathFileName != null) {
+            val fileName = "${assignmentId}-${fullPathFileName.split("/").last()}"
+            println("SIDVM 2 AssignmentId -> $fileName")
+            outputFiles.addProperty(key, fileName)
+        }
+
+    }
+
 
     /**
      * Mark the current microtask as complete with the [outputData], [outputFiles], and [logs]
@@ -191,9 +204,9 @@ constructor(
         /** Delete all scratch files */
         deleteAssignmentScratchFiles()
 
-        assignmentRepository.getLocalCompletedAssignments().forEach {
-            deleteVerificationFile(it.microtask_id)
-        }
+//        assignmentRepository.getLocalCompletedAssignments().forEach {
+//            deleteVerificationFile(it.microtask_id)
+//        }
 
         // If assignment is not already completed, increase completed count by 1
         if (currentAssignment.status == MicrotaskAssignmentStatus.ASSIGNED)
@@ -222,9 +235,9 @@ constructor(
             )
         }
 
-        assignmentRepository.getLocalCompletedAssignments().forEach {
-            deleteVerificationFile(it.microtask_id)
-        }
+//        assignmentRepository.getLocalCompletedAssignments().forEach {
+//            deleteVerificationFile(it.microtask_id)
+//        }
 
     }
 
@@ -240,9 +253,9 @@ constructor(
             )
         }
 
-        assignmentRepository.getLocalCompletedAssignments().forEach {
-            deleteVerificationFile(it.microtask_id)
-        }
+//        assignmentRepository.getLocalCompletedAssignments().forEach {
+//            deleteVerificationFile(it.microtask_id)
+//        }
 
     }
 
