@@ -200,6 +200,9 @@ class InputPromptTextFragment(val sentence: String) : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val textView: TextView = view.findViewById(R.id.verificationTextPromptSentence)
+
+        textView.setText(sentence)
 
     }
 }

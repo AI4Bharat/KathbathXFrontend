@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.activity.addCallback
+import androidx.core.view.get
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -87,6 +88,7 @@ class SpeechVerificationMultiModalFragment :
     private lateinit var verificationInputPromptAdapter: InputPromptAdapter
     private lateinit var tabLayout: TabLayout
     private var audioPromptFragment: InputPromptAudioFragment = InputPromptAudioFragment("")
+    private var audioResponceFragment: InputPromptAudioFragment = InputPromptAudioFragment("")
     private var imagePromptFragment: InputPromptImageFragment = InputPromptImageFragment("")
     private var textPromptFragment: InputPromptTextFragment = InputPromptTextFragment("")
 
@@ -283,8 +285,8 @@ class SpeechVerificationMultiModalFragment :
 
     private fun setupObservers() {
         viewModel.inputPrompt.observe(viewLifecycleOwner.lifecycle, lifecycleScope) { promptInfo ->
-            if (promptInfo.size == 3)
-                setupInputPrompts(promptInfo[0], promptInfo[1], promptInfo[2])
+            println("NEW ASSIG# changed")
+            setupInputPrompts(promptInfo)
         }
 
         viewModel.microtaskID.observe(
@@ -499,14 +501,22 @@ class SpeechVerificationMultiModalFragment :
     }
 
     private fun setupInputPrompts(
-        audioFilePath: String,
-        imageFilePath: String,
-        sentence: String
+        promptInfo: Map<String, String>
     ) {
+        val audioPromptFilePath = promptInfo["audio_prompt"]
+        val audioResponseFilePath = promptInfo["audio_response"]
+        val audioImageFilePath = promptInfo["image"]
+        val sentence = promptInfo["sentence"]
+
+        var tabTitles: MutableList<String> = mutableListOf()
+
+        println("NEW ASSIG $promptInfo")
+
         val verificationInputPromptAdapter = InputPromptAdapter(requireParentFragment())
-        if (audioFilePath != "") {
-            audioPromptFragment = InputPromptAudioFragment(audioFilePath)
+        if (audioPromptFilePath != "") {
+            audioPromptFragment = InputPromptAudioFragment(audioPromptFilePath!!)
             verificationInputPromptAdapter.addFragment(audioPromptFragment)
+            tabTitles.add("Audio prompt")
 
             audioPromptFragment.mediaPlayerStatus.observe(viewLifecycleOwner) {
                 if (it == InputAudioPlayerState.PLAYING) {
@@ -520,19 +530,41 @@ class SpeechVerificationMultiModalFragment :
             }
 
         }
-        if (imageFilePath != "") {
-            println("SVMMF # $imageFilePath")
-            imagePromptFragment = InputPromptImageFragment(imageFilePath)
+
+        if (audioResponseFilePath != "") {
+            audioResponceFragment = InputPromptAudioFragment(audioResponseFilePath!!)
+            verificationInputPromptAdapter.addFragment(audioResponceFragment)
+            tabTitles.add("Audio response")
+
+            audioResponceFragment.mediaPlayerStatus.observe(viewLifecycleOwner) {
+                if (it == InputAudioPlayerState.PLAYING) {
+                    microtaskMultiModalSpeechVerificationplayBtn.isClickable = false
+                    microtaskMultiModalSpeechVerificationplayBtn.setBackgroundResource(R.drawable.ic_speaker_disabled)
+
+                } else {
+                    microtaskMultiModalSpeechVerificationplayBtn.isClickable = true
+                    microtaskMultiModalSpeechVerificationplayBtn.setBackgroundResource(R.drawable.ic_speaker_enabled)
+                }
+            }
+
+        }
+
+        if (audioImageFilePath != "") {
+            imagePromptFragment = InputPromptImageFragment(audioImageFilePath!!)
             verificationInputPromptAdapter.addFragment(imagePromptFragment)
+            tabTitles.add("Image")
+        }
+
+        if (sentence != "") {
+            textPromptFragment = InputPromptTextFragment(sentence!!)
+            verificationInputPromptAdapter.addFragment(textPromptFragment)
+            tabTitles.add("Sentence")
         }
 
         inputPromptViewPager.adapter = verificationInputPromptAdapter
 
         TabLayoutMediator(tabLayout, inputPromptViewPager) { tab, position ->
-            tab.text = when (position) {
-                0 -> "Audio"
-                else -> "Image"
-            }
+            tab.text = tabTitles[position]
         }.attach()
     }
 

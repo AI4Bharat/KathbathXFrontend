@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import org.json.JSONException
 import java.util.Locale
 import javax.inject.Inject
 
@@ -43,25 +44,6 @@ constructor(
 
     @Inject
     lateinit var workerRepository: WorkerRepository
-
-    /** UI button states */
-//    enum class ButtonState {
-//        DISABLED,
-//        ENABLED,
-//        ACTIVE
-//    }
-
-    /** Activity states */
-//    private enum class ActivityState {
-//        INIT,
-//        WAIT_FOR_PLAY,
-//        FIRST_PLAYBACK,
-//        FIRST_PLAYBACK_PAUSED,
-//        REVIEW_ENABLED,
-//        PLAYBACK,
-//        PLAYBACK_PAUSED,
-//        ACTIVITY_STOPPED
-//    }
 
     /** Media player */
     private var mediaPlayer: MediaPlayer? = null
@@ -123,8 +105,16 @@ constructor(
 
     // Defining Mutable State Flows
 
-
-    private val _inputPrompt: MutableStateFlow<Array<String>> = MutableStateFlow(arrayOf())
+    // These are all the different inputs that are allowed
+    private var _inputPrompt: MutableStateFlow<MutableMap<String, String>> =
+        MutableStateFlow(
+            mutableMapOf(
+                "audio_prompt" to "",
+                "audio_response" to "",
+                "image" to "",
+                "sentence" to ""
+            )
+        )
     val inputPrompt = _inputPrompt.asStateFlow()
 
     private val _sentenceTvText: MutableStateFlow<String> = MutableStateFlow("")
@@ -342,28 +332,60 @@ constructor(
         setupInputPrompts()
     }
 
-    fun setupInputPrompts() {
+    private fun setupInputPrompts() {
 
-        println("SVMMVM ${currentMicroTask.input}")
-        val inputAudioFileName =
-            currentMicroTask.input.asJsonObject.getAsJsonObject("files")
-                .get("audio_prompt").asString
-        val inputAudioFile =
+        var inputAudioPromptFile = ""
+        var inputImageFile = ""
+        var inputAudioResponseFile = ""
+        var sentence = ""
+
+        inputAudioPromptFile = try {
+            val inputAudioPromptFileName =
+                currentMicroTask.input.asJsonObject.getAsJsonObject("files")
+                    .get("audio_prompt").asString
             microtaskInputContainer.getMicrotaskInputFilePath(
                 currentMicroTask.id,
-                inputAudioFileName
+                inputAudioPromptFileName
             )
 
+        } catch (exception: Exception) {
+            ""
+        }
 
-        val inputImageFileName =
-            currentMicroTask.input.asJsonObject.getAsJsonObject("files").get("image").asString
-        val inputImageFile =
+        inputAudioResponseFile = try {
+            val inputAudioResponseFileName =
+                currentMicroTask.input.asJsonObject.getAsJsonObject("files")
+                    .get("audio_response").asString
+            microtaskInputContainer.getMicrotaskInputFilePath(
+                currentMicroTask.id,
+                inputAudioResponseFileName
+            )
+        } catch (exception: Exception) {
+            ""
+        }
+
+        inputImageFile = try {
+            val inputImageFileName =
+                currentMicroTask.input.asJsonObject.getAsJsonObject("files").get("image").asString
             microtaskInputContainer.getMicrotaskInputFilePath(
                 currentMicroTask.id,
                 inputImageFileName
             )
+        } catch (exception: Exception) {
+            ""
+        }
 
-        _inputPrompt.value = arrayOf(inputAudioFile, inputImageFile, "")
+        sentence = try {
+            currentMicroTask.input.asJsonObject.getAsJsonObject("data").get("sentence").toString()
+        } catch (exception: Exception) {
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+        }
+
+        _inputPrompt.value = mutableMapOf(
+            "audio_prompt" to inputAudioPromptFile, "audio_response" to inputAudioResponseFile,
+            "sentence" to sentence, "image" to inputImageFile
+        )
+        println("NEW ASSIG ${_inputPrompt.value}")
 
     }
 
