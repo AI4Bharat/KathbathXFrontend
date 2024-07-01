@@ -43,6 +43,7 @@ class CrowdsourceLogin : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupUIElements()
         setupUIVariables()
+        viewModel.testingReferral()
     }
 
     private fun setupUIVariables() {

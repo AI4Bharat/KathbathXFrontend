@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.ai4bharat.kathbath.data.manager.AuthManager
+import com.ai4bharat.kathbath.data.repo.ReferralRepository
 import com.ai4bharat.kathbath.databinding.ActivityMainBinding
 import com.ai4bharat.kathbath.utils.extensions.viewBinding
 import com.android.installreferrer.api.InstallReferrerClient

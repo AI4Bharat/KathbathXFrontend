@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.ai4bharat.kathbath.data.manager.AuthManager
 import com.ai4bharat.kathbath.data.manager.BaseUrlManager
 import com.ai4bharat.kathbath.data.model.karya.WorkerRecord
+import com.ai4bharat.kathbath.data.model.karya.modelsExtra.ReferralInfo
+import com.ai4bharat.kathbath.data.repo.ReferralRepository
 import com.ai4bharat.kathbath.data.repo.WorkerRepository
 import com.ai4bharat.kathbath.ui.crowdsource.registration.Language
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +24,8 @@ class CrowdsourceLoginViewModel
 constructor(
     private val workerRepository: WorkerRepository,
     private val authManager: AuthManager,
-    private val baseUrlManager: BaseUrlManager
+    private val baseUrlManager: BaseUrlManager,
+    private val referralRepository: ReferralRepository
 ) : ViewModel() {
 
     private var loginUser: MutableLiveData<LoginUser> = MutableLiveData<LoginUser>()
@@ -132,5 +135,18 @@ constructor(
     private fun createWorker(accessCode: String, workerRecord: WorkerRecord) {
         val dbWorker = workerRecord.copy(accessCode = accessCode)
         viewModelScope.launch { workerRepository.upsertWorker(dbWorker) }
+    }
+
+    fun testingReferral() {
+        println("Referral testing called")
+        val referralInfo = ReferralInfo("123", "Amal", "708989")
+        referralRepository.submitReferralInfo(referralInfo)
+            .onStart {
+                println("Referral testing started")
+            }.onEach {
+                println("Referral testing success $it")
+            }.catch {
+                println("Referral testing error")
+            }.launchIn(viewModelScope)
     }
 }
