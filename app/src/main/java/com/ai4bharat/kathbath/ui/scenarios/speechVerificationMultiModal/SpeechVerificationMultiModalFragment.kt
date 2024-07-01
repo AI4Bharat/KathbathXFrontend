@@ -109,8 +109,11 @@ class SpeechVerificationMultiModalFragment :
         tabLayout = view.findViewById(R.id.inputPromptTabLayout)
         setupObservers()
         microtaskMultiModalSpeechVerificationplayBtn.setOnClickListener { viewModel.handlePlayClick() }
-        microtaskMultiModalSpeechVerificationnextBtnCv.setOnClickListener { viewModel.handleNextClick() }
-//        microtaskMultiModalSpeechVerificationplaybackProgress.progressPb.disable()
+        microtaskMultiModalSpeechVerificationnextBtnCv.setOnClickListener {
+            audioPromptFragment.releasePlayer()
+            audioResponceFragment.releasePlayer()
+            viewModel.handleNextClick()
+        }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             audioPromptFragment.releasePlayer()
@@ -646,6 +649,7 @@ class SpeechVerificationMultiModalFragment :
     }
 
     override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+        println("SVMMFKT $p1 $p2")
         viewModel.handleSeekBarChange(p1, p2)
     }
 

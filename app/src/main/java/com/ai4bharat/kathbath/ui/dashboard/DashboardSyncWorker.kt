@@ -77,7 +77,7 @@ class DashboardSyncWorker(
             uploadOutputFiles()
 //            return
         } catch (e: Exception) {
-            println("Syncing error in uploading")
+            println("Syncing error in uploading $e")
             FirebaseCrashlytics.getInstance().recordException(e)
             throw Exception(applicationContext.getString(R.string.upload_file_error))
         }
@@ -133,7 +133,6 @@ class DashboardSyncWorker(
     /** Upload the files of completed assignments */
     private suspend fun uploadOutputFiles() {
         val updates = assignmentRepository.getLocalCompletedAssignments()
-
         // Filter all completed assignments whose files have not been uploaded
         val filteredAssignments =
             updates.filter {
@@ -145,45 +144,46 @@ class DashboardSyncWorker(
         // Create the output tar ball for each assignment and upload them
         var count = 0
         for (assignment in filteredAssignments) {
+            val combinedFilePaths = ArrayList<String>()
+            val combinedFileNames = ArrayList<String>()
+            var inputFilesFolder = ""
+
             // Generate output blob name and path
             val assignmentTarBallPath = microtaskOutputContainer.getBlobPath(assignment.id)
             val tarBallName = microtaskOutputContainer.getBlobName(assignment.id)
             val outputDir = microtaskOutputContainer.getDirectory()
-
-            val inputDir = microtaskInputContainer.getDirectory()
-            val assignmentInput = microTaskRepository.getById(assignment.microtask_id).input
-            val inputFiles = assignmentInput.asJsonObject.get("files").asJsonObject
-            val inputFileNames = inputFiles.keySet().map { inputFiles.get(it).asString }
-            val inputFilePaths = inputFileNames.map { "$inputDir/${assignment.microtask_id}/$it" }
-
-            println("SIDVM Updates $assignmentInput $inputFiles $inputFileNames $inputFilePaths")
-
-            // Get the list of output files
             val outputFiles = assignment.output.asJsonObject.get("files").asJsonObject
             val outputFileNames = outputFiles.keySet().map { outputFiles.get(it).asString }
             val outputFilePaths = outputFileNames.map { "$outputDir/${it}" }
-
-            /**Combining the input prompt file and the final output file so that the tar file will contain
-             * all these files
-             */
-            val combinedFilePaths = ArrayList<String>()
-            val combinedFileNames = ArrayList<String>()
-
-            combinedFilePaths.addAll(inputFilePaths)
             combinedFilePaths.addAll(outputFilePaths)
-            combinedFileNames.addAll(inputFileNames)
             combinedFileNames.addAll(outputFileNames)
 
-            println("SIDVM Updates $outputDir $outputFiles $combinedFileNames $outputFilePaths $assignmentTarBallPath $tarBallName $outputDir")
+            /**
+             * Some microtask doesn't have files as input
+             * */
+            try {
+                val inputDir = microtaskInputContainer.getDirectory()
+                val assignmentInput = microTaskRepository.getById(assignment.microtask_id).input
+                val inputFiles = assignmentInput.asJsonObject.get("files").asJsonObject
+                inputFilesFolder = "$inputDir/${assignment.microtask_id}"
+                val inputFileNames = inputFiles.keySet().map { inputFiles.get(it).asString }
+                val inputFilePaths =
+                    inputFileNames.map { "$inputDir/${assignment.microtask_id}/$it" }
+
+                combinedFilePaths.addAll(inputFilePaths)
+                combinedFileNames.addAll(inputFileNames)
+            } catch (exception: Exception) {
+                println("No input files")
+            }
+//            println("DSWKT $inputDir $assignmentInput $inputFiles $inputFileNames $inputFilePaths")
+
             // Check if all the output files exists. Mark assignment as assigned even if one of the output files does not exist
             var allFilesExist = true
-//            for (path in outputFilePaths) {
             for (path in combinedFilePaths) {
                 if (!File(path).exists()) {
                     assignmentRepository.markAssigned(assignment.id, DateTimeUtils.getCurrentDate())
                     warningMsg = applicationContext.getString(R.string.reset_assignment_warning)
                     allFilesExist = false
-                    println("SIDVM doesn't exit $path")
                     break
                 }
             }
@@ -192,16 +192,27 @@ class DashboardSyncWorker(
             if (!allFilesExist) continue
 
             // Create and upload the tar ball
-//            FileUtils.createTarBall(assignmentTarBallPath, outputFilePaths, fileNames)
             FileUtils.createTarBall(assignmentTarBallPath, combinedFilePaths, combinedFileNames)
-            println("SIDVM $assignmentTarBallPath $combinedFilePaths $combinedFileNames")
             uploadTarBall(assignment, assignmentTarBallPath, tarBallName)
 
             // Update progress
             count += 1
             val localProgress = (count * MAX_UPLOAD_PROGRESS) / filteredAssignments.size
             setProgressAsync(Data.Builder().putInt("progress", localProgress).build())
+
+            // Deleting the microtask input folder
+            if (inputFilesFolder != "")
+                removeMicrotaskInputFiles(inputFilesFolder)
         }
+    }
+
+    /**
+     *  Deleting the microtask input files and the tar file after uploading/submitting the microtask
+     */
+    private fun removeMicrotaskInputFiles(microtaskInput: String) {
+        FileUtils.deleteDirectory(microtaskInput)
+        val microtaskInputTgz = "$microtaskInput.tgz"
+        FileUtils.deleteFile(microtaskInputTgz)
     }
 
     /**

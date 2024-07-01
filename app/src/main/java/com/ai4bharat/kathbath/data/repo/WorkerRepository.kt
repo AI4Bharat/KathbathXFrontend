@@ -22,11 +22,12 @@ class WorkerRepository @Inject constructor(
         accessCode: String,
         phoneNumber: String,
     ) = flow {
-        println("Here get otp")
+        println("CSL Here get otp")
         val response = workerAPI.generateOTP(accessCode, phoneNumber)
         val workerRecord = response.body()
 
         if (!response.isSuccessful) {
+            println("CSL getOTP is not successfull")
             throw when (response.code()) {
                 401 -> InvalidAccessCodeException()
                 403 -> AccessCodeAlreadyUsedException()
@@ -36,7 +37,7 @@ class WorkerRepository @Inject constructor(
         }
 
         if (workerRecord == null) {
-            error("Request failed, response body was null")
+            error("CSL Request failed, response body was null")
         }
 
         // emit unit at the end to indicate success
@@ -71,12 +72,13 @@ class WorkerRepository @Inject constructor(
         phoneNumber: String,
         otp: String,
     ) = flow {
-        println("Here verify otp")
+        println("CSL Here verify otp")
         val response = workerAPI.verifyOTP(accessCode, phoneNumber, otp)
-        print("inside verifyOTP ${response.body()}")
+        println("CSL Inside verifyOTP ${response.body()}")
         val workerRecord = response.body()
 
         if (!response.isSuccessful) {
+            println("CSL Inside verifyOTP ${response.isSuccessful} ${response.code()} ${response.body()}")
             throw when (response.code()) {
                 403 -> AccessCodeAlreadyUsedException()
                 401 -> InvalidOTPException()
@@ -87,24 +89,24 @@ class WorkerRepository @Inject constructor(
         if (workerRecord != null) {
             emit(workerRecord)
         } else {
-            error("Request failed, response body was null")
+            error("CSL Request failed, response body was null")
         }
     }
 
     fun verifyAccessCode(accessCode: String) = flow {
-        println("Login: Verification started $accessCode")
+        println("CSL Login: Verification started $accessCode")
         val response = workerAPI.getWorkerUsingAccessCode(accessCode)
         val responseBody = response.body()
-        println("Login: Details are $responseBody")
+        println("CSL Login: Details are $responseBody")
 
         if (!response.isSuccessful) {
-            error("Login: Request failed, response code: ${response.code()}")
+            error("CSL Login: Request failed, response code: ${response.code()}")
         }
 
         if (responseBody != null) {
             emit(responseBody)
         } else {
-            error("Login: Request failed, response body was null")
+            error("CSL Login: Request failed, response body was null")
         }
     }
 

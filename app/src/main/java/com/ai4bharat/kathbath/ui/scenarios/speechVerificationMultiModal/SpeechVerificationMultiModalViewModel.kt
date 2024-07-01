@@ -313,12 +313,13 @@ constructor(
 
         /** setup media player */
         mediaPlayer = MediaPlayer()
-//        mediaPlayer!!.setOnCompletionListener { setActivityState(AudioVerificationActivityState.REVIEW_ENABLED) }
+        mediaPlayer!!.setOnCompletionListener {
+            setActivityState(AudioVerificationActivityState.REVIEW_ENABLED)
+        }
         mediaPlayer!!.setDataSource(recordingFile)
 
         try {
             mediaPlayer!!.prepare()
-            _reviewEnabled.value = true
             resetRecordingLength(mediaPlayer!!.duration)
             _playbackProgressPbMax.value = mediaPlayer!!.duration
             _playbackProgress.value = 0
@@ -378,7 +379,7 @@ constructor(
         sentence = try {
             currentMicroTask.input.asJsonObject.getAsJsonObject("data").get("sentence").toString()
         } catch (exception: Exception) {
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+            ""
         }
 
         _inputPrompt.value = mutableMapOf(
@@ -465,6 +466,7 @@ constructor(
                     AudioRecorderButtonState.ENABLED,
                     nextBtnState
                 )
+                _playbackProgress
                 _reviewEnabled.value = true
             }
 
@@ -819,10 +821,6 @@ constructor(
                     !(_chatterTickHandlerIntermittent.value && _chatterTickHandlerPersistent.value) &&
                     !(_noiseTickHandlerIntermittent.value && _noiseTickHandlerPersistent.value)
 
-
-
-
-
         reviewCompleted = (_decisionRating.value == R.string.decision_excellent)
                 ||
                 (_decisionRating.value != R.string.rating_undefined && baseCase || (_commentTickHandler.value && _commentTextHandler.value != "")) && baseCase
@@ -833,12 +831,14 @@ constructor(
                 AudioRecorderButtonState.ENABLED,
                 AudioRecorderButtonState.ENABLED
             )
+            nextBtnState = AudioRecorderButtonState.ENABLED
         } else {
             setButtonStates(
                 AudioRecorderButtonState.DISABLED,
                 AudioRecorderButtonState.ENABLED,
                 AudioRecorderButtonState.DISABLED
             )
+            nextBtnState = AudioRecorderButtonState.DISABLED
 
         }
     }

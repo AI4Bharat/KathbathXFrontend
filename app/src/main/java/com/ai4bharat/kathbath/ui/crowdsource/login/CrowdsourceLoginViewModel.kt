@@ -75,20 +75,18 @@ constructor(
         // Return true if the inputs are INVALID
         println(viewModelScope)
         val inputIsInValid: Boolean = inputValidation()
-        print(inputIsInValid)
+        println(inputIsInValid)
         if (inputIsInValid) {
             println("Invalid params")
         } else {
             val accessCode: String =
                 createAccessCodeFromPhone(loginUser.value!!.phoneNumber, loginUser.value!!.language)
 
-            println("The access code is $accessCode ${loginUser.value!!.language}")
+            println("CSL $accessCode ${loginUser.value!!.language}")
             if (accessCode == "invalid") {
-//                loginUserError  =
-//                    LoginError("language", "Invalid Language", true)
                 return
             }
-            println("login started")
+            println("CSL Login started")
             workerRepository.verifyAccessCode(accessCode)
                 .onStart { loginStatus.value = LoginStatus(Status.LOADING, "") }
                 .onEach { workerRecord ->
@@ -106,27 +104,35 @@ constructor(
         phoneNumber: String,
         otp: String = "112233"
     ) {
-        println("Generating the OTP")
+        println("CSL Generating the OTP")
         workerRepository.getOTP(accessCode, phoneNumber)
-            .onStart { println("Starting OTP generation") }
+            .onStart { println("CSL Starting OTP generation") }
             .onEach {
-                println("OTP generation was successful")
+                println("CSL OTP generation was successful")
                 loginStatus.value = LoginStatus(Status.LOADING, "")
+                verifyOTP(accessCode, phoneNumber, otp)
             }.catch {
+                println("CSL OTP generation failed")
                 loginStatus.value = LoginStatus(Status.FAILED, "Login Failed ")
             }.launchIn(viewModelScope)
 
-        if (loginStatus.value?.status == Status.LOADING) {
-            workerRepository.verifyOTP(accessCode, phoneNumber, otp)
-                .onStart { println("OTP verification started") }
-                .onEach { workerRecord ->
-                    createWorker(accessCode, workerRecord)
-                    authManager.updateLoggedInWorker(workerRecord.id)
-                    loginStatus.value = LoginStatus(Status.SUCCESS, "")
-                }.catch {
-                    loginStatus.value = LoginStatus(Status.FAILED, "Login Failed")
-                }.launchIn(viewModelScope)
-        }
+//        if (loginStatus.value?.status == Status.LOADING) {
+
+//        }
+    }
+
+    private fun verifyOTP(accessCode: String, phoneNumber: String, otp: String) {
+        workerRepository.verifyOTP(accessCode, phoneNumber, otp)
+            .onStart { println("CSL OTP verification started") }
+            .onEach { workerRecord ->
+                createWorker(accessCode, workerRecord)
+                authManager.updateLoggedInWorker(workerRecord.id)
+                println("CSL OTP verification Success")
+                loginStatus.value = LoginStatus(Status.SUCCESS, "")
+            }.catch {
+                println("CSL OTP verification Failed")
+                loginStatus.value = LoginStatus(Status.FAILED, "Login Failed")
+            }.launchIn(viewModelScope)
     }
 
     private fun createWorker(accessCode: String, workerRecord: WorkerRecord) {

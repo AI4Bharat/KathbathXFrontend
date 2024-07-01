@@ -223,6 +223,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
         setupWorkRequests()
         WorkManager.getInstance(requireContext())
             .enqueueUniqueWork(UNIQUE_SYNC_WORK_NAME, ExistingWorkPolicy.KEEP, syncWorkRequest)
+
     }
 
     private fun showReferralDialog(completed: Int, submitted: Int, assigned: Int) {
