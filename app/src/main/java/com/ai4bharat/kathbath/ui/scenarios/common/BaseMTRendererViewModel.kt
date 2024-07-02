@@ -298,6 +298,7 @@ constructor(
 
     /** Move to next microtask and setup. Returns false if there is no next microtask. Else true. */
     protected fun moveToNextMicrotask() {
+        println("ITDF move to next ${hasNextMicrotask()}")
         if (hasNextMicrotask()) {
             currentAssignmentIndex++
             getAndSetupMicrotask()
@@ -311,6 +312,7 @@ constructor(
      * true
      */
     protected fun moveToPreviousMicrotask() {
+        println("ITDF move to next ${hasPreviousMicrotask()}")
         if (hasPreviousMicrotask()) {
             currentAssignmentIndex--
             getAndSetupMicrotask()

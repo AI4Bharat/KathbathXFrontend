@@ -375,6 +375,7 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
                         taskId, completed, total
                     )
 
+                    ScenarioType.SPEECH_DC_AUDREF,
                     ScenarioType.SPEECH_DC_AUD -> actionDashboardActivityToSpeechAudioDataFragment(
                         taskId, completed, total
                     )
@@ -389,6 +390,12 @@ class DashboardFragment : SessionFragment(R.layout.fragment_dashboard) {
                         completed,
                         total
                     )
+
+                    ScenarioType.IMAGE_DC_TEXT -> actionDashboardActivityToImageTextDataFragment(
+                        taskId, completed, total
+                    )
+
+//                    ScenarioType.
 
                     else -> null
                 }
