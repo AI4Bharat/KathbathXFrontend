@@ -27,20 +27,63 @@ class ReferralDialog(context: Context, private val workerRecord: WorkerRecord?) 
         val referralButton: Button = findViewById(R.id.referralButton)
 
         referralButton.setOnClickListener(View.OnClickListener {
-            openWebPage()
+//            openWebPage()
+            val referralType = getReferralType()
+            println("RDKT $referralType")
+//            handleDifferentReferralType(referralType)
+            handleDifferentReferralType("T2")
+
         })
+    }
+
+
+    private fun handleDifferentReferralType(referralType: String) {
+
+        when (referralType) {
+            "T1" -> openMultipleUser()
+            "T2",
+            "C" -> openWebPage()
+
+            else -> {
+
+            }
+        }
 
     }
 
     private fun createReferralCode(): String? {
         if (workerRecord != null) {
-            val name = workerRecord.fullName
             val karyaId: String? = workerRecord.id
-            val phoneNumber = workerRecord.accessCode
-//            return name?.subSequence(0, 2).toString() + phoneNumber.subSequence(8, 11).toString()
             return karyaId
         }
         return null
+    }
+
+    private fun openMultipleUser() {
+        val referralCode: String? = createReferralCode()
+        if (referralCode != null) {
+            val encodedUrl =
+                "https://wa.me/?text=${
+                    URLEncoder.encode(
+                        "AI4Bharat has just launched an Android app to help collect audio data for Indian languages.\n" +
+                                "\n" +
+                                "Download the app from the Play Store, record your voice, and contribute to preserving our linguistic heritage. Your participation will make a huge difference! \n" +
+                                "\n" +
+                                "https://play.google.com/store/apps/details?id=com.ai4bharat.kathbath.lite&hl=en&gl=US&rutm_content=$referralCode",
+                        "UTF-8"
+                    )
+                }"
+            val webpage: Uri = Uri.parse(encodedUrl)
+            val intent = Intent(Intent.ACTION_VIEW, webpage)
+            this.cancel()
+            context.startActivity(intent)
+        }
+        println("The data was clicked $referralCode")
+    }
+
+
+    private fun getReferralType(): String {
+        return workerRecord?.profile?.asJsonObject?.get("referral_type").toString().trim('"')
     }
 
     private fun openWebPage() {
@@ -48,13 +91,10 @@ class ReferralDialog(context: Context, private val workerRecord: WorkerRecord?) 
         if (referralCode != null) {
             val encodedUrl =
                 "https://api.whatsapp.com/send/?phone=15550990252&text=${
-                    URLEncoder.encode("Hello", "UTF-8")
-//                    URLEncoder.encode(
-//                        "AI4Bharat has just launched an Android app to help collect audio data for Indian languages.\n\n" +
-//                                "Download the app from the Play Store, record your voice, and contribute to preserving our linguistic heritage.\nYour participation will make a huge difference! \n\n"
-//                                + "https://play.google.com/store/apps/details?id=com.ai4bharat.kathbath.lite&hl=en&gl=US&referralCode=${referralCode}\n",
-//                        "UTF-8"
-//                    )
+                    URLEncoder.encode(
+                        "Hi, send this message to start interacting with AI4Bharat.",
+                        "UTF-8"
+                    )
                 }"
             val webpage: Uri = Uri.parse(encodedUrl)
             val intent = Intent(Intent.ACTION_VIEW, webpage)
@@ -63,6 +103,5 @@ class ReferralDialog(context: Context, private val workerRecord: WorkerRecord?) 
             context.startActivity(intent)
         }
         println("The data was clicked $referralCode")
-
     }
 }

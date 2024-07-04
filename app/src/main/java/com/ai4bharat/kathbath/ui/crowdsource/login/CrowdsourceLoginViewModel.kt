@@ -139,7 +139,8 @@ constructor(
 
     fun testingReferral() {
         println("Referral testing called")
-        val referralInfo = ReferralInfo("123", "Amal", "708989")
+        // Referral Id and the karya id of the referee will be same
+        val referralInfo = ReferralInfo("3487430", "Amal", "708989")
         referralRepository.submitReferralInfo(referralInfo)
             .onStart {
                 println("Referral testing started")
