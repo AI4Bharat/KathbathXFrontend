@@ -49,6 +49,13 @@ constructor(
         }
     }
 
+    fun skipMicrotask() {
+        viewModelScope.launch {
+            skipAndSaveCurrentMicrotask()
+            moveToNextMicrotask()
+        }
+    }
+
     /**
      * Setup image transcription microtask
      */

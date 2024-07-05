@@ -86,6 +86,13 @@ class SpeechAudioDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
 
     private fun setupObservables() {
 
+        viewModel.isDualAudio.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) {
+            if (it)
+                microtaskSpeechAudioInputAudioLayout_2.visibility = View.VISIBLE
+            else
+                microtaskSpeechAudioInputAudioLayout_2.visibility = View.GONE
+
+        }
         viewModel.inputAudioPlayerOneTimestamp.observe(viewLifecycleOwner) {
             microtaskSpeechAudioInputAudioPlayButton_1CurrentTime.text = it.first
             microtaskSpeechAudioInputAudioPlayButton_1TotalTime.text = it.second
@@ -258,8 +265,7 @@ class SpeechAudioDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
                     viewModel.controlInputAudioPlayer("Pause", "One")
                 }
 
-                InputAudioPlayerState.PREPARED,
-                InputAudioPlayerState.PAUSED -> {
+                else -> {
                     viewModel.controlInputAudioPlayer("Start", "One")
                 }
             }
@@ -271,8 +277,7 @@ class SpeechAudioDataFragment : BaseMTRendererFragment(R.layout.microtask_speech
                     viewModel.controlInputAudioPlayer("Pause", "Two")
                 }
 
-                InputAudioPlayerState.PREPARED,
-                InputAudioPlayerState.PAUSED -> {
+                else -> {
                     viewModel.controlInputAudioPlayer("Start", "Two")
                 }
             }

@@ -6,5 +6,6 @@ enum class InputAudioPlayerState {
     PLAYING,
     PAUSED,
     RELEASED,
+    STOPPED,
     FINISHED
 }

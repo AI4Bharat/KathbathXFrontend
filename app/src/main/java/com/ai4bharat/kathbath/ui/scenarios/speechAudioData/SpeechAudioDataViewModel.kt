@@ -119,14 +119,17 @@ constructor(
     var activityState: AudioRecorderActivityState = AudioRecorderActivityState.INIT
     var previousActivityState: AudioRecorderActivityState = AudioRecorderActivityState.INIT
 
+    private val _isDualAudio: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isDualAudio = _isDualAudio.asStateFlow()
+
     private val _recordBtnState: MutableStateFlow<AudioRecorderButtonState> =
         MutableStateFlow(AudioRecorderButtonState.DISABLED)
     val recordBtnState = _recordBtnState.asStateFlow()
 
-
     private val _playBtnState: MutableStateFlow<AudioRecorderButtonState> =
         MutableStateFlow(DISABLED)
     val playBtnState = _playBtnState.asStateFlow()
+    private var previousPlayBtnState = playBtnState.value
 
     private val _nextBtnState: MutableStateFlow<AudioRecorderButtonState> =
         MutableStateFlow(DISABLED)
@@ -364,12 +367,6 @@ constructor(
         message.addProperty("state", recordBtnState.toString())
         log(message)
 
-        if (inputAudioPlayerOneState.value == InputAudioPlayerState.PLAYING) {
-            controlInputAudioPlayer("Stop", "One")
-        }
-        if (inputAudioPlayerTwoState.value == InputAudioPlayerState.PLAYING) {
-            controlInputAudioPlayer("Stop", "Two")
-        }
         /** Determine action based on current state */
         when (activityState) {
             /**
@@ -937,9 +934,6 @@ constructor(
         setButtonStates(DISABLED, DISABLED, DISABLED, DISABLED)
         setActivityState(AudioRecorderActivityState.ACTIVITY_STOPPED)
 
-        inputAudioPlayerOne?.release()
-        inputAudioPlayerTwo?.release()
-
         when (previousActivityState) {
             /** If prerecording, join the prerecording job. Reset buffers and release recorder. */
             AudioRecorderActivityState.PRERECORDING,
@@ -1418,11 +1412,15 @@ constructor(
     }
 
     private fun releaseInputMediaPlayer() {
+        println("SADVM# ${inputAudioPlayerOne} ${inputAudioPlayerOneState.value} ${inputAudioPlayerTwoState.value}")
         inputAudioPlayerOne?.stop()
         inputAudioPlayerOne?.release()
         inputAudioPlayerTwo?.stop()
         inputAudioPlayerTwo?.release()
+        inputAudioTimeUpdateJob?.cancel()
+
     }
+
 
     /** Release the audio recorder */
     fun releaseRecorder() {
@@ -1443,17 +1441,19 @@ constructor(
             while (true) {
                 when (player) {
                     "One" -> {
-                        val currentTime =
-                            ((inputAudioPlayerOne!!.currentPosition.toDouble() / inputAudioPlayerOne!!.duration.toDouble()) * 100).toInt()
-                        // For showing the progress in the progress bar
-                        inputAudioPlayerOneTime.postValue(currentTime)
-                        // For showing the current and total time stamp in the player
-                        inputAudioPlayerOneTimestamp.postValue(
-                            Pair(
-                                DateTimeUtils.millisecondToTime(inputAudioPlayerOne!!.currentPosition.toDouble()),
-                                DateTimeUtils.millisecondToTime(inputAudioPlayerOne!!.duration.toDouble())
+                        if (inputAudioPlayerOne?.isPlaying == true) {
+                            val currentTime =
+                                ((inputAudioPlayerOne!!.currentPosition.toDouble() / inputAudioPlayerOne!!.duration.toDouble()) * 100).toInt()
+                            // For showing the progress in the progress bar
+                            inputAudioPlayerOneTime.postValue(currentTime)
+                            // For showing the current and total time stamp in the player
+                            inputAudioPlayerOneTimestamp.postValue(
+                                Pair(
+                                    DateTimeUtils.millisecondToTime(inputAudioPlayerOne!!.currentPosition.toDouble()),
+                                    DateTimeUtils.millisecondToTime(inputAudioPlayerOne!!.duration.toDouble())
+                                )
                             )
-                        )
+                        }
                     }
 
                     "Two" -> {
@@ -1479,6 +1479,7 @@ constructor(
         control: String,
         player: String
     ) {
+        println("SADVMKT $control $player $activityState")
         if (arrayOf(
                 AudioRecorderActivityState.RECORDING,
                 AudioRecorderActivityState.NEW_PLAYING
@@ -1488,9 +1489,11 @@ constructor(
         }
         when (control) {
             "Start" -> {
+//                _recordBtnState.value = DISABLED
+                previousPlayBtnState = playBtnState.value
                 when (player) {
                     "One" -> {
-                        inputAudioPlayerOne!!.start()
+                        inputAudioPlayerOne?.start()
                         inputAudioPlayerOneState.value = InputAudioPlayerState.PLAYING
                         if (inputAudioPlayerTwoState.value == InputAudioPlayerState.PLAYING) {
                             inputAudioPlayerTwo!!.pause()
@@ -1499,7 +1502,7 @@ constructor(
                     }
 
                     "Two" -> {
-                        inputAudioPlayerTwo!!.start()
+                        inputAudioPlayerTwo?.start()
                         inputAudioPlayerTwoState.value = InputAudioPlayerState.PLAYING
                         if (inputAudioPlayerOneState.value == InputAudioPlayerState.PLAYING) {
                             inputAudioPlayerOne!!.pause()
@@ -1515,42 +1518,44 @@ constructor(
                 inputAudioTimeUpdateJob?.cancel()
                 when (player) {
                     "One" -> {
-                        inputAudioPlayerOne!!.stop()
-                        inputAudioPlayerOne!!.release()
-                        inputAudioPlayerOneState.value = InputAudioPlayerState.RELEASED
+                        inputAudioPlayerOne?.stop()
+                        inputAudioPlayerOneState.value = InputAudioPlayerState.STOPPED
                     }
 
                     "Two" -> {
-                        inputAudioPlayerTwo!!.stop()
-                        inputAudioPlayerTwo!!.release()
-                        inputAudioPlayerTwoState.value = InputAudioPlayerState.RELEASED
+                        inputAudioPlayerTwo?.stop()
+                        inputAudioPlayerTwoState.value = InputAudioPlayerState.STOPPED
                     }
 
                 }
-                setButtonStates(ENABLED, ENABLED, ENABLED, ENABLED)
+                setButtonStates(ENABLED, ENABLED, previousPlayBtnState, ENABLED)
             }
 
             "Pause" -> {
                 inputAudioTimeUpdateJob?.cancel()
                 when (player) {
                     "One" -> {
-                        inputAudioPlayerOne!!.pause()
+                        inputAudioPlayerOne?.pause()
                         inputAudioPlayerOneState.value = InputAudioPlayerState.PAUSED
                     }
 
                     "Two" -> {
-                        inputAudioPlayerTwo!!.pause()
+                        inputAudioPlayerTwo?.pause()
                         inputAudioPlayerTwoState.value = InputAudioPlayerState.PAUSED
                     }
                 }
                 inputAudioTimeUpdateJob?.cancel()
-                setButtonStates(ENABLED, ENABLED, ENABLED, ENABLED)
+                setButtonStates(ENABLED, ENABLED, previousPlayBtnState, ENABLED)
             }
         }
     }
 
     private fun setUpInputAudio() {
 
+        inputAudioPlayerOneTimestamp.value = Pair("0.00", "0.00")
+        inputAudioPlayerTwoTimestamp.value = Pair("0.00", "0.00")
+        inputAudioPlayerOneTime.value = 0
+        inputAudioPlayerTwoTime.value = 0
 
         val inputAudioPromptFileNameOne =
             currentMicroTask.input.asJsonObject.getAsJsonObject("files")
@@ -1566,6 +1571,7 @@ constructor(
         inputAudioPlayerOne?.prepare()
 
 
+
         inputAudioPlayerOne!!.setOnPreparedListener {
             inputAudioPlayerOneState.value = InputAudioPlayerState.PREPARED
             inputAudioPlayerOneTimestamp.value =
@@ -1579,11 +1585,13 @@ constructor(
                     DateTimeUtils.millisecondToTime(it.duration.toDouble()),
                     DateTimeUtils.millisecondToTime(it.duration.toDouble())
                 )
+            inputAudioPlayerOneState.value = InputAudioPlayerState.RELEASED
+            setButtonStates(ENABLED, ENABLED, previousPlayBtnState, ENABLED)
         }
 
 
         if (task.scenario_name == ScenarioType.SPEECH_DC_AUDREF) {
-
+            _isDualAudio.value = true
             val inputAudioPromptFileNameTwo =
                 currentMicroTask.input.asJsonObject.getAsJsonObject("files")
                     .get("audio_prompt").toString()
@@ -1610,7 +1618,11 @@ constructor(
                         DateTimeUtils.millisecondToTime(it.duration.toDouble()),
                         DateTimeUtils.millisecondToTime(it.duration.toDouble())
                     )
+                inputAudioPlayerTwoState.value = InputAudioPlayerState.RELEASED
+                setButtonStates(ENABLED, ENABLED, previousPlayBtnState, ENABLED)
             }
+        } else {
+            _isDualAudio.value = false
         }
 
 

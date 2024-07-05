@@ -152,6 +152,7 @@ constructor(
 
     private val _playBtnState: MutableStateFlow<ButtonState> = MutableStateFlow(DISABLED)
     val playBtnState = _playBtnState.asStateFlow()
+    private var previousPlayBtnState = _playBtnState.value
 
     private val _nextBtnState: MutableStateFlow<ButtonState> = MutableStateFlow(DISABLED)
     val nextBtnState = _nextBtnState.asStateFlow()
@@ -270,6 +271,7 @@ constructor(
         }
         when (control) {
             "Start" -> {
+                previousPlayBtnState = _playBtnState.value
                 println("IAP $inputMediaPlayer ")
                 inputMediaPlayer!!.start()
                 updateInputAudioTime()
@@ -281,20 +283,18 @@ constructor(
                 println("IAP ${inputAudioTimeUpdateJob?.isActive}")
                 inputAudioTimeUpdateJob?.cancel()
                 inputMediaPlayer!!.stop()
-                inputMediaPlayer!!.release()
-                inputAudioPlayerState.value = InputAudioPlayerState.RELEASED
-                setButtonStates(ENABLED, ENABLED, ENABLED, ENABLED)
+                inputAudioPlayerState.value = InputAudioPlayerState.STOPPED
+                setButtonStates(ENABLED, ENABLED, previousPlayBtnState, ENABLED)
             }
 
             "Pause" -> {
                 inputMediaPlayer!!.pause()
                 inputAudioTimeUpdateJob?.cancel()
                 inputAudioPlayerState.value = InputAudioPlayerState.PAUSED
-                setButtonStates(ENABLED, ENABLED, ENABLED, ENABLED)
+                setButtonStates(ENABLED, ENABLED, previousPlayBtnState, ENABLED)
             }
         }
     }
-
 
     private fun setupInputAudioAndImage() {
 
@@ -352,7 +352,7 @@ constructor(
                 )
             inputAudioTimeUpdateJob?.cancel()
             inputAudioPlayerState.value = InputAudioPlayerState.RELEASED
-            setButtonStates(ENABLED, ENABLED, ENABLED, ENABLED)
+            setButtonStates(ENABLED, ENABLED, previousPlayBtnState, ENABLED)
 
         }
 
@@ -663,6 +663,7 @@ constructor(
 
         /** Disable all buttons when NEXT is clicked */
         setButtonStates(DISABLED, DISABLED, DISABLED, DISABLED)
+        inputMediaPlayer?.release()
 
         when (activityState) {
             ActivityState.COMPLETED_PRERECORDING, ActivityState.OLD_PLAYING, ActivityState.OLD_PAUSED -> {
@@ -745,8 +746,8 @@ constructor(
         message.addProperty("button", "ANDROID_BACK")
         log(message)
 
-        inputMediaPlayer?.release()
 
+        inputMediaPlayer?.release()
         when (activityState) {
             ActivityState.INIT,
             ActivityState.RECORDED,

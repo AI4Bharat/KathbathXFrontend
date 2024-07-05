@@ -1,5 +1,7 @@
 package com.ai4bharat.kathbath.ui.scenarios.imageTextData
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -58,9 +60,13 @@ class ImageTextDataFragment : BaseMTRendererFragment(R.layout.microtask_image_te
 
     private fun handleNextClick() {
         val transcription = imageTextTranscriptionEv.text.toString()
-        viewModel.completeTranscription(transcription)
-        imageTextTranscriptionEv.setText("")
-        requestSoftKeyFocus(imageTextTranscriptionEv)
+        if (transcription == "") {
+            showWarningDialog()
+        } else {
+            viewModel.completeTranscription(transcription)
+            imageTextTranscriptionEv.setText("")
+            requestSoftKeyFocus(imageTextTranscriptionEv)
+        }
     }
 
     private fun setupObservers() {
@@ -75,6 +81,18 @@ class ImageTextDataFragment : BaseMTRendererFragment(R.layout.microtask_image_te
                 imageTextSourceWordIv.setImageResource(0)
             }
         }
+    }
+
+    private fun showWarningDialog() {
+        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        dialogBuilder.setMessage(getString(R.string.skip_task_warning))
+            .setPositiveButton("Yes") { _, _ ->
+                viewModel.skipMicrotask()
+            }.setNegativeButton("No") { dialog, _ ->
+                dialog.cancel()
+            }
+        val dialog: AlertDialog = dialogBuilder.create()
+        dialog.show()
     }
 
 }
