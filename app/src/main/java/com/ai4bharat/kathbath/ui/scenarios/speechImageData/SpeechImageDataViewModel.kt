@@ -264,7 +264,8 @@ constructor(
     fun controlInputAudio(control: String) {
         if (arrayOf(
                 ActivityState.RECORDING,
-                ActivityState.NEW_PLAYING
+                ActivityState.NEW_PLAYING,
+                ActivityState.OLD_PLAYING
             ).contains(activityState)
         ) {
             return
@@ -351,7 +352,7 @@ constructor(
                     DateTimeUtils.millisecondToTime(it.duration.toDouble())
                 )
             inputAudioTimeUpdateJob?.cancel()
-            inputAudioPlayerState.value = InputAudioPlayerState.RELEASED
+            inputAudioPlayerState.value = InputAudioPlayerState.FINISHED
             setButtonStates(ENABLED, ENABLED, previousPlayBtnState, ENABLED)
 
         }
@@ -868,6 +869,10 @@ constructor(
         }
     }
 
+    private fun releaseInputMediaPlayer() {
+        inputMediaPlayer?.release()
+    }
+
     /** Set the state of the activity to the target state */
     fun setActivityState(targetState: ActivityState) {
         // log the state transition
@@ -892,6 +897,7 @@ constructor(
             ActivityState.INIT -> {
                 releasePlayer()
                 releaseRecorder()
+                releaseInputMediaPlayer()
             }
 
             /** PRERECORDING: Create audio recorder and start prerecording */

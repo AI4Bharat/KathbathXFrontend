@@ -514,7 +514,6 @@ constructor(
 
         /** Disable all buttons when NEXT is clicked */
         setButtonStates(DISABLED, DISABLED, DISABLED, DISABLED)
-        releaseInputMediaPlayer()
 
         when (activityState) {
             AudioRecorderActivityState.COMPLETED_PRERECORDING, AudioRecorderActivityState.OLD_PLAYING, AudioRecorderActivityState.OLD_PAUSED -> {
@@ -743,6 +742,7 @@ constructor(
             AudioRecorderActivityState.INIT -> {
                 releasePlayer()
                 releaseRecorder()
+                releaseInputMediaPlayer()
             }
 
             /** PRERECORDING: Create audio recorder and start prerecording */
@@ -1413,9 +1413,7 @@ constructor(
 
     private fun releaseInputMediaPlayer() {
         println("SADVM# ${inputAudioPlayerOne} ${inputAudioPlayerOneState.value} ${inputAudioPlayerTwoState.value}")
-        inputAudioPlayerOne?.stop()
         inputAudioPlayerOne?.release()
-        inputAudioPlayerTwo?.stop()
         inputAudioPlayerTwo?.release()
         inputAudioTimeUpdateJob?.cancel()
 
@@ -1481,8 +1479,9 @@ constructor(
     ) {
         println("SADVMKT $control $player $activityState")
         if (arrayOf(
-                AudioRecorderActivityState.RECORDING,
-                AudioRecorderActivityState.NEW_PLAYING
+                RECORDING,
+                NEW_PLAYING,
+                OLD_PLAYING
             ).contains(activityState)
         ) {
             return
@@ -1585,7 +1584,7 @@ constructor(
                     DateTimeUtils.millisecondToTime(it.duration.toDouble()),
                     DateTimeUtils.millisecondToTime(it.duration.toDouble())
                 )
-            inputAudioPlayerOneState.value = InputAudioPlayerState.RELEASED
+            inputAudioPlayerOneState.value = InputAudioPlayerState.FINISHED
             setButtonStates(ENABLED, ENABLED, previousPlayBtnState, ENABLED)
         }
 
@@ -1618,7 +1617,8 @@ constructor(
                         DateTimeUtils.millisecondToTime(it.duration.toDouble()),
                         DateTimeUtils.millisecondToTime(it.duration.toDouble())
                     )
-                inputAudioPlayerTwoState.value = InputAudioPlayerState.RELEASED
+
+                inputAudioPlayerTwoState.value = InputAudioPlayerState.FINISHED
                 setButtonStates(ENABLED, ENABLED, previousPlayBtnState, ENABLED)
             }
         } else {
