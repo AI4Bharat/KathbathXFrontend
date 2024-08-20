@@ -34,7 +34,7 @@ import kotlinx.android.synthetic.main.microtask_common_back_button.view.*
 import kotlinx.android.synthetic.main.microtask_common_next_button.view.*
 
 
-private const val testVideo: String ="""<iframe
+private const val testVideo: String = """<iframe
 width="100%"
 height="100%"
 src="https://www.youtube.com/embed/1QQrcTik1qo"
@@ -45,20 +45,19 @@ allowfullscreen
 
 @AndroidEntryPoint
 class SignVideoMainFragment : BaseMTRendererFragment(R.layout.microtask_sign_video_data) {
-  override val viewModel: SignVideoMainViewModel by viewModels()
-  val args: SignVideoMainFragmentArgs by navArgs()
+    override val viewModel: SignVideoMainViewModel by viewModels()
+    val args: SignVideoMainFragmentArgs by navArgs()
 
-  private var displayPlaceHolder: Boolean = true
+    private var displayPlaceHolder: Boolean = true
 
-  private val recordVideoLauncher =
-    registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private val recordVideoLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
-      if (result.resultCode == AppCompatActivity.RESULT_OK) {
-        viewModel.setVideoSource(viewModel.outputRecordingFilePath)
-        videoPlayer.pausePlayer()
-        viewModel.onVideoReceived()
+            if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                viewModel.setVideoSource(viewModel.outputRecordingFilePath)
+                videoPlayer.pausePlayer()
+                viewModel.onVideoReceived()
 //        viewModel.onPlayerEnded()
-
 
 
 //        videoPlayer.startPlayer()
@@ -69,146 +68,149 @@ class SignVideoMainFragment : BaseMTRendererFragment(R.layout.microtask_sign_vid
 //            viewModel.onPlayerEnded()
 //          }
 //        })
-      }
-    }
-
-  override fun requiredPermissions(): Array<String> {
-    return arrayOf(Manifest.permission.CAMERA)
-  }
-
-  private fun setupObservers() {
-
-    viewModel.videoSource.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { source ->
-      if (source.isNotEmpty()) {
-        videoPlayer.setSource(source)
-      }
-    }
-
-    viewModel.backBtnState.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { state ->
-      backBtn.isClickable = state != DISABLED
-      backBtn.backIv.setBackgroundResource(
-        when (state) {
-          DISABLED -> R.drawable.ic_back_disabled
-          ENABLED -> R.drawable.ic_back_enabled
+            }
         }
-      )
+
+    override fun requiredPermissions(): Array<String> {
+        return arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
     }
 
-    viewModel.recordBtnState.observe(
-      viewLifecycleOwner.lifecycle,
-      viewLifecycleScope
-    ) { state ->
-      recordBtn.isClickable = state != DISABLED
-      recordBtn.alpha =
-        when (state) {
-          DISABLED -> 0.5F
-          ENABLED -> 1F
+    private fun setupObservers() {
+
+        viewModel.videoSource.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { source ->
+            if (source.isNotEmpty()) {
+                videoPlayer.setSource(source)
+            }
         }
-    }
 
-    viewModel.nextBtnState.observe(
-      viewLifecycleOwner.lifecycle,
-      viewLifecycleScope
-    ) { state ->
-      nextBtnCv.isClickable = state != DISABLED
-      nextBtnCv.nextIv.setBackgroundResource(
-        when (state) {
-          DISABLED -> R.drawable.ic_next_disabled
-          ENABLED -> R.drawable.ic_next_enabled
+        viewModel.backBtnState.observe(viewLifecycleOwner.lifecycle, viewLifecycleScope) { state ->
+            backBtn.isClickable = state != DISABLED
+            backBtn.backIv.setBackgroundResource(
+                when (state) {
+                    DISABLED -> R.drawable.ic_back_disabled
+                    ENABLED -> R.drawable.ic_back_enabled
+                }
+            )
         }
-      )
+
+        viewModel.recordBtnState.observe(
+            viewLifecycleOwner.lifecycle,
+            viewLifecycleScope
+        ) { state ->
+            recordBtn.isClickable = state != DISABLED
+            recordBtn.alpha =
+                when (state) {
+                    DISABLED -> 0.5F
+                    ENABLED -> 1F
+                }
+        }
+
+        viewModel.nextBtnState.observe(
+            viewLifecycleOwner.lifecycle,
+            viewLifecycleScope
+        ) { state ->
+            nextBtnCv.isClickable = state != DISABLED
+            nextBtnCv.nextIv.setBackgroundResource(
+                when (state) {
+                    DISABLED -> R.drawable.ic_next_disabled
+                    ENABLED -> R.drawable.ic_next_enabled
+                }
+            )
+        }
+
+        viewModel.launchRecordVideo.observe(
+            viewLifecycleOwner.lifecycle,
+            viewLifecycleScope
+        ) {
+            /** Determine action based on current state */
+
+            val intent = Intent(requireContext(), SignVideoRecord::class.java)
+            intent.putExtra("video_file_path", viewModel.outputRecordingFilePath)
+            intent.putExtra("sentence",
+                viewModel.currentMicroTask.input.asJsonObject.getAsJsonObject("data")
+                    .get("sentence").toString()
+            )
+
+            recordVideoLauncher.launch(intent)
+        }
+
+        viewModel.videoPlayerVisibility.observe(
+            viewLifecycleOwner.lifecycle,
+            viewLifecycleScope
+        ) { visible ->
+            if (visible) {
+                displayPlaceHolder = false
+                showVideoPlayer()
+            } else {
+                displayPlaceHolder = true
+                showTextPlaceHolder()
+            }
+        }
+
+        viewModel.sentenceTvText.observe(
+            viewLifecycleOwner.lifecycle,
+            viewLifecycleScope
+        ) { text ->
+            sentenceTv.text = text
+            sentenceTv.movementMethod = ScrollingMovementMethod()
+        }
+
+
     }
 
-    viewModel.launchRecordVideo.observe(
-      viewLifecycleOwner.lifecycle,
-      viewLifecycleScope
-    ) {
-      /** Determine action based on current state */
-
-      val intent = Intent(requireContext(), SignVideoRecord::class.java)
-      intent.putExtra("video_file_path", viewModel.outputRecordingFilePath)
-      intent.putExtra("sentence", viewModel.currentMicroTask.input.asJsonObject.getAsJsonObject("data").get("sentence").toString())
-
-      recordVideoLauncher.launch(intent)
-    }
-
-    viewModel.videoPlayerVisibility.observe(
-      viewLifecycleOwner.lifecycle,
-      viewLifecycleScope
-    ) { visible ->
-      if (visible) {
-        displayPlaceHolder = false
-        showVideoPlayer()
-      } else {
-        displayPlaceHolder = true
-        showTextPlaceHolder()
-      }
-    }
-
-    viewModel.sentenceTvText.observe(
-      viewLifecycleOwner.lifecycle,
-      viewLifecycleScope
-    ) { text ->
-      sentenceTv.text = text
-      sentenceTv.movementMethod = ScrollingMovementMethod()
-    }
-
-
-  }
-
-  private fun showVideoPlayer() {
-    videoPlayer.visible()
+    private fun showVideoPlayer() {
+        videoPlayer.visible()
 //    hintVideoPlayer.invisible()
-    videoPlayerPlaceHolder.invisible()
+        videoPlayerPlaceHolder.invisible()
 //    closeHintVideoBtn.invisible()
 //    showHintVideoBtn.visible()
-  }
+    }
 
-  private fun showTextPlaceHolder() {
-    videoPlayer.invisible()
+    private fun showTextPlaceHolder() {
+        videoPlayer.invisible()
 //    hintVideoPlayer.invisible()
-    videoPlayerPlaceHolder.visible()
+        videoPlayerPlaceHolder.visible()
 //    closeHintVideoBtn.invisible()
 //    showHintVideoBtn.visible()
-  }
+    }
 
-  private fun showHintVideoPlayer() {
-    videoPlayer.invisible()
+    private fun showHintVideoPlayer() {
+        videoPlayer.invisible()
 //    hintVideoPlayer.visible()
-    videoPlayerPlaceHolder.invisible()
+        videoPlayerPlaceHolder.invisible()
 //    closeHintVideoBtn.visible()
 //    showHintVideoBtn.invisible()
-  }
-
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? {
-    val view = super.onCreateView(inflater, container, savedInstanceState)
-    viewModel.setupViewModel(args.taskId, args.completed, args.total)
-    return view
-  }
-
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
-
-    setupObservers()
-    /** Set OnBackPressed callback */
-    requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { viewModel.onBackPressed() }
-
-    /** record instruction */
-    val recordInstruction =
-      viewModel.task.params.asJsonObject.get("instruction").asString
-        ?: "TEST INSTRUCTION (HARDCODED)"
-    instructionTv.text = recordInstruction
-
-    /** Set on click listeners */
-    recordBtn.setOnClickListener {
-      viewModel.handleRecordClick()
     }
-    nextBtnCv.setOnClickListener { viewModel.handleNextClick() }
-    backBtn.setOnClickListener { viewModel.handleBackClick() }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        viewModel.setupViewModel(args.taskId, args.completed, args.total)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupObservers()
+        /** Set OnBackPressed callback */
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { viewModel.onBackPressed() }
+
+        /** record instruction */
+        val recordInstruction =
+            viewModel.task.params.asJsonObject.get("instruction").asString
+                ?: "TEST INSTRUCTION (HARDCODED)"
+        instructionTv.text = recordInstruction
+
+        /** Set on click listeners */
+        recordBtn.setOnClickListener {
+            viewModel.handleRecordClick()
+        }
+        nextBtnCv.setOnClickListener { viewModel.handleNextClick() }
+        backBtn.setOnClickListener { viewModel.handleBackClick() }
 
 //    showHintVideoBtn.setOnClickListener {
 //      showHintVideoBtn.invisible()

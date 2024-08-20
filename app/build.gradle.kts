@@ -1,84 +1,85 @@
 plugins {
-  id("com.android.application")
-  id("kotlin-android")
-  id("kotlin-android-extensions")
-  id("kotlin-kapt")
-  id("com.google.gms.google-services")
-  id("com.google.firebase.crashlytics")
-  id("dagger.hilt.android.plugin")
-  id("androidx.navigation.safeargs.kotlin")
-  id("com.ncorti.ktfmt.gradle") version "0.5.0"
-  id("com.github.ben-manes.versions") version "0.38.0"
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-android-extensions")
+    id("kotlin-kapt")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs.kotlin")
+    id("com.ncorti.ktfmt.gradle") version "0.5.0"
+    id("com.github.ben-manes.versions") version "0.38.0"
 }
 
 android {
-  signingConfigs {
-    create("standard-release") {
-      storePassword = "ai4bharat@123"
-      keyAlias = "karya"
-      keyPassword = "ai4bharat@123"
-      storeFile = file("/Users/tahir/rural-crowdsourcing-toolkit/client/signing-keys/ai4b-keystore")
+    signingConfigs {
+        create("standard-release") {
+            storePassword = "ai4bharat@123"
+            keyAlias = "karya"
+            keyPassword = "ai4bharat@123"
+            storeFile =
+                file("/Users/tahir/rural-crowdsourcing-toolkit/client/signing-keys/ai4b-keystore")
+        }
     }
-  }
-  compileSdkVersion(33)
-  defaultConfig {
-    applicationId = "com.ai4bharat.karya"
-    minSdkVersion(24)
-    targetSdkVersion(33)
-    multiDexEnabled = true
-    versionCode = 98
-    versionName = "2"
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    vectorDrawables.useSupportLibrary = true
-    signingConfig = signingConfigs.getByName("standard-release")
-  }
-  buildTypes {
-    named("release") {
-      isMinifyEnabled = false
-      setProguardFiles(
-        listOf(
-          getDefaultProguardFile("proguard-android-optimize.txt"),
-          "proguard-rules.pro"
-        )
-      )
+    compileSdkVersion(33)
+    defaultConfig {
+        applicationId = "com.ai4bharat.karya"
+        minSdkVersion(24)
+        targetSdkVersion(33)
+        multiDexEnabled = true
+        versionCode = 98
+        versionName = "2"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        signingConfig = signingConfigs.getByName("standard-release")
     }
-  }
-  compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-  }
-  kotlinOptions {
-    jvmTarget = "1.8"
-  }
-  lintOptions {
-    isAbortOnError = false
+    buildTypes {
+        named("release") {
+            isMinifyEnabled = false
+            setProguardFiles(
+                listOf(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+                )
+            )
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    lintOptions {
+        isAbortOnError = false
 
-  }
-  androidExtensions {
-    isExperimental = true
-  }
-  buildFeatures {
-    dataBinding = true
-    viewBinding = true
-  }
-  packagingOptions {
-    exclude("META-INF/DEPENDENCIES")
-    exclude("META-INF/LICENSE")
-    exclude("META-INF/LICENSE.txt")
-    exclude("META-INF/license.txt")
-    exclude("META-INF/NOTICE")
-    exclude("META-INF/NOTICE.txt")
-    exclude("META-INF/notice.txt")
-    exclude("META-INF/ASL2.0")
-    exclude("META-INF/*.kotlin_module")
-  }
-  bundle {
-    language {
-      enableSplit = false
     }
-  }
-  flavorDimensions("size")
-  productFlavors {
+    androidExtensions {
+        isExperimental = true
+    }
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+    packagingOptions {
+        exclude("META-INF/DEPENDENCIES")
+        exclude("META-INF/LICENSE")
+        exclude("META-INF/LICENSE.txt")
+        exclude("META-INF/license.txt")
+        exclude("META-INF/NOTICE")
+        exclude("META-INF/NOTICE.txt")
+        exclude("META-INF/notice.txt")
+        exclude("META-INF/ASL2.0")
+        exclude("META-INF/*.kotlin_module")
+    }
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+    flavorDimensions("size")
+    productFlavors {
 //    create ("mit") {
 //      dimension = "size"
 //      applicationIdSuffix = "mit2022"
@@ -87,112 +88,120 @@ android {
 //      dimension = "size"
 //      applicationIdSuffix = "large"
 //    }
-    create("standard") {
-      dimension = "size"
+        create("standard") {
+            dimension = "size"
+        }
     }
-  }
 }
 
 ktfmt {
-  googleStyle()
+    googleStyle()
 
-  maxWidth.set(120)
-  removeUnusedImports.set(true)
+    maxWidth.set(120)
+    removeUnusedImports.set(true)
 }
 
 tasks.register<com.ncorti.ktfmt.gradle.tasks.KtfmtFormatTask>("ktfmtPrecommit") {
-  source = project.fileTree(rootDir)
-  include("**/*.kt")
+    source = project.fileTree(rootDir)
+    include("**/*.kt")
 }
 
 dependencyLocking {
-  lockAllConfigurations()
+    lockAllConfigurations()
 }
 
 dependencies {
 
-  implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.6.0"))
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-  implementation(Dependencies.AndroidX.appcompat)
-  implementation(Dependencies.AndroidX.constraintLayout)
-  implementation(Dependencies.AndroidX.datastorePrefs)
-  implementation(Dependencies.AndroidX.fragmentKtx)
-  implementation(Dependencies.AndroidX.legacy_support)
-  implementation(Dependencies.AndroidX.multidex)
-  implementation(Dependencies.AndroidX.work_runtime)
-  implementation(Dependencies.AndroidX.work_multiprocess)
+    implementation(Dependencies.CameraX.cameraX)
+    implementation(Dependencies.CameraX.cameraExtension)
+    implementation(Dependencies.CameraX.cameraView)
+    implementation(Dependencies.CameraX.cameraVideo)
+    implementation(Dependencies.CameraX.cameraLifecycle)
+    implementation(Dependencies.CameraX.camerCore)
 
-  implementation(Dependencies.AndroidX.Lifecycle.common)
-  implementation(Dependencies.AndroidX.Lifecycle.extensions)
-  implementation(Dependencies.AndroidX.Lifecycle.livedataKtx)
-  implementation(Dependencies.AndroidX.Lifecycle.runtimeKtx)
-  implementation(Dependencies.AndroidX.Lifecycle.saved_state)
-  implementation(Dependencies.AndroidX.Lifecycle.viewModelKtx)
+    implementation(Dependencies.AndroidX.appcompat)
+    implementation(Dependencies.AndroidX.constraintLayout)
+    implementation(Dependencies.AndroidX.datastorePrefs)
+    implementation(Dependencies.AndroidX.fragmentKtx)
+    implementation(Dependencies.AndroidX.legacy_support)
+    implementation(Dependencies.AndroidX.multidex)
+    implementation(Dependencies.AndroidX.work_runtime)
+    implementation(Dependencies.AndroidX.work_multiprocess)
 
-  implementation(Dependencies.AndroidX.Navigation.fragmentKtx)
-  implementation(Dependencies.AndroidX.Navigation.uiKtx)
+    implementation(Dependencies.AndroidX.Lifecycle.common)
+    implementation(Dependencies.AndroidX.Lifecycle.extensions)
+    implementation(Dependencies.AndroidX.Lifecycle.livedataKtx)
+    implementation(Dependencies.AndroidX.Lifecycle.runtimeKtx)
+    implementation(Dependencies.AndroidX.Lifecycle.saved_state)
+    implementation(Dependencies.AndroidX.Lifecycle.viewModelKtx)
 
-  implementation(Dependencies.AndroidX.Room.roomKtx)
-  implementation(Dependencies.AndroidX.Room.roomRuntime)
+    implementation(Dependencies.AndroidX.Navigation.fragmentKtx)
+    implementation(Dependencies.AndroidX.Navigation.uiKtx)
 
-  implementation(Dependencies.AndroidX.Navigation.fragmentKtx)
-  implementation(Dependencies.AndroidX.Navigation.uiKtx)
-  implementation("com.google.android.play:core-ktx:1.8.1")
+    implementation(Dependencies.AndroidX.Room.roomKtx)
+    implementation(Dependencies.AndroidX.Room.roomRuntime)
+
+    implementation(Dependencies.AndroidX.Navigation.fragmentKtx)
+    implementation(Dependencies.AndroidX.Navigation.uiKtx)
+    implementation("com.google.android.play:core-ktx:1.8.1")
     implementation("com.google.android.gms:play-services-location:21.0.1")
 
     kapt(Dependencies.AndroidX.Room.roomCompiler)
 
-  implementation(Dependencies.Google.gson)
-  implementation(Dependencies.Google.material)
+    implementation(Dependencies.Google.gson)
+    implementation(Dependencies.Google.material)
 
-  implementation(platform(Dependencies.Google.Firebase.bom))
-  implementation(Dependencies.Google.Firebase.crashlytics)
-  implementation(Dependencies.Google.Firebase.analytics)
+    implementation(platform(Dependencies.Google.Firebase.bom))
+    implementation(Dependencies.Google.Firebase.crashlytics)
+    implementation(Dependencies.Google.Firebase.analytics)
 
-  implementation(Dependencies.AndroidX.Hilt.dagger)
-  implementation(Dependencies.AndroidX.Hilt.hiltNavigationFragment)
+    implementation(Dependencies.AndroidX.Hilt.dagger)
+    implementation(Dependencies.AndroidX.Hilt.hiltNavigationFragment)
 
-  kapt(Dependencies.AndroidX.Hilt.daggerCompiler)
-  kapt(Dependencies.AndroidX.Hilt.daggerHiltCompiler)
+    kapt(Dependencies.AndroidX.Hilt.daggerCompiler)
+    kapt(Dependencies.AndroidX.Hilt.daggerHiltCompiler)
 
-  implementation(Dependencies.Kotlin.Coroutines.core)
-  implementation(Dependencies.Kotlin.Coroutines.coroutines)
+    implementation(Dependencies.Kotlin.Coroutines.core)
+    implementation(Dependencies.Kotlin.Coroutines.coroutines)
 
-  implementation(Dependencies.ThirdParty.circleImageView)
-  implementation(Dependencies.ThirdParty.glide)
-  implementation(Dependencies.ThirdParty.okhttp)
-  implementation(Dependencies.ThirdParty.loggingInterceptor)
-  implementation(Dependencies.ThirdParty.stateProgressBar)
+    implementation(Dependencies.ThirdParty.circleImageView)
+    implementation(Dependencies.ThirdParty.glide)
+    implementation(Dependencies.ThirdParty.okhttp)
+    implementation(Dependencies.ThirdParty.loggingInterceptor)
+    implementation(Dependencies.ThirdParty.stateProgressBar)
 
-  implementation(Dependencies.ThirdParty.Retrofit.retrofit)
-  implementation(Dependencies.ThirdParty.Retrofit.gsonConverter)
+    implementation(Dependencies.ThirdParty.Retrofit.retrofit)
+    implementation(Dependencies.ThirdParty.Retrofit.gsonConverter)
 
-  debugImplementation(Dependencies.ThirdParty.debugDB)
+    debugImplementation(Dependencies.ThirdParty.debugDB)
 
-  implementation("com.mcxiaoke.volley:library:1.0.19")
-  implementation("com.nex3z:flow-layout:1.3.4-beta01")
+    implementation("com.mcxiaoke.volley:library:1.0.19")
+    implementation("com.nex3z:flow-layout:1.3.4-beta01")
 
-  // Scaled dp and sp implemenations
-  implementation("com.intuit.ssp:ssp-android:1.0.6")
-  implementation("com.intuit.sdp:sdp-android:1.0.6")
+    // Scaled dp and sp implemenations
+    implementation("com.intuit.ssp:ssp-android:1.0.6")
+    implementation("com.intuit.sdp:sdp-android:1.0.6")
 
-  // Themed button toggle group
-  implementation("nl.bryanderidder:themed-toggle-button-group:1.3.4")
+    // Themed button toggle group
+    implementation("nl.bryanderidder:themed-toggle-button-group:1.3.4")
 
-  // Camera view
-  implementation("com.otaliastudios:cameraview:2.7.2")
+    // Camera view
+    implementation("com.otaliastudios:cameraview:2.7.2")
 
-  // Android rating bar
-  implementation("me.zhanghai.android.materialratingbar:library:1.4.0")
-  // Custom aars
-  implementation(files("libs/zoomage-debug.aar"))
+    // Android rating bar
+    implementation("me.zhanghai.android.materialratingbar:library:1.4.0")
+    // Custom aars
+    implementation(files("libs/zoomage-debug.aar"))
 
-  // Video data collection
-  implementation ("com.github.HamidrezaAmz:MagicalExoPlayer:2.0.6")
+    // Video data collection
+    implementation("com.github.HamidrezaAmz:MagicalExoPlayer:2.0.6")
 //  implementation ("com.google.android.gms:play-services-mlkit-face-detection:16.2.0")
 //  implementation ("com.google.mlkit:face-detection:16.1.2")
-  implementation ("com.github.fishwjy:VideoCompressor:master")
-  implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
+    implementation("com.github.fishwjy:VideoCompressor:master")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
 
 
 }

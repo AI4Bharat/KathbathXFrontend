@@ -1,4 +1,8 @@
 <resources>
+
+    <string name="stop_recording" translatable="false">Stop Recording</string>
+    <string name="start_recording" translatable="false">Start Recording</string>
+
     <string name="language_name">EN</string>
 
     <!-- Errors -->
@@ -180,7 +184,6 @@ I do hereby give permission to use the recordings of my voice under the CC BY 4.
     </string>
 
 
-
     <!-- Phone Number -->
     <string name="phone_number_title">Phone Number</string>
     <string name="phone_number_prompt">To use Karya, you need to register with our application using your phone number. Please enter your phone number below.</string>
@@ -317,27 +320,27 @@ I do hereby give permission to use the recordings of my voice under the CC BY 4.
         <item>Telugu</item>
         <item>Urdu</item>
     </string-array>
-<!--    <string name="sst_okay">Accept</string>-->
-<!--    <string name="sst_bad">Reject</string>-->
-<!--    <string name="recording_sst">SST</string>-->
-<!--    <string name="recording_volap">Vo-lap</string>-->
-<!--    <string name="volap_bad">Reject</string>-->
-<!--    <string name="volap_okay">Accept</string>-->
-<!--    <string name="recording_bgChatter">BgChatter</string>-->
-<!--    <string name="bgChatter_bad">Reject</string>-->
-<!--    <string name="bgChatter_okay">Accept</string>-->
-<!--    <string name="recording_cSwitching">CSwitch</string>-->
-<!--    <string name="cSwitching_bad">Reject</string>-->
-<!--    <string name="cSwitching_okay">Accept</string>-->
-<!--    <string name="recording_bgNoise">BgNoise</string>-->
-<!--    <string name="bgNoise_bad">Reject</string>-->
-<!--    <string name="bgNoise_okay">Accept</string>-->
-<!--    <string name="recording_readQuality">ReadQ</string>-->
-<!--    <string name="readQuality_bad">Reject</string>-->
-<!--    <string name="readQuality_okay">Accept</string>-->
-<!--    <string name="recording_extemporeQuality">ExtemQ</string>-->
-<!--    <string name="extemporeQuality_bad">Reject</string>-->
-<!--    <string name="extemporeQuality_okay">Accept</string>-->
+    <!--    <string name="sst_okay">Accept</string>-->
+    <!--    <string name="sst_bad">Reject</string>-->
+    <!--    <string name="recording_sst">SST</string>-->
+    <!--    <string name="recording_volap">Vo-lap</string>-->
+    <!--    <string name="volap_bad">Reject</string>-->
+    <!--    <string name="volap_okay">Accept</string>-->
+    <!--    <string name="recording_bgChatter">BgChatter</string>-->
+    <!--    <string name="bgChatter_bad">Reject</string>-->
+    <!--    <string name="bgChatter_okay">Accept</string>-->
+    <!--    <string name="recording_cSwitching">CSwitch</string>-->
+    <!--    <string name="cSwitching_bad">Reject</string>-->
+    <!--    <string name="cSwitching_okay">Accept</string>-->
+    <!--    <string name="recording_bgNoise">BgNoise</string>-->
+    <!--    <string name="bgNoise_bad">Reject</string>-->
+    <!--    <string name="bgNoise_okay">Accept</string>-->
+    <!--    <string name="recording_readQuality">ReadQ</string>-->
+    <!--    <string name="readQuality_bad">Reject</string>-->
+    <!--    <string name="readQuality_okay">Accept</string>-->
+    <!--    <string name="recording_extemporeQuality">ExtemQ</string>-->
+    <!--    <string name="extemporeQuality_bad">Reject</string>-->
+    <!--    <string name="extemporeQuality_okay">Accept</string>-->
     <string name="commentText">Comments</string>
     <string name="recording_decision">Decision</string>
     <string name="decision_bad">Reject</string>
