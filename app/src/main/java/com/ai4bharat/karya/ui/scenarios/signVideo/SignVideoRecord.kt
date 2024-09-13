@@ -11,6 +11,8 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
@@ -44,6 +46,8 @@ class SignVideoRecord : AppCompatActivity() {
     private lateinit var innerVideoTextView2: TextView
     private lateinit var compressionProgress: ProgressBar
     private var recording: Recording? = null
+    private val TAG: String = "NEW_CAMERAX"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +59,7 @@ class SignVideoRecord : AppCompatActivity() {
         compressionProgress = findViewById(R.id.compressionProgress2)
 
         innerVideoTextView2.text = intent.getStringExtra("sentence")!!
+        Log.d(TAG, "INTENT is $intent ")
         innerVideoTextView2.movementMethod = ScrollingMovementMethod()
 
         prepareCamera()
@@ -62,6 +67,7 @@ class SignVideoRecord : AppCompatActivity() {
             captureVideo()
         }
     }
+
 
     private fun prepareCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
@@ -106,7 +112,6 @@ class SignVideoRecord : AppCompatActivity() {
         scratchVideoFilePath = "${videoFilePath}.scratch.mp4"
         val scratchVideoFile = File(scratchVideoFilePath)
 
-
         val curRecording = recording
         if (curRecording != null) {
             // Stop the current recording session.
@@ -126,6 +131,8 @@ class SignVideoRecord : AppCompatActivity() {
                     PermissionChecker.PERMISSION_GRANTED
                 ) {
                     withAudioEnabled()
+                } else {
+                    return
                 }
             }
             .start(ContextCompat.getMainExecutor(this)) { recordEvent ->
@@ -137,19 +144,18 @@ class SignVideoRecord : AppCompatActivity() {
 
                     is VideoRecordEvent.Finalize -> {
                         if (!recordEvent.hasError()) {
-                            val msg = "Video capture succeeded: " +
-                                    "${recordEvent.outputResults.outputUri}"
-                            Toast.makeText(baseContext, msg, Toast.LENGTH_LONG)
+                            val msg = "Video recording successful"
+                            Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT)
                                 .show()
                             Log.d("NEW VIDEO", msg)
                             compressVideo(scratchVideoFilePath, videoFilePath)
                         } else {
                             recording?.close()
                             recording = null
-                            Log.e(
-                                "NEW VIDEO", "Video capture ends with error: " +
-                                        "${recordEvent.error}"
-                            )
+                            val videoCaptureError: String =
+                                "Video capture ended with ERROR" + recordEvent.error
+                            Log.e("NEW VIDEO", "captureVideo: $videoCaptureError")
+                            innerVideoTextView2.text = videoCaptureError
                         }
                         startRecordingButton.apply {
                             text = getString(R.string.start_recording)
@@ -198,6 +204,10 @@ class SignVideoRecord : AppCompatActivity() {
                 }
             })
     }
+
+    override fun onBackPressed() {
+    }
+
 
 //    video_file_path = intent.getStringExtra("video_file_path")!!
 //    scratch_video_file_path = "${video_file_path}.scratch.mp4"
@@ -328,10 +338,5 @@ class SignVideoRecord : AppCompatActivity() {
 ////    cameraView.stopVideo()
 //  }
 
-//  override fun onBackPressed() {
-//    setResult(500,intent)
-//    finish()
-//    cameraView.stopVideo()
-//  }
 
 //}
