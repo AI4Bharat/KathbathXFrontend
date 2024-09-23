@@ -41,49 +41,8 @@ class MainActivity : AppCompatActivity() {
         hideStatusBar()
         updateApp(FORCE_UPDATE)
         setContentView(binding.root)
-        getReferralCode()
     }
 
-
-    private fun getReferralCode() {
-
-        val referrerClient: InstallReferrerClient = InstallReferrerClient.newBuilder(this).build()
-        referrerClient.startConnection(object : InstallReferrerStateListener {
-
-            override fun onInstallReferrerServiceDisconnected() {
-            }
-
-            override fun onInstallReferrerSetupFinished(responseCode: Int) {
-                when (responseCode) {
-                    InstallReferrerResponse.OK -> {
-                        val response: ReferrerDetails = referrerClient.installReferrer
-                        val referrerUrl: String = response.installReferrer
-                        val referrerClickTime: Long = response.referrerClickTimestampSeconds
-                        val appInstallTime: Long = response.installBeginTimestampServerSeconds
-                        val instantExperiencedLaunched: Boolean = response.googlePlayInstantParam
-
-                        println(
-                            "The referral info is $referrerUrl $referrerClickTime $appInstallTime" +
-                                    "$instantExperiencedLaunched"
-                        )
-
-                        referrerClient.endConnection()
-                    }
-
-                    InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
-                    }
-
-                    InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
-                    }
-
-                }
-            }
-
-
-        })
-
-
-    }
 
     private fun hideStatusBar() {
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN

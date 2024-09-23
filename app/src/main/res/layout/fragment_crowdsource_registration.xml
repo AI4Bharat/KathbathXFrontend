@@ -44,12 +44,12 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/crowdsourceRegistrationName"
-                android:layout_width="match_parent"
                 style="@style/EditTextTextStyle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:hint="Name"
-                android:inputType="textPersonName" />
+                android:hint="Full Name"
+                android:inputType="textPersonName"
+                android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.chip.ChipGroup
@@ -100,7 +100,7 @@
             android:layout_marginEnd="32dp"
             android:theme="@style/CustomTextInputLayout"
             app:boxBackgroundColor="@color/c_white"
-            app:helperText="Please note that only adult(age 18 or more) can participate in this data collection."
+            app:helperText="Please note that only adults (age 18 or more) can participate in this data collection."
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:startIconDrawable="@drawable/outline_calendar_month_24"
@@ -293,6 +293,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
+            app:helperText="Don't include country code in the phone number"
             android:layout_marginEnd="32dp"
             android:theme="@style/CustomTextInputLayout"
             app:boxBackgroundColor="@color/c_white"
@@ -344,19 +345,21 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
             android:theme="@style/CustomTextInputLayout"
+            android:visibility="gone"
             app:boxBackgroundColor="@color/c_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:startIconDrawable="@drawable/outline_groups_24"
-            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationOccupationLayout">
+            app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistrationOccupationLayout"
+            app:startIconDrawable="@drawable/outline_groups_24">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/crowdsourceRegistrationReferralCode"
-                android:layout_width="match_parent"
-                android:maxLines="1"
                 style="@style/EditTextTextStyle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Referral Code" />
+                android:hint="Referral Code"
+                android:maxLines="1"
+                android:visibility="visible" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView

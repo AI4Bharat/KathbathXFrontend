@@ -1,4 +1,5 @@
 <resources>
+    <string name="downloadReferralSendStatus" translatable="false">downloadReferralSendStatus</string>
     <string name="language_name">EN</string>
 
     <!-- Errors -->

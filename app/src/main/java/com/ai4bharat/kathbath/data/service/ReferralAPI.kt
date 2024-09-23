@@ -7,6 +7,6 @@ import retrofit2.http.POST
 
 interface ReferralAPI {
 
-    @POST("/referral/submit")
+    @POST("/referral/submit_info")
     suspend fun submitReferral(@Body referralInfo: ReferralInfo): Response<Boolean>
 }

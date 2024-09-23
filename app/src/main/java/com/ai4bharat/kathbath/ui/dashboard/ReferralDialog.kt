@@ -30,24 +30,24 @@ class ReferralDialog(context: Context, private val workerRecord: WorkerRecord?) 
 //            openWebPage()
             val referralType = getReferralType()
             println("RDKT $referralType")
-//            handleDifferentReferralType(referralType)
-            handleDifferentReferralType("T2")
+            handleDifferentReferralType()
 
         })
     }
 
 
-    private fun handleDifferentReferralType(referralType: String) {
+    private fun handleDifferentReferralType() {
 
-        when (referralType) {
-            "T1" -> openMultipleUser()
-            "T2",
-            "C" -> openWebPage()
-
-            else -> {
-
-            }
-        }
+        openWebPage()
+//        when (referralType) {
+//            "T1" -> openMultipleUser()
+//            "T2",
+//            "C" -> openWebPage()
+//
+//            else -> {
+//
+//            }
+//        }
 
     }
 
@@ -90,9 +90,9 @@ class ReferralDialog(context: Context, private val workerRecord: WorkerRecord?) 
         val referralCode: String? = createReferralCode()
         if (referralCode != null) {
             val encodedUrl =
-                "https://api.whatsapp.com/send/?phone=15550990252&text=${
+                "https://api.whatsapp.com/send/?phone=917397389339&text=${
                     URLEncoder.encode(
-                        "Hi, send this message to start interacting with AI4Bharat.",
+                        "Please click the send button on the right to begin the process of sharing the Kathbath Lite app with your friends. Instructions will follow.",
                         "UTF-8"
                     )
                 }"

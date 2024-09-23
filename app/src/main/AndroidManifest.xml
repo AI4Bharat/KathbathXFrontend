@@ -19,7 +19,7 @@
         tools:replace="android:allowBackup">
         <activity
             android:name="com.ai4bharat.kathbath.ui.MainActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:exported="true">
             <intent-filter>

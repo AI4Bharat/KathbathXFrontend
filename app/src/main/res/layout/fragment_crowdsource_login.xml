@@ -54,31 +54,28 @@
                 app:layout_constraintEnd_toEndOf="@+id/crowdsourceKaryaLogo"
                 app:layout_constraintStart_toStartOf="@+id/crowdsourceKaryaLogo"
                 app:layout_constraintTop_toBottomOf="@+id/crowdsourceKaryaLogo" />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/crowdsourceLoginPhoneNumberTextInput"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            android:theme="@style/CustomTextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
+            android:theme="@style/CustomTextInputLayout"
+            app:boxBackgroundColor="@color/c_white"
             app:boxStrokeColor="@color/primary_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:boxBackgroundColor="@color/c_white"
             app:layout_constraintTop_toBottomOf="@+id/crowdsourceHeading"
             app:startIconDrawable="@drawable/outline_phone_24">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/crowdsourceLoginPhoneNumber"
-                android:layout_width="match_parent"
                 style="@style/EditTextTextStyle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Phone Number"
                 android:inputType="phone" />
@@ -87,30 +84,29 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/crowdsourceLoginLanguageLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-            android:theme="@style/CustomTextInputLayout"
             android:layout_width="0dp"
-            app:hintTextColor="@color/primary_color"
             android:layout_height="wrap_content"
-            app:boxBackgroundColor="@color/c_white"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:hint="Language"
+            android:theme="@style/CustomTextInputLayout"
+            app:boxBackgroundColor="@color/c_white"
             app:boxStrokeColor="@color/primary_color"
+            app:helperText="Please select the language you selected during registration"
+            app:hintTextColor="@color/primary_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/crowdsourceLoginPhoneNumberTextInput"
-            app:startIconDrawable="@drawable/language_icon"
-            >
+            app:startIconDrawable="@drawable/language_icon">
 
             <AutoCompleteTextView
                 android:id="@+id/crowdsourceLoginLanguage"
-                android:maxLines="1"
                 style="@style/EditTextTextStyle"
-                android:fontFamily="@font/poppins_regular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
                 android:inputType="none"
-                />
+                android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -132,12 +128,12 @@
 
         <TextView
             android:id="@+id/crowdsourceRegistration"
+            style="@style/NormalTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
             android:text="Register Here"
-            style="@style/NormalTextStyle"
             android:textAlignment="center"
             android:textColor="@color/primary_color"
             app:layout_constraintEnd_toEndOf="parent"
@@ -148,15 +144,17 @@
 
         <TextView
             android:id="@+id/crowdsourceLoginStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/poppins_regular"
             android:textColor="#FF0000"
-            app:layout_constraintEnd_toEndOf="@+id/crowdsourceLoginButton"
-            app:layout_constraintStart_toStartOf="@+id/crowdsourceLoginButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/crowdsourceRegistration" />
 
         <ProgressBar
@@ -164,8 +162,8 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
             android:indeterminateTint="@color/primary_color"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

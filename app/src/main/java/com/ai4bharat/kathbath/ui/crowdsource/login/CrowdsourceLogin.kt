@@ -1,7 +1,9 @@
 package com.ai4bharat.kathbath.ui.crowdsource.login
 
+import android.content.Context
 import androidx.fragment.app.viewModels
 import android.os.Bundle
+import android.preference.PreferenceManager
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +15,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ai4bharat.kathbath.R
+import com.ai4bharat.kathbath.data.model.karya.modelsExtra.ReferralInfo
 import com.ai4bharat.kathbath.databinding.FragmentCrowdsourceLoginBinding
 import com.ai4bharat.kathbath.ui.crowdsource.registration.Language
 import com.ai4bharat.kathbath.utils.extensions.viewBinding
+import com.android.installreferrer.api.InstallReferrerClient
+import com.android.installreferrer.api.InstallReferrerStateListener
+import com.android.installreferrer.api.ReferrerDetails
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -43,10 +49,81 @@ class CrowdsourceLogin : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupUIElements()
         setupUIVariables()
-        viewModel.testingReferral()
+        getReferralCode()
+    }
+
+    private fun getReferralCode() {
+
+        val referrerClient: InstallReferrerClient =
+            InstallReferrerClient.newBuilder(context).build()
+        referrerClient.startConnection(object : InstallReferrerStateListener {
+
+            override fun onInstallReferrerServiceDisconnected() {
+            }
+
+            override fun onInstallReferrerSetupFinished(responseCode: Int) {
+                when (responseCode) {
+                    InstallReferrerClient.InstallReferrerResponse.OK -> {
+                        val response: ReferrerDetails = referrerClient.installReferrer
+                        val referrerUrl: String = response.installReferrer
+                        val referrerClickTime: Long = response.referrerClickTimestampSeconds
+                        val appInstallTime: Long = response.installBeginTimestampServerSeconds
+                        val instantExperiencedLaunched: Boolean = response.googlePlayInstantParam
+
+                        println(
+                            "The referral info is $referrerUrl $referrerClickTime $appInstallTime" +
+                                    "$instantExperiencedLaunched"
+                        )
+
+                        if (!getReferralSharedPref()) {
+                            viewModel.sendReferralDownloadInfo(referrerUrl)
+                        }
+
+                        referrerClient.endConnection()
+                    }
+
+                    InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED -> {
+                    }
+
+                    InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE -> {
+                    }
+
+                }
+            }
+
+
+        })
+    }
+
+    private fun getReferralSharedPref(): Boolean {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
+        if (sharedPref != null) {
+            println(
+                "Referral shared pref ${
+                    sharedPref.getBoolean(
+                        getString(R.string.downloadReferralSendStatus),
+                        false
+                    )
+                }"
+            )
+            return sharedPref.getBoolean(getString(R.string.downloadReferralSendStatus), false)
+        }
+        return false
+    }
+
+    private fun updateReferralSharedPref(status: Boolean) {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            println("Referral update shared pref $status")
+            putBoolean(getString(R.string.downloadReferralSendStatus), status)
+            commit()
+        }
     }
 
     private fun setupUIVariables() {
+        viewModel.updateReferralDownloadInfo.observe(viewLifecycleOwner) {
+            updateReferralSharedPref(it)
+        }
         viewModel.loginUserError.observe(viewLifecycleOwner, Observer { loginUserError ->
             if (loginUserError.phoneNumberError.status) {
                 binding.crowdsourceLoginPhoneNumber.error = loginUserError.phoneNumberError.message

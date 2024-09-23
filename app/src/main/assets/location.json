@@ -2482,5 +2482,13 @@
         "name": "Uttar Dinajpur"
       }
     }
+  },
+  "other": {
+    "name": "Other",
+    "district": {
+      "other": {
+        "name": "Other"
+      }
+    }
   }
 }

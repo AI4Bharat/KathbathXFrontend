@@ -59,7 +59,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/poppins_regular"
-        android:text="Spread the word and assist us in creating a robust dataset for your language. Share our platform with friends on WhatsApp and let's improve speech recognition together!"
+        android:text="Share our app with your friends. Click the button below to help recruit more contributors. Help us create AI tools (like ChatGPT) that can converse in Indian languages!"
         android:textAlignment="center"
         android:textColor="@color/heading_color"
         android:textSize="14sp"
