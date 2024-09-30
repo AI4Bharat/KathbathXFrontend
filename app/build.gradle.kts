@@ -24,9 +24,9 @@ android {
   defaultConfig {
     applicationId = "com.ai4bharat.karya"
     minSdkVersion(24)
-    targetSdkVersion(33)
+    targetSdkVersion(34)
     multiDexEnabled = true
-    versionCode = 98
+    versionCode = 99
     versionName = "2"
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     vectorDrawables.useSupportLibrary = true
