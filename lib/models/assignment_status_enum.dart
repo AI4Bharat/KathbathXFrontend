@@ -1,0 +1,9 @@
+enum MicrotaskAssignmentStatus {
+  ASSIGNED,
+  INCOMPLETE,
+  SKIPPED,
+  EXPIRED,
+  COMPLETED,
+  SUBMITTED,
+  VERIFIED,
+}
