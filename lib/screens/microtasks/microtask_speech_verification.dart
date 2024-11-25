@@ -306,18 +306,24 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text(
-                                  'Instruction audio: ',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                                const Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    'Instruction audio: ',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                                PlayerWidget(
-                                  filePath: inputAudioPath!,
-                                  duration: 4,
-                                  lPBar: false,
-                                  playerModel:
-                                      AudioPlayerModel(inputAudioPath!),
+                                Expanded(
+                                  flex: 5,
+                                  child: PlayerWidget(
+                                    filePath: inputAudioPath!,
+                                    duration: 4,
+                                    lPBar: false,
+                                    playerModel:
+                                        AudioPlayerModel(inputAudioPath!),
+                                  ),
                                 ),
                               ],
                             ))
@@ -330,17 +336,24 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text(
-                                  'Test Audio: ',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
+                                const Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    'Test Audio: ',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                                PlayerWidget(
-                                  filePath: inputRecordingPath!,
-                                  duration: recordingDuration,
-                                  playerModel:
-                                      AudioPlayerModel(inputRecordingPath!),
+                                Expanded(
+                                  flex:
+                                      2, // Use a ratio for how much space this should take
+                                  child: PlayerWidget(
+                                    filePath: inputRecordingPath!,
+                                    duration: recordingDuration,
+                                    playerModel:
+                                        AudioPlayerModel(inputRecordingPath!),
+                                  ),
                                 ),
                               ],
                             ))

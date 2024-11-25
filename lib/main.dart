@@ -192,7 +192,7 @@ class _KaryaAppState extends State<KaryaApp> {
                               as List<MicroTaskAssignmentRecord>,
                         );
                       },
-                      '/speech_transcription_microtask': (context) {
+                      '/speech_verification_microtask': (context) {
                         final args = ModalRoute.of(context)!.settings.arguments
                             as Map<String, dynamic>;
                         return SpeechVerificationScreen(

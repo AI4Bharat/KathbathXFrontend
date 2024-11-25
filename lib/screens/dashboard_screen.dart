@@ -279,27 +279,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           });
           break;
 
-        case 'IMAGE_DC_TEXT':
-          Navigator.pushNamed(
-            // ignore: use_build_context_synchronously
-            context,
-            '/image_transcription_microtask',
-            arguments: {
-              'microtasks': microtasks,
-              'microtaskAssignments': toBeDoneAssignments,
-            },
-          ).then((_) {
-            setState(() {
-              _loadTasks();
-            });
-          });
-          break;
-
         case 'SPEECH_DV_MULTI':
           Navigator.pushNamed(
             // ignore: use_build_context_synchronously
             context,
-            '/speech_transcription_microtask',
+            '/speech_verification_microtask',
             arguments: {
               'taskName': taskName,
               'microtasks': microtasks,
