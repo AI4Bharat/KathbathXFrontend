@@ -57,9 +57,11 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
   bool isRecordingOutputPresent = false;
   bool isSentenceOutputPresent = false;
   bool isDecisionMade = false;
+  final TextEditingController _commentController = TextEditingController();
+  bool isValueFromDb = false;
 
   final Map<String, dynamic> evaluationMap = {
-    "decision": false,
+    "decision": null,
     "comments": false
   };
 
@@ -116,12 +118,36 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
   }
 
   Future<bool> updateDbIfCompleted() async {
-    _microTaskAssignmentDao.updateMicrotaskAssignmentStatus(
-        assignmentId!, MicrotaskAssignmentStatus.COMPLETED);
-    String fileJson = '{"data":{${jsonEncode(evaluationMap)}}';
-    int updateStatus = await _microTaskAssignmentDao
-        .updateMicrotaskAssignmentOutputFile(assignmentId!, fileJson);
-    return (updateStatus == 1);
+    if (evaluationMap['decision'] == null) {
+      return false;
+    } else {
+      _microTaskAssignmentDao.updateMicrotaskAssignmentStatus(
+          assignmentId!, MicrotaskAssignmentStatus.COMPLETED);
+      String fileJson = '{"data":${jsonEncode(evaluationMap)},"files":{}}';
+      int updateStatus = await _microTaskAssignmentDao
+          .updateMicrotaskAssignmentOutputFile(assignmentId!, fileJson);
+      return (updateStatus == 1);
+    }
+  }
+
+  Future<String?> getDecisionInDb() async {
+    MicroTaskAssignmentRecord? currentAssignment =
+        await _microTaskAssignmentDao.getMicroTaskAssignmentById(assignmentId!);
+    if (currentAssignment!.output != null) {
+      // log("Output file: ${currentAssignment.output}");
+      var decodedJson = jsonDecode(currentAssignment.output!);
+      var existingDecision = decodedJson['data']?['decision'];
+
+      if (existingDecision != null) {
+        isValueFromDb = true;
+      } else {
+        isValueFromDb = false;
+      }
+      log("Is value present in the db: ${isValueFromDb} and existinG DECISION IS $existingDecision");
+      return existingDecision;
+    } else {
+      return null;
+    }
   }
 
   Future<bool> updateSkippedAssignment() async {
@@ -159,12 +185,15 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
           assignmentId = relevantAssignments[0].id;
         });
 
+        String? currentDecision = await getDecisionInDb();
+
         Map<String, String> inputPaths = await saveAssignmentFiles(
             widget.microtasks[microNum].id, assignmentId!,
             imageFilename: inputImageFilename,
             audioFilename: inputAudioFilename,
             recordingFilename: inputRecordingFilename);
         setState(() {
+          evaluationMap['decision'] = currentDecision;
           inputImagePath = inputPaths['image_path'];
           inputAudioPath = inputPaths['audio_prompt_path'];
           inputRecordingPath = inputPaths['recording_path'];
@@ -267,6 +296,34 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
     );
   }
 
+  Future<bool?> showOverwriteWarning() {
+    return (showDialog<bool>(
+      context: context,
+      barrierDismissible: false, // Prevent closing by tapping outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Overwrite Decision'),
+          content: const Text(
+              'You have already made a decision. Do you want to overwrite it?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // User declines
+              },
+              child: const Text('No'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // User consents
+              },
+              child: const Text('Yes'),
+            ),
+          ],
+        );
+      },
+    )); // Return false if the dialog is dismissed without a response
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<CheckboxProvider>(
@@ -310,6 +367,7 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                                   flex: 2,
                                   child: Text(
                                     'Instruction audio: ',
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold),
@@ -320,7 +378,6 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                                   child: PlayerWidget(
                                     filePath: inputAudioPath!,
                                     duration: 4,
-                                    lPBar: false,
                                     playerModel:
                                         AudioPlayerModel(inputAudioPath!),
                                   ),
@@ -347,7 +404,7 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                                 ),
                                 Expanded(
                                   flex:
-                                      2, // Use a ratio for how much space this should take
+                                      5, // Use a ratio for how much space this should take
                                   child: PlayerWidget(
                                     filePath: inputRecordingPath!,
                                     duration: recordingDuration,
@@ -371,14 +428,23 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                     children: [
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            if (evaluationMap['decision'] != null) {
+                              bool? shouldProceed =
+                                  await showOverwriteWarning();
+                              if (!shouldProceed!) return;
+                            }
                             setState(() {
+                              isValueFromDb = false;
                               isDecisionMade = true;
                               evaluationMap['decision'] = 'reject';
                             });
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepOrangeAccent,
+                            backgroundColor:
+                                evaluationMap['decision'] == 'reject'
+                                    ? Colors.green
+                                    : Colors.deepOrangeAccent,
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                             shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
@@ -401,14 +467,23 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                       const SizedBox(width: 8.0),
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            if (evaluationMap['decision'] != null) {
+                              bool? shouldProceed =
+                                  await showOverwriteWarning();
+                              if (!shouldProceed!) return;
+                            }
                             setState(() {
+                              isValueFromDb = false;
                               isDecisionMade = true;
                               evaluationMap['decision'] = 'acceptable';
                             });
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orange,
+                            backgroundColor:
+                                evaluationMap['decision'] == 'acceptable'
+                                    ? Colors.green
+                                    : Colors.orange,
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                             shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.zero,
@@ -428,14 +503,23 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                       const SizedBox(width: 8.0),
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            if (evaluationMap['decision'] != null) {
+                              bool? shouldProceed =
+                                  await showOverwriteWarning();
+                              if (!shouldProceed!) return;
+                            }
                             setState(() {
+                              isValueFromDb = false;
                               isDecisionMade = false;
                               evaluationMap['decision'] = 'excellent';
                             });
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.orangeAccent,
+                            backgroundColor:
+                                evaluationMap['decision'] == 'excellent'
+                                    ? Colors.green
+                                    : Colors.orangeAccent,
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
                             shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
@@ -477,8 +561,9 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                         ),
                       ],
                     ),
-                  const TextField(
-                    decoration: InputDecoration(
+                  TextField(
+                    controller: _commentController,
+                    decoration: const InputDecoration(
                       hintText: 'Comments',
                       hintStyle: TextStyle(color: Colors.grey),
                       border: InputBorder.none,
@@ -490,22 +575,33 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                   ),
 
                   NextBackWidget(onBackPressed: () {
+                    _commentController.clear();
+                    final checkboxProvider =
+                        Provider.of<CheckboxProvider>(context, listen: false);
                     if (microNum > 0) {
                       setState(() {
+                        isDecisionMade = false;
                         microNum--;
                         _updateSentence();
                         _updateImageAudio();
+                        checkboxProvider.resetAll();
+                        evaluationMap['decision'] = null;
                       });
                     } else {
                       callToast('No previous task');
                     }
                   }, onNextPressed: () async {
-                    {
+                    bool recordDone;
+                    final checkboxProvider =
+                        Provider.of<CheckboxProvider>(context, listen: false);
+                    if (!isValueFromDb) {
+                      evaluationMap["comments"] =
+                          (_commentController.text == "")
+                              ? "false"
+                              : _commentController.text;
+                      _commentController.clear();
                       final checkedItemsMap =
-                          Provider.of<CheckboxProvider>(context, listen: false)
-                              .items
-                              .asMap()
-                              .map((index, item) {
+                          checkboxProvider.items.asMap().map((index, item) {
                         final modifiedItemName =
                             item.itemName.replaceAll(' ', '_');
                         return MapEntry(modifiedItemName, item.isChecked);
@@ -529,27 +625,34 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                             item: false
                         });
                       }
-                      bool recordDone = await updateDbIfCompleted();
-                      if (microNum < widget.microtasks.length - 1) {
-                        if (recordDone) {
-                          setState(() {
-                            ++microNum;
-                            _updateSentence();
-                            _updateImageAudio();
-                          });
-                        } else {
-                          showSkipDialog(true);
-                        }
+                      log("Evaluation map values : $evaluationMap");
+
+                      recordDone = await updateDbIfCompleted();
+                    } else {
+                      recordDone = true;
+                    }
+                    if (microNum < widget.microtasks.length - 1) {
+                      if (recordDone) {
+                        setState(() {
+                          ++microNum;
+                          _updateSentence();
+                          _updateImageAudio();
+                          checkboxProvider.resetAll();
+                          evaluationMap['decision'] = null;
+                          isDecisionMade = false;
+                        });
                       } else {
-                        if (!recordDone) {
-                          showSkipDialog(false);
-                        } else {
-                          callToast('No more tasks here');
-                          setState(() {
-                            ++microNum;
-                          });
-                          Navigator.pop(context);
-                        }
+                        showSkipDialog(true);
+                      }
+                    } else {
+                      if (!recordDone) {
+                        showSkipDialog(false);
+                      } else {
+                        callToast('No more tasks here');
+                        setState(() {
+                          ++microNum;
+                        });
+                        Navigator.pop(context);
                       }
                     }
                   }),

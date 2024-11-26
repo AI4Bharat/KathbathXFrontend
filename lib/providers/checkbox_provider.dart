@@ -15,4 +15,13 @@ class CheckboxProvider with ChangeNotifier {
     //     "item at ${_items[index].itemName} is checked? : ${_items[index].isChecked}");
     notifyListeners();
   }
+
+  void resetAll() {
+    for (var item in _items) {
+      if (item.isChecked == true) {
+        item.toggle();
+      }
+      notifyListeners(); // Notify listeners about the changes
+    }
+  }
 }
