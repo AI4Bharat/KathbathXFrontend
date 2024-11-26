@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:karya_flutter/providers/recorder_player_providers.dart';
 import 'package:karya_flutter/utils/audio_player_model.dart';
@@ -44,6 +46,7 @@ class _AudioControlsWidgetState extends State<AudioControlsWidget> {
   @override
   Widget build(BuildContext context) {
     final recorderPlayerProvider = Provider.of<RecorderPlayerProvider>(context);
+    log("Audio bar filepayj: ${widget.filePath}");
     return Column(
       children: [
         PlayerWidget(

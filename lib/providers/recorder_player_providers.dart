@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -106,7 +107,7 @@ class RecorderPlayerProvider extends ChangeNotifier {
     await recorder.recorder.openRecorder();
     final directory = await getApplicationDocumentsDirectory();
     recorder.filePath = '${directory.path}$filePath';
-    // log("RECORDING FILEPATH: ${recorder.filePath} ");
+    log("RECORDING FILEPATH: ${recorder.filePath} ");
 
     await recorder.recorder.startRecorder(
       toFile: recorder.filePath,
@@ -149,6 +150,7 @@ class RecorderPlayerProvider extends ChangeNotifier {
     if (filePath != null) {
       final directory = await getApplicationDocumentsDirectory();
       player.filePath = '${directory.path}$filePath';
+      log("player filepath : ${player.filePath}");
       File file = File(player.filePath);
       if (await file.exists()) {
         player.playbackPosition = 0;
@@ -167,9 +169,9 @@ class RecorderPlayerProvider extends ChangeNotifier {
 
           player.player.playerStateStream.listen((state) {
             if (state.processingState == ProcessingState.completed) {
-              alreadyPlayed = false;
+              // alreadyPlayed = true;
               player.playbackPosition = 0;
-              player.isPlaying = false;
+              // player.isPlaying = false;
               notifyListeners();
             }
           });
