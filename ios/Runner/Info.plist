@@ -14,6 +14,8 @@
 
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need access to the microphone for audio playback.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to the camera to record your video for the video collection task </string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
