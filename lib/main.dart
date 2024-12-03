@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:dio/dio.dart';
@@ -7,6 +8,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:karya_flutter/data/manager/karya_db.dart';
 import 'package:karya_flutter/firebase_options.dart';
 import 'package:karya_flutter/providers/recorder_player_providers.dart';
@@ -25,6 +27,7 @@ import 'package:karya_flutter/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:android_play_install_referrer/android_play_install_referrer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +48,14 @@ void main() async {
   // Initialize the database
   final db = await _openDatabase();
   await dotenv.load(fileName: ".env");
+
+  //Check for in App update
+  if (Platform.isAndroid) {
+    await checkForAndroidUpdate();
+  } else if (Platform.isIOS) {
+    await checkForIOSUpdate();
+  }
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]).then((_) {
@@ -58,6 +69,35 @@ void main() async {
   // } catch (e, stack) {
   //   FirebaseCrashlytics.instance.recordError(e, stack, fatal: true);
   // }
+}
+
+Future<void> checkForAndroidUpdate() async {
+  try {
+    AppUpdateInfo updateInfo = await InAppUpdate.checkForUpdate();
+    if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
+      log("Update available: ${updateInfo.availableVersionCode}");
+      if (updateInfo.immediateUpdateAllowed) {
+        await InAppUpdate.performImmediateUpdate();
+        log("Immediate update started");
+      } else if (updateInfo.flexibleUpdateAllowed) {
+        await InAppUpdate.startFlexibleUpdate();
+        log("Flexible update started");
+        await InAppUpdate.completeFlexibleUpdate();
+        log("Flexible update completed");
+      } else {
+        log("No update type allowed (immediate or flexible)");
+      }
+    } else {
+      log("No update available");
+    }
+  } catch (e) {
+    log("Error during in-app update: $e");
+  }
+}
+
+Future<void> checkForIOSUpdate() async {
+  //TODO: Logic to be implemented
+  return;
 }
 
 Future<KaryaDatabase> _openDatabase() async {
