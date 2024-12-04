@@ -1,0 +1,277 @@
+import 'dart:developer';
+import 'dart:io';
+import 'dart:ui';
+
+import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:in_app_update/in_app_update.dart';
+import 'package:karya_flutter/data/manager/karya_db.dart';
+import 'package:karya_flutter/firebase_options.dart';
+import 'package:karya_flutter/providers/recorder_player_providers.dart';
+import 'package:karya_flutter/screens/dashboard_screen.dart';
+import 'package:karya_flutter/screens/login_screen.dart';
+import 'package:karya_flutter/screens/microtasks/microtask_audio_refinement.dart';
+import 'package:karya_flutter/screens/microtasks/microtask_image_audio.dart';
+import 'package:karya_flutter/screens/microtasks/microtask_image_transcription.dart';
+import 'package:karya_flutter/screens/microtasks/microtask_speech_data.dart';
+import 'package:karya_flutter/screens/microtasks/microtask_speech_verification.dart';
+import 'package:karya_flutter/screens/microtasks/microtask_video_collection.dart';
+import 'package:karya_flutter/screens/register_screen.dart';
+import 'package:karya_flutter/services/api_services_baseUrl.dart';
+import 'package:karya_flutter/services/worker_api.dart';
+import 'package:karya_flutter/utils/colors.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:android_play_install_referrer/android_play_install_referrer.dart';
+// import 'package:url_launcher/url_launcher.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  //initialize firebase crashlytics
+  // try {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.dumpErrorToConsole(details);
+    FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+  };
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  // Initialize the database
+  final db = await _openDatabase();
+  await dotenv.load(fileName: ".env");
+
+  //Check for in App update
+  if (Platform.isAndroid) {
+    await checkForAndroidUpdate();
+  } else if (Platform.isIOS) {
+    await checkForIOSUpdate();
+  }
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((_) {
+    runApp(
+      ChangeNotifierProvider(
+        create: (context) => RecorderPlayerProvider(),
+        child: KaryaApp(db),
+      ),
+    );
+  });
+  // } catch (e, stack) {
+  //   FirebaseCrashlytics.instance.recordError(e, stack, fatal: true);
+  // }
+}
+
+Future<void> checkForAndroidUpdate() async {
+  try {
+    AppUpdateInfo updateInfo = await InAppUpdate.checkForUpdate();
+    if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
+      log("Update available: ${updateInfo.availableVersionCode}");
+      if (updateInfo.immediateUpdateAllowed) {
+        await InAppUpdate.performImmediateUpdate();
+        log("Immediate update started");
+      } else if (updateInfo.flexibleUpdateAllowed) {
+        await InAppUpdate.startFlexibleUpdate();
+        log("Flexible update started");
+        await InAppUpdate.completeFlexibleUpdate();
+        log("Flexible update completed");
+      } else {
+        log("No update type allowed (immediate or flexible)");
+      }
+    } else {
+      log("No update available");
+    }
+  } catch (e) {
+    log("Error during in-app update: $e");
+  }
+}
+
+Future<void> checkForIOSUpdate() async {
+  //TODO: Logic to be implemented
+  return;
+}
+
+Future<KaryaDatabase> _openDatabase() async {
+  return KaryaDatabase();
+}
+
+class KaryaApp extends StatefulWidget {
+  final KaryaDatabase db;
+
+  const KaryaApp(this.db, {super.key});
+
+  @override
+  _KaryaAppState createState() => _KaryaAppState();
+}
+
+class _KaryaAppState extends State<KaryaApp> {
+  String? initialRoute;
+  String _referrerDetails = '';
+  late Dio dio;
+  late ApiService apiService;
+  late WorkerApiService workerApiService;
+
+  @override
+  void initState() {
+    super.initState();
+    _getInitialRoute();
+    initReferrerDetails();
+  }
+
+  Future<void> initReferrerDetails() async {
+    dio = Dio();
+    apiService = ApiService(dio);
+    workerApiService = WorkerApiService(apiService);
+    String referrerDetailsString;
+    try {
+      ReferrerDetails referrerDetails =
+          await AndroidPlayInstallReferrer.installReferrer;
+
+      referrerDetailsString = referrerDetails.toString();
+    } catch (e) {
+      referrerDetailsString = 'Failed to get referrer details: $e';
+    }
+    if (!mounted) return;
+
+    setState(() {
+      _referrerDetails = referrerDetailsString;
+    });
+    Response response =
+        await workerApiService.sendReferrerLink(_referrerDetails);
+    if (response.statusCode == 200) {
+      log("Ref code send successfully");
+    } else {
+      log("Ref code send failed");
+    }
+  }
+
+  Future<String> _getInitialRoute() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? isLoggedIn = prefs.getBool('otp_verified');
+    if (isLoggedIn != null && isLoggedIn) {
+      return '/dashboard';
+    } else {
+      return '/';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<String>(
+      future: _getInitialRoute(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        }
+
+        if (snapshot.hasData) {
+          return SafeArea(
+              child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width,
+                  ),
+                  child: MaterialApp(
+                    title: 'Karya App',
+                    theme: ThemeData(
+                        colorScheme:
+                            ColorScheme.fromSeed(seedColor: Colors.orange),
+                        primarySwatch: Colors.blue,
+                        scaffoldBackgroundColor: Colors.white,
+                        useMaterial3: true,
+                        appBarTheme: const AppBarTheme(
+                          backgroundColor: darkerOrange,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                        ),
+                        fontFamily: 'CustomFont'),
+                    initialRoute: snapshot.data,
+                    routes: {
+                      '/': (context) => LoginScreen(),
+                      '/register': (context) => const RegisterScreen(),
+                      '/dashboard': (context) => DashboardScreen(
+                          title: 'Dashboard Screen', db: widget.db),
+                      '/sd_microtask': (context) {
+                        final args = ModalRoute.of(context)!.settings.arguments
+                            as Map<String, dynamic>;
+                        return SpeechRecordingScreen(
+                          db: widget.db,
+                          microtasks:
+                              args['microtasks'] as List<MicroTaskRecord>,
+                          microtaskAssignments: args['microtaskAssignments']
+                              as List<MicroTaskAssignmentRecord>,
+                        );
+                      },
+                      '/image_transcription_microtask': (context) {
+                        final args = ModalRoute.of(context)!.settings.arguments
+                            as Map<String, dynamic>;
+                        return ImageTranscriptionScreen(
+                          db: widget.db,
+                          microtasks:
+                              args['microtasks'] as List<MicroTaskRecord>,
+                          microtaskAssignments: args['microtaskAssignments']
+                              as List<MicroTaskAssignmentRecord>,
+                        );
+                      },
+                      '/image_audio_microtask': (context) {
+                        final args = ModalRoute.of(context)!.settings.arguments
+                            as Map<String, dynamic>;
+                        return ImageAudioScreen(
+                          db: widget.db,
+                          microtasks:
+                              args['microtasks'] as List<MicroTaskRecord>,
+                          microtaskAssignments: args['microtaskAssignments']
+                              as List<MicroTaskAssignmentRecord>,
+                        );
+                      },
+                      '/speech_verification_microtask': (context) {
+                        final args = ModalRoute.of(context)!.settings.arguments
+                            as Map<String, dynamic>;
+                        return SpeechVerificationScreen(
+                          db: widget.db,
+                          microtasks:
+                              args['microtasks'] as List<MicroTaskRecord>,
+                          microtaskAssignments: args['microtaskAssignments']
+                              as List<MicroTaskAssignmentRecord>,
+                          taskName: args['taskName'],
+                        );
+                      },
+                      '/speech_audio_refinement': (context) {
+                        final args = ModalRoute.of(context)!.settings.arguments
+                            as Map<String, dynamic>;
+                        return SpeechAudioScreen(
+                          db: widget.db,
+                          microtasks:
+                              args['microtasks'] as List<MicroTaskRecord>,
+                          microtaskAssignments: args['microtaskAssignments']
+                              as List<MicroTaskAssignmentRecord>,
+                        );
+                      },
+                      '/video_collection_task': (context) {
+                        final args = ModalRoute.of(context)!.settings.arguments
+                            as Map<String, dynamic>;
+                        return VideoCollectionScreen(
+                          db: widget.db,
+                          microtasks:
+                              args['microtasks'] as List<MicroTaskRecord>,
+                          microtaskAssignments: args['microtaskAssignments']
+                              as List<MicroTaskAssignmentRecord>,
+                        );
+                      }
+                    },
+                  )));
+        }
+
+        return const CircularProgressIndicator();
+      },
+    );
+  }
+}

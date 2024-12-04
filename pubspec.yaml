@@ -1,0 +1,68 @@
+name: karya_flutter
+description: "A new Flutter project."
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.4 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  fluttertoast: ^8.2.6
+  path: ^1.9.0
+  path_provider: ^2.1.4
+  drift: ^2.15.0
+  drift_flutter: ^0.1.0
+  file_picker: ^8.0.6
+  flutter_sound: ^9.9.5
+  provider: ^6.1.2
+  json_annotation: ^4.9.0
+  permission_handler: ^11.3.1
+  dio: ^5.5.0+1
+  shared_preferences: ^2.3.2
+  archive: ^3.6.1
+  crypto: ^3.0.5
+  audio_session: ^0.1.21
+  just_audio: ^0.9.28
+  video_player: ^2.9.2
+  chewie: ^1.8.5
+  camera: ^0.11.0+2
+  url_launcher: ^6.3.1
+  android_play_install_referrer: ^0.4.0
+  firebase_core: ^3.7.0
+  firebase_crashlytics: ^4.1.4
+  flutter_dotenv: ^5.2.1
+  in_app_update: ^4.2.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  build_runner: ^2.4.11
+  drift_dev: ^2.19.1
+  flutter_launcher_icons: ^0.14.1
+
+flutter_icons:
+  image_path_android: "assets/logo-ai4b.png"
+  image_path_ios: "assets/logo-ai4b.png"
+  android: true
+  ios: true
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/logo-ai4b.png
+    - assets/icons/
+    - assets/mappings_json/
+    - assets/backgrounds/
+    - .env
+
+  fonts:
+    - family: CustomFont
+      fonts:
+        - asset: assets/fonts/opensans/OpenSans-Medium.ttf
+          weight: 700
