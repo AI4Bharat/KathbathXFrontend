@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:karya_flutter/data/database/dao/microtask_assignment_dao.dart';
 import 'package:karya_flutter/data/database/dao/microtask_dao.dart';
 import 'package:karya_flutter/data/database/dao/task_dao.dart';
@@ -402,7 +403,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Future<void> goToWhatsap() async {
-    const phoneNumber = '917397389339';
+    final phoneNumber = dotenv.env['PHONE_NUMBER'];
     const message =
         "Please click the send button on the right to begin the process of sharing the Kathbath Lite app with your friends. Instructions will follow.";
 
