@@ -56,7 +56,7 @@ Create a `.env` file in the app's root directory to configure app credentials. A
 
 ```env
 SERVER_URL='https://your_server_url'
-ACCESS_ENCODER='84724' # Replace with your access-code encoder value
+ACCESS_ENCODE='84724' # Replace with your access-code encoder value
 BOX_ID='--' # Replace with the respective box ID
 PHONE_NUMBER = '----------' //Add you business whatsapp number with instructions for sharing the app
 ```
