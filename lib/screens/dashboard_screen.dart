@@ -477,6 +477,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: darkerOrange,
+          automaticallyImplyLeading: false,
           title: FutureBuilder<String?>(
             future: getAccessCode(),
             builder: (context, snapshot) {
