@@ -20,7 +20,7 @@ class AssignmentRepository {
   AssignmentRepository(
       this.taskDao, this.microTaskDao, this.microTaskAssignmentDao);
 
-  Future<void> loadAndSaveAssignments() async {
+  Future<bool> loadAndSaveAssignments() async {
     try {
       dio = Dio();
       apiService = ApiService(dio);
@@ -52,8 +52,10 @@ class AssignmentRepository {
       await taskDao.upsertAll(tasks);
       await microTaskDao.upsertAll(microTasks);
       await microTaskAssignmentDao.upsertAll(assignments);
+      return true;
     } catch (e) {
       log('Failed to load and save assignments', error: e);
+      return false;
     }
   }
 }

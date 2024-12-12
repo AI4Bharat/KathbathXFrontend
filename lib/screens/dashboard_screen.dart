@@ -44,6 +44,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int onPhoneCount = 0;
   int total_available = 0;
   bool loggedOut = false;
+  bool loadingDone = false;
 
   String filterLines = "";
 
@@ -70,7 +71,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Future<void> _populateDb() async {
-    await _assignmentRepository.loadAndSaveAssignments();
+    loadingDone = await _assignmentRepository.loadAndSaveAssignments();
   }
 
   Future<void> _loadTasks() async {
@@ -546,42 +547,47 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Expanded(
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
-                  child: _tasks.isEmpty
+                  child: !loadingDone
                       ? const Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Thank you!',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.orange,
-                                ),
-                              ),
-                              Text(
-                                'You are done with your tasks! :)',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.orange,
-                                ),
-                                textAlign:
-                                    TextAlign.center, // Center-align the text
-                              ),
-                            ],
-                          ),
+                          child:
+                              CircularProgressIndicator(), // Show a loading indicator
                         )
-                      : ListView.builder(
-                          shrinkWrap:
-                              true, // Important to prevent scrolling issues
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: _tasks.length,
-                          itemBuilder: (context, index) {
-                            return _buildTaskCards(context)[index];
-                          },
-                        ),
+                      : _tasks.isEmpty
+                          ? const Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Thank you!',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.orange,
+                                    ),
+                                  ),
+                                  Text(
+                                    'You are done with your tasks! :)',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.orange,
+                                    ),
+                                    textAlign: TextAlign
+                                        .center, // Center-align the text
+                                  ),
+                                ],
+                              ),
+                            )
+                          : ListView.builder(
+                              shrinkWrap:
+                                  true, // Important to prevent scrolling issues
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: _tasks.length,
+                              itemBuilder: (context, index) {
+                                return _buildTaskCards(context)[index];
+                              },
+                            ),
                 ),
               ),
             ],
