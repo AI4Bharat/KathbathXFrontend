@@ -52,7 +52,7 @@
 
 ## .env File Setup
 
-Create a `.env` file in the app's root directory to configure app credentials. Add the following parameters:
+You can rename the "sampleEnv" file in the folder to .env or create a `.env` file in the app's root directory to configure app credentials. Make sure to fill in with your respective endpoint credentials Add the following parameters:
 
 ```env
 SERVER_URL='https://your_server_url'
