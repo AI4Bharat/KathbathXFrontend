@@ -52,10 +52,10 @@ class AssignmentRepository {
       await taskDao.upsertAll(tasks);
       await microTaskDao.upsertAll(microTasks);
       await microTaskAssignmentDao.upsertAll(assignments);
-      return true;
     } catch (e) {
       log('Failed to load and save assignments', error: e);
-      return false;
     }
+    return true;
+    // Will always return true to show that the api request was completed
   }
 }

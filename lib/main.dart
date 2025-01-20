@@ -27,48 +27,48 @@ import 'package:karya_flutter/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:android_play_install_referrer/android_play_install_referrer.dart';
-// import 'package:url_launcher/url_launcher.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //initialize firebase crashlytics
-  // try {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  FlutterError.onError = (FlutterErrorDetails details) {
-    FlutterError.dumpErrorToConsole(details);
-    FirebaseCrashlytics.instance.recordFlutterFatalError(details);
-  };
-  PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };
-  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-  // Initialize the database
-  final db = await _openDatabase();
-  await dotenv.load(fileName: ".env");
-
-  //Check for in App update
-  if (Platform.isAndroid) {
-    await checkForAndroidUpdate();
-  } else if (Platform.isIOS) {
-    await checkForIOSUpdate();
-  }
-
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]).then((_) {
-    runApp(
-      ChangeNotifierProvider(
-        create: (context) => RecorderPlayerProvider(),
-        child: KaryaApp(db),
-      ),
+  // initialize firebase crashlytics
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
     );
-  });
-  // } catch (e, stack) {
-  //   FirebaseCrashlytics.instance.recordError(e, stack, fatal: true);
-  // }
+    FlutterError.onError = (FlutterErrorDetails details) {
+      FlutterError.dumpErrorToConsole(details);
+      FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+    };
+    PlatformDispatcher.instance.onError = (error, stack) {
+      print("The error is $error");
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    // Initialize the database
+    final db = await _openDatabase();
+    await dotenv.load(fileName: ".env");
+
+    // Check for in App update
+    if (Platform.isAndroid) {
+      await checkForAndroidUpdate();
+    } else if (Platform.isIOS) {
+      await checkForIOSUpdate();
+    }
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]).then((_) {
+      runApp(
+        ChangeNotifierProvider(
+          create: (context) => RecorderPlayerProvider(),
+          child: KaryaApp(db),
+        ),
+      );
+    });
+  } catch (e, stack) {
+    FirebaseCrashlytics.instance.recordError(e, stack, fatal: true);
+  }
 }
 
 Future<void> checkForAndroidUpdate() async {
@@ -128,6 +128,14 @@ class _KaryaAppState extends State<KaryaApp> {
   }
 
   Future<void> initReferrerDetails() async {
+    SharedPreferences? prefs = await SharedPreferences.getInstance();
+    bool referralSend = prefs.getBool("referral_send") ?? false;
+
+    log("Referral send status is $referralSend");
+    if (referralSend) {
+      return;
+    }
+
     dio = Dio();
     apiService = ApiService(dio);
     workerApiService = WorkerApiService(apiService);
@@ -149,8 +157,10 @@ class _KaryaAppState extends State<KaryaApp> {
         await workerApiService.sendReferrerLink(_referrerDetails);
     if (response.statusCode == 200) {
       log("Ref code send successfully");
+      prefs.setBool("referral_send", true);
     } else {
       log("Ref code send failed");
+      prefs.setBool("referral_send", false);
     }
   }
 

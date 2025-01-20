@@ -149,12 +149,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       }
       _taskStatusCounts[task.id] = statusCounts;
     }
-    setState(() {
-      _tasks = tasks;
-      if (total_available == 0 && !loggedOut) {
-        showShareDialog(context);
-      }
-    });
+    if (mounted) {
+      setState(() {
+        _tasks = tasks;
+        if (total_available == 0 && !loggedOut) {
+          showShareDialog(context);
+        }
+      });
+    }
   }
 
   Future<void> handleSubmitTasks() async {
@@ -224,7 +226,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Future<void> _handleTaskCardTap(BuildContext context, TaskRecord task) async {
-    // throw Exception("Test Crash by Gree buhahaha 1");
     final taskName = task.name;
     final microtasks =
         await _microTaskDao.getMicroTasksWithPendingAssignments(task.id);
@@ -509,6 +510,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 await prefs.setBool('otp_verified', false);
                 await prefs.setString('id_token', '');
                 await prefs.setString('loggedInNum', '');
+                await prefs.setBool("referral_send", false);
                 await _taskDao.clearAllTasks();
                 await _microTaskDao.clearAllMicroTasks();
                 await _microTaskAssignmentDao.clearAllMicrotaskAssignments();

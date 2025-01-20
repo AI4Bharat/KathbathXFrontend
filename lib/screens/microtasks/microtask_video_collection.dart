@@ -65,7 +65,9 @@ class _VideoCollectionScreenState extends State<VideoCollectionScreen> {
     var jsonData = response.data as Map<String, dynamic>;
     var profile = jsonData['profile'];
     setState(() {
-      ageGroup = profile['age'];
+      ageGroup = (profile['age-group'] == null)
+          ? "$profile['age']"
+          : profile['age-group'];
       gender = profile['gender'];
     });
   }

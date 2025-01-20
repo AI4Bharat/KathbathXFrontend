@@ -149,12 +149,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Navigator.pop(context);
         }
       } on DioException catch (e) {
-        if (e.response != null && e.response?.statusCode == 422) {
+        if (e.response != null) {
           if (e.response?.statusCode == 409) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('User already exist')),
             );
-          } else {
+          } else if (e.response?.statusCode == 422) {
             Map<String, dynamic> jsonData = e.response?.data is String
                 ? json.decode(e.response?.data)
                 : e.response?.data;
@@ -165,6 +165,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SnackBar(
                   content: Text(
                       'User registration failed. Please check $messages & try again')),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                  content: Text(
+                      'Registration failed. Please check you network and try again.')),
             );
           }
         }
