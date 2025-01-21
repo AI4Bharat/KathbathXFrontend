@@ -185,7 +185,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     } else {
       //sending the output file and updating the value in the local client db
       for (var assignment in unsubmittedAssignments) {
-        String? outputFileId = await sendOutputFile(assignment.id, assignment);
+        String? outputFileId =
+            await sendOutputFileWithInput(assignment.id, assignment);
         // log("Output file id: $outputFileId");
         await _microTaskAssignmentDao.updateMicrotaskAssignmentOutputFileId(
             assignment.id, outputFileId);
