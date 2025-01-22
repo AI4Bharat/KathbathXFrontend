@@ -7,7 +7,7 @@
 
 
     <application
-        android:label="Kathbath"
+        android:label="Kathbath Lite"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

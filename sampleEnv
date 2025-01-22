@@ -1,4 +1,0 @@
-SERVER_URL= 'https://your-server-endpoint'
-ACCESS_ENCODE = 'EnCoderval'
-BOX_ID = '00' //Replace your box id here
-PHONE_NUMBER = '0000000000' //Add you business whatsapp number for sharing the code

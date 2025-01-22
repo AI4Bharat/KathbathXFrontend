@@ -95,7 +95,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                       backgroundColor: baseOrange,
                       foregroundColor: Colors.white, // Set text color to white
                     ),
-                    child: const Text('Submit'),
+                    child: const Text('Done'),
                   ),
                 ),
                 SizedBox(width: 10), // Optional: add spacing between buttons

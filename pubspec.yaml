@@ -1,5 +1,5 @@
 name: karya_flutter
-description: "A new Flutter project."
+description: "Kathbath is an open-source crowdsourcing toolkit designed for data collection in low-resource communities."
 publish_to: "none"
 
 version: 1.0.0+1
@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  chewie: 1.8.5
   cupertino_icons: ^1.0.6
   fluttertoast: ^8.2.6
   path: ^1.9.0
@@ -28,7 +29,6 @@ dependencies:
   audio_session: ^0.1.21
   just_audio: ^0.9.28
   video_player: ^2.9.2
-  chewie: ^1.8.5
   camera: ^0.11.0+2
   url_launcher: ^6.3.1
   android_play_install_referrer: ^0.4.0
@@ -36,6 +36,7 @@ dependencies:
   firebase_crashlytics: ^4.1.4
   flutter_dotenv: ^5.2.1
   in_app_update: ^4.2.3
+  firebase_analytics: ^11.4.0
 
 dev_dependencies:
   flutter_test:
