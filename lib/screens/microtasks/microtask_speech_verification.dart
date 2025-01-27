@@ -79,7 +79,7 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
     "stretching",
     "objectionable content",
     "skipping words",
-    "incorrect text_prompt",
+    "incorrect text prompt",
     "factual inaccuracy",
     "wrong language",
     "echo present",
@@ -104,6 +104,7 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
   late ApiService apiService;
 
   late final MicroTaskAssignmentDao _microTaskAssignmentDao;
+
   @override
   void initState() {
     super.initState();
@@ -476,12 +477,12 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                             setState(() {
                               isValueFromDb = false;
                               isDecisionMade = true;
-                              evaluationMap['decision'] = 'acceptable';
+                              evaluationMap['decision'] = 'accept';
                             });
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                evaluationMap['decision'] == 'acceptable'
+                                evaluationMap['decision'] == 'accept'
                                     ? Colors.green
                                     : Colors.orange,
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -492,7 +493,7 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                             elevation: 6.0,
                           ),
                           child: const Text(
-                            'ACCEPTABLE',
+                            'ACCEPT',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

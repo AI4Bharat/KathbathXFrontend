@@ -28,7 +28,7 @@ class VideoRecorderWidget extends StatefulWidget {
 }
 
 class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
-  CameraController? _cameraController;
+  late CameraController _cameraController;
   Future<void>? _initializeControllerFuture;
   bool _isRecording = false;
   VideoPlayerController? _videoPlayerController;
@@ -53,11 +53,11 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
         enableAudio: true,
       );
 
-      _initializeControllerFuture = _cameraController?.initialize();
-      await _cameraController!
-          .lockCaptureOrientation(DeviceOrientation.portraitUp);
-
-      setState(() {});
+      _initializeControllerFuture = _cameraController.initialize();
+      await _initializeControllerFuture;
+      await _cameraController
+            .lockCaptureOrientation(DeviceOrientation.portraitUp);
+        setState(() {});
     } catch (e) {
       log('Error initializing camera: $e');
     }
@@ -65,16 +65,16 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
 
   @override
   void dispose() {
-    _cameraController?.dispose();
+    _cameraController.dispose();
     _videoPlayerController?.dispose();
     super.dispose();
   }
 
   Future<void> _startRecording() async {
-    if (_cameraController != null && !_isRecording) {
-      await _cameraController!
+    if (!_isRecording) {
+      await _cameraController
           .lockCaptureOrientation(DeviceOrientation.portraitUp);
-      await _cameraController!.startVideoRecording();
+      await _cameraController.startVideoRecording();
       setState(() {
         _isRecording = true;
       });
@@ -82,8 +82,8 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
   }
 
   Future<void> _stopRecording() async {
-    if (_cameraController != null && _isRecording) {
-      final videoFile = await _cameraController!.stopVideoRecording();
+    if (_isRecording) {
+      final videoFile = await _cameraController.stopVideoRecording();
       setState(() {
         _isRecording = false;
       });
@@ -123,7 +123,7 @@ class _VideoRecorderWidgetState extends State<VideoRecorderWidget> {
                   child: Transform(
                     alignment: Alignment.center,
                     transform: Matrix4.rotationY(math.pi), // Mirror preview
-                    child: CameraPreview(_cameraController!),
+                    child: CameraPreview(_cameraController),
                   ),
                 );
               } else {
