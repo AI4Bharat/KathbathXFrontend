@@ -1,5 +1,6 @@
 // import 'dart:convert';
 import 'dart:io';
+import 'dart:developer';
 import 'package:crypto/crypto.dart';
 
 import 'package:dio/dio.dart';
@@ -17,7 +18,7 @@ Future<String?> sendOutputFile(
   final filePath = '${directory.path}/$assignmentId.wav';
   String outputTgzFilePath = p.setExtension(filePath, '.tgz');
 
-  print("Recieved filepath: $filePath");
+  log("Recieved filepath: $filePath");
   late Dio dio;
   late ApiService apiService;
 
@@ -37,7 +38,46 @@ Future<String?> sendOutputFile(
     String outputFileId = jsonOut.data?['id'];
     return outputFileId;
   } catch (e) {
-    print('Error: $e');
+    log('Error: $e');
+  }
+  return null;
+}
+
+Future<String?> sendOutputFileWithInput(
+    String assignmentId, MicroTaskAssignmentRecord mARecord) async {
+  final directory = await getApplicationDocumentsDirectory();
+  final filePath = '${directory.path}/$assignmentId.wav';
+  // final extDir = await getExternalStorageDirectory();
+  // final tgzFilePath = '${extDir!.path}/$assignmentId.wav';
+  final inputFolderPath = '${directory.path}/${mARecord.microtaskId}';
+  String outputTgzFilePath = p.setExtension(filePath, '.tgz');
+
+  log("Recieved filepath: $filePath and microtaskId is: ${mARecord.microtaskId} and output file is: $outputTgzFilePath");
+  late Dio dio;
+  late ApiService apiService;
+
+  final inputFolder = Directory(inputFolderPath);
+  try {
+    if (await inputFolder.exists()) {
+      await convertAllToTgz(inputFolderPath, filePath, outputTgzFilePath);
+    } else {
+      await convertWavToTgz(filePath, outputTgzFilePath);
+    }
+    String checksum = await calculateMd5Checksum(outputTgzFilePath);
+
+    final jsonString =
+        '{\n    "container_name": "microtask-assignment-output",\n    "name": "$assignmentId.tgz",\n    "algorithm": "MD5",\n    "checksum": "$checksum"\n}';
+//////////To update server db////////////////
+    dio = Dio();
+    apiService = ApiService(dio);
+    final MicroTaskAssignmentService microApiService =
+        MicroTaskAssignmentService(apiService);
+    var jsonOut = await microApiService.submitAssignmentOutputFile(
+        assignmentId, jsonString, outputTgzFilePath);
+    String outputFileId = jsonOut.data?['id'];
+    return outputFileId;
+  } catch (e) {
+    log('Error: $e');
   }
   return null;
 }
