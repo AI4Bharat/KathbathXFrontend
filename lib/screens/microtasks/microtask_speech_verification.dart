@@ -188,7 +188,7 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
 
         String? currentDecision = await getDecisionInDb();
 
-        Map<String, String> inputPaths = await saveAssignmentFiles(
+        Map<String, String> inputPaths = await saveAssignmentFilesCheckExists(
             widget.microtasks[microNum].id, assignmentId!,
             imageFilename: inputImageFilename,
             audioFilename: inputAudioFilename,
@@ -198,6 +198,7 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
           inputImagePath = inputPaths['image_path'];
           inputAudioPath = inputPaths['audio_prompt_path'];
           inputRecordingPath = inputPaths['recording_path'];
+          log("paths: $inputImagePath , $inputAudioPath, $inputRecordingPath");
         });
       } catch (e) {
         log('Error decoding Json: $e');

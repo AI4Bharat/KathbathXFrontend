@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:archive/archive.dart';
+import 'package:karya_flutter/utils/save_input.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:karya_flutter/data/database/dao/microtask_assignment_dao.dart';
@@ -11,7 +9,6 @@ import 'package:karya_flutter/data/manager/karya_db.dart';
 import 'package:karya_flutter/models/assignment_status_enum.dart';
 import 'package:karya_flutter/providers/recorder_player_providers.dart';
 import 'package:karya_flutter/services/api_services_baseUrl.dart';
-import 'package:karya_flutter/services/task_api.dart';
 import 'package:karya_flutter/utils/audio_player_model.dart';
 import 'package:karya_flutter/widgets/audio_controls_widget.dart';
 import 'package:karya_flutter/widgets/image_display_widget.dart';
@@ -59,50 +56,51 @@ class _ImageAudioScreenState extends State<ImageAudioScreen> {
     await _updateImageAudio();
   }
 
-  Future<List<String>> saveAssignmentFiles(String microtaskId,
-      String assignmentId, String imageFilename, String audioFilename) async {
-    dio = Dio();
-    apiService = ApiService(dio);
-    final MicroTaskAssignmentService microApiService =
-        MicroTaskAssignmentService(apiService);
-    var tgzFile = await microApiService.getInputFile((assignmentId));
-    final GZipDecoder gzipDecoder = GZipDecoder();
-    final tarBytes = gzipDecoder.decodeBytes(tgzFile);
-    Uint8List? imageBytes;
-    Uint8List? audioBytes;
-    final TarDecoder tarDecoder = TarDecoder();
-    tarDecoder.decodeBytes(tarBytes);
-    for (final file in tarDecoder.files) {
-      if (file.filename == imageFilename) {
-        imageBytes = file.content as Uint8List;
-      } else if (file.filename == audioFilename) {
-        audioBytes = file.content as Uint8List;
-      }
-    }
+//The below code is replaced by a single code common to all assignment types in save_input
+  // Future<List<String>> saveAssignmentFiles(String microtaskId,
+  //     String assignmentId, String imageFilename, String audioFilename) async {
+  //   dio = Dio();
+  //   apiService = ApiService(dio);
+  //   final MicroTaskAssignmentService microApiService =
+  //       MicroTaskAssignmentService(apiService);
+  //   var tgzFile = await microApiService.getInputFile((assignmentId));
+  //   final GZipDecoder gzipDecoder = GZipDecoder();
+  //   final tarBytes = gzipDecoder.decodeBytes(tgzFile);
+  //   Uint8List? imageBytes;
+  //   Uint8List? audioBytes;
+  //   final TarDecoder tarDecoder = TarDecoder();
+  //   tarDecoder.decodeBytes(tarBytes);
+  //   for (final file in tarDecoder.files) {
+  //     if (file.filename == imageFilename) {
+  //       imageBytes = file.content as Uint8List;
+  //     } else if (file.filename == audioFilename) {
+  //       audioBytes = file.content as Uint8List;
+  //     }
+  //   }
 
-    if (imageBytes == null) {
-      throw Exception(
-          'File with name $imageFilename not found in the archive.');
-    } else if (audioBytes == null) {
-      throw Exception(
-          'File with name $audioFilename not found in the archive.');
-    }
-    final directory = await getApplicationDocumentsDirectory();
-    final folderPath = Directory('${directory.path}/$microtaskId');
-    if (!(await folderPath.exists())) {
-      await folderPath.create(recursive: true);
-    }
-    final imageFilePath = '${directory.path}/$microtaskId/$imageFilename';
-    final audioFilePath = '${directory.path}/$microtaskId/$audioFilename';
-    final imageFile = File(imageFilePath);
-    final audioFile = File(audioFilePath);
-    await imageFile.writeAsBytes(imageBytes);
-    await audioFile.writeAsBytes(audioBytes);
-    // log(
-    //     "image file saved at filepath: $imageFilePath and audio file saved in path : $audioFilePath");
-    final List<String> filePaths = [imageFilePath, audioFilePath];
-    return filePaths;
-  }
+  //   if (imageBytes == null) {
+  //     throw Exception(
+  //         'File with name $imageFilename not found in the archive.');
+  //   } else if (audioBytes == null) {
+  //     throw Exception(
+  //         'File with name $audioFilename not found in the archive.');
+  //   }
+  //   final directory = await getApplicationDocumentsDirectory();
+  //   final folderPath = Directory('${directory.path}/$microtaskId');
+  //   if (!(await folderPath.exists())) {
+  //     await folderPath.create(recursive: true);
+  //   }
+  //   final imageFilePath = '${directory.path}/$microtaskId/$imageFilename';
+  //   final audioFilePath = '${directory.path}/$microtaskId/$audioFilename';
+  //   final imageFile = File(imageFilePath);
+  //   final audioFile = File(audioFilePath);
+  //   await imageFile.writeAsBytes(imageBytes);
+  //   await audioFile.writeAsBytes(audioBytes);
+  //   // log(
+  //   //     "image file saved at filepath: $imageFilePath and audio file saved in path : $audioFilePath");
+  //   final List<String> filePaths = [imageFilePath, audioFilePath];
+  //   return filePaths;
+  // }
 
   Future<bool> updateSkippedAssignment() async {
     int skipUpdate =
@@ -132,15 +130,20 @@ class _ImageAudioScreenState extends State<ImageAudioScreen> {
           outputAudioPath = '/$assignmentId.wav';
         });
 
-        List<String> inputPaths = await saveAssignmentFiles(
-            widget.microtasks[microNum].id,
-            assignmentId!,
-            inputImageFilename!,
-            inputAudioFilename!);
+        // List<String> inputPaths = await saveAssignmentFiles(
+        //     widget.microtasks[microNum].id,
+        //     assignmentId!,
+        //     inputImageFilename!,
+        //     inputAudioFilename!);
+        Map<String, String> inputPaths = await saveAssignmentFilesCheckExists(
+            widget.microtasks[microNum].id, assignmentId!,
+            imageFilename: inputImageFilename,
+            audioFilename: inputAudioFilename);
+        final directory = await getApplicationDocumentsDirectory();
         setState(() {
-          inputImagePath = inputPaths[0];
-          inputAudioPath =
-              '/${widget.microtasks[microNum].id}/$inputAudioFilename';
+          inputImagePath = inputPaths['image_path'];
+          inputImagePath = '${directory.path}$inputImagePath';
+          inputAudioPath = inputPaths['audio_prompt_path'];
         });
       } catch (e) {
         log('Error decoding Json: $e');

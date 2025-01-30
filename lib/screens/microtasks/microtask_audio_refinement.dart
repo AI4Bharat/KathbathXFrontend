@@ -119,7 +119,7 @@ class _SpeechAudioScreenState extends State<SpeechAudioScreen> {
           recordFilePath = '/$assignmentId.wav';
         });
 
-        Map<String, String> inputPaths = await saveAssignmentFiles(
+        Map<String, String> inputPaths = await saveAssignmentFilesCheckExists(
             widget.microtasks[microNum].id, assignmentId!,
             audioFilename: inputAudioPromptFilename,
             recordingFilename: inputAudioResponseFilename);

@@ -1,16 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
-import 'dart:typed_data';
-
-import 'package:archive/archive.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:karya_flutter/data/database/dao/microtask_assignment_dao.dart';
 import 'package:karya_flutter/data/manager/karya_db.dart';
 import 'package:karya_flutter/models/assignment_status_enum.dart';
 import 'package:karya_flutter/services/api_services_baseUrl.dart';
-import 'package:karya_flutter/services/task_api.dart';
+import 'package:karya_flutter/utils/save_input.dart';
 import 'package:karya_flutter/widgets/editbox_widget.dart';
 import 'package:karya_flutter/widgets/image_display_widget.dart';
 import 'package:karya_flutter/widgets/instruction_widget.dart';
@@ -79,8 +75,11 @@ class _ImageTranscriptionScreenState extends State<ImageTranscriptionScreen> {
           assignmentId = relevantAssignments[0].id;
         });
 
-        imagePath = await saveAssignmentImages(
-            widget.microtasks[microNum].id, assignmentId!, _fileName!);
+        Map<String, String> inputPaths = await saveAssignmentFilesCheckExists(
+            widget.microtasks[microNum].id, assignmentId!,
+            imageFilename: _fileName!);
+        final directory = await getApplicationDocumentsDirectory();
+        imagePath = '${directory.path}${inputPaths['image_path']}';
         setState(() {});
       } catch (e) {
         log('Error decoding JSON: $e');
@@ -88,40 +87,41 @@ class _ImageTranscriptionScreenState extends State<ImageTranscriptionScreen> {
     }
   }
 
-  Future<String> saveAssignmentImages(
-      String microtaskId, String assignmentId, String fileName) async {
-    dio = Dio();
-    apiService = ApiService(dio);
-    final MicroTaskAssignmentService microApiService =
-        MicroTaskAssignmentService(apiService);
-    var imageData = await microApiService.getInputFile(assignmentId);
-    //Unzipping
-    final GZipDecoder gzipDecoder = GZipDecoder();
-    final tarBytes = gzipDecoder.decodeBytes(imageData);
-    Uint8List? imageBytes;
-    final TarDecoder tarDecoder = TarDecoder();
-    tarDecoder.decodeBytes(tarBytes);
-    for (final file in tarDecoder.files) {
-      if (file.filename == fileName) {
-        imageBytes = file.content as Uint8List;
-        break;
-      }
-    }
+//The below code is replaced by a single code common to all assignment types in save_input
+  // Future<String> saveAssignmentImages(
+  //     String microtaskId, String assignmentId, String fileName) async {
+  //   dio = Dio();
+  //   apiService = ApiService(dio);
+  //   final MicroTaskAssignmentService microApiService =
+  //       MicroTaskAssignmentService(apiService);
+  //   var imageData = await microApiService.getInputFile(assignmentId);
+  //   //Unzipping
+  //   final GZipDecoder gzipDecoder = GZipDecoder();
+  //   final tarBytes = gzipDecoder.decodeBytes(imageData);
+  //   Uint8List? imageBytes;
+  //   final TarDecoder tarDecoder = TarDecoder();
+  //   tarDecoder.decodeBytes(tarBytes);
+  //   for (final file in tarDecoder.files) {
+  //     if (file.filename == fileName) {
+  //       imageBytes = file.content as Uint8List;
+  //       break;
+  //     }
+  //   }
 
-    if (imageBytes == null) {
-      throw Exception('File with name $fileName not found in the archive.');
-    }
-    final directory = await getApplicationDocumentsDirectory();
-    final folderPath = Directory('${directory.path}/$microtaskId');
-    if (!(await folderPath.exists())) {
-      await folderPath.create(recursive: true);
-    }
-    final filePath = '${directory.path}/$microtaskId/$fileName';
-    final file = File(filePath);
-    await file.writeAsBytes(imageBytes);
-    //log("file saved at filepath: $filePath");
-    return filePath;
-  }
+  //   if (imageBytes == null) {
+  //     throw Exception('File with name $fileName not found in the archive.');
+  //   }
+  //   final directory = await getApplicationDocumentsDirectory();
+  //   final folderPath = Directory('${directory.path}/$microtaskId');
+  //   if (!(await folderPath.exists())) {
+  //     await folderPath.create(recursive: true);
+  //   }
+  //   final filePath = '${directory.path}/$microtaskId/$fileName';
+  //   final file = File(filePath);
+  //   await file.writeAsBytes(imageBytes);
+  //   //log("file saved at filepath: $filePath");
+  //   return filePath;
+  // }
 
   Future<bool> updateDbIfCompleted(String text) async {
     if (text != '') {
