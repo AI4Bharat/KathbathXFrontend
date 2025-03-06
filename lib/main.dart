@@ -23,6 +23,7 @@ import 'package:karya_flutter/screens/microtasks/microtask_video_collection.dart
 import 'package:karya_flutter/screens/register_screen.dart';
 import 'package:karya_flutter/services/api_services_baseUrl.dart';
 import 'package:karya_flutter/services/worker_api.dart';
+import 'package:karya_flutter/utils/app_scafold.dart';
 import 'package:karya_flutter/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,44 +32,44 @@ import 'package:android_play_install_referrer/android_play_install_referrer.dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // initialize firebase crashlytics
-  try {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    FlutterError.onError = (FlutterErrorDetails details) {
-      FlutterError.dumpErrorToConsole(details);
-      FirebaseCrashlytics.instance.recordFlutterFatalError(details);
-    };
-    PlatformDispatcher.instance.onError = (error, stack) {
-      print("The error is $error");
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      return true;
-    };
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-    // Initialize the database
-    final db = await _openDatabase();
-    await dotenv.load(fileName: ".env");
+  // try {
+  //   await Firebase.initializeApp(
+  //     options: DefaultFirebaseOptions.currentPlatform,
+  //   );
+  //   FlutterError.onError = (FlutterErrorDetails details) {
+  //     FlutterError.dumpErrorToConsole(details);
+  //     FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+  //   };
+  //   PlatformDispatcher.instance.onError = (error, stack) {
+  //     print("The error is $error");
+  //     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+  //     return true;
+  //   };
+  //   await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  // Initialize the database
+  final db = await _openDatabase();
+  await dotenv.load(fileName: ".env");
 
-    // Check for in App update
-    if (Platform.isAndroid) {
-      await checkForAndroidUpdate();
-    } else if (Platform.isIOS) {
-      await checkForIOSUpdate();
-    }
-
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]).then((_) {
-      runApp(
-        ChangeNotifierProvider(
-          create: (context) => RecorderPlayerProvider(),
-          child: KaryaApp(db),
-        ),
-      );
-    });
-  } catch (e, stack) {
-    FirebaseCrashlytics.instance.recordError(e, stack, fatal: true);
+  // Check for in App update
+  if (Platform.isAndroid) {
+    await checkForAndroidUpdate();
+  } else if (Platform.isIOS) {
+    await checkForIOSUpdate();
   }
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((_) {
+    runApp(
+      ChangeNotifierProvider(
+        create: (context) => RecorderPlayerProvider(),
+        child: KaryaApp(db),
+      ),
+    );
+  });
+  // } catch (e, stack) {
+  //   FirebaseCrashlytics.instance.recordError(e, stack, fatal: true);
+  // }
 }
 
 Future<void> checkForAndroidUpdate() async {
@@ -184,116 +185,101 @@ class _KaryaAppState extends State<KaryaApp> {
         }
 
         if (snapshot.hasData) {
-          return SafeArea(
-              child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: MediaQuery.of(context).size.width,
-                  ),
-                  child: MaterialApp(
-                    title: 'Karya App',
-                    theme: ThemeData(
-                        colorScheme:
-                            ColorScheme.fromSeed(seedColor: Colors.orange),
-                        primarySwatch: Colors.blue,
-                        scaffoldBackgroundColor: Colors.white,
-                        useMaterial3: true,
-                        appBarTheme: const AppBarTheme(
-                          backgroundColor: darkerOrange,
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                        ),
-                        fontFamily: 'CustomFont'),
-                    initialRoute: snapshot.data,
-                    routes: {
-                      '/': (context) =>
-                          const Scaffold(body: SafeArea(child: LoginScreen())),
-                      '/register': (context) => const Scaffold(
-                          body: SafeArea(child: RegisterScreen())),
-                      '/dashboard': (context) => Scaffold(
-                          body: SafeArea(
-                              child: DashboardScreen(
-                                  title: 'Dashboard Screen', db: widget.db))),
-                      '/sd_microtask': (context) {
-                        final args = ModalRoute.of(context)!.settings.arguments
-                            as Map<String, dynamic>;
-                        return Scaffold(
-                            body: SafeArea(
-                                child: SpeechRecordingScreen(
-                          db: widget.db,
-                          microtasks:
-                              args['microtasks'] as List<MicroTaskRecord>,
-                          microtaskAssignments: args['microtaskAssignments']
-                              as List<MicroTaskAssignmentRecord>,
-                        )));
-                      },
-                      '/image_transcription_microtask': (context) {
-                        final args = ModalRoute.of(context)!.settings.arguments
-                            as Map<String, dynamic>;
-                        return Scaffold(
-                            body: SafeArea(
-                                child: ImageTranscriptionScreen(
-                          db: widget.db,
-                          microtasks:
-                              args['microtasks'] as List<MicroTaskRecord>,
-                          microtaskAssignments: args['microtaskAssignments']
-                              as List<MicroTaskAssignmentRecord>,
-                        )));
-                      },
-                      '/image_audio_microtask': (context) {
-                        final args = ModalRoute.of(context)!.settings.arguments
-                            as Map<String, dynamic>;
-                        return Scaffold(
-                            body: SafeArea(
-                                child: ImageAudioScreen(
-                          db: widget.db,
-                          microtasks:
-                              args['microtasks'] as List<MicroTaskRecord>,
-                          microtaskAssignments: args['microtaskAssignments']
-                              as List<MicroTaskAssignmentRecord>,
-                        )));
-                      },
-                      '/speech_verification_microtask': (context) {
-                        final args = ModalRoute.of(context)!.settings.arguments
-                            as Map<String, dynamic>;
-                        return Scaffold(
-                            body: SafeArea(
-                                child: SpeechVerificationScreen(
-                          db: widget.db,
-                          microtasks:
-                              args['microtasks'] as List<MicroTaskRecord>,
-                          microtaskAssignments: args['microtaskAssignments']
-                              as List<MicroTaskAssignmentRecord>,
-                          taskName: args['taskName'],
-                        )));
-                      },
-                      '/speech_audio_refinement': (context) {
-                        final args = ModalRoute.of(context)!.settings.arguments
-                            as Map<String, dynamic>;
-                        return Scaffold(
-                            body: SafeArea(
-                                child: SpeechAudioScreen(
-                          db: widget.db,
-                          microtasks:
-                              args['microtasks'] as List<MicroTaskRecord>,
-                          microtaskAssignments: args['microtaskAssignments']
-                              as List<MicroTaskAssignmentRecord>,
-                        )));
-                      },
-                      '/video_collection_task': (context) {
-                        final args = ModalRoute.of(context)!.settings.arguments
-                            as Map<String, dynamic>;
-                        return Scaffold(
-                            body: SafeArea(
-                                child: VideoCollectionScreen(
-                          db: widget.db,
-                          microtasks:
-                              args['microtasks'] as List<MicroTaskRecord>,
-                          microtaskAssignments: args['microtaskAssignments']
-                              as List<MicroTaskAssignmentRecord>,
-                        )));
-                      }
-                    },
-                  )));
+          return Container(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width,
+              ),
+              child: MaterialApp(
+                title: 'Karya App',
+                theme: ThemeData(
+                    colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+                    primarySwatch: Colors.blue,
+                    scaffoldBackgroundColor: Colors.white,
+                    useMaterial3: true,
+                    appBarTheme: const AppBarTheme(
+                      backgroundColor: darkerOrange,
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                    ),
+                    fontFamily: 'CustomFont'),
+                initialRoute: snapshot.data,
+                routes: {
+                  '/': (context) =>
+                      const Scaffold(body: SafeArea(child: LoginScreen())),
+                  '/register': (context) =>
+                      const AppScaffold(body: RegisterScreen()),
+                  '/dashboard': (context) => AppScaffold(
+                      body: DashboardScreen(
+                          title: 'Dashboard Screen', db: widget.db)),
+                  '/sd_microtask': (context) {
+                    final args = ModalRoute.of(context)!.settings.arguments
+                        as Map<String, dynamic>;
+                    return AppScaffold(
+                        body: SpeechRecordingScreen(
+                      db: widget.db,
+                      microtasks: args['microtasks'] as List<MicroTaskRecord>,
+                      microtaskAssignments: args['microtaskAssignments']
+                          as List<MicroTaskAssignmentRecord>,
+                    ));
+                  },
+                  '/image_transcription_microtask': (context) {
+                    final args = ModalRoute.of(context)!.settings.arguments
+                        as Map<String, dynamic>;
+                    return AppScaffold(
+                        body: ImageTranscriptionScreen(
+                      db: widget.db,
+                      microtasks: args['microtasks'] as List<MicroTaskRecord>,
+                      microtaskAssignments: args['microtaskAssignments']
+                          as List<MicroTaskAssignmentRecord>,
+                    ));
+                  },
+                  '/image_audio_microtask': (context) {
+                    final args = ModalRoute.of(context)!.settings.arguments
+                        as Map<String, dynamic>;
+                    return AppScaffold(
+                        body: ImageAudioScreen(
+                      db: widget.db,
+                      microtasks: args['microtasks'] as List<MicroTaskRecord>,
+                      microtaskAssignments: args['microtaskAssignments']
+                          as List<MicroTaskAssignmentRecord>,
+                    ));
+                  },
+                  '/speech_verification_microtask': (context) {
+                    final args = ModalRoute.of(context)!.settings.arguments
+                        as Map<String, dynamic>;
+                    return AppScaffold(
+                        body: SpeechVerificationScreen(
+                      db: widget.db,
+                      microtasks: args['microtasks'] as List<MicroTaskRecord>,
+                      microtaskAssignments: args['microtaskAssignments']
+                          as List<MicroTaskAssignmentRecord>,
+                      taskName: args['taskName'],
+                    ));
+                  },
+                  '/speech_audio_refinement': (context) {
+                    final args = ModalRoute.of(context)!.settings.arguments
+                        as Map<String, dynamic>;
+                    return AppScaffold(
+                        body: SpeechAudioScreen(
+                      db: widget.db,
+                      microtasks: args['microtasks'] as List<MicroTaskRecord>,
+                      microtaskAssignments: args['microtaskAssignments']
+                          as List<MicroTaskAssignmentRecord>,
+                    ));
+                  },
+                  '/video_collection_task': (context) {
+                    final args = ModalRoute.of(context)!.settings.arguments
+                        as Map<String, dynamic>;
+                    return AppScaffold(
+                        body: VideoCollectionScreen(
+                      db: widget.db,
+                      microtasks: args['microtasks'] as List<MicroTaskRecord>,
+                      microtaskAssignments: args['microtaskAssignments']
+                          as List<MicroTaskAssignmentRecord>,
+                    ));
+                  }
+                },
+              ));
         }
 
         return const CircularProgressIndicator();
