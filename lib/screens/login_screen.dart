@@ -134,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<void> _handleSubmit() async {
+  Future<bool> _handleSubmit() async {
     final otp = otpController.text;
     if (otp.isNotEmpty) {
       bool otpStat = await _verifyOtp(otp);
@@ -159,10 +159,12 @@ class _LoginScreenState extends State<LoginScreen> {
               content: Text('OTP verification failed. Please try again')),
         );
       }
+      return otpStat;
     } else {
       // ScaffoldMessenger.of(context).showSnackBar(
       //   const SnackBar(content: Text('OTP can\'t be empty')),
       // );
+      return false;
     }
   }
 
@@ -192,54 +194,67 @@ class _LoginScreenState extends State<LoginScreen> {
     Navigator.of(context).pop();
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
-        return AlertDialog(
-            title: const Text('OTP Verification'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  'Your phone number is not verified. We have send an otp to the registered number. Please enter OTP here to continue :',
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: otpController,
-                  decoration: const InputDecoration(
-                    labelText: 'OTP',
-                    border: OutlineInputBorder(),
-                  ),
-                  keyboardType: TextInputType.number,
-                  maxLength: 6,
-                ),
-              ],
-            ),
-            actions: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+        String errorMessage = '';
+        return StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+              title: const Text('OTP Verification'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ElevatedButton(
-                        onPressed: _handleResend,
-                        child: const Text('Resend'),
-                      ),
-                      ElevatedButton(
-                        onPressed: _handleSubmit,
-                        child: const Text('Submit'),
-                      ),
-                    ],
+                  const Text(
+                    'Your phone number is not verified. We have send an otp to the registered number. Please enter OTP here to continue :',
+                    textAlign: TextAlign.center,
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Cancel'),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: otpController,
+                    decoration: InputDecoration(
+                        labelText: 'OTP',
+                        border: OutlineInputBorder(),
+                        errorText:
+                            errorMessage.isNotEmpty ? errorMessage : null),
+                    // errorText: 'Invalid OTP. Please try again'),
+                    keyboardType: TextInputType.number,
+                    maxLength: 6,
                   ),
                 ],
               ),
-            ]);
+              actions: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        ElevatedButton(
+                          onPressed: _handleResend,
+                          child: const Text('Resend'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            bool isVerified = await _handleSubmit();
+                            if (!isVerified) {
+                              setState(() {
+                                errorMessage = 'Invalid OTP. Please try again.';
+                              });
+                            }
+                          },
+                          child: const Text('Submit'),
+                        ),
+                      ],
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                  ],
+                ),
+              ]);
+        });
       },
     );
   }

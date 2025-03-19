@@ -206,8 +206,8 @@ class _KaryaAppState extends State<KaryaApp> {
                 routes: {
                   '/': (context) =>
                       const Scaffold(body: SafeArea(child: LoginScreen())),
-                  '/register': (context) =>
-                      const AppScaffold(body: RegisterScreen()),
+                  '/register': (context) => const AppScaffold(
+                      body: Scaffold(body: SafeArea(child: RegisterScreen()))),
                   '/dashboard': (context) => AppScaffold(
                       body: DashboardScreen(
                           title: 'Dashboard Screen', db: widget.db)),

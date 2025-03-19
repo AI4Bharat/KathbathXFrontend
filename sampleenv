@@ -1,0 +1,4 @@
+SERVER_URL= '<endpoint of the sever>'
+ACCESS_ENCODE = '<encoding for thr access code>'
+BOX_ID = '<box id of the server>'
+PHONE_NUMBER = '<phone number for whatsapp sharing>'
