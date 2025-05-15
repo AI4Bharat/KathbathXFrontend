@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +22,9 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _phoneNumberController = TextEditingController();
+
+  File? _selectedImage;
+  final ImagePicker _picker = ImagePicker();
 
   late Dio dio;
   late ApiService apiService;
@@ -120,6 +124,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     }
     return null; // Return null if value is not found
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+        _formData['photo'] = _selectedImage; // optional if you're sending it
+      });
+    }
   }
 
   Future<void> _submit() async {
@@ -361,6 +375,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ],
+                    ),
+                    if (_selectedImage != null)
+                      Column(
+                        children: [
+                          Image.file(_selectedImage!, height: 150),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    ElevatedButton.icon(
+                      onPressed: _pickImage,
+                      icon: const Icon(Icons.upload),
+                      label: const Text('Upload Photo'),
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
