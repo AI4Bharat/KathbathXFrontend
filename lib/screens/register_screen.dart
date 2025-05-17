@@ -131,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (pickedFile != null) {
       setState(() {
         _selectedImage = File(pickedFile.path);
-        _formData['photo'] = _selectedImage; // optional if you're sending it
+        // _formData['photo'] = _selectedImage; // optional if you're sending it
       });
     }
   }
@@ -153,9 +153,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
           userJson['native_place_state'].toLowerCase().replaceAll(' ', '_');
       userJson['native_place_district'] =
           userJson['native_place_district'].toLowerCase().replaceAll(' ', '_');
+
+      MultipartFile? imageFile;
+      if (_selectedImage != null) {
+        imageFile = await MultipartFile.fromFile(
+          _selectedImage!.path,
+          filename: _selectedImage!.path.split('/').last,
+        );
+      }
+
+      final formData = FormData.fromMap({
+        ...userJson,
+        if (imageFile != null) 'consent': imageFile,
+      });
       Response response;
       try {
-        response = await workerApiService.userRegistration(userJson);
+        response = await workerApiService.userRegistration(formData);
         if (response.statusCode == 200) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('User registereed successfully.')),
