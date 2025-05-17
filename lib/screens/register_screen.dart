@@ -12,6 +12,7 @@ import 'package:karya_flutter/widgets/consent_dialog_widget.dart';
 import 'package:karya_flutter/widgets/form_dropdown_widget.dart';
 import 'package:karya_flutter/widgets/phone_num_textbox_widget.dart';
 import 'package:karya_flutter/widgets/textfield_widget.dart';
+import 'package:mime/mime.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -129,10 +130,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      setState(() {
-        _selectedImage = File(pickedFile.path);
-        // _formData['photo'] = _selectedImage; // optional if you're sending it
-      });
+      final file = File(pickedFile.path);
+      final mimeType = lookupMimeType(file.path);
+
+      if (mimeType == 'image/jpeg' || mimeType == 'image/jpg') {
+        setState(() {
+          _selectedImage = file;
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please select a JPEG image.')),
+        );
+      }
     }
   }
 
@@ -171,7 +180,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         response = await workerApiService.userRegistration(formData);
         if (response.statusCode == 200) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('User registereed successfully.')),
+            const SnackBar(content: Text('User registered successfully.')),
           );
           Navigator.pop(context);
         }
