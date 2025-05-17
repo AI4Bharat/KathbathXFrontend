@@ -154,8 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       userJson['job_type'] = getKeyFromValue(jobTypeData, userJson['job_type']);
       userJson['highest_qualification'] =
           getKeyFromValue(educationData, userJson['highest_qualification']);
-      // userJson['language'] = languageData[userJson['language']];
-      userJson['language'] = 'malayalam';
+      userJson['language'] = languageData[userJson['language']];
       userJson['most_time_spend'] =
           getKeyFromValue(mostTimeSpendData, userJson['most_time_spend']);
       userJson['native_place_state'] =
