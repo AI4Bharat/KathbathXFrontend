@@ -53,7 +53,7 @@ class WorkerApiService {
 
   Future<Response> userRegistration(FormData formData) {
     return _apiService.dio.post(
-      '/worker/create',
+      '/worker/create/',
       options: Options(method: 'POST', headers: {
         'Content-Type': 'multipart/form-data',
       }),

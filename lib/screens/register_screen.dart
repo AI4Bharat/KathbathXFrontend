@@ -43,8 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     'box_id': dotenv.env['BOX_ID'],
     'language': null,
     'age': '',
-    'year_of_birth': '',
-    'most_time_spent': null,
+    'most_time_spend': null,
     'occupation': null,
     'gender': null,
     'native_place_state': null,
@@ -147,7 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future<void> _submit() async {
     _formData['phone_number'] = _phoneNumberController.text;
-    print("Form data when submitting:  $_formData");
+    // print("Form data when submitting:  $_formData");
     Map<String, dynamic> userJson = Map<String, dynamic>.from(_formData);
     if (_formKey.currentState!.validate() && _isConsentAccepted) {
       _formKey.currentState!.save();
@@ -155,9 +154,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       userJson['job_type'] = getKeyFromValue(jobTypeData, userJson['job_type']);
       userJson['highest_qualification'] =
           getKeyFromValue(educationData, userJson['highest_qualification']);
-      userJson['language'] = languageData[userJson['language']];
-      userJson['most_time_spent'] =
-          getKeyFromValue(mostTimeSpendData, userJson['most_time_spent']);
+      // userJson['language'] = languageData[userJson['language']];
+      userJson['language'] = 'malayalam';
+      userJson['most_time_spend'] =
+          getKeyFromValue(mostTimeSpendData, userJson['most_time_spend']);
       userJson['native_place_state'] =
           userJson['native_place_state'].toLowerCase().replaceAll(' ', '_');
       userJson['native_place_district'] =
@@ -175,9 +175,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ...userJson,
         if (imageFile != null) 'consent': imageFile,
       });
+
+      ///testing comment/////
+      // formData.fields.forEach((field) {
+      //   log("Field: ${field.key} = ${field.value}");
+      // });
+
+      // formData.files.forEach((file) {
+      //   log("File field: ${file.key}, filename: ${file.value.filename}");
+      // });
+      //////////////
       Response response;
       try {
         response = await workerApiService.userRegistration(formData);
+        log("response: $response");
         if (response.statusCode == 200) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('User registered successfully.')),
@@ -204,10 +215,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
+              SnackBar(
                   content: Text(
-                      'Registration failed. Please check you network and try again.')),
+                      'Registration failed. Please check you network and try again.${e.response?.data ?? e.message ?? e.response?.statusCode}')),
             );
+            log("error ${e.response?.data ?? e.message ?? e.response?.statusCode} ");
           }
         }
       }
@@ -221,7 +233,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log("Initial formdata: $_formData");
+    // log("Initial formdata: $_formData");
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -327,10 +339,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     FormDropdown(
                       label: 'Spent most of your life in',
                       icon: Icons.home_work,
-                      value: _formData['most_time_spent'],
+                      value: _formData['most_time_spend'],
                       items: _mostTimeSpend,
                       onChanged: (value) => setState(() {
-                        _formData['most_time_spent'] = value!;
+                        _formData['most_time_spend'] = value!;
                       }),
                       validator: (value) => value == null
                           ? 'Please select where you spent most of your life'
