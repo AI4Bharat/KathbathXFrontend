@@ -126,8 +126,56 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return null; // Return null if value is not found
   }
 
+  // Future<void> _pickImage() async {
+  //   final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  //   if (pickedFile != null) {
+  //     final file = File(pickedFile.path);
+  //     final mimeType = lookupMimeType(file.path);
+
+  //     if (mimeType == 'image/jpeg' || mimeType == 'image/jpg') {
+  //       setState(() {
+  //         _selectedImage = file;
+  //       });
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(content: Text('Please select a JPEG image.')),
+  //       );
+  //     }
+  //   }
+  // }
+
   Future<void> _pickImage() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Take a Photo'),
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  await _pickImageFromSource(ImageSource.camera);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo),
+                title: const Text('Choose from Gallery'),
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  await _pickImageFromSource(ImageSource.gallery);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _pickImageFromSource(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
       final file = File(pickedFile.path);
       final mimeType = lookupMimeType(file.path);
