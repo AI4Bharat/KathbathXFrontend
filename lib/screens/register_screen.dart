@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:karya_flutter/services/api_services_baseUrl.dart';
 import 'package:karya_flutter/services/worker_api.dart';
+import 'package:karya_flutter/utils/navigator_key.dart';
+import 'package:karya_flutter/utils/unauthorized_interceptor.dart';
 import 'package:karya_flutter/widgets/consent_dialog_widget.dart';
 import 'package:karya_flutter/widgets/form_dropdown_widget.dart';
 import 'package:karya_flutter/widgets/phone_num_textbox_widget.dart';
@@ -70,6 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void initState() {
     super.initState();
     dio = Dio();
+    dio.interceptors.add(TokenInterceptor(navigatorKey));
     apiService = ApiService(dio);
     workerApiService = WorkerApiService(apiService);
     loadJsonData();

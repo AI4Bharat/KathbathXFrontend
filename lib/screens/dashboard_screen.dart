@@ -15,6 +15,7 @@ import 'package:karya_flutter/models/assignment_status_enum.dart';
 import 'package:karya_flutter/services/api_services_baseUrl.dart';
 import 'package:karya_flutter/services/task_api.dart';
 import 'package:karya_flutter/utils/colors.dart';
+import 'package:karya_flutter/utils/navigator_key.dart';
 import 'package:karya_flutter/utils/send_output.dart';
 import 'package:karya_flutter/widgets/editbox_widget.dart';
 import 'package:karya_flutter/widgets/task_card_widget.dart';
@@ -22,6 +23,8 @@ import 'package:karya_flutter/widgets/task_submit_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+
+import '../utils/unauthorized_interceptor.dart';
 
 class DashboardScreen extends StatefulWidget {
   final KaryaDatabase db;
@@ -56,6 +59,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     dio = Dio();
+    dio.interceptors.add(TokenInterceptor(navigatorKey));
     apiService = ApiService(dio);
 
     _taskDao = widget.db.taskDao;
@@ -213,6 +217,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             content: Text('Data Submitted successfully'),
             duration: Duration(seconds: 2),
           ),
+        );
+      } else if (submitResponse.statusCode == 401) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Token expired. Please login again.')),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

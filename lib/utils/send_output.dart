@@ -8,6 +8,8 @@ import 'package:dio/dio.dart';
 import 'package:karya_flutter/data/manager/karya_db.dart';
 import 'package:karya_flutter/services/api_services_baseUrl.dart';
 import 'package:karya_flutter/services/task_api.dart';
+import 'package:karya_flutter/utils/navigator_key.dart';
+import 'package:karya_flutter/utils/unauthorized_interceptor.dart';
 import 'package:karya_flutter/utils/wav2tgz_convert.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
@@ -30,6 +32,7 @@ Future<String?> sendOutputFile(
         '{\n    "container_name": "microtask-assignment-output",\n    "name": "$assignmentId.tgz",\n    "algorithm": "MD5",\n    "checksum": "$checksum"\n}';
 //////////To update server db////////////////
     dio = Dio();
+    dio.interceptors.add(TokenInterceptor(navigatorKey));
     apiService = ApiService(dio);
     final MicroTaskAssignmentService microApiService =
         MicroTaskAssignmentService(apiService);

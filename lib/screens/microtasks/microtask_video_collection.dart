@@ -9,10 +9,13 @@ import 'package:karya_flutter/data/manager/karya_db.dart';
 import 'package:karya_flutter/models/assignment_status_enum.dart';
 import 'package:karya_flutter/services/api_services_baseUrl.dart';
 import 'package:karya_flutter/services/worker_api.dart';
+import 'package:karya_flutter/utils/navigator_key.dart';
 import 'package:karya_flutter/widgets/video_player_widget.dart';
 import 'package:karya_flutter/widgets/video_recorder_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../utils/unauthorized_interceptor.dart';
 
 class VideoCollectionScreen extends StatefulWidget {
   final KaryaDatabase db;
@@ -56,6 +59,7 @@ class _VideoCollectionScreenState extends State<VideoCollectionScreen> {
 
   Future<void> _getDisplayValues() async {
     dio = Dio();
+    dio.interceptors.add(TokenInterceptor(navigatorKey));
     apiService = ApiService(dio);
     final WorkerApiService microApiService = WorkerApiService(apiService);
     SharedPreferences prefs = await SharedPreferences.getInstance();

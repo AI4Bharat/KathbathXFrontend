@@ -25,6 +25,8 @@ import 'package:karya_flutter/services/api_services_baseUrl.dart';
 import 'package:karya_flutter/services/worker_api.dart';
 import 'package:karya_flutter/utils/app_scafold.dart';
 import 'package:karya_flutter/utils/colors.dart';
+import 'package:karya_flutter/utils/navigator_key.dart';
+import 'package:karya_flutter/utils/unauthorized_interceptor.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:android_play_install_referrer/android_play_install_referrer.dart';
@@ -138,8 +140,11 @@ class _KaryaAppState extends State<KaryaApp> {
     }
 
     dio = Dio();
+    dio.interceptors.add(TokenInterceptor(navigatorKey));
     apiService = ApiService(dio);
-    workerApiService = WorkerApiService(apiService);
+    workerApiService = WorkerApiService(
+      apiService,
+    );
     String referrerDetailsString;
     try {
       ReferrerDetails referrerDetails =
@@ -190,6 +195,7 @@ class _KaryaAppState extends State<KaryaApp> {
                 maxWidth: MediaQuery.of(context).size.width,
               ),
               child: MaterialApp(
+                navigatorKey: navigatorKey,
                 title: 'Karya App',
                 theme: ThemeData(
                     colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),

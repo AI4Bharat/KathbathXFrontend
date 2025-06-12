@@ -5,6 +5,8 @@ import 'package:archive/archive.dart';
 import 'package:dio/dio.dart';
 import 'package:karya_flutter/services/api_services_baseUrl.dart';
 import 'package:karya_flutter/services/task_api.dart';
+import 'package:karya_flutter/utils/navigator_key.dart';
+import 'package:karya_flutter/utils/unauthorized_interceptor.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<Map<String, String>> saveAssignmentFiles(
@@ -84,6 +86,7 @@ Future<Map<String, String>> saveAssignmentFilesCheckExists(
     String? audioFilename,
     String? recordingFilename}) async {
   Dio dio = Dio();
+  dio.interceptors.add(TokenInterceptor(navigatorKey));
   ApiService apiService = ApiService(dio);
   final MicroTaskAssignmentService microApiService =
       MicroTaskAssignmentService(apiService);
