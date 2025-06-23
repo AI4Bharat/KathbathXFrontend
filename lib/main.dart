@@ -127,7 +127,7 @@ class _KaryaAppState extends State<KaryaApp> {
   void initState() {
     super.initState();
     _getInitialRoute();
-    initReferrerDetails();
+    // initReferrerDetails();
   }
 
   Future<void> initReferrerDetails() async {

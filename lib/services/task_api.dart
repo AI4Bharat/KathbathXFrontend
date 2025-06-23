@@ -87,7 +87,7 @@ class MicroTaskAssignmentService {
     );
     if (response.statusCode == 200) {
       final jsonData = response.data;
-      // log('Received JSON Data: $jsonData');
+      log('Received JSON Data: $jsonData');
       return jsonData;
     } else {
       return {};
