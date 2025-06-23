@@ -32,44 +32,44 @@ import 'package:android_play_install_referrer/android_play_install_referrer.dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // initialize firebase crashlytics
-  try {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    FlutterError.onError = (FlutterErrorDetails details) {
-      FlutterError.dumpErrorToConsole(details);
-      FirebaseCrashlytics.instance.recordFlutterFatalError(details);
-    };
-    PlatformDispatcher.instance.onError = (error, stack) {
-      print("The error is $error");
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      return true;
-    };
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-    // Initialize the database
-    final db = await _openDatabase();
-    await dotenv.load(fileName: ".env");
+  // try {
+  //   await Firebase.initializeApp(
+  //     options: DefaultFirebaseOptions.currentPlatform,
+  //   );
+  //   FlutterError.onError = (FlutterErrorDetails details) {
+  //     FlutterError.dumpErrorToConsole(details);
+  //     FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+  //   };
+  //   PlatformDispatcher.instance.onError = (error, stack) {
+  //     print("The error is $error");
+  //     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+  //     return true;
+  //   };
+  //   await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  // Initialize the database
+  final db = await _openDatabase();
+  await dotenv.load(fileName: ".env");
 
-    // Check for in App update
-    if (Platform.isAndroid) {
-      await checkForAndroidUpdate();
-    } else if (Platform.isIOS) {
-      await checkForIOSUpdate();
-    }
-
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]).then((_) {
-      runApp(
-        ChangeNotifierProvider(
-          create: (context) => RecorderPlayerProvider(),
-          child: KaryaApp(db),
-        ),
-      );
-    });
-  } catch (e, stack) {
-    FirebaseCrashlytics.instance.recordError(e, stack, fatal: true);
+  // Check for in App update
+  if (Platform.isAndroid) {
+    await checkForAndroidUpdate();
+  } else if (Platform.isIOS) {
+    await checkForIOSUpdate();
   }
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((_) {
+    runApp(
+      ChangeNotifierProvider(
+        create: (context) => RecorderPlayerProvider(),
+        child: KaryaApp(db),
+      ),
+    );
+  });
+  // } catch (e, stack) {
+  //   FirebaseCrashlytics.instance.recordError(e, stack, fatal: true);
+  // }
 }
 
 Future<void> checkForAndroidUpdate() async {
