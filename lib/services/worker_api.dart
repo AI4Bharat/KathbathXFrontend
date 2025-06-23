@@ -40,14 +40,24 @@ class WorkerApiService {
     );
   }
 
-  Future<Response> userRegistration(Map<String, dynamic> userData) {
-    print("Send data: ${jsonEncode(userData)}");
+  // Future<Response> userRegistration(Map<String, dynamic> userData) {
+  //   print("Send data: ${jsonEncode(userData)}");
+  //   return _apiService.dio.post(
+  //     '/worker/create',
+  //     options: Options(method: 'POST', headers: {
+  //       'Content-Type': 'application/json',
+  //     }),
+  //     data: jsonEncode(userData),
+  //   );
+  // }
+
+  Future<Response> userRegistration(FormData formData) {
     return _apiService.dio.post(
       '/worker/create',
       options: Options(method: 'POST', headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
       }),
-      data: jsonEncode(userData),
+      data: formData,
     );
   }
 

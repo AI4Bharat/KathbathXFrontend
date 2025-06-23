@@ -37,6 +37,8 @@ dependencies:
   flutter_dotenv: ^5.2.1
   in_app_update: ^4.2.3
   firebase_analytics: ^11.4.0
+  flutter_animate: ^4.5.2
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:

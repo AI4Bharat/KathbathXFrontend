@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,7 @@ import 'package:karya_flutter/widgets/consent_dialog_widget.dart';
 import 'package:karya_flutter/widgets/form_dropdown_widget.dart';
 import 'package:karya_flutter/widgets/phone_num_textbox_widget.dart';
 import 'package:karya_flutter/widgets/textfield_widget.dart';
+import 'package:mime/mime.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -21,6 +23,9 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _phoneNumberController = TextEditingController();
+
+  File? _selectedImage;
+  final ImagePicker _picker = ImagePicker();
 
   late Dio dio;
   late ApiService apiService;
@@ -38,8 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     'box_id': dotenv.env['BOX_ID'],
     'language': null,
     'age': '',
-    'year_of_birth': '',
-    'most_time_spent': null,
+    'most_time_spend': null,
     'occupation': null,
     'gender': null,
     'native_place_state': null,
@@ -122,9 +126,75 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return null; // Return null if value is not found
   }
 
+  // Future<void> _pickImage() async {
+  //   final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  //   if (pickedFile != null) {
+  //     final file = File(pickedFile.path);
+  //     final mimeType = lookupMimeType(file.path);
+
+  //     if (mimeType == 'image/jpeg' || mimeType == 'image/jpg') {
+  //       setState(() {
+  //         _selectedImage = file;
+  //       });
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(content: Text('Please select a JPEG image.')),
+  //       );
+  //     }
+  //   }
+  // }
+
+  Future<void> _pickImage() async {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Take a Photo'),
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  await _pickImageFromSource(ImageSource.camera);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo),
+                title: const Text('Choose from Gallery'),
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  await _pickImageFromSource(ImageSource.gallery);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _pickImageFromSource(ImageSource source) async {
+    final pickedFile = await _picker.pickImage(source: source);
+    if (pickedFile != null) {
+      final file = File(pickedFile.path);
+      final mimeType = lookupMimeType(file.path);
+
+      if (mimeType == 'image/jpeg' || mimeType == 'image/jpg') {
+        setState(() {
+          _selectedImage = file;
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please select a JPEG image.')),
+        );
+      }
+    }
+  }
+
   Future<void> _submit() async {
     _formData['phone_number'] = _phoneNumberController.text;
-    print("Form data when submitting:  $_formData");
+    // print("Form data when submitting:  $_formData");
     Map<String, dynamic> userJson = Map<String, dynamic>.from(_formData);
     if (_formKey.currentState!.validate() && _isConsentAccepted) {
       _formKey.currentState!.save();
@@ -133,18 +203,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
       userJson['highest_qualification'] =
           getKeyFromValue(educationData, userJson['highest_qualification']);
       userJson['language'] = languageData[userJson['language']];
-      userJson['most_time_spent'] =
-          getKeyFromValue(mostTimeSpendData, userJson['most_time_spent']);
+      userJson['most_time_spend'] =
+          getKeyFromValue(mostTimeSpendData, userJson['most_time_spend']);
       userJson['native_place_state'] =
           userJson['native_place_state'].toLowerCase().replaceAll(' ', '_');
       userJson['native_place_district'] =
           userJson['native_place_district'].toLowerCase().replaceAll(' ', '_');
+
+      MultipartFile? imageFile;
+      if (_selectedImage != null) {
+        imageFile = await MultipartFile.fromFile(
+          _selectedImage!.path,
+          filename: _selectedImage!.path.split('/').last,
+        );
+      }
+
+      final formData = FormData.fromMap({
+        ...userJson,
+        if (imageFile != null) 'consent': imageFile,
+      });
+
+      ///testing comment/////
+      // formData.fields.forEach((field) {
+      //   log("Field: ${field.key} = ${field.value}");
+      // });
+
+      // formData.files.forEach((file) {
+      //   log("File field: ${file.key}, filename: ${file.value.filename}");
+      // });
+      //////////////
       Response response;
       try {
-        response = await workerApiService.userRegistration(userJson);
+        response = await workerApiService.userRegistration(formData);
+        log("response: $response");
         if (response.statusCode == 200) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('User registereed successfully.')),
+            const SnackBar(content: Text('User registered successfully.')),
           );
           Navigator.pop(context);
         }
@@ -168,10 +262,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
+              SnackBar(
                   content: Text(
-                      'Registration failed. Please check you network and try again.')),
+                      'Registration failed. Please check you network and try again.${e.response?.data ?? e.message ?? e.response?.statusCode}')),
             );
+            log("error ${e.response?.data ?? e.message ?? e.response?.statusCode} ");
           }
         }
       }
@@ -185,7 +280,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log("Initial formdata: $_formData");
+    // log("Initial formdata: $_formData");
     return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
@@ -291,10 +386,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     FormDropdown(
                       label: 'Spent most of your life in',
                       icon: Icons.home_work,
-                      value: _formData['most_time_spent'],
+                      value: _formData['most_time_spend'],
                       items: _mostTimeSpend,
                       onChanged: (value) => setState(() {
-                        _formData['most_time_spent'] = value!;
+                        _formData['most_time_spend'] = value!;
                       }),
                       validator: (value) => value == null
                           ? 'Please select where you spent most of your life'
@@ -361,6 +456,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ],
+                    ),
+                    if (_selectedImage != null)
+                      Column(
+                        children: [
+                          Image.file(_selectedImage!, height: 150),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    ElevatedButton.icon(
+                      onPressed: _pickImage,
+                      icon: const Icon(Icons.upload),
+                      label: const Text('Upload Photo'),
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
