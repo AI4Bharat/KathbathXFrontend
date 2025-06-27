@@ -15,6 +15,8 @@ import 'package:karya_flutter/widgets/form_dropdown_widget.dart';
 import 'package:karya_flutter/widgets/phone_num_textbox_widget.dart';
 import 'package:karya_flutter/widgets/textfield_widget.dart';
 import 'package:mime/mime.dart';
+import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -39,6 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late Map<String, dynamic> mostTimeSpendData;
   late Map<String, dynamic> jobTypeData;
   late Map<String, dynamic> educationData;
+  late Map<String, dynamic> interestsData;
   final Map<String, dynamic> _formData = {
     'full_name': '',
     'phone_number': '',
@@ -54,6 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     'highest_qualification': null,
     'acceptConsent': true,
     'referralCode': '',
+    'interests': <String>[]
   };
   bool _isConsentAccepted = false;
 
@@ -64,6 +68,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   List<dynamic> _mostTimeSpend = [];
   List<dynamic> _jobTypes = [];
   List<dynamic> _educationLevels = [];
+  List<dynamic> _interests = [];
+  List<String> _selectedInterests = [];
 
   Map<String, List<String>> _stateToDistricts = {};
   String? _selectedState;
@@ -90,6 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       mostTimeSpendData = jsonData['mostTimeSpend'];
       jobTypeData = jsonData['jobType'];
       educationData = jsonData['highestQualification'];
+      interestsData = jsonData['interests'];
       setState(() {
         _genders = genderData.values.toList();
         _languages = languageData.keys.toList();
@@ -114,6 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _mostTimeSpend = mostTimeSpendData.values.toList();
         _jobTypes = jobTypeData.values.toList();
         _educationLevels = educationData.values.toList();
+        _interests = interestsData.values.toList();
       });
     } catch (e) {
       log('Error loading or parsing JSON: $e');
@@ -213,6 +221,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       userJson['native_place_district'] =
           userJson['native_place_district'].toLowerCase().replaceAll(' ', '_');
 
+      List<String> formattedInterests = (userJson['interests'] as List)
+          .map((e) => e.toString().toLowerCase().replaceAll(' ', '_'))
+          .toList();
+      userJson['interests'] = formattedInterests;
       MultipartFile? imageFile;
       if (_selectedImage != null) {
         imageFile = await MultipartFile.fromFile(
@@ -226,7 +238,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         if (imageFile != null) 'consent': imageFile,
       });
 
-      ///testing comment/////
+      // /testing comment/////
       // formData.fields.forEach((field) {
       //   log("Field: ${field.key} = ${field.value}");
       // });
@@ -438,6 +450,47 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           }
                           return null;
                         }),
+                    const SizedBox(height: 10),
+                    MultiSelectDialogField(
+                      items: _interests
+                          .map(
+                              (interest) => MultiSelectItem(interest, interest))
+                          .toList(),
+                      title: const Text(
+                        "Interests",
+                        style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontSize: 16,
+                        ),
+                      ),
+                      buttonText: const Text("Interests",
+                          style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 16,
+                          )),
+                      buttonIcon: const Icon(Icons.arrow_drop_down),
+                      selectedColor: Colors.orange,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.brown, width: 1),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      // decoration: BoxDecoration(
+                      //   borderRadius: BorderRadius.all(Radius.circular(5)),
+                      //   border: Border.all(
+                      //     color: Colors.black,
+                      //     width: 1,
+                      //   ),
+                      // ),
+                      initialValue: _formData['interests'] ?? [],
+                      onConfirm: (values) {
+                        setState(() {
+                          _formData['interests'] = values;
+                        });
+                      },
+                      validator: (values) => values == null || values.isEmpty
+                          ? 'Please select at least one interest'
+                          : null,
+                    ),
                     const SizedBox(height: 20),
                     Row(
                       children: [

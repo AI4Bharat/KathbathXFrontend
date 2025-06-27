@@ -8,8 +8,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:karya_flutter/screens/register_screen.dart';
 import 'package:karya_flutter/services/api_services_baseUrl.dart';
 import 'package:karya_flutter/services/worker_api.dart';
-import 'package:karya_flutter/utils/navigator_key.dart';
-import 'package:karya_flutter/utils/unauthorized_interceptor.dart';
 import 'package:karya_flutter/widgets/dropdown_widget.dart';
 import 'package:karya_flutter/widgets/logo_widget.dart';
 import 'package:karya_flutter/widgets/phone_num_textbox_widget.dart';
