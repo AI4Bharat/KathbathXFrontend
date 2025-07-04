@@ -159,7 +159,7 @@ class _ImageAudioScreenState extends State<ImageAudioScreen> {
     if (fileExists) {
       final recorderPlayerProvider =
           Provider.of<RecorderPlayerProvider>(context, listen: false);
-      final duration = recorderPlayerProvider.duration;
+      final duration = recorderPlayerProvider.duration / 1000;
       _microTaskAssignmentDao.updateMicrotaskAssignmentStatus(
           assignmentId!, MicrotaskAssignmentStatus.COMPLETED);
       String fileJson =
