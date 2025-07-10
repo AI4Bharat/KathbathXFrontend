@@ -86,7 +86,7 @@ class TaskCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                          'Recorded duration: ${(totalDuration / 1000).toStringAsFixed(2)} seconds'),
+                          'Recorded duration: ${(totalDuration).toStringAsFixed(2)} seconds'),
                     ],
                   ),
               ],
