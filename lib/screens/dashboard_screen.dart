@@ -47,6 +47,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   bool loggedOut = false;
   bool loadingDone = false;
 
+  final ValueNotifier<bool> _isSubmitting = ValueNotifier(false);
+
   String filterLines = "";
 
   late Dio dio;
@@ -160,71 +162,117 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
+  Future<void> showProgressDialog(
+      BuildContext context, ValueNotifier<String> messageNotifier) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Submitting Tasks'),
+          content: ValueListenableBuilder<String>(
+            valueListenable: messageNotifier,
+            builder: (context, message, _) {
+              return Row(
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(width: 16),
+                  Expanded(child: Text(message)),
+                ],
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
   Future<void> handleSubmitTasks() async {
-    List<MicroTaskAssignmentRecord> completedAssignments =
-        await _microTaskAssignmentDao.getMicrotaskAssignmentByStatus(
-            MicrotaskAssignmentStatus.COMPLETED);
-    //Filtering out the unsubmitted assignments based on output_file_id null or size>0 , same as the logic defined in the old app
-    List<MicroTaskAssignmentRecord> unsubmittedAssignments =
-        completedAssignments.where((assignment) {
-      bool isOutputFileIdNull = assignment.outputFileId == null;
-      bool hasValidOutputFiles = false;
-      if (assignment.output != null) {
-        var outputJson = jsonDecode(assignment.output!);
-        if (outputJson is Map<String, dynamic> &&
-            outputJson.containsKey('files')) {
-          hasValidOutputFiles = (outputJson['files']).isNotEmpty;
+    final ValueNotifier<String> progressMessage = ValueNotifier('Starting...');
+    showProgressDialog(context, progressMessage);
+    try {
+      progressMessage.value = '1/4 Loading completed tasks...';
+      List<MicroTaskAssignmentRecord> completedAssignments =
+          await _microTaskAssignmentDao.getMicrotaskAssignmentByStatus(
+              MicrotaskAssignmentStatus.COMPLETED);
+      //Filtering out the unsubmitted assignments based on output_file_id null or size>0 , same as the logic defined in the old app
+      List<MicroTaskAssignmentRecord> unsubmittedAssignments =
+          completedAssignments.where((assignment) {
+        bool isOutputFileIdNull = assignment.outputFileId == null;
+        bool hasValidOutputFiles = false;
+        if (assignment.output != null) {
+          var outputJson = jsonDecode(assignment.output!);
+          if (outputJson is Map<String, dynamic> &&
+              outputJson.containsKey('files')) {
+            hasValidOutputFiles = (outputJson['files']).isNotEmpty;
+          }
         }
-      }
-      return isOutputFileIdNull && hasValidOutputFiles;
-    }).toList();
-    if (completedAssignments.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Nothing to submit'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-    } else {
-      //sending the output file and updating the value in the local client db
-      for (var assignment in unsubmittedAssignments) {
-        String? outputFileId =
-            await sendOutputFileWithInput(assignment.id, assignment);
-        // log("Output file id: $outputFileId");
-        await _microTaskAssignmentDao.updateMicrotaskAssignmentOutputFileId(
-            assignment.id, outputFileId);
-      }
-      completedAssignments = await _microTaskAssignmentDao
-          .getMicrotaskAssignmentByStatus(MicrotaskAssignmentStatus.COMPLETED);
-
-      //api to update the server db
-      final MicroTaskAssignmentService microApiService =
-          MicroTaskAssignmentService(apiService);
-      Response submitResponse = await microApiService
-          .submitCompletedAssignments(completedAssignments);
-      if (submitResponse.statusCode == 200 && completedAssignments.isNotEmpty) {
-        for (var assignment in completedAssignments) {
-          await _microTaskAssignmentDao.updateMicrotaskAssignmentStatus(
-              assignment.id, MicrotaskAssignmentStatus.SUBMITTED);
-        }
-
+        return isOutputFileIdNull && hasValidOutputFiles;
+      }).toList();
+      if (completedAssignments.isEmpty) {
+        Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Data Submitted successfully'),
+            content: Text('Nothing to submit'),
             duration: Duration(seconds: 2),
           ),
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Data Submission failed. Please try again'),
-            duration: Duration(seconds: 2),
-          ),
-        );
+        //sending the output file and updating the value in the local client db
+        progressMessage.value = '3/4 Uploading output files...';
+        for (var assignment in unsubmittedAssignments) {
+          String? outputFileId =
+              await sendOutputFileWithInput(assignment.id, assignment);
+          // log("Output file id: $outputFileId");
+          await _microTaskAssignmentDao.updateMicrotaskAssignmentOutputFileId(
+              assignment.id, outputFileId);
+        }
+        completedAssignments =
+            await _microTaskAssignmentDao.getMicrotaskAssignmentByStatus(
+                MicrotaskAssignmentStatus.COMPLETED);
+
+        progressMessage.value = '4/4 Submitting to server...';
+
+        //api to update the server db
+        final MicroTaskAssignmentService microApiService =
+            MicroTaskAssignmentService(apiService);
+        Response submitResponse = await microApiService
+            .submitCompletedAssignments(completedAssignments);
+        if (submitResponse.statusCode == 200 &&
+            completedAssignments.isNotEmpty) {
+          for (var assignment in completedAssignments) {
+            await _microTaskAssignmentDao.updateMicrotaskAssignmentStatus(
+                assignment.id, MicrotaskAssignmentStatus.SUBMITTED);
+          }
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Data Submitted successfully'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        } else if (submitResponse.statusCode == 401) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Token expired. Please login again.')),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Data Submission failed. Please try again'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
       }
+      await _populateDb();
+      await _loadTasks();
+    } catch (e) {
+      Navigator.pop(context); // close dialog on error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.toString()}')),
+      );
     }
-    await _populateDb();
-    await _loadTasks();
   }
 
   Future<void> _handleTaskCardTap(BuildContext context, TaskRecord task) async {
@@ -284,7 +332,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           });
           break;
 
-        case 'SPEECH_DV_MULTI':
+        case 'SPEECH_DV_MULTI' || 'SPEECH_VERIFICATION':
           Navigator.pushNamed(
             // ignore: use_build_context_synchronously
             context,
@@ -416,51 +464,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         "https://api.whatsapp.com/send/?phone=$phoneNumber&text=$encodedMessage");
     await launchUrl(whatsappUri);
   }
-
-  // void showShareDialog(BuildContext context) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text('Share App'),
-  //         content: Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             Image.asset(
-  //               'assets/icons/whatsappicon.png',
-  //               width: 50,
-  //               height: 50,
-  //             ),
-  //             const SizedBox(height: 16), // Space between logo and text
-  //             const Text(
-  //                 'Share our app with your friends! Click the button below to help recruit more contributors. Help us create AI tools(like ChatGPT) that can converse in Indian languages'),
-  //           ],
-  //         ),
-  //         actions: [
-  //           Container(
-  //             width: double.infinity, // Center-aligns within available space
-  //             child: ElevatedButton(
-  //               style: ElevatedButton.styleFrom(
-  //                 foregroundColor: Colors.white,
-  //                 backgroundColor: Colors.orange, // Set white text color
-  //               ),
-  //               onPressed: goToWhatsap,
-  //               child: const Text('Share'),
-  //             ),
-  //           ),
-  //           Center(
-  //             child: TextButton(
-  //               child: const Text('Cancel'),
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //               },
-  //             ),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 
   void showShareDialog(BuildContext context) {
     showDialog(
@@ -631,11 +634,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
           child: Column(
             children: [
               // --- Task Submit/Get Section ---
-              TaskSubmitWidget(
-                uploadedTasks: uploadedCount,
-                onPhoneTasks: onPhoneCount,
-                handleSubmitTasks: () async {
-                  await handleSubmitTasks();
+              ValueListenableBuilder<bool>(
+                valueListenable: _isSubmitting,
+                builder: (context, isSubmitting, _) {
+                  return TaskSubmitWidget(
+                    uploadedTasks: uploadedCount,
+                    onPhoneTasks: onPhoneCount,
+                    handleSubmitTasks: () async {
+                      await handleSubmitTasks();
+                    },
+                  );
                 },
               ),
               Padding(
