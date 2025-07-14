@@ -39,6 +39,9 @@ class SpeechVerificationScreen extends StatefulWidget {
 }
 
 class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
+  AudioPlayerModel? inputAudioPlayerModel;
+  AudioPlayerModel? recordingAudioPlayerModel;
+
   String? inputImageFilename;
   String? inputImagePath;
   String? inputAudioFilename;
@@ -116,6 +119,12 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
     await _updateImageAudio();
     _updateSentence();
     _updateCheckboxValues();
+    if (isAudioPromptInputPresent) {
+      inputAudioPlayerModel = AudioPlayerModel(inputAudioPath!);
+    }
+    if (isRecordingOutputPresent) {
+      recordingAudioPlayerModel = AudioPlayerModel(inputRecordingPath!);
+    }
   }
 
   Future<bool> updateDbIfCompleted() async {
@@ -281,6 +290,13 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                     ++microNum;
                     _updateSentence();
                     _updateImageAudio();
+                    if (isAudioPromptInputPresent) {
+                      inputAudioPlayerModel = AudioPlayerModel(inputAudioPath!);
+                    }
+                    if (isRecordingOutputPresent) {
+                      recordingAudioPlayerModel =
+                          AudioPlayerModel(inputRecordingPath!);
+                    }
                   } else {
                     callToast('No more tasks');
                     setState(() {
@@ -345,7 +361,11 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
 
                   //Sentence Input
                   isSentenceInputPresent
-                      ? SentenceDisplayWidget(sentence: _sentence!)
+                      ? (() {
+                          // print("Rendering sentence: $_sentence");
+                          return SentenceDisplayWOExpandedWidget(
+                              sentence: _sentence!);
+                        })()
                       : const SizedBox.shrink(),
 
                   //Image Input
@@ -380,8 +400,7 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                                   child: PlayerWidget(
                                     filePath: inputAudioPath!,
                                     duration: 4,
-                                    playerModel:
-                                        AudioPlayerModel(inputAudioPath!),
+                                    playerModel: inputAudioPlayerModel!,
                                   ),
                                 ),
                               ],
@@ -410,8 +429,7 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                                   child: PlayerWidget(
                                     filePath: inputRecordingPath!,
                                     duration: recordingDuration,
-                                    playerModel:
-                                        AudioPlayerModel(inputRecordingPath!),
+                                    playerModel: recordingAudioPlayerModel!,
                                   ),
                                 ),
                               ],
@@ -577,6 +595,8 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                   ),
 
                   NextBackWidget(onBackPressed: () {
+                    inputAudioPlayerModel?.stop();
+                    recordingAudioPlayerModel?.stop();
                     _commentController.clear();
                     final checkboxProvider =
                         Provider.of<CheckboxProvider>(context, listen: false);
@@ -586,6 +606,14 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                         microNum--;
                         _updateSentence();
                         _updateImageAudio();
+                        if (isAudioPromptInputPresent) {
+                          inputAudioPlayerModel =
+                              AudioPlayerModel(inputAudioPath!);
+                        }
+                        if (isRecordingOutputPresent) {
+                          recordingAudioPlayerModel =
+                              AudioPlayerModel(inputRecordingPath!);
+                        }
                         checkboxProvider.resetAll();
                         evaluationMap['decision'] = null;
                       });
@@ -593,6 +621,8 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                       callToast('No previous task');
                     }
                   }, onNextPressed: () async {
+                    inputAudioPlayerModel?.stop();
+                    recordingAudioPlayerModel?.stop();
                     bool recordDone;
                     final checkboxProvider =
                         Provider.of<CheckboxProvider>(context, listen: false);
@@ -639,6 +669,14 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                           ++microNum;
                           _updateSentence();
                           _updateImageAudio();
+                          if (isAudioPromptInputPresent) {
+                            inputAudioPlayerModel =
+                                AudioPlayerModel(inputAudioPath!);
+                          }
+                          if (isRecordingOutputPresent) {
+                            recordingAudioPlayerModel =
+                                AudioPlayerModel(inputRecordingPath!);
+                          }
                           checkboxProvider.resetAll();
                           evaluationMap['decision'] = null;
                           isDecisionMade = false;
@@ -667,6 +705,8 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
 
   @override
   void dispose() {
+    inputAudioPlayerModel?.stop();
+    recordingAudioPlayerModel?.stop();
     super.dispose();
   }
 }

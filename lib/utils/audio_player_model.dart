@@ -41,4 +41,14 @@ class AudioPlayerModel {
     await player.seek(Duration.zero);
     playbackPosition = 0.0;
   }
+
+  Future<void> stop() async {
+    try {
+      await player.stop();
+      isPlaying = false;
+      playbackPosition = 0.0;
+    } catch (e) {
+      log('Error stopping audio: $e');
+    }
+  }
 }
