@@ -119,10 +119,18 @@ class _SpeechAudioScreenState extends State<SpeechAudioScreen> {
           recordFilePath = '/$assignmentId.wav';
         });
 
-        Map<String, String> inputPaths = await saveAssignmentFilesCheckExists(
+        Map<String, String>? inputPaths = await saveAssignmentFilesCheckExists(
             widget.microtasks[microNum].id, assignmentId!,
             audioFilename: inputAudioPromptFilename,
             recordingFilename: inputAudioResponseFilename);
+        if (inputPaths == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text(
+                    "One or more required input files are missing. Please report this assignmentID to admin")),
+          );
+          return;
+        }
         setState(() {
           inputAudioPromptPath = inputPaths['audio_prompt_path'];
           inputAudioResponsePath = inputPaths['recording_path'];

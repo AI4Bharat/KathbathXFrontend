@@ -52,13 +52,14 @@ class WorkerApiService {
   // }
 
   Future<Response> userRegistration(FormData formData) {
-    return _apiService.dio.post(
+    var resp = _apiService.dio.post(
       '/worker/create',
       options: Options(method: 'POST', headers: {
         'Content-Type': 'multipart/form-data',
       }),
       data: formData,
     );
+    return resp;
   }
 
   Future<Response> getWorkerDetails(String accessCode) {

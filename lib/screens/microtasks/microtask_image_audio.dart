@@ -135,10 +135,18 @@ class _ImageAudioScreenState extends State<ImageAudioScreen> {
         //     assignmentId!,
         //     inputImageFilename!,
         //     inputAudioFilename!);
-        Map<String, String> inputPaths = await saveAssignmentFilesCheckExists(
+        Map<String, String>? inputPaths = await saveAssignmentFilesCheckExists(
             widget.microtasks[microNum].id, assignmentId!,
             imageFilename: inputImageFilename,
             audioFilename: inputAudioFilename);
+        if (inputPaths == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text(
+                    "One or more required input files are missing. Please report this assignmentID to admin")),
+          );
+          return;
+        }
         final directory = await getApplicationDocumentsDirectory();
         setState(() {
           inputImagePath = inputPaths['image_path'];

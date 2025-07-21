@@ -15,6 +15,8 @@ class RecorderPlayerProvider extends ChangeNotifier {
   final List<AudioPlayerModel> _players = [];
   final List<AudioRecorderModel> _recorders = [];
 
+  AudioRecorderModel? _activeRecorder;
+
   bool _isRecording = false;
   bool _isPlaying = false;
 
@@ -87,7 +89,8 @@ class RecorderPlayerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _configureAudioSession() async {
+  bool _isInterrupted = false;
+  Future<void> _configureAudioSession() async {
     final session = await AudioSession.instance;
     await session.configure(AudioSessionConfiguration(
       avAudioSessionCategory: AVAudioSessionCategory.playAndRecord,
@@ -96,12 +99,39 @@ class RecorderPlayerProvider extends ChangeNotifier {
           AVAudioSessionCategoryOptions.allowBluetooth |
               AVAudioSessionCategoryOptions.defaultToSpeaker |
               AVAudioSessionCategoryOptions.mixWithOthers,
+      androidAudioFocusGainType: AndroidAudioFocusGainType.gain,
+      androidWillPauseWhenDucked: false,
     ));
+    session.interruptionEventStream.listen((event) async {
+      if (event.begin) {
+        print("Audio interruption began: ${event.type}");
+        _isInterrupted = true;
+        await Future.delayed(const Duration(seconds: 10));
+        if (_isInterrupted) {
+          _handleAudioInterruption(event.type);
+        }
+      } else {
+        print("Audio interruption ended: ${event.type}");
+        _isInterrupted = false;
+      }
+    });
+    final success = await session.setActive(true);
+    if (!success) {
+      print('Failed to gain audio session focus.');
+    }
+  }
+
+  void _handleAudioInterruption(AudioInterruptionType type) {
+    // If recording is in progress, stop it when losing focus
+    if (_isRecording) {
+      print('Stopping recording due to interruption: $type');
+      stopAllRecorders();
+    }
   }
 
   Future<void> startRecording(
       AudioRecorderModel recorder, String filePath) async {
-    _configureAudioSession();
+    await _configureAudioSession();
     alreadyPlayed = false;
     addRecorder(recorder);
     await recorder.recorder.openRecorder();

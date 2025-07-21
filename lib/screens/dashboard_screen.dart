@@ -187,7 +187,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Future<void> handleSubmitTasks() async {
+  Future<bool> handleSubmitTasks() async {
     final ValueNotifier<String> progressMessage = ValueNotifier('Starting...');
     showProgressDialog(context, progressMessage);
     try {
@@ -217,6 +217,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             duration: Duration(seconds: 2),
           ),
         );
+        return true;
       } else {
         //sending the output file and updating the value in the local client db
         progressMessage.value = '3/4 Uploading output files...';
@@ -224,6 +225,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
           String? outputFileId =
               await sendOutputFileWithInput(assignment.id, assignment);
           // log("Output file id: $outputFileId");
+
+          if (outputFileId == null || outputFileId.isEmpty) {
+            progressMessage.value =
+                'Failed to upload output file. Submission aborted. Kindly check your internert and try again';
+            Navigator.pop(context);
+            FocusScope.of(context).unfocus();
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content:
+                    Text('Failed to upload output file. Submission aborted.'),
+              ),
+            );
+            return false;
+          }
+
           await _microTaskAssignmentDao.updateMicrotaskAssignmentOutputFileId(
               assignment.id, outputFileId);
         }
@@ -240,9 +256,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
             .submitCompletedAssignments(completedAssignments);
         if (submitResponse.statusCode == 200 &&
             completedAssignments.isNotEmpty) {
+          List<dynamic> submittedIds = submitResponse.data;
           for (var assignment in completedAssignments) {
-            await _microTaskAssignmentDao.updateMicrotaskAssignmentStatus(
-                assignment.id, MicrotaskAssignmentStatus.SUBMITTED);
+            if (submittedIds.contains(assignment.id)) {
+              // print("assignmentid: ${assignment.id}");
+              await _microTaskAssignmentDao.updateMicrotaskAssignmentStatus(
+                assignment.id,
+                MicrotaskAssignmentStatus.SUBMITTED,
+              );
+            }
           }
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
@@ -251,27 +273,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
               duration: Duration(seconds: 2),
             ),
           );
+          await _populateDb();
+          await _loadTasks();
+          return true;
         } else if (submitResponse.statusCode == 401) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Token expired. Please login again.')),
           );
+          return false;
         } else {
+          Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Data Submission failed. Please try again'),
               duration: Duration(seconds: 2),
             ),
           );
+          return false;
         }
       }
-      await _populateDb();
-      await _loadTasks();
     } catch (e) {
       Navigator.pop(context); // close dialog on error
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: ${e.toString()}')),
       );
+      return false;
     }
   }
 
@@ -607,21 +634,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
               },
             ),
             IconButton(
-              icon: Icon(Icons.logout),
+              icon: const Icon(Icons.logout),
               onPressed: () async {
                 loggedOut = true;
-                await handleSubmitTasks();
-                SharedPreferences? prefs =
-                    await SharedPreferences.getInstance();
-                await prefs.setBool('otp_verified', false);
-                await prefs.setString('id_token', '');
-                await prefs.setString('loggedInNum', '');
-                await prefs.setBool("referral_send", false);
-                await _taskDao.clearAllTasks();
-                await _microTaskDao.clearAllMicroTasks();
-                await _microTaskAssignmentDao.clearAllMicrotaskAssignments();
+                bool submitSuccess = await handleSubmitTasks();
+                if (submitSuccess) {
+                  SharedPreferences? prefs =
+                      await SharedPreferences.getInstance();
+                  await prefs.setBool('otp_verified', false);
+                  await prefs.setString('id_token', '');
+                  await prefs.setString('loggedInNum', '');
+                  await prefs.setString('submittedCount', '');
+                  await prefs.setBool("referral_send", false);
+                  await _taskDao.clearAllTasks();
+                  await _microTaskDao.clearAllMicroTasks();
+                  await _microTaskAssignmentDao.clearAllMicrotaskAssignments();
 
-                Navigator.pushReplacementNamed(context, '/');
+                  Navigator.pushReplacementNamed(context, '/');
+                }
               },
             ),
           ],

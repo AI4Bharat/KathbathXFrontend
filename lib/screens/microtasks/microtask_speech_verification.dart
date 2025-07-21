@@ -53,6 +53,7 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
   String? _sentence;
   String? assignmentId;
   String? filePath;
+  bool inputPresent = true;
 
   bool isSentenceInputPresent = false;
   bool isImageInputPresent = false;
@@ -63,10 +64,7 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
   final TextEditingController _commentController = TextEditingController();
   bool isValueFromDb = false;
 
-  final Map<String, dynamic> evaluationMap = {
-    "decision": null,
-    "comments": false
-  };
+  final Map<String, dynamic> evaluationMap = {"decision": null, "comments": ""};
 
   List<String> checkboxCommonOptions = [
     "low volume",
@@ -119,10 +117,10 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
     await _updateImageAudio();
     _updateSentence();
     _updateCheckboxValues();
-    if (isAudioPromptInputPresent) {
+    if (isAudioPromptInputPresent && inputAudioPath != null) {
       inputAudioPlayerModel = AudioPlayerModel(inputAudioPath!);
     }
-    if (isRecordingOutputPresent) {
+    if (isRecordingOutputPresent && inputRecordingPath != null) {
       recordingAudioPlayerModel = AudioPlayerModel(inputRecordingPath!);
     }
   }
@@ -197,17 +195,40 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
 
         String? currentDecision = await getDecisionInDb();
 
-        Map<String, String> inputPaths = await saveAssignmentFilesCheckExists(
+        Map<String, String>? inputPaths = await saveAssignmentFilesCheckExists(
             widget.microtasks[microNum].id, assignmentId!,
             imageFilename: inputImageFilename,
             audioFilename: inputAudioFilename,
             recordingFilename: inputRecordingFilename);
+        if (inputPaths == null ||
+            widget.microtasks[microNum].inputFileId == null) {
+          setState(() {
+            inputPresent = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text(
+                    "One or more required input files are missing. Please report this assignmentID to admin")),
+          );
+
+          return;
+        } else {
+          setState(() {
+            inputPresent = true;
+          });
+        }
         setState(() {
           evaluationMap['decision'] = currentDecision;
           inputImagePath = inputPaths['image_path'];
           inputAudioPath = inputPaths['audio_prompt_path'];
           inputRecordingPath = inputPaths['recording_path'];
           log("paths: $inputImagePath , $inputAudioPath, $inputRecordingPath");
+          if (isAudioPromptInputPresent && inputAudioPath != null) {
+            inputAudioPlayerModel = AudioPlayerModel(inputAudioPath!);
+          }
+          if (isRecordingOutputPresent && inputRecordingPath != null) {
+            recordingAudioPlayerModel = AudioPlayerModel(inputRecordingPath!);
+          }
         });
       } catch (e) {
         log('Error decoding Json: $e');
@@ -443,124 +464,136 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                           style: TextStyle(fontSize: 18),
                         )
                       : const SizedBox.shrink(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            if (evaluationMap['decision'] != null) {
-                              bool? shouldProceed =
-                                  await showOverwriteWarning();
-                              if (!shouldProceed!) return;
-                            }
-                            setState(() {
-                              isValueFromDb = false;
-                              isDecisionMade = true;
-                              evaluationMap['decision'] = 'reject';
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                evaluationMap['decision'] == 'reject'
-                                    ? Colors.green
-                                    : Colors.deepOrangeAccent,
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(12.0),
-                                bottomLeft: Radius.circular(12.0),
+                  Visibility(
+                      visible: inputPresent,
+                      child: Builder(builder: (context) {
+                        // print(
+                        //     "inputPresent in build: $inputPresent");
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  if (evaluationMap['decision'] != null) {
+                                    bool? shouldProceed =
+                                        await showOverwriteWarning();
+                                    if (!shouldProceed!) return;
+                                  }
+                                  setState(() {
+                                    isValueFromDb = false;
+                                    isDecisionMade = true;
+                                    evaluationMap['decision'] = 'reject';
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      evaluationMap['decision'] == 'reject'
+                                          ? Colors.green
+                                          : Colors.deepOrangeAccent,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 16.0),
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12.0),
+                                      bottomLeft: Radius.circular(12.0),
+                                    ),
+                                    side: BorderSide(
+                                        color: Colors.white, width: 2.0),
+                                  ),
+                                  elevation: 6.0,
+                                ),
+                                child: const Text(
+                                  'REJECT',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
-                              side: BorderSide(color: Colors.white, width: 2.0),
                             ),
-                            elevation: 6.0,
-                          ),
-                          child: const Text(
-                            'REJECT',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8.0),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            if (evaluationMap['decision'] != null) {
-                              bool? shouldProceed =
-                                  await showOverwriteWarning();
-                              if (!shouldProceed!) return;
-                            }
-                            setState(() {
-                              isValueFromDb = false;
-                              isDecisionMade = true;
-                              evaluationMap['decision'] = 'accept';
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                evaluationMap['decision'] == 'accept'
-                                    ? Colors.green
-                                    : Colors.orange,
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                              side: BorderSide(color: Colors.white, width: 2.0),
-                            ),
-                            elevation: 6.0,
-                          ),
-                          child: const Text(
-                            'ACCEPT',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8.0),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            if (evaluationMap['decision'] != null) {
-                              bool? shouldProceed =
-                                  await showOverwriteWarning();
-                              if (!shouldProceed!) return;
-                            }
-                            setState(() {
-                              isValueFromDb = false;
-                              isDecisionMade = false;
-                              evaluationMap['decision'] = 'excellent';
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                evaluationMap['decision'] == 'excellent'
-                                    ? Colors.green
-                                    : Colors.orangeAccent,
-                            padding: const EdgeInsets.symmetric(vertical: 16.0),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(12.0),
-                                bottomRight: Radius.circular(12.0),
+                            const SizedBox(width: 8.0),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  if (evaluationMap['decision'] != null) {
+                                    bool? shouldProceed =
+                                        await showOverwriteWarning();
+                                    if (!shouldProceed!) return;
+                                  }
+                                  setState(() {
+                                    isValueFromDb = false;
+                                    isDecisionMade = true;
+                                    evaluationMap['decision'] = 'accept';
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      evaluationMap['decision'] == 'accept'
+                                          ? Colors.green
+                                          : Colors.orange,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 16.0),
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero,
+                                    side: BorderSide(
+                                        color: Colors.white, width: 2.0),
+                                  ),
+                                  elevation: 6.0,
+                                ),
+                                child: const Text(
+                                  'ACCEPT',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
-                              side: BorderSide(color: Colors.white, width: 2.0),
                             ),
-                            elevation: 6.0,
-                          ),
-                          child: const Text(
-                            'EXCELLENT',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                            const SizedBox(width: 8.0),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  if (evaluationMap['decision'] != null) {
+                                    bool? shouldProceed =
+                                        await showOverwriteWarning();
+                                    if (!shouldProceed!) return;
+                                  }
+                                  setState(() {
+                                    isValueFromDb = false;
+                                    isDecisionMade = false;
+                                    evaluationMap['decision'] = 'excellent';
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      evaluationMap['decision'] == 'excellent'
+                                          ? Colors.green
+                                          : Colors.orangeAccent,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 16.0),
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(12.0),
+                                      bottomRight: Radius.circular(12.0),
+                                    ),
+                                    side: BorderSide(
+                                        color: Colors.white, width: 2.0),
+                                  ),
+                                  elevation: 6.0,
+                                ),
+                                child: const Text(
+                                  'EXCELLENT',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                          ],
+                        );
+                      })),
                   if (isDecisionMade)
                     Column(
                       children: [

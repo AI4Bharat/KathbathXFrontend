@@ -78,7 +78,7 @@ Future<Map<String, String>> saveAssignmentFiles(
   return pathMap;
 }
 
-Future<Map<String, String>> saveAssignmentFilesCheckExists(
+Future<Map<String, String>?> saveAssignmentFilesCheckExists(
     String microtaskId, String assignmentId,
     {String? imageFilename,
     String? audioFilename,
@@ -90,6 +90,11 @@ Future<Map<String, String>> saveAssignmentFilesCheckExists(
   //////////////////////////Local fetch update///////////////////////////////
   final directory = await getApplicationDocumentsDirectory();
   final folderPath = Directory('${directory.path}/$microtaskId');
+  // await for (var file in folderPath.list()) {
+  //   if (file is File) {
+  //     await file.delete();
+  //   }
+  // }
   if (!(await folderPath.exists())) {
     await folderPath.create(recursive: true);
   }
@@ -149,8 +154,7 @@ Future<Map<String, String>> saveAssignmentFilesCheckExists(
 
   if (imageFilename != null && !imageExists) {
     if (imageBytes == null) {
-      throw Exception(
-          'File with name $imageFilename not found in the archive.');
+      return null;
     }
     final imageFile = File(imageFilePath!);
     await imageFile.writeAsBytes(imageBytes);
@@ -159,8 +163,7 @@ Future<Map<String, String>> saveAssignmentFilesCheckExists(
 
   if (audioFilename != null && !audioExists) {
     if (audioBytes == null) {
-      throw Exception(
-          'File with name $audioFilename not found in the archive.');
+      return null;
     }
     final audioFile = File(audioFilePath!);
     await audioFile.writeAsBytes(audioBytes);
@@ -169,10 +172,10 @@ Future<Map<String, String>> saveAssignmentFilesCheckExists(
 
   if (recordingFilename != null && !recordingExists) {
     if (recordingBytes == null) {
-      throw Exception(
-          'File with name $recordingFilename not found in the archive.');
+      return null;
     }
     final recordingFile = File(recordingFilePath!);
+
     await recordingFile.writeAsBytes(recordingBytes);
     pathMap['recording_path'] = '/$microtaskId/$recordingFilename';
   }

@@ -75,9 +75,17 @@ class _ImageTranscriptionScreenState extends State<ImageTranscriptionScreen> {
           assignmentId = relevantAssignments[0].id;
         });
 
-        Map<String, String> inputPaths = await saveAssignmentFilesCheckExists(
+        Map<String, String>? inputPaths = await saveAssignmentFilesCheckExists(
             widget.microtasks[microNum].id, assignmentId!,
             imageFilename: _fileName!);
+        if (inputPaths == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text(
+                    "One or more required input files are missing. Please report this assignmentID to admin")),
+          );
+          return;
+        }
         final directory = await getApplicationDocumentsDirectory();
         imagePath = '${directory.path}${inputPaths['image_path']}';
         setState(() {});

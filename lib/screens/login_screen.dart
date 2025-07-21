@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
         return false;
       }
     } catch (e) {
-      log('Error generating OTP: $e');
+      print('Error generating OTP: $e');
       return false;
     }
   }
@@ -74,6 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final response =
           await workerApiService.verifyOTP(accessCode!, phoneNumber, otp);
+      print("verify otp response: $response");
       if (response.statusCode == 200) {
         final Map<String, dynamic> otpResponse = jsonDecode(response.data!);
         final String? idToken = otpResponse['id_token'];
