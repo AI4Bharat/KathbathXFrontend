@@ -41,6 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   late AssignmentRepository _assignmentRepository;
   late List<TaskRecord> _tasks = [];
   final Map<String, Map<String, int>> _taskStatusCounts = {};
+  int submittedCount = 0;
   int uploadedCount = 0;
   int onPhoneCount = 0;
   int total_available = 0;
@@ -69,6 +70,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Future<void> _initialize() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    submittedCount = prefs.getInt('submittedCount') ?? 0;
     await _populateDb();
     await _loadTasks();
   }
@@ -668,7 +671,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 valueListenable: _isSubmitting,
                 builder: (context, isSubmitting, _) {
                   return TaskSubmitWidget(
-                    uploadedTasks: uploadedCount,
+                    // uploadedTasks: uploadedCount,
+                    uploadedTasks: submittedCount + uploadedCount,
                     onPhoneTasks: onPhoneCount,
                     handleSubmitTasks: () async {
                       await handleSubmitTasks();

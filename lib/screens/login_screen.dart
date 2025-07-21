@@ -74,14 +74,16 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final response =
           await workerApiService.verifyOTP(accessCode!, phoneNumber, otp);
-      print("verify otp response: $response");
+      // print("verify otp response: $response");
       if (response.statusCode == 200) {
         final Map<String, dynamic> otpResponse = jsonDecode(response.data!);
         final String? idToken = otpResponse['id_token'];
+        final int submittedCount = otpResponse['submitted_count'] ?? 0;
 
         if (idToken != null) {
           await prefs?.setString('id_token', idToken);
           await prefs?.setString('loggedInNum', phoneNumber);
+          await prefs?.setInt('submittedCount', submittedCount!);
         } else {
           log('ID Token not found in the response.');
         }
