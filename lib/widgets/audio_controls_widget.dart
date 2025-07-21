@@ -7,6 +7,7 @@ import 'package:karya_flutter/utils/audio_recorder_model.dart';
 import 'package:karya_flutter/widgets/player_widget.dart';
 import 'package:karya_flutter/widgets/recorder_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 // ignore: must_be_immutable
 class AudioControlsWidget extends StatefulWidget {
@@ -60,6 +61,7 @@ class _AudioControlsWidgetState extends State<AudioControlsWidget> {
           ElevatedButton(
             onPressed: () {
               setState(() {
+                WakelockPlus.disable();
                 recorderPlayerProvider.stopAllRecorders();
                 recorderPlayerProvider.stopAllPlayers();
                 recorderPlayerProvider.alreadyPlayed = false;
@@ -94,6 +96,7 @@ class _AudioControlsWidgetState extends State<AudioControlsWidget> {
           ElevatedButton(
             onPressed: () {
               setState(() {
+                WakelockPlus.disable();
                 recorderPlayerProvider.stopAllRecorders();
                 recorderPlayerProvider.stopAllPlayers();
                 recorderPlayerProvider.alreadyPlayed = false;

@@ -15,7 +15,7 @@ class RecorderPlayerProvider extends ChangeNotifier {
   final List<AudioPlayerModel> _players = [];
   final List<AudioRecorderModel> _recorders = [];
 
-  AudioRecorderModel? _activeRecorder;
+  AudioRecorderModel? _currentRecorder;
 
   bool _isRecording = false;
   bool _isPlaying = false;
@@ -90,7 +90,7 @@ class RecorderPlayerProvider extends ChangeNotifier {
   }
 
   bool _isInterrupted = false;
-  Future<void> _configureAudioSession() async {
+  Future<void> _configureAudioSession(BuildContext context) async {
     final session = await AudioSession.instance;
     await session.configure(AudioSessionConfiguration(
       avAudioSessionCategory: AVAudioSessionCategory.playAndRecord,
@@ -99,19 +99,19 @@ class RecorderPlayerProvider extends ChangeNotifier {
           AVAudioSessionCategoryOptions.allowBluetooth |
               AVAudioSessionCategoryOptions.defaultToSpeaker |
               AVAudioSessionCategoryOptions.mixWithOthers,
-      androidAudioFocusGainType: AndroidAudioFocusGainType.gain,
       androidWillPauseWhenDucked: false,
     ));
     session.interruptionEventStream.listen((event) async {
       if (event.begin) {
-        print("Audio interruption began: ${event.type}");
+        // print("Audio interruption began: ${event.type}");
+        _showInterruptionWarningDialog(context);
         _isInterrupted = true;
         await Future.delayed(const Duration(seconds: 10));
         if (_isInterrupted) {
           _handleAudioInterruption(event.type);
         }
       } else {
-        print("Audio interruption ended: ${event.type}");
+        // print("Audio interruption ended: ${event.type}");
         _isInterrupted = false;
       }
     });
@@ -121,19 +121,50 @@ class RecorderPlayerProvider extends ChangeNotifier {
     }
   }
 
+  void _showInterruptionWarningDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Audio Interruption'),
+        content: const Text(
+            'Please resolve the audio interruption within 10 seconds or the recording will stop.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _handleAudioInterruption(AudioInterruptionType type) {
     // If recording is in progress, stop it when losing focus
     if (_isRecording) {
       print('Stopping recording due to interruption: $type');
       stopAllRecorders();
     }
+
+    final path = _currentRecorder!.filePath;
+    if (path != null) {
+      final file = File(path);
+      if (file.existsSync()) {
+        try {
+          file.deleteSync();
+          print("Deleted interrupted recording: $path");
+        } catch (e) {
+          print("Failed to delete interrupted recording: $e");
+        }
+      }
+    }
   }
 
-  Future<void> startRecording(
-      AudioRecorderModel recorder, String filePath) async {
-    await _configureAudioSession();
+  Future<void> startRecording(BuildContext context, AudioRecorderModel recorder,
+      String filePath) async {
+    await _configureAudioSession(context);
     alreadyPlayed = false;
     addRecorder(recorder);
+    _currentRecorder = recorder;
     await recorder.recorder.openRecorder();
     final directory = await getApplicationDocumentsDirectory();
     recorder.filePath = '${directory.path}$filePath';

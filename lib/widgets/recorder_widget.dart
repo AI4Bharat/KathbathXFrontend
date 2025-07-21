@@ -5,6 +5,7 @@ import 'package:karya_flutter/providers/recorder_player_providers.dart';
 import 'package:karya_flutter/utils/audio_recorder_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 // ignore: must_be_immutable
 class RecorderWidget extends StatelessWidget {
@@ -24,6 +25,7 @@ class RecorderWidget extends StatelessWidget {
   onRecordPressed(
       BuildContext context, RecorderPlayerProvider rPProvider) async {
     if (recorderModel.isRecording) {
+      WakelockPlus.disable();
       rPProvider.stopRecording(recorderModel);
       onRecorderPressed(true);
       overWriteConsent = false;
@@ -39,10 +41,12 @@ class RecorderWidget extends StatelessWidget {
           overWriteConsent = true;
           recorderModel.recordingCentiseconds = 0;
           recorderModel.recordingSeconds = 0;
-          rPProvider.startRecording(recorderModel, filePath);
+          WakelockPlus.enable();
+          rPProvider.startRecording(context, recorderModel, filePath);
         }
       } else {
-        rPProvider.startRecording(recorderModel, filePath);
+        WakelockPlus.enable();
+        rPProvider.startRecording(context, recorderModel, filePath);
       }
     }
   }
