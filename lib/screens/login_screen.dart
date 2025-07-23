@@ -83,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (idToken != null) {
           await prefs?.setString('id_token', idToken);
           await prefs?.setString('loggedInNum', phoneNumber);
-          await prefs?.setInt('submittedCount', submittedCount!);
+          await prefs?.setInt('submittedCount', submittedCount);
         } else {
           log('ID Token not found in the response.');
         }

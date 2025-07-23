@@ -261,6 +261,7 @@ class _ImageAudioScreenState extends State<ImageAudioScreen> {
                       Expanded(
                         flex: 4,
                         child: PlayerWidget(
+                          key: ValueKey(inputAudioPath),
                           filePath: inputAudioPath!,
                           duration: 10,
                           playerModel: AudioPlayerModel(inputAudioPath!),

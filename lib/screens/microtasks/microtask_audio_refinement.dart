@@ -230,6 +230,7 @@ class _SpeechAudioScreenState extends State<SpeechAudioScreen> {
                                 Expanded(
                                   flex: 5,
                                   child: PlayerWidget(
+                                    key: ValueKey(inputAudioPromptPath),
                                     filePath: inputAudioPromptPath!,
                                     duration: 4,
                                     lPBar: true,
@@ -270,6 +271,7 @@ class _SpeechAudioScreenState extends State<SpeechAudioScreen> {
                             Expanded(
                               flex: 5,
                               child: PlayerWidget(
+                                key: ValueKey(inputAudioResponsePath),
                                 filePath: inputAudioResponsePath!,
                                 duration: recordingDuration,
                                 playerModel:

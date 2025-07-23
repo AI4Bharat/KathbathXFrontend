@@ -311,13 +311,6 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                     ++microNum;
                     _updateSentence();
                     _updateImageAudio();
-                    if (isAudioPromptInputPresent) {
-                      inputAudioPlayerModel = AudioPlayerModel(inputAudioPath!);
-                    }
-                    if (isRecordingOutputPresent) {
-                      recordingAudioPlayerModel =
-                          AudioPlayerModel(inputRecordingPath!);
-                    }
                   } else {
                     callToast('No more tasks');
                     setState(() {
@@ -419,6 +412,7 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                                 Expanded(
                                   flex: 5,
                                   child: PlayerWidget(
+                                    key: ValueKey(inputAudioPath),
                                     filePath: inputAudioPath!,
                                     duration: 4,
                                     playerModel: inputAudioPlayerModel!,
@@ -448,6 +442,7 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                                   flex:
                                       5, // Use a ratio for how much space this should take
                                   child: PlayerWidget(
+                                    key: ValueKey(inputRecordingPath),
                                     filePath: inputRecordingPath!,
                                     duration: recordingDuration,
                                     playerModel: recordingAudioPlayerModel!,
@@ -639,14 +634,6 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                         microNum--;
                         _updateSentence();
                         _updateImageAudio();
-                        if (isAudioPromptInputPresent) {
-                          inputAudioPlayerModel =
-                              AudioPlayerModel(inputAudioPath!);
-                        }
-                        if (isRecordingOutputPresent) {
-                          recordingAudioPlayerModel =
-                              AudioPlayerModel(inputRecordingPath!);
-                        }
                         checkboxProvider.resetAll();
                         evaluationMap['decision'] = null;
                       });

@@ -55,7 +55,7 @@ android {
     defaultConfig {
         applicationId = "com.ai4bharat.kathbath.lite"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 4
         versionName = "4"
     }

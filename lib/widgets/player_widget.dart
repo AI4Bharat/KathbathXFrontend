@@ -52,10 +52,29 @@ class PlayerWidgetState extends State<PlayerWidget> {
   }
 
   @override
+  void didUpdateWidget(covariant PlayerWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.filePath != oldWidget.filePath) {
+      // File path changed: reset player
+      debugPrint('PlayerWidget: filePath changed -> reloading audio');
+
+      // Stop and reset old player
+      widget.playerModel.player.stop();
+      widget.playerModel.playbackPosition = 0;
+      widget.playerModel.isPlaying = false;
+
+      // Optionally, pre-load or seek if you want smoother transitions
+      // You can trigger a playerModel load if needed
+      setState(() {});
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final recorderPlayerProvider = Provider.of<RecorderPlayerProvider>(context);
     recorderPlayerProvider.alreadyPlayed = false;
-    if (recorderPlayerProvider.alreadyPlayed = false) {
+    if (!recorderPlayerProvider.alreadyPlayed) {
       widget.playerModel.playbackPosition = 0;
     }
     return Column(

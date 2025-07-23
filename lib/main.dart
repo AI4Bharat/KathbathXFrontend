@@ -46,30 +46,30 @@ void main() async {
       return true;
     };
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-    // Initialize the database
-    final db = await _openDatabase();
-    await dotenv.load(fileName: ".env");
-
-    // Check for in App update
-    if (Platform.isAndroid) {
-      await checkForAndroidUpdate();
-    } else if (Platform.isIOS) {
-      await checkForIOSUpdate();
-    }
-
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]).then((_) {
-      runApp(
-        ChangeNotifierProvider(
-          create: (context) => RecorderPlayerProvider(),
-          child: KaryaApp(db),
-        ),
-      );
-    });
   } catch (e, stack) {
     FirebaseCrashlytics.instance.recordError(e, stack, fatal: true);
   }
+  // Initialize the database
+  final db = await _openDatabase();
+  await dotenv.load(fileName: ".env");
+
+  // Check for in App update
+  if (Platform.isAndroid) {
+    await checkForAndroidUpdate();
+  } else if (Platform.isIOS) {
+    await checkForIOSUpdate();
+  }
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((_) {
+    runApp(
+      ChangeNotifierProvider(
+        create: (context) => RecorderPlayerProvider(),
+        child: KaryaApp(db),
+      ),
+    );
+  });
 }
 
 Future<void> checkForAndroidUpdate() async {

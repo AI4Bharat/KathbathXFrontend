@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:just_audio/just_audio.dart';
-import 'package:rxdart/rxdart.dart';
+// import 'package:rxdart/rxdart.dart';
 
 class AudioPlayerModel {
   final AudioPlayer player;
@@ -12,12 +12,12 @@ class AudioPlayerModel {
 
   AudioPlayerModel(this.filePath) : player = AudioPlayer();
 
-  Stream<Duration> get _positionStream =>
-      Rx.combineLatest2<Duration, Duration?, Duration>(
-        player.positionStream,
-        player.durationStream,
-        (position, duration) => position,
-      );
+  // Stream<Duration> get _positionStream =>
+  //     Rx.combineLatest2<Duration, Duration?, Duration>(
+  //       player.positionStream,
+  //       player.durationStream,
+  //       (position, duration) => position,
+  //     );
 
   Future<void> loadAudioDuration() async {
     try {

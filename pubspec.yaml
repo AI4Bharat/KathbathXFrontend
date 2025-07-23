@@ -12,7 +12,6 @@ dependencies:
     sdk: flutter
   chewie: 1.8.5
   cupertino_icons: ^1.0.6
-  fluttertoast: ^8.2.6
   path: ^1.9.0
   path_provider: ^2.1.4
   drift: ^2.15.0
