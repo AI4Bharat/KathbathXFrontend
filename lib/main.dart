@@ -33,9 +33,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // initialize firebase crashlytics
   try {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+    if (Firebase.apps.isEmpty) {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+    }
     FlutterError.onError = (FlutterErrorDetails details) {
       FlutterError.dumpErrorToConsole(details);
       FirebaseCrashlytics.instance.recordFlutterFatalError(details);

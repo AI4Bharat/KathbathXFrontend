@@ -195,10 +195,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
     showProgressDialog(context, progressMessage);
     try {
       progressMessage.value = '1/4 Loading completed tasks...';
+      Future.delayed(const Duration(seconds: 3), () {
+        if (progressMessage.value.contains('Skipping assignment')) {
+          progressMessage.value = 'Continuing upload...';
+        }
+      });
       List<MicroTaskAssignmentRecord> completedAssignments =
           await _microTaskAssignmentDao.getMicrotaskAssignmentByStatus(
               MicrotaskAssignmentStatus.COMPLETED);
       //Filtering out the unsubmitted assignments based on output_file_id null or size>0 , same as the logic defined in the old app
+      progressMessage.value = '2/4 Getting unsubmitted tasks...';
       List<MicroTaskAssignmentRecord> unsubmittedAssignments =
           completedAssignments.where((assignment) {
         bool isOutputFileIdNull = assignment.outputFileId == null;
@@ -223,16 +229,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
         return true;
       } else {
         //sending the output file and updating the value in the local client db
-        progressMessage.value = '3/4 Uploading output files...';
+        progressMessage.value = '3/4 Uploading audio files...';
+        List<MicroTaskAssignmentRecord> fileNotFoundAssignments = [];
         for (var assignment in unsubmittedAssignments) {
-          String? outputFileId =
+          final outFileResult =
               await sendOutputFileWithInput(assignment.id, assignment);
           // log("Output file id: $outputFileId");
 
-          if (outputFileId == null || outputFileId.isEmpty) {
+          if (outFileResult.errorType != null) {
+            if (outFileResult.errorType == "fileNotFound") {
+              progressMessage.value = outFileResult.errorMsg!;
+              // 'WAV file not found for assignment ${assignment.id}.Skipping assignment.';
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(outFileResult.errorMsg!),
+                  duration: const Duration(seconds: 3), // optional
+                ),
+              );
+
+              fileNotFoundAssignments.add(assignment);
+
+              continue; // Skip the error task and continue with the next
+            }
             progressMessage.value =
-                'Failed to upload output file. Submission aborted. Kindly check your internert and try again';
-            Navigator.pop(context);
+                'Error uploading ${assignment.id}, ${outFileResult.errorMsg}';
             FocusScope.of(context).unfocus();
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
@@ -241,16 +261,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             );
             return false;
+          } else {
+            String? outputFileId = outFileResult.fileId;
+            if (outputFileId != null && outputFileId != "") {
+              await _microTaskAssignmentDao
+                  .updateMicrotaskAssignmentOutputFileId(
+                      assignment.id, outputFileId);
+            }
           }
-
-          await _microTaskAssignmentDao.updateMicrotaskAssignmentOutputFileId(
-              assignment.id, outputFileId);
         }
         completedAssignments =
             await _microTaskAssignmentDao.getMicrotaskAssignmentByStatus(
                 MicrotaskAssignmentStatus.COMPLETED);
-
-        progressMessage.value = '4/4 Submitting to server...';
+        final fileNotFoundIds =
+            fileNotFoundAssignments.map((a) => a.id).toSet();
+        completedAssignments.removeWhere(
+          (assignment) => fileNotFoundIds.contains(assignment.id),
+        );
+        progressMessage.value = '4/4 Submitting metadata to server...';
 
         //api to update the server db
         final MicroTaskAssignmentService microApiService =
@@ -269,6 +297,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
               );
             }
           }
+          for (var assignment in fileNotFoundAssignments) {
+            if (submittedIds.contains(assignment.id)) {
+              await _microTaskAssignmentDao.updateMicrotaskAssignmentStatus(
+                assignment.id,
+                MicrotaskAssignmentStatus.ASSIGNED,
+              );
+            }
+          }
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -278,6 +314,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
           );
           await _populateDb();
           await _loadTasks();
+          if (fileNotFoundIds.isNotEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                    'Some audio files where corrupted. Please redo those and submit'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          }
           return true;
         } else if (submitResponse.statusCode == 401) {
           Navigator.pop(context);
@@ -289,7 +334,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Data Submission failed. Please try again'),
+              content:
+                  Text('Some of the data Submission failed. Please try again'),
               duration: Duration(seconds: 2),
             ),
           );
@@ -298,9 +344,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
       }
     } catch (e) {
       Navigator.pop(context); // close dialog on error
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${e.toString()}')),
-      );
+      if (e is DioException) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please check your network')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${e.toString()}')),
+        );
+      }
       return false;
     }
   }

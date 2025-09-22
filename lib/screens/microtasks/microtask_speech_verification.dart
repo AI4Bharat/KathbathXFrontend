@@ -114,8 +114,8 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
   }
 
   void _initializeInputs() async {
-    await _updateImageAudio();
     _updateSentence();
+    _updateImageAudio();
     _updateCheckboxValues();
     if (isAudioPromptInputPresent && inputAudioPath != null) {
       inputAudioPlayerModel = AudioPlayerModel(inputAudioPath!);
@@ -166,6 +166,15 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
   }
 
   Future<void> _updateImageAudio() async {
+    setState(() {
+      inputAudioPlayerModel = null;
+      recordingAudioPlayerModel = null;
+      inputImagePath = null;
+      inputAudioPath = null;
+      inputRecordingPath = null;
+      isAudioPromptInputPresent = false;
+      isRecordingOutputPresent = false;
+    });
     if (widget.microtasks.isNotEmpty && microNum < widget.microtasks.length) {
       String input = widget.microtasks[microNum].input ?? '{}';
       try {
@@ -178,7 +187,9 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
           isRecordingOutputPresent = inputJson['files'] != null &&
               inputJson['files']['recording'] != null;
 
-          recordingDuration = inputJson['data']['duration'];
+          // recordingDuration = inputJson['data']['duration'];
+          recordingDuration =
+              (inputJson['data']['duration'] as num?)?.toDouble();
           inputImageFilename = inputJson['files']['image'];
           inputAudioFilename = inputJson['files']['audio_prompt'];
           inputRecordingFilename = inputJson['files']['recording'];
@@ -232,6 +243,12 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
         });
       } catch (e) {
         log('Error decoding Json: $e');
+        setState(() {
+          inputImagePath = null;
+          inputAudioPath = null;
+          inputRecordingPath = null;
+          log("paths: $inputImagePath , $inputAudioPath, $inputRecordingPath");
+        });
       }
     }
   }
@@ -372,7 +389,12 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
                 children: [
                   const InstructionWidget(sentence: "Verify the task below"),
                   const SizedBox(height: 8.0),
-
+                  Text(
+                    "Task ID: $assignmentId", // Replace with your actual assignment ID variable
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
                   //Sentence Input
                   isSentenceInputPresent
                       ? (() {
@@ -424,7 +446,7 @@ class _SpeechVerificationScreenState extends State<SpeechVerificationScreen> {
 
                   // Recording Output
                   isRecordingOutputPresent
-                      ? (inputRecordingPath == null
+                      ? (recordingAudioPlayerModel == null
                           ? const CircularProgressIndicator()
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.center,

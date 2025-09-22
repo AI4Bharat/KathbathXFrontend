@@ -21,11 +21,17 @@ class SentenceDisplayWidget extends StatelessWidget {
               color: const Color.fromARGB(255, 226, 114, 49), width: 4.0),
           borderRadius: BorderRadius.circular(8.0),
         ),
-        child: SingleChildScrollView(
-          child: Text(
-            sentence,
-            style: const TextStyle(fontSize: 28),
-            textAlign: TextAlign.left,
+        child: Scrollbar(
+          thumbVisibility: true,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Text(
+                sentence,
+                style: const TextStyle(fontSize: 28),
+                textAlign: TextAlign.left,
+              ),
+            ),
           ),
         ),
       ),
@@ -43,20 +49,34 @@ class SentenceDisplayWOExpandedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(
-            color: const Color.fromARGB(255, 226, 114, 49), width: 4.0),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: SingleChildScrollView(
-        child: Text(
-          sentence,
-          style: const TextStyle(fontSize: 28),
-          textAlign: TextAlign.left,
+    final scrollController = ScrollController();
+
+    return SizedBox(
+      height: 400, // 👈 fixed height, adjust as needed
+
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+              color: const Color.fromARGB(255, 226, 114, 49), width: 4.0),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Scrollbar(
+          controller: scrollController,
+          thumbVisibility: true,
+          child: SingleChildScrollView(
+            controller: scrollController,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: Text(
+                sentence,
+                style: const TextStyle(fontSize: 28),
+                textAlign: TextAlign.left,
+              ),
+            ),
+          ),
         ),
       ),
     );
