@@ -1,13 +1,14 @@
 import 'dart:io';
 import 'dart:developer';
 import 'package:archive/archive.dart';
+import 'package:karya_flutter/exceptions/file_exceptions.dart';
 import 'package:path/path.dart' as p;
 
 Future<void> convertWavToTgz(
-    String wavFilePath, String outputTgzFilePath) async {
+    String wavFilePath, String outputTgzFilePath, String assignmentId) async {
   final wavFile = File(wavFilePath);
-  if (!await wavFile.exists()) {
-    throw Exception('WAV file does not exist');
+  if (await wavFile.exists()) {
+    throw WavFileNotFoundException(assignmentId);
   }
 
   final wavFileName = p.basename(wavFilePath);
@@ -19,15 +20,13 @@ Future<void> convertWavToTgz(
   final gzippedBytes = GZipEncoder().encode(tarBytes);
   final outputFile = File(outputTgzFilePath);
   await outputFile.writeAsBytes(gzippedBytes!);
-
-  print('Converted $wavFilePath to $outputTgzFilePath');
 }
 
-Future<void> convertAllToTgz(
-    String folderPath, String wavFilePath, String outputTgzFilePath) async {
+Future<void> convertAllToTgz(String folderPath, String wavFilePath,
+    String outputTgzFilePath, String assignmentId) async {
   final wavFile = File(wavFilePath);
   if (!await wavFile.exists()) {
-    throw Exception('WAV file does not exist');
+    throw WavFileNotFoundException(assignmentId);
   }
   final inputFolder = Directory(folderPath);
   if (!await inputFolder.exists()) {
