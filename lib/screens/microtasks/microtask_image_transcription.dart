@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:karya_flutter/data/database/dao/microtask_assignment_dao.dart';
-import 'package:karya_flutter/data/manager/karya_db.dart';
-import 'package:karya_flutter/models/assignment_status_enum.dart';
-import 'package:karya_flutter/services/api_services_baseUrl.dart';
-import 'package:karya_flutter/utils/save_input.dart';
-import 'package:karya_flutter/widgets/editbox_widget.dart';
-import 'package:karya_flutter/widgets/image_display_widget.dart';
-import 'package:karya_flutter/widgets/instruction_widget.dart';
+import 'package:kathbath_lite/data/database/dao/microtask_assignment_dao.dart';
+import 'package:kathbath_lite/data/manager/karya_db.dart';
+import 'package:kathbath_lite/models/assignment_status_enum.dart';
+import 'package:kathbath_lite/services/api_services_baseUrl.dart';
+import 'package:kathbath_lite/utils/save_input.dart';
+import 'package:kathbath_lite/widgets/editbox_widget.dart';
+import 'package:kathbath_lite/widgets/image_display_widget.dart';
+import 'package:kathbath_lite/widgets/instruction_widget.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ImageTranscriptionScreen extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:karya_flutter/providers/checkbox_provider.dart';
+import 'package:kathbath_lite/providers/checkbox_provider.dart';
 import 'package:provider/provider.dart';
 
 class CheckboxListWidget extends StatelessWidget {

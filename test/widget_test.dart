@@ -7,9 +7,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:karya_flutter/data/manager/karya_db.dart';
+import 'package:kathbath_lite/data/manager/karya_db.dart';
 
-import 'package:karya_flutter/main.dart';
+import 'package:kathbath_lite/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

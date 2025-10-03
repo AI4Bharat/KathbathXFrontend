@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
-import 'package:karya_flutter/data/database/models/microtask_assignment_record.dart';
-import 'package:karya_flutter/data/manager/karya_db.dart';
-import 'package:karya_flutter/models/assignment_status_enum.dart';
+import 'package:kathbath_lite/data/database/models/microtask_assignment_record.dart';
+import 'package:kathbath_lite/data/manager/karya_db.dart';
+import 'package:kathbath_lite/models/assignment_status_enum.dart';
 
 part 'microtask_assignment_dao.g.dart';
 

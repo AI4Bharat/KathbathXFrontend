@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:karya_flutter/utils/colors.dart';
+import 'package:kathbath_lite/utils/colors.dart';
 
 class AppScaffold extends StatelessWidget {
   final Widget body;

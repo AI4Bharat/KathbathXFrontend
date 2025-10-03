@@ -6,12 +6,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:karya_flutter/services/api_services_baseUrl.dart';
-import 'package:karya_flutter/services/worker_api.dart';
-import 'package:karya_flutter/widgets/consent_dialog_widget.dart';
-import 'package:karya_flutter/widgets/form_dropdown_widget.dart';
-import 'package:karya_flutter/widgets/phone_num_textbox_widget.dart';
-import 'package:karya_flutter/widgets/textfield_widget.dart';
+import 'package:kathbath_lite/services/api_services_baseUrl.dart';
+import 'package:kathbath_lite/services/worker_api.dart';
+import 'package:kathbath_lite/widgets/consent_dialog_widget.dart';
+import 'package:kathbath_lite/widgets/form_dropdown_widget.dart';
+import 'package:kathbath_lite/widgets/phone_num_textbox_widget.dart';
+import 'package:kathbath_lite/widgets/textfield_widget.dart';
 import 'package:mime/mime.dart';
 
 class RegisterScreen extends StatefulWidget {

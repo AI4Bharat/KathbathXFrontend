@@ -3,10 +3,10 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_sound/flutter_sound.dart';
+import 'package:flutter_sound/flutter_sound.dart' as flutter_sound;
 import 'package:just_audio/just_audio.dart';
-import 'package:karya_flutter/utils/audio_player_model.dart';
-import 'package:karya_flutter/utils/audio_recorder_model.dart';
+import 'package:kathbath_lite/utils/audio_player_model.dart';
+import 'package:kathbath_lite/utils/audio_recorder_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:audio_session/audio_session.dart';
@@ -172,7 +172,7 @@ class RecorderPlayerProvider extends ChangeNotifier {
 
     await recorder.recorder.startRecorder(
       toFile: recorder.filePath,
-      codec: Codec.pcm16WAV,
+      codec: flutter_sound.Codec.pcm16WAV,
     );
     await recorder.recorder.setSubscriptionDuration(
       const Duration(milliseconds: 100),

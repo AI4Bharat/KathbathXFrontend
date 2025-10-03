@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:karya_flutter/providers/recorder_player_providers.dart';
-import 'package:karya_flutter/utils/audio_player_model.dart';
+import 'package:kathbath_lite/providers/recorder_player_providers.dart';
+import 'package:kathbath_lite/utils/audio_player_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 

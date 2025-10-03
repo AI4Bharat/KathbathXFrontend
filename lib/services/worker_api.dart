@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:karya_flutter/services/api_services_baseUrl.dart';
+import 'package:kathbath_lite/services/api_services_baseUrl.dart';
 
 class WorkerApiService {
   final ApiService _apiService;
@@ -53,7 +53,7 @@ class WorkerApiService {
 
   Future<Response> userRegistration(FormData formData) {
     var resp = _apiService.dio.post(
-      '/worker/create',
+      '/worker',
       options: Options(method: 'POST', headers: {
         'Content-Type': 'multipart/form-data',
       }),

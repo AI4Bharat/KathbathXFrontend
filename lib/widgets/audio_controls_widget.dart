@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:karya_flutter/providers/recorder_player_providers.dart';
-import 'package:karya_flutter/utils/audio_player_model.dart';
-import 'package:karya_flutter/utils/audio_recorder_model.dart';
-import 'package:karya_flutter/widgets/player_widget.dart';
-import 'package:karya_flutter/widgets/recorder_widget.dart';
+import 'package:kathbath_lite/providers/recorder_player_providers.dart';
+import 'package:kathbath_lite/utils/audio_player_model.dart';
+import 'package:kathbath_lite/utils/audio_recorder_model.dart';
+import 'package:kathbath_lite/widgets/player_widget.dart';
+import 'package:kathbath_lite/widgets/recorder_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 

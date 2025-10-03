@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
-import 'package:karya_flutter/data/database/models/task_record.dart';
-import 'package:karya_flutter/data/manager/karya_db.dart';
+import 'package:kathbath_lite/data/database/models/task_record.dart';
+import 'package:kathbath_lite/data/manager/karya_db.dart';
 
 part 'task_dao.g.dart';
 

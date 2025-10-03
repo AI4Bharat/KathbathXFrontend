@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:karya_flutter/models/checkbox_item.dart';
+import 'package:kathbath_lite/models/checkbox_item.dart';
 
 class CheckboxProvider with ChangeNotifier {
   final List<CheckboxItem> _items;

@@ -3,13 +3,13 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:karya_flutter/data/database/dao/microtask_assignment_dao.dart';
-import 'package:karya_flutter/data/manager/karya_db.dart';
-import 'package:karya_flutter/models/assignment_status_enum.dart';
-import 'package:karya_flutter/providers/recorder_player_providers.dart';
-import 'package:karya_flutter/widgets/audio_controls_widget.dart';
-import 'package:karya_flutter/widgets/display_screen_widget.dart';
-import 'package:karya_flutter/widgets/instruction_widget.dart';
+import 'package:kathbath_lite/data/database/dao/microtask_assignment_dao.dart';
+import 'package:kathbath_lite/data/manager/karya_db.dart';
+import 'package:kathbath_lite/models/assignment_status_enum.dart';
+import 'package:kathbath_lite/providers/recorder_player_providers.dart';
+import 'package:kathbath_lite/widgets/audio_controls_widget.dart';
+import 'package:kathbath_lite/widgets/display_screen_widget.dart';
+import 'package:kathbath_lite/widgets/instruction_widget.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 

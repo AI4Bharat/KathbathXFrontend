@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:karya_flutter/data/manager/karya_db.dart';
+import 'package:kathbath_lite/data/manager/karya_db.dart';
 
 class UtilityClass {
   static TaskRecord taskRecordFromJson(Map<String, dynamic> json) {

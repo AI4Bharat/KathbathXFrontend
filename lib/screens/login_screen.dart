@@ -5,12 +5,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:karya_flutter/screens/register_screen.dart';
-import 'package:karya_flutter/services/api_services_baseUrl.dart';
-import 'package:karya_flutter/services/worker_api.dart';
-import 'package:karya_flutter/widgets/dropdown_widget.dart';
-import 'package:karya_flutter/widgets/logo_widget.dart';
-import 'package:karya_flutter/widgets/phone_num_textbox_widget.dart';
+import 'package:kathbath_lite/screens/register_screen.dart';
+import 'package:kathbath_lite/services/api_services_baseUrl.dart';
+import 'package:kathbath_lite/services/worker_api.dart';
+import 'package:kathbath_lite/widgets/dropdown_widget.dart';
+import 'package:kathbath_lite/widgets/logo_widget.dart';
+import 'package:kathbath_lite/widgets/phone_num_textbox_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {

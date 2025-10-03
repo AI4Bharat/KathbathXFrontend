@@ -34,8 +34,8 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.example.karya_flutter"
-    compileSdk = flutter.compileSdkVersion
+    namespace = "com.ai4bharat.kathbath.lite"
+    compileSdk = 36
     ndkVersion = "26.1.10909125"
 
     compileOptions {
