@@ -22,8 +22,9 @@ class TextFieldWidget extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(icon),
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
       ),
+      textCapitalization: TextCapitalization.words,
       keyboardType: keyboardType,
       onChanged: onSave,
       validator: validator,

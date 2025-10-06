@@ -1,18 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:kathbath_lite/models/registration_items.dart';
 import 'package:kathbath_lite/services/api_services_baseUrl.dart';
 import 'package:kathbath_lite/services/worker_api.dart';
+import 'package:kathbath_lite/utils/validator.dart';
 import 'package:kathbath_lite/widgets/consent_dialog_widget.dart';
 import 'package:kathbath_lite/widgets/form_dropdown_widget.dart';
-import 'package:kathbath_lite/widgets/phone_num_textbox_widget.dart';
 import 'package:kathbath_lite/widgets/textfield_widget.dart';
-import 'package:mime/mime.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -22,49 +19,17 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _phoneNumberController = TextEditingController();
+  final Map<String, String> _states = locations.map(
+      (String stateKey, Location location) =>
+          MapEntry(stateKey, location.name));
 
   File? _selectedImage;
-  final ImagePicker _picker = ImagePicker();
 
+  RegistrationItem registrationItem = RegistrationItem();
   late Dio dio;
   late ApiService apiService;
   late WorkerApiService workerApiService;
-
-  late Map<String, dynamic> genderData;
-  late Map<String, dynamic> languageData;
-  late Map<String, dynamic> locationData;
-  late Map<String, dynamic> mostTimeSpendData;
-  late Map<String, dynamic> jobTypeData;
-  late Map<String, dynamic> educationData;
-  final Map<String, dynamic> _formData = {
-    'full_name': '',
-    'phone_number': '',
-    'box_id': dotenv.env['BOX_ID'],
-    'language': null,
-    'age': '',
-    'most_time_spend': null,
-    'occupation': null,
-    'gender': null,
-    'native_place_state': null,
-    'native_place_district': null,
-    'job_type': null,
-    'highest_qualification': null,
-    'acceptConsent': true,
-    'referralCode': '',
-  };
-  bool _isConsentAccepted = false;
-
-  List<dynamic> _languages = [];
-  List<dynamic> _states = [];
-  List<dynamic> _genders = [];
-  List<dynamic> _districts = [];
-  List<dynamic> _mostTimeSpend = [];
-  List<dynamic> _jobTypes = [];
-  List<dynamic> _educationLevels = [];
-
-  Map<String, List<String>> _stateToDistricts = {};
-  String? _selectedState;
+  Map<String, String> _districts = {};
 
   @override
   void initState() {
@@ -72,166 +37,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
     dio = Dio();
     apiService = ApiService(dio);
     workerApiService = WorkerApiService(apiService);
-    loadJsonData();
-  }
-
-  Future<void> loadJsonData() async {
-    try {
-      String jsonString =
-          await rootBundle.loadString('assets/mappings_json/metadata.json');
-      var jsonData = jsonDecode(jsonString);
-      //To load language data
-      genderData = jsonData['gender'];
-      languageData = jsonData['languages'];
-      locationData = jsonData["location"];
-      mostTimeSpendData = jsonData['mostTimeSpend'];
-      jobTypeData = jsonData['jobType'];
-      educationData = jsonData['highestQualification'];
-      setState(() {
-        _genders = genderData.values.toList();
-        _languages = languageData.keys.toList();
-        _states = locationData.entries.map((e) {
-          return e.value['name'];
-        }).toList();
-
-        _stateToDistricts = locationData.map((key, value) {
-          String stateName = value['name'] as String;
-          var districts = (value['district'] as Map<String, dynamic>)
-              .values
-              .map((d) => d['name'] as String)
-              .toList();
-          return MapEntry(stateName, districts);
-        });
-
-        if (_stateToDistricts.isNotEmpty) {
-          _selectedState = _stateToDistricts.keys.first;
-          _districts = _stateToDistricts[_selectedState!]!;
-        }
-
-        _mostTimeSpend = mostTimeSpendData.values.toList();
-        _jobTypes = jobTypeData.values.toList();
-        _educationLevels = educationData.values.toList();
-      });
-    } catch (e) {
-      log('Error loading or parsing JSON: $e');
-    }
-  }
-
-  String? getKeyFromValue(Map<String, dynamic> map, dynamic value) {
-    for (var entry in map.entries) {
-      if (entry.value == value) {
-        return entry.key; // Return the key if value matches
-      }
-    }
-    return null; // Return null if value is not found
-  }
-
-  // Future<void> _pickImage() async {
-  //   final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-  //   if (pickedFile != null) {
-  //     final file = File(pickedFile.path);
-  //     final mimeType = lookupMimeType(file.path);
-
-  //     if (mimeType == 'image/jpeg' || mimeType == 'image/jpg') {
-  //       setState(() {
-  //         _selectedImage = file;
-  //       });
-  //     } else {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(content: Text('Please select a JPEG image.')),
-  //       );
-  //     }
-  //   }
-  // }
-
-  Future<void> _pickImage() async {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) {
-        return SafeArea(
-          child: Wrap(
-            children: [
-              ListTile(
-                leading: const Icon(Icons.camera_alt),
-                title: const Text('Take a Photo'),
-                onTap: () async {
-                  Navigator.of(context).pop();
-                  await _pickImageFromSource(ImageSource.camera);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.photo),
-                title: const Text('Choose from Gallery'),
-                onTap: () async {
-                  Navigator.of(context).pop();
-                  await _pickImageFromSource(ImageSource.gallery);
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Future<void> _pickImageFromSource(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(source: source);
-    if (pickedFile != null) {
-      final file = File(pickedFile.path);
-      final mimeType = lookupMimeType(file.path);
-
-      if (mimeType == 'image/jpeg' || mimeType == 'image/jpg') {
-        setState(() {
-          _selectedImage = file;
-        });
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please select a JPEG image.')),
-        );
-      }
-    }
   }
 
   Future<void> _submit() async {
-    _formData['phone_number'] = _phoneNumberController.text;
-    // print("Form data when submitting:  $_formData");
-    Map<String, dynamic> userJson = Map<String, dynamic>.from(_formData);
-    if (_formKey.currentState!.validate() && _isConsentAccepted) {
+    Map<String, dynamic> userJson =
+        registrationItem.getUserJson(); // Map<String, dynamic>.from(_formData);
+    print("The  final data is $userJson");
+    if (_formKey.currentState!.validate() &&
+        registrationItem.consentFormAccepted) {
       _formKey.currentState!.save();
-      userJson['gender'] = userJson['gender'].toLowerCase();
-      userJson['job_type'] = getKeyFromValue(jobTypeData, userJson['job_type']);
-      userJson['highest_qualification'] =
-          getKeyFromValue(educationData, userJson['highest_qualification']);
-      userJson['language'] = languageData[userJson['language']];
-      userJson['most_time_spend'] =
-          getKeyFromValue(mostTimeSpendData, userJson['most_time_spend']);
-      userJson['native_place_state'] =
-          userJson['native_place_state'].toLowerCase().replaceAll(' ', '_');
-      userJson['native_place_district'] =
-          userJson['native_place_district'].toLowerCase().replaceAll(' ', '_');
-
-      MultipartFile? imageFile;
-      if (_selectedImage != null) {
-        imageFile = await MultipartFile.fromFile(
-          _selectedImage!.path,
-          filename: _selectedImage!.path.split('/').last,
-        );
-      }
 
       final formData = FormData.fromMap({
         ...userJson,
-        if (imageFile != null) 'consent': imageFile,
       });
 
-      ///testing comment/////
-      // formData.fields.forEach((field) {
-      //   log("Field: ${field.key} = ${field.value}");
-      // });
-
-      // formData.files.forEach((file) {
-      //   log("File field: ${file.key}, filename: ${file.value.filename}");
-      // });
-      //////////////
       Response response;
       try {
         response = await workerApiService.userRegistration(formData);
@@ -291,6 +110,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
+                  spacing: 10.0,
                   children: [
                     const Text(
                       'Register',
@@ -301,151 +121,121 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     TextFieldWidget(
-                      label: 'Name',
-                      icon: Icons.person,
-                      onSave: (value) => _formData['full_name'] = value!,
-                      validator: (value) =>
-                          value!.isEmpty ? 'Please enter your name' : null,
+                        label: 'Name',
+                        icon: Icons.person,
+                        onSave: (value) => registrationItem.fullName = value!,
+                        validator: (value) =>
+                            validateRegistrationItem(value, "name")),
+                    TextFieldWidget(
+                      label: 'Phone number',
+                      icon: Icons.call,
+                      onSave: (value) => registrationItem.phoneNumber = value,
+                      keyboardType: TextInputType.phone,
+                      validator: (value) {
+                        return validateRegistrationItem(value, "phone number");
+                      },
                     ),
-                    const SizedBox(height: 10),
-                    PhoneNumberInput(controller: _phoneNumberController),
-                    const SizedBox(height: 10),
                     TextFieldWidget(
                       label: 'Age',
                       icon: Icons.calendar_today,
-                      onSave: (value) => _formData['age'] = value!,
+                      onSave: (value) => registrationItem.setAge(value),
                       keyboardType: TextInputType.number,
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your age!';
-                        }
-
-                        final age = int.tryParse(value);
-                        if (age == null || age < 10 || age > 130) {
-                          return 'Please enter a valid age.';
-                        }
-
-                        return null;
+                        return validateRegistrationItem(value, "age");
                       },
                     ),
-                    const SizedBox(height: 10),
-                    FormDropdown(
+                    FormDropdown<Gender>(
                       label: 'Gender',
                       icon: Icons.person_outline,
-                      value: _formData['gender'],
-                      items: _genders,
-                      onChanged: (value) => setState(() {
-                        _formData['gender'] = value!;
-                      }),
+                      value: registrationItem.gender,
+                      items: gender,
+                      onChanged: (value) => registrationItem.setGender(value),
                       validator: (value) =>
                           value == null ? 'Please select a gender' : null,
                     ),
-                    const SizedBox(height: 10),
-                    FormDropdown(
-                      label: 'Language',
-                      icon: Icons.language,
-                      value: _formData['language'],
-                      items: _languages,
-                      onChanged: (value) => setState(() {
-                        _formData['language'] = value!;
-                      }),
-                      validator: (value) =>
-                          value == null ? 'Please select a language' : null,
-                    ),
-                    const SizedBox(height: 10),
-                    FormDropdown(
-                      label: 'Native State',
-                      icon: Icons.map,
-                      value: _formData['native_place_state'],
-                      items: _states,
-                      onChanged: (value) => setState(() {
-                        _selectedState = value;
-                        _districts = _stateToDistricts[_selectedState!] ?? [];
-                        _formData['native_place_state'] = value!;
-                        _formData['native_place_district'] = null;
-                      }),
-                      validator: (value) =>
-                          value == null ? 'Please select a native state' : null,
-                    ),
-                    const SizedBox(height: 10),
-                    FormDropdown(
-                      label: 'Native District',
-                      icon: Icons.location_city,
-                      value: _formData['native_place_district'],
-                      items: _districts,
-                      onChanged: (value) => setState(() {
-                        _formData['native_place_district'] = value!;
-                      }),
-                      validator: (value) => value == null
-                          ? 'Please select a native district'
-                          : null,
-                    ),
-                    const SizedBox(height: 10),
-                    FormDropdown(
+                    FormDropdown<Language>(
+                        label: 'Language',
+                        icon: Icons.language,
+                        value: registrationItem.language,
+                        items: language,
+                        onChanged: (value) =>
+                            registrationItem.setLanguage(value),
+                        validator: (value) =>
+                            validateRegistrationItem(value, "language")),
+                    FormDropdown<String>(
+                        label: 'Native State',
+                        icon: Icons.map,
+                        value: registrationItem.nativePlaceState,
+                        items: _states,
+                        onChanged: (value) {
+                          setState(() {
+                            registrationItem.nativePlaceState = value;
+                            registrationItem.nativePlaceDistrict = null;
+                            _districts = locations[value]!.district;
+                          });
+                        },
+                        validator: (value) => validateRegistrationItem(
+                            value, "native place state")),
+                    FormDropdown<String>(
+                        label: 'Native District',
+                        icon: Icons.location_city,
+                        value: registrationItem.nativePlaceDistrict,
+                        items: _districts,
+                        onChanged: (value) {
+                          setState(() {
+                            registrationItem.nativePlaceDistrict = value!;
+                          });
+                        },
+                        validator: (value) => validateRegistrationItem(
+                            value, "native place district")),
+                    FormDropdown<MostTimeSpend>(
                       label: 'Spent most of your life in',
                       icon: Icons.home_work,
-                      value: _formData['most_time_spend'],
-                      items: _mostTimeSpend,
-                      onChanged: (value) => setState(() {
-                        _formData['most_time_spend'] = value!;
-                      }),
-                      validator: (value) => value == null
-                          ? 'Please select where you spent most of your life'
-                          : null,
-                    ),
-                    const SizedBox(height: 10),
-                    FormDropdown(
-                      label: 'Job Type',
-                      icon: Icons.work,
-                      value: _formData['job_type'],
-                      items: _jobTypes,
-                      onChanged: (value) => setState(() {
-                        _formData['job_type'] = value!;
-                      }),
+                      value: registrationItem.mostTimeSpend,
+                      items: mostTimeSpend,
+                      onChanged: (value) =>
+                          registrationItem.setMostTimeSpend(value),
                       validator: (value) =>
-                          value == null ? 'Please select a job type' : null,
+                          validateRegistrationItem(value, "most time spend"),
                     ),
-                    const SizedBox(height: 10),
-                    FormDropdown(
-                      label: 'Highest Qualification',
-                      icon: Icons.school,
-                      value: _formData['highest_qualification'],
-                      items: _educationLevels,
-                      onChanged: (value) => setState(() {
-                        _formData['highest_qualification'] = value!;
-                      }),
-                      validator: (value) => value == null
-                          ? 'Please select education level'
-                          : null,
-                    ),
-                    const SizedBox(height: 10),
+                    FormDropdown<JobType>(
+                        label: 'Job Type',
+                        icon: Icons.work,
+                        value: registrationItem.jobType,
+                        items: jobType,
+                        onChanged: (value) =>
+                            registrationItem.setJobType(value),
+                        validator: (value) =>
+                            validateRegistrationItem(value, "job type")),
+                    FormDropdown<HighestQualification>(
+                        label: 'Highest Qualification',
+                        icon: Icons.school,
+                        value: registrationItem.highestQualification,
+                        items: highestQualification,
+                        onChanged: (value) =>
+                            registrationItem.setHighestQualification(value),
+                        validator: (value) => validateRegistrationItem(
+                            value, "highest qualification")),
                     TextFieldWidget(
                         label: 'Occupation',
                         icon: Icons.business_center,
-                        onSave: (value) => _formData['occupation'] = value!,
+                        onSave: (value) => registrationItem.occupation = value!,
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your occupation';
-                          }
-                          // Check if the value contains only letters
-                          if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
-                            return 'Please enter letters only';
-                          }
-                          return null;
+                          return validateRegistrationItem(value, "occupation");
                         }),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     Row(
                       children: [
                         Checkbox(
-                          value: _isConsentAccepted,
+                          value: registrationItem.consentFormAccepted,
                           onChanged: (value) {
                             if (value == true) {
                               _showConsentDialog();
                             } else {
                               setState(() {
-                                _isConsentAccepted = false;
+                                registrationItem.consentFormAccepted = false;
                               });
                             }
                           },
@@ -464,11 +254,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           const SizedBox(height: 10),
                         ],
                       ),
-                    ElevatedButton.icon(
-                      onPressed: _pickImage,
-                      icon: const Icon(Icons.upload),
-                      label: const Text('Upload Photo'),
-                    ),
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: _submit,
@@ -488,13 +273,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
       builder: (ctx) => ConsentDialog(
         onAgree: () {
           setState(() {
-            _isConsentAccepted = true;
+            registrationItem.consentFormAccepted = true;
           });
           Navigator.of(ctx).pop();
         },
         onDisagree: () {
           setState(() {
-            _isConsentAccepted = false;
+            registrationItem.consentFormAccepted = false;
           });
           Navigator.of(ctx).pop();
         },

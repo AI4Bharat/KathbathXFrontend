@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:developer';
 import 'package:archive/archive.dart';
-import 'package:karya_flutter/exceptions/file_exceptions.dart';
+import 'package:kathbath_lite/exceptions/file_exceptions.dart';
 import 'package:path/path.dart' as p;
 
 Future<void> convertWavToTgz(

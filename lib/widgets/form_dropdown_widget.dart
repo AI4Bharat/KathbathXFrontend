@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class FormDropdown extends StatelessWidget {
+class FormDropdown<T> extends StatelessWidget {
   final String label;
   final IconData icon;
-  final List<dynamic> items; // Changed to List<dynamic>
-  final String? value;
+  final Map<T, String> items; // Changed to List<dynamic>
+  final T? value;
   final ValueChanged<String?> onChanged;
   final FormFieldValidator<String?>? validator;
 
@@ -21,22 +21,22 @@ class FormDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
-      value: value,
+      initialValue: value?.toString(),
       onChanged: onChanged,
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(icon),
         border: const OutlineInputBorder(),
       ),
-      items: items
-          .map((item) => DropdownMenuItem<String>(
-                value: item.toString(),
+      items: items.keys
+          .map((key) => DropdownMenuItem<String>(
+                value: key.toString(),
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 200),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Text(
-                      item.toString(),
+                      items[key]!,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontSize: 16),
                     ),

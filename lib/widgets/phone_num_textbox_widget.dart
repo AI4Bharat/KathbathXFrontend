@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kathbath_lite/utils/validator.dart';
 
 class PhoneNumberInput extends StatelessWidget {
   final TextEditingController controller;
@@ -21,18 +22,7 @@ class PhoneNumberInput extends StatelessWidget {
       ),
       keyboardType: TextInputType.phone,
       validator: validator ??
-          (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter your phone number.';
-            }
-            if (value.length != 10) {
-              return 'Phone number must be exactly 10 digits.';
-            }
-            if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-              return 'Phone number can only contain digits.';
-            }
-            return null;
-          },
+          (value) => validateRegistrationItem(value, "phone number"),
     );
   }
 }
