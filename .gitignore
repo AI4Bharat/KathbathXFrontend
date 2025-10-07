@@ -18,6 +18,7 @@ android/app/google-services.json
 .buildlog/
 .history
 .svn/
+.vscode
 
 # IntelliJ related
 *.iml

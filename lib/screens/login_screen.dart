@@ -8,6 +8,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kathbath_lite/screens/register_screen.dart';
 import 'package:kathbath_lite/services/api_services_baseUrl.dart';
 import 'package:kathbath_lite/services/worker_api.dart';
+import 'package:kathbath_lite/widgets/action_button.dart';
 import 'package:kathbath_lite/widgets/dropdown_widget.dart';
 import 'package:kathbath_lite/widgets/logo_widget.dart';
 import 'package:kathbath_lite/widgets/phone_num_textbox_widget.dart';
@@ -304,11 +305,10 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: 10.0,
               children: [
                 const WelcomeLogoWidget(),
-                const SizedBox(height: 20),
                 PhoneNumberInput(controller: _phoneNumberController),
-                const SizedBox(height: 20),
                 CustomDropdown(
                   value: _selectedLanguage,
                   items: _languages,
@@ -325,19 +325,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   label: 'Language',
                 ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _submit,
-                  child: const Text('Login'),
-                ),
-                const SizedBox(height: 10),
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const RegisterScreen()),
-                    );
-                  },
-                  child: const Text('Register here'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Flexible(
+                        flex: 1,
+                        child: ActionButton(
+                          onPressed: () => _submit,
+                          text: "Login",
+                        )),
+                    Flexible(
+                        flex: 1,
+                        child: ActionButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (_) => const RegisterScreen()),
+                        );
+                      },
+                      text: "Register",
+                      isPrimary: false,
+                    ))
+                  ],
                 ),
               ],
             ),

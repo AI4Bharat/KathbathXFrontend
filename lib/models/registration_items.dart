@@ -1,3 +1,17 @@
+class RegistrationErrorItem {
+  String? fullName;
+  String? phoneNumber;
+  String? age;
+  String? gender;
+  String? language;
+  String? nativePlaceState;
+  String? nativePlaceDistrict;
+  String? mostTimeSpend;
+  String? highestQualification;
+  String? jobType;
+  String? occupation;
+}
+
 class RegistrationItem {
   String? fullName;
   String? phoneNumber;
@@ -53,13 +67,14 @@ class RegistrationItem {
     jobType = JobType.values.firstWhere((j) => j.toString() == value!);
   }
 
-  Map<String, dynamic> getUserJson() {
+  Map<String, dynamic> getUserMap() {
     Map<String, dynamic> userJson = <String, dynamic>{};
+    userJson['full_name'] = fullName;
     userJson['phone_number'] = phoneNumber;
     userJson['language'] = language?.name;
     userJson['age'] = age;
     userJson['most_time_spend'] = mostTimeSpend?.name;
-    userJson['occuaption'] = occupation;
+    userJson['occupation'] = occupation;
     userJson['gender'] = gender?.name;
     userJson['native_place_state'] = nativePlaceState;
     userJson['native_place_district'] = nativePlaceDistrict;
@@ -67,6 +82,32 @@ class RegistrationItem {
     userJson['highest_qualification'] = highestQualification?.name;
     return userJson;
   }
+}
+
+class RegistrationResponse {
+  final int responseCode;
+  final String errorMessage;
+  final Map<String, dynamic> errorDetails;
+
+  const RegistrationResponse(
+      {required this.responseCode,
+      required this.errorMessage,
+      required this.errorDetails});
+
+  const RegistrationResponse.success()
+      : responseCode = 200,
+        errorMessage = "",
+        errorDetails = const {};
+
+  const RegistrationResponse.tryAgain()
+      : responseCode = 502,
+        errorMessage = "Please try again after some time.",
+        errorDetails = const {};
+
+  RegistrationResponse.badRequst(String message)
+      : responseCode = 400,
+        errorMessage = message,
+        errorDetails = const {};
 }
 
 enum Gender { male, female, other }

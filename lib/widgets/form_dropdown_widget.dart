@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class FormDropdown<T> extends StatelessWidget {
   final String label;
+  final String? errorText;
   final IconData icon;
   final Map<T, String> items; // Changed to List<dynamic>
   final T? value;
@@ -11,6 +12,7 @@ class FormDropdown<T> extends StatelessWidget {
   const FormDropdown({
     super.key,
     required this.label,
+    required this.errorText,
     required this.icon,
     required this.items,
     required this.value,
@@ -27,6 +29,7 @@ class FormDropdown<T> extends StatelessWidget {
         labelText: label,
         prefixIcon: Icon(icon),
         border: const OutlineInputBorder(),
+        errorText: errorText,
       ),
       items: items.keys
           .map((key) => DropdownMenuItem<String>(

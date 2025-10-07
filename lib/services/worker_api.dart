@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:kathbath_lite/models/registration_items.dart';
 import 'package:kathbath_lite/services/api_services_baseUrl.dart';
 
 class WorkerApiService {
@@ -40,26 +41,39 @@ class WorkerApiService {
     );
   }
 
-  // Future<Response> userRegistration(Map<String, dynamic> userData) {
-  //   print("Send data: ${jsonEncode(userData)}");
-  //   return _apiService.dio.post(
-  //     '/worker/create',
-  //     options: Options(method: 'POST', headers: {
-  //       'Content-Type': 'application/json',
-  //     }),
-  //     data: jsonEncode(userData),
-  //   );
-  // }
-
-  Future<Response> userRegistration(FormData formData) {
-    var resp = _apiService.dio.post(
-      '/worker',
-      options: Options(method: 'POST', headers: {
-        'Content-Type': 'multipart/form-data',
-      }),
-      data: formData,
-    );
-    return resp;
+  Future<RegistrationResponse> userRegistration(FormData formData) async {
+    try {
+      var resp = await _apiService.dio.post(
+        '/worker',
+        options: Options(method: 'POST', headers: {
+          'Content-Type': 'multipart/form-data',
+        }),
+        data: formData,
+      );
+      return const RegistrationResponse.success();
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.connectionError) {
+        return const RegistrationResponse(
+            responseCode: 408,
+            errorMessage: "Please check you internet.",
+            errorDetails: {});
+      }
+      if (e.response == null) {
+        return const RegistrationResponse.tryAgain();
+      }
+      if (e.response!.statusCode == 400) {
+        return RegistrationResponse.badRequst(
+            e.response!.data ?? "Registration failed");
+      } else if (e.response!.statusCode == 422) {
+        Map<String, dynamic> validationErrors = jsonDecode(e.response!.data);
+        return RegistrationResponse(
+            responseCode: 422,
+            errorMessage: "Please check the inputs",
+            errorDetails: validationErrors);
+      }
+      return const RegistrationResponse.tryAgain();
+    }
   }
 
   Future<Response> getWorkerDetails(String accessCode) {
