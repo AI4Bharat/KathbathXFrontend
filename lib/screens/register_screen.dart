@@ -116,12 +116,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         return;
       } else if (response.responseCode == 422) {
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(response.errorMessage)));
-        _updateErrorMessageFromServer(response.errorDetails);
+            .showSnackBar(SnackBar(content: Text(response.message)));
+        _updateErrorMessageFromServer(response.details);
         return;
       }
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(response.errorMessage)));
+          .showSnackBar(SnackBar(content: Text(response.message)));
     }
   }
 

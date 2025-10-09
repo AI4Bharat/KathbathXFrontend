@@ -86,28 +86,28 @@ class RegistrationItem {
 
 class RegistrationResponse {
   final int responseCode;
-  final String errorMessage;
-  final Map<String, dynamic> errorDetails;
+  final String message;
+  final Map<String, dynamic> details;
 
   const RegistrationResponse(
       {required this.responseCode,
-      required this.errorMessage,
-      required this.errorDetails});
+      required this.message,
+      required this.details});
 
   const RegistrationResponse.success()
       : responseCode = 200,
-        errorMessage = "",
-        errorDetails = const {};
+        message = "",
+        details = const {};
 
   const RegistrationResponse.tryAgain()
       : responseCode = 502,
-        errorMessage = "Please try again after some time.",
-        errorDetails = const {};
+        message = "Please try again after some time.",
+        details = const {};
 
   RegistrationResponse.badRequst(String message)
       : responseCode = 400,
-        errorMessage = message,
-        errorDetails = const {};
+        message = message,
+        details = const {};
 }
 
 enum Gender { male, female, other }

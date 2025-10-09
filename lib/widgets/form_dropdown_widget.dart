@@ -28,7 +28,7 @@ class FormDropdown<T> extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(icon),
-        border: const OutlineInputBorder(),
+        // border: const OutlineInputBorder(),
         errorText: errorText,
       ),
       items: items.keys

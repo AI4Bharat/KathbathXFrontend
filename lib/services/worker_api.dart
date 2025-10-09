@@ -9,36 +9,67 @@ class WorkerApiService {
 
   WorkerApiService(this._apiService);
 
-  Future<Response> generateOTP(String accessCode, String phoneNumber) {
-    return _apiService.dio.put(
-      '/worker/otp/generate',
-      options: Options(headers: {
-        'access-code': accessCode,
-        'phone-number': phoneNumber,
-      }),
-    );
+  Future<RegistrationResponse> generateOTP(
+      String accessCode, String phoneNumber) async {
+    try {
+      var response = await _apiService.dio.put(
+        '/worker/otp/generate',
+        options: Options(headers: {
+          'access-code': accessCode,
+          'phone-number': phoneNumber,
+        }),
+      );
+      return const RegistrationResponse.success();
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.connectionError) {
+        return const RegistrationResponse(
+            responseCode: 408,
+            message: "Please check you internet.",
+            details: {});
+      }
+      if (e.response == null) {
+        return const RegistrationResponse.tryAgain();
+      }
+      if (e.response!.statusCode == 400 || e.response!.statusCode == 401) {
+        return RegistrationResponse.badRequst(
+            e.response!.data ?? "OTP generation failed");
+      }
+
+      return const RegistrationResponse.tryAgain();
+    }
   }
 
-  Future<Response> resendOTP(String accessCode, String phoneNumber) {
-    return _apiService.dio.put(
-      '/worker/otp/resend',
-      options: Options(headers: {
-        'access-code': accessCode,
-        'phone-number': phoneNumber,
-      }),
-    );
+  Future<RegistrationResponse> resendOTP(String accessCode) async {
+    try {
+      final response = _apiService.dio.put(
+        '/worker/otp/resend',
+        options: Options(headers: {
+          'access-code': accessCode,
+        }),
+      );
+      print("Resent otp is called $response");
+      return const RegistrationResponse.success();
+    } on DioException catch (e) {
+      print("Resent otp is called ${e.response}");
+      return const RegistrationResponse.tryAgain();
+    }
   }
 
-  Future<Response<String>> verifyOTP(
-      String accessCode, String phoneNumber, String otp) {
-    return _apiService.dio.put<String>(
-      '/worker/otp/verify',
-      options: Options(headers: {
-        'access-code': accessCode,
-        'phone-number': phoneNumber,
-        'otp': otp,
-      }),
-    );
+  Future<RegistrationResponse> verifyOTP(String accessCode, String otp) async {
+    try {
+      final response = await _apiService.dio.put<String>(
+        '/worker/otp/verify',
+        options: Options(headers: {
+          'access-code': accessCode,
+          'otp': otp,
+        }),
+      );
+      return const RegistrationResponse.success();
+    } on DioException catch (e) {
+      print("The veriy otp is called (errored) \n\n ${e.response}");
+      return const RegistrationResponse.tryAgain();
+    }
   }
 
   Future<RegistrationResponse> userRegistration(FormData formData) async {
@@ -56,8 +87,8 @@ class WorkerApiService {
           e.type == DioExceptionType.connectionError) {
         return const RegistrationResponse(
             responseCode: 408,
-            errorMessage: "Please check you internet.",
-            errorDetails: {});
+            message: "Please check you internet.",
+            details: {});
       }
       if (e.response == null) {
         return const RegistrationResponse.tryAgain();
@@ -69,8 +100,8 @@ class WorkerApiService {
         Map<String, dynamic> validationErrors = jsonDecode(e.response!.data);
         return RegistrationResponse(
             responseCode: 422,
-            errorMessage: "Please check the inputs",
-            errorDetails: validationErrors);
+            message: "Please check the inputs",
+            details: validationErrors);
       }
       return const RegistrationResponse.tryAgain();
     }

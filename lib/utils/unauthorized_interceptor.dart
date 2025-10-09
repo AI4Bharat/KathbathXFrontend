@@ -60,7 +60,7 @@ class TokenInterceptor extends Interceptor {
       print("accesscode is: $accessCode");
       final response =
           await workerApiService.generateOTP(accessCode!, phoneNum!);
-      if (response.statusCode == 200) {
+      if (response.responseCode == 200) {
         return true;
       } else {
         return false;
@@ -181,9 +181,9 @@ class TokenInterceptor extends Interceptor {
   Future<void> _handleResend() async {
     final context = navigatorKey.currentContext;
     try {
-      final response = await workerApiService.resendOTP(accessCode!, phoneNum!);
+      final response = await workerApiService.resendOTP(accessCode!);
       log("resend response:$response");
-      if (response.statusCode == 200) {
+      if (response.responseCode == 200) {
         ScaffoldMessenger.of(context!).showSnackBar(
           const SnackBar(
               content: Text('OTP send again to the registered number')),
@@ -204,11 +204,10 @@ class TokenInterceptor extends Interceptor {
 
   Future<bool> _verifyOtp(String otp) async {
     try {
-      final response =
-          await workerApiService.verifyOTP(accessCode!, phoneNum!, otp);
-      print("verify otp response ${response.data}");
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> otpResponse = jsonDecode(response.data!);
+      final response = await workerApiService.verifyOTP(accessCode!, otp);
+      print("verify otp response ${response.details}");
+      if (response.responseCode == 200) {
+        final Map<String, dynamic> otpResponse = response.details;
         final String? idToken = otpResponse['id_token'];
 
         if (idToken != null) {

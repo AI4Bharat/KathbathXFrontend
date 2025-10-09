@@ -12,7 +12,6 @@ class WelcomeLogoWidget extends StatelessWidget {
     this.textStyle = const TextStyle(
       fontSize: 24,
       fontWeight: FontWeight.bold,
-      color: Colors.orange,
     ),
   });
 
