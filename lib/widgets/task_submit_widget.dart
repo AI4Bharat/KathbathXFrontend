@@ -66,7 +66,6 @@ class TaskSubmitWidget extends StatelessWidget {
             child: ElevatedButton(
               onPressed: handleSubmitTasks,
               style: ElevatedButton.styleFrom(
-                backgroundColor: baseOrange,
                 padding: const EdgeInsets.symmetric(
                     vertical: 12.0, horizontal: 20.0),
                 shape: const RoundedRectangleBorder(

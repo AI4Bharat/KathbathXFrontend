@@ -92,7 +92,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                   child: ElevatedButton(
                     onPressed: widget.submitAction,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: baseOrange,
                       foregroundColor: Colors.white, // Set text color to white
                     ),
                     child: const Text('Done'),
@@ -106,7 +105,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                           true); // Call the function when redo is pressed
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: baseOrange,
                       foregroundColor: Colors.white,
                     ),
                     child: const Text('Redo'),

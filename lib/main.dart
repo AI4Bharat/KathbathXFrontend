@@ -99,7 +99,6 @@ Future<void> checkForAndroidUpdate() async {
 }
 
 Future<void> checkForIOSUpdate() async {
-  //TODO: Logic to be implemented
   return;
 }
 
@@ -169,8 +168,8 @@ class _KaryaAppState extends State<KaryaApp> {
 
   Future<String> _getInitialRoute() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? isLoggedIn = prefs.getBool('otp_verified');
-    if (isLoggedIn != null && isLoggedIn) {
+    String? idToken = prefs.getString('id_token');
+    if (idToken != null && idToken != "") {
       return '/dashboard';
     } else {
       return '/';
@@ -194,13 +193,14 @@ class _KaryaAppState extends State<KaryaApp> {
               child: MaterialApp(
                 title: 'Karya App',
                 theme: ThemeData(
-                    colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
-                    primarySwatch: Colors.blue,
-                    scaffoldBackgroundColor: Colors.white,
+                    colorScheme: ColorScheme.fromSeed(
+                      seedColor: darkerOrange,
+                      primary: primaryOrange,
+                      onPrimary: Colors.white,
+                      secondary: secondaryOrange,
+                    ),
                     useMaterial3: true,
                     appBarTheme: const AppBarTheme(
-                      backgroundColor: darkerOrange,
-                      foregroundColor: Colors.white,
                       elevation: 0,
                     ),
                     fontFamily: 'CustomFont'),

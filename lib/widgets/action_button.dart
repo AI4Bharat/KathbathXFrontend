@@ -14,13 +14,14 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext buildContext) {
-    return FilledButton.tonal(
+    return FilledButton(
       onPressed: onPressed,
       style: FilledButton.styleFrom(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadiusGeometry.circular(8.0)),
-          backgroundColor: isPrimary ? darkerOrange : customOrange,
-          foregroundColor: Colors.white),
+          // backgroundColor: isPrimary ? darkerOrange : customOrange,
+          // foregroundColor: Colors.white
+			),
       child: Text(text),
     );
   }

@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:kathbath_lite/models/registration_items.dart';
 import 'package:kathbath_lite/services/api_services_baseUrl.dart';
 import 'package:kathbath_lite/services/worker_api.dart';
-import 'package:kathbath_lite/utils/colors.dart';
 import 'package:kathbath_lite/utils/validator.dart';
 import 'package:kathbath_lite/widgets/action_button.dart';
-import 'package:kathbath_lite/widgets/consent_dialog_widget.dart';
+import 'package:kathbath_lite/widgets/dialogs/consent_dialog.dart';
 import 'package:kathbath_lite/widgets/form_dropdown_widget.dart';
-import 'package:kathbath_lite/widgets/loading_dialog.dart';
+import 'package:kathbath_lite/widgets/dialogs/loading_dialog.dart';
 import 'package:kathbath_lite/widgets/textfield_widget.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -112,7 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (response.responseCode == 200) {
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text("Success")));
-				Navigator.of(context).pop();
+        Navigator.of(context).pop();
         return;
       } else if (response.responseCode == 422) {
         ScaffoldMessenger.of(context)

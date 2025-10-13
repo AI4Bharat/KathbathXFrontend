@@ -12,14 +12,14 @@ class WorkerApiService {
   Future<RegistrationResponse> generateOTP(
       String accessCode, String phoneNumber) async {
     try {
-      var response = await _apiService.dio.put(
+      await _apiService.dio.put(
         '/worker/otp/generate',
         options: Options(headers: {
           'access-code': accessCode,
           'phone-number': phoneNumber,
         }),
       );
-      return const RegistrationResponse.success();
+      return const RegistrationResponse.success(null);
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionTimeout ||
           e.type == DioExceptionType.connectionError) {
@@ -42,15 +42,28 @@ class WorkerApiService {
 
   Future<RegistrationResponse> resendOTP(String accessCode) async {
     try {
-      final response = _apiService.dio.put(
+      await _apiService.dio.put(
         '/worker/otp/resend',
         options: Options(headers: {
           'access-code': accessCode,
         }),
       );
-      print("Resent otp is called $response");
-      return const RegistrationResponse.success();
+      return const RegistrationResponse.success(null);
     } on DioException catch (e) {
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.connectionError) {
+        return const RegistrationResponse(
+            responseCode: 408,
+            message: "Please check you internet.",
+            details: {});
+      }
+      if (e.response == null) {
+        return const RegistrationResponse.tryAgain();
+      }
+      if (e.response!.statusCode == 400 || e.response!.statusCode == 401) {
+        return RegistrationResponse.badRequst(
+            e.response!.data ?? "Resending OTP/Passcode failed");
+      }
       print("Resent otp is called ${e.response}");
       return const RegistrationResponse.tryAgain();
     }
@@ -65,9 +78,37 @@ class WorkerApiService {
           'otp': otp,
         }),
       );
-      return const RegistrationResponse.success();
+      if (response.data == null) {
+        return const RegistrationResponse(
+            responseCode: 500,
+            message: "Server issue please contact the admins",
+            details: {});
+      }
+
+      final Map<String, dynamic> responseData = jsonDecode(response.data!);
+      if (!responseData.containsKey("id_token") ||
+          responseData["id_token"] == "") {
+        return const RegistrationResponse(
+            responseCode: 500,
+            message: "Server issue please contact the admins",
+            details: {});
+      }
+      return RegistrationResponse.success(responseData);
     } on DioException catch (e) {
-      print("The veriy otp is called (errored) \n\n ${e.response}");
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.connectionError) {
+        return const RegistrationResponse(
+            responseCode: 408,
+            message: "Please check you internet.",
+            details: {});
+      }
+      if (e.response == null) {
+        return const RegistrationResponse.tryAgain();
+      }
+      if (e.response!.statusCode == 400 || e.response!.statusCode == 401) {
+        return RegistrationResponse.badRequst(
+            e.response!.data ?? "OTP/Passcode verification failed");
+      }
       return const RegistrationResponse.tryAgain();
     }
   }
@@ -81,7 +122,7 @@ class WorkerApiService {
         }),
         data: formData,
       );
-      return const RegistrationResponse.success();
+      return const RegistrationResponse.success(null);
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionTimeout ||
           e.type == DioExceptionType.connectionError) {

@@ -692,8 +692,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               icon: const Icon(Icons.logout),
               onPressed: () async {
                 loggedOut = true;
-                bool submitSuccess = await handleSubmitTasks();
-                if (submitSuccess) {
+                // bool submitSuccess = await handleSubmitTasks();
+                // if (submitSuccess) {
                   SharedPreferences? prefs =
                       await SharedPreferences.getInstance();
                   await prefs.setBool('otp_verified', false);
@@ -706,7 +706,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   await _microTaskAssignmentDao.clearAllMicrotaskAssignments();
 
                   Navigator.pushReplacementNamed(context, '/');
-                }
+                // }
               },
             ),
           ],

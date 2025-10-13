@@ -1,6 +1,6 @@
 String? validateRegistrationItem(dynamic value, String itemName) {
   if (value == null || value!.isEmpty || value!.toString().trim() == "") {
-    return "${itemName[0].toUpperCase() + itemName.substring(1).toLowerCase()} cannot be empty";
+    return "Please select a $itemName";
   }
 
   switch (itemName) {
@@ -41,7 +41,7 @@ String? _validatePhonenumber(String value, String itemName) {
 
   var match = regExp.hasMatch(value);
   if (value.length != 10) {
-    return "Phone number should be 10 digit long";
+    return "Phone number should be 10 digit";
   } else if (!match) {
     return "Phone number can only contain numbers";
   }
@@ -59,4 +59,17 @@ String? _validateStringInputs(String value, String itemName) {
   }
 
   return null;
+}
+
+String? validateOTP(String otp) {
+  RegExp regExp = RegExp(r'^[0-9]{6}$');
+  otp = otp.trim();
+
+  var match = regExp.hasMatch(otp);
+  if (otp.length != 6) {
+    return "OTP/Passcode should be 6 digits";
+  } else if (!match) {
+    return "Only digits can be used";
+  }
+	return null;
 }

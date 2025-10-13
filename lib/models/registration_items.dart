@@ -94,19 +94,18 @@ class RegistrationResponse {
       required this.message,
       required this.details});
 
-  const RegistrationResponse.success()
+  const RegistrationResponse.success(Map<String, dynamic>? details)
       : responseCode = 200,
         message = "",
-        details = const {};
+        details = details ?? const {};
 
   const RegistrationResponse.tryAgain()
       : responseCode = 502,
         message = "Please try again after some time.",
         details = const {};
 
-  RegistrationResponse.badRequst(String message)
+  RegistrationResponse.badRequst(this.message)
       : responseCode = 400,
-        message = message,
         details = const {};
 }
 
