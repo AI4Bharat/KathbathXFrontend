@@ -18,20 +18,20 @@ class MicroTaskDao extends DatabaseAccessor<KaryaDatabase>
       select(db.microTaskRecords).get();
 
   // Retrieve a specific microtask by microtask ID
-  Future<MicroTaskRecord?> getMicroTaskById(String id) {
+  Future<MicroTaskRecord?> getMicroTaskById(BigInt id) {
     return (select(db.microTaskRecords)..where((tbl) => tbl.id.equals(id)))
         .getSingleOrNull();
   }
 
   //Rertrieve microtask by task ID
-  Future<List<MicroTaskRecord>> getAllMicroTasksByTaskId(String taskId) {
+  Future<List<MicroTaskRecord>> getAllMicroTasksByTaskId(BigInt taskId) {
     return (select(db.microTaskRecords)
           ..where((tbl) => tbl.taskId.equals(taskId)))
         .get();
   }
 
   Future<List<MicroTaskRecord>> getMicroTasksWithPendingAssignments(
-      String taskId) {
+      BigInt taskId) {
     final query = select(db.microTaskRecords).join([
       innerJoin(
         db.microTaskAssignmentRecords,
@@ -51,12 +51,14 @@ class MicroTaskDao extends DatabaseAccessor<KaryaDatabase>
     }).get();
   }
 
-  Future<void> upsertAll(List<MicroTaskRecord> tasks) async {
+  Future<void> upsertAll(List<Microtask> microtasks) async {
+    final microtaskRecords =
+        microtasks.map((microtask) => microtask.getMicrotaskRecord());
     await db.transaction(() async {
       await batch((batch) {
         batch.insertAll(
           db.microTaskRecords,
-          tasks,
+          microtaskRecords,
           mode: InsertMode.insertOrIgnore, // Ignores conflicts
         );
       });
@@ -72,7 +74,7 @@ class MicroTaskDao extends DatabaseAccessor<KaryaDatabase>
       update(db.microTaskRecords).replace(microTask);
 
   // Delete a microtask by ID
-  Future<int> deleteMicroTask(String id) =>
+  Future<int> deleteMicroTask(BigInt id) =>
       (delete(db.microTaskRecords)..where((tbl) => tbl.id.equals(id))).go();
 
   // Clear all microtasks

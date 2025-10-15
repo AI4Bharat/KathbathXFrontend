@@ -40,11 +40,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   late MicroTaskAssignmentDao _microTaskAssignmentDao;
   late AssignmentRepository _assignmentRepository;
   late List<TaskRecord> _tasks = [];
-  final Map<String, Map<String, int>> _taskStatusCounts = {};
+  final Map<BigInt, Map<String, int>> _taskStatusCounts = {};
   int submittedCount = 0;
   int uploadedCount = 0;
   int onPhoneCount = 0;
-  int total_available = 0;
+  int totalAvailable = 0;
   bool loggedOut = false;
   bool loadingDone = false;
 
@@ -71,7 +71,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Future<void> _initialize() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    submittedCount = prefs.getInt('submittedCount') ?? 0;
+    submittedCount = 0; // prefs.getInt('submittedCount') ?? 0;
     await _populateDb();
     await _loadTasks();
   }
@@ -94,7 +94,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _taskStatusCounts.clear();
     uploadedCount = 0;
     onPhoneCount = 0;
-    total_available = 0;
+    totalAvailable = 0;
     for (var task in tasks) {
       final microtaskAssignments =
           await _microTaskAssignmentDao.getMicroTaskAssignmentByTaskId(task.id);
@@ -146,7 +146,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       }
       uploadedCount += statusCounts['submitted']!;
       onPhoneCount += statusCounts['completed']!;
-      total_available += statusCounts['available']! +
+      totalAvailable += statusCounts['available']! +
           statusCounts['submitted']! +
           statusCounts['skipped']!;
       if (task.name!.toLowerCase().contains("extempore") ||
@@ -155,14 +155,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
       }
       _taskStatusCounts[task.id] = statusCounts;
     }
-    if (mounted) {
-      setState(() {
-        _tasks = tasks;
-        if (total_available == 0 && !loggedOut) {
-          showShareDialog(context);
-        }
-      });
-    }
+    // if (mounted) {
+    //   setState(() {
+    //     _tasks = tasks;
+    //     if (totalAvailable == 0 && !loggedOut) {
+    //       showShareDialog(context);
+    //     }
+    //   });
+    // }
   }
 
   Future<void> showProgressDialog(
@@ -210,7 +210,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         bool isOutputFileIdNull = assignment.outputFileId == null;
         bool hasValidOutputFiles = false;
         if (assignment.output != null) {
-          var outputJson = jsonDecode(assignment.output!);
+          var outputJson = json.decode(assignment.output!);
           if (outputJson is Map<String, dynamic> &&
               outputJson.containsKey('files')) {
             hasValidOutputFiles = (outputJson['files']).isNotEmpty;
@@ -262,7 +262,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             );
             return false;
           } else {
-            String? outputFileId = outFileResult.fileId;
+            BigInt? outputFileId = outFileResult.fileId;
             if (outputFileId != null && outputFileId != "") {
               await _microTaskAssignmentDao
                   .updateMicrotaskAssignmentOutputFileId(
@@ -312,7 +312,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               duration: Duration(seconds: 2),
             ),
           );
-          await _populateDb();
+          try {
+            await _populateDb();
+          } catch (e) {
+					print("Exception occured while populating db ${e}");
+					}
           await _loadTasks();
           if (fileNotFoundIds.isNotEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -694,18 +698,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 loggedOut = true;
                 // bool submitSuccess = await handleSubmitTasks();
                 // if (submitSuccess) {
-                  SharedPreferences? prefs =
-                      await SharedPreferences.getInstance();
-                  await prefs.setBool('otp_verified', false);
-                  await prefs.setString('id_token', '');
-                  await prefs.setString('loggedInNum', '');
-                  await prefs.setString('submittedCount', '');
-                  await prefs.setBool("referral_send", false);
-                  await _taskDao.clearAllTasks();
-                  await _microTaskDao.clearAllMicroTasks();
-                  await _microTaskAssignmentDao.clearAllMicrotaskAssignments();
+                SharedPreferences? prefs =
+                    await SharedPreferences.getInstance();
+                await prefs.setBool('otp_verified', false);
+                await prefs.setString('id_token', '');
+                await prefs.setString('loggedInNum', '');
+                await prefs.setString('submittedCount', '');
+                await prefs.setBool("referral_send", false);
+                await _taskDao.clearAllTasks();
+                await _microTaskDao.clearAllMicroTasks();
+                await _microTaskAssignmentDao.clearAllMicrotaskAssignments();
 
-                  Navigator.pushReplacementNamed(context, '/');
+                Navigator.pushReplacementNamed(context, '/');
                 // }
               },
             ),

@@ -31,7 +31,7 @@ class VideoCollectionScreen extends StatefulWidget {
 
 class _VideoCollectionScreenState extends State<VideoCollectionScreen> {
   String? _sentence;
-  String? assignmentId;
+  BigInt? assignmentId;
   String? filePath;
   late Dio dio;
   late ApiService apiService;
@@ -98,7 +98,7 @@ class _VideoCollectionScreenState extends State<VideoCollectionScreen> {
 
   Future<void> _updateSentence() async {
     if (widget.microtasks.isNotEmpty && microNum < widget.microtasks.length) {
-      String input = widget.microtasks[microNum].input ?? '{}';
+      String input = widget.microtasks[microNum].input;
       try {
         Map<String, dynamic> inputJson = jsonDecode(input);
         setState(() {

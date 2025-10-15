@@ -30,7 +30,7 @@ class SpeechRecordingScreen extends StatefulWidget {
 
 class _SpeechRecordingScreenState extends State<SpeechRecordingScreen> {
   String? _sentence;
-  String? assignmentId;
+  BigInt? assignmentId;
   String? filePath;
   var microNum = 0;
 
@@ -77,7 +77,7 @@ class _SpeechRecordingScreenState extends State<SpeechRecordingScreen> {
   Future<void> _updateSentence() async {
     // log("Microtask length= ${widget.microtasks.length} and current microtask: $microNum");
     if (widget.microtasks.isNotEmpty && microNum < widget.microtasks.length) {
-      String input = widget.microtasks[microNum].input ?? '{}';
+      String input = widget.microtasks[microNum].input;
       try {
         Map<String, dynamic> inputJson = jsonDecode(input);
         setState(() {

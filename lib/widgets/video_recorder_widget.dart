@@ -11,7 +11,7 @@ class VideoRecorderWidget extends StatefulWidget {
   final String textToRead;
   final String age;
   final String gender;
-  final String assignmentId;
+  final BigInt assignmentId;
   final Function(bool) recordingOn;
 
   const VideoRecorderWidget(

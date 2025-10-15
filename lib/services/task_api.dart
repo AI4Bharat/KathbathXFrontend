@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-import 'package:kathbath_lite/data/database/utility/table_utility.dart';
+import 'package:kathbath_lite/data/database/models/microtask_assignment_record.dart';
 import 'package:kathbath_lite/data/manager/karya_db.dart';
 import 'dart:convert';
 
@@ -31,7 +31,7 @@ class MicroTaskAssignmentService {
       await _initializeIdToken();
     }
     List<Map<String, dynamic>> jsonList = updates
-        .map((record) => UtilityClass().mTaskAssignmentRecordToJson1(record))
+        .map((record) => getJsonFromMicrotaskAssignmentRecord(record))
         .toList();
     // log("submitting json: ${jsonEncode(jsonList)}");
     final response = await _apiService.dio.put(
@@ -69,27 +69,32 @@ class MicroTaskAssignmentService {
     String from, {
     String type = 'new',
   }) async {
+    print("Get new assignement called ");
     if (!_isInitialized) {
       await _initializeIdToken();
     }
-    final response = await _apiService.dio.get(
-      '/assignments',
-      queryParameters: {
-        'from': from,
-        'type': type,
-      },
-      options: Options(
-        headers: {
-          'karya-id-token': idToken,
-          'version': '97', // Update to your version
+    try {
+      final response = await _apiService.dio.get(
+        '/assignments',
+        queryParameters: {
+          'from': from,
+          'type': type,
         },
-      ),
-    );
-    if (response.statusCode == 200) {
-      final jsonData = response.data;
-      log('Received JSON Data: $jsonData');
-      return jsonData;
-    } else {
+        options: Options(
+          headers: {
+            'karya-id-token': idToken,
+            'version': '97', // Update to your version
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        final jsonData = response.data;
+        print('\n\n Received JSON Data: $jsonData');
+        return jsonData;
+      }
+      return {};
+    } on DioException catch (e) {
+      print("Exception occured while getting new assignments ${e.response}");
       return {};
     }
   }
@@ -118,7 +123,7 @@ class MicroTaskAssignmentService {
   }
 
   Future<Response> submitAssignmentOutputFile(
-    String id,
+    BigInt id,
     String jsonData,
     String filePath,
   ) async {
@@ -144,7 +149,7 @@ class MicroTaskAssignmentService {
   }
 
   Future<Uint8List> getInputFile(
-    String assignmentId,
+    BigInt assignmentId,
   ) async {
     try {
       if (!_isInitialized) {

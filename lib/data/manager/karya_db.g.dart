@@ -11,91 +11,135 @@ class $TaskRecordsTable extends TaskRecords
   $TaskRecordsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+  late final GeneratedColumn<BigInt> id = GeneratedColumn<BigInt>(
       'id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      type: DriftSqlType.bigInt, requiredDuringInsert: false);
+  static const VerificationMeta _workProviderIdMeta =
+      const VerificationMeta('workProviderId');
+  @override
+  late final GeneratedColumn<BigInt> workProviderId = GeneratedColumn<BigInt>(
+      'work_provider_id', aliasedName, false,
+      type: DriftSqlType.bigInt, requiredDuringInsert: true);
   static const VerificationMeta _scenarioNameMeta =
       const VerificationMeta('scenarioName');
   @override
   late final GeneratedColumn<String> scenarioName = GeneratedColumn<String>(
-      'scenario_name', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      'scenario_name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      'name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _descriptionMeta =
       const VerificationMeta('description');
   @override
   late final GeneratedColumn<String> description = GeneratedColumn<String>(
-      'description', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      'description', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _displayNameMeta =
       const VerificationMeta('displayName');
   @override
   late final GeneratedColumn<String> displayName = GeneratedColumn<String>(
-      'display_name', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      'display_name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _policyMeta = const VerificationMeta('policy');
+  @override
+  late final GeneratedColumn<String> policy = GeneratedColumn<String>(
+      'policy', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _paramsMeta = const VerificationMeta('params');
   @override
   late final GeneratedColumn<String> params = GeneratedColumn<String>(
-      'params', aliasedName, true,
+      'params', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _itagsMeta = const VerificationMeta('itags');
+  @override
+  late final GeneratedColumn<String> itags = GeneratedColumn<String>(
+      'itags', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _otagsMeta = const VerificationMeta('otags');
+  @override
+  late final GeneratedColumn<String> otags = GeneratedColumn<String>(
+      'otags', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _wgroupMeta = const VerificationMeta('wgroup');
+  @override
+  late final GeneratedColumn<String> wgroup = GeneratedColumn<String>(
+      'wgroup', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _deadlineMeta =
       const VerificationMeta('deadline');
   @override
-  late final GeneratedColumn<String> deadline = GeneratedColumn<String>(
+  late final GeneratedColumn<DateTime> deadline = GeneratedColumn<DateTime>(
       'deadline', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   static const VerificationMeta _assignmentGranularityMeta =
       const VerificationMeta('assignmentGranularity');
   @override
   late final GeneratedColumn<String> assignmentGranularity =
-      GeneratedColumn<String>('assignment_granularity', aliasedName, true,
-          type: DriftSqlType.string, requiredDuringInsert: false);
+      GeneratedColumn<String>('assignment_granularity', aliasedName, false,
+          type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _groupAssignmentOrderMeta =
       const VerificationMeta('groupAssignmentOrder');
   @override
   late final GeneratedColumn<String> groupAssignmentOrder =
-      GeneratedColumn<String>('group_assignment_order', aliasedName, true,
-          type: DriftSqlType.string, requiredDuringInsert: false);
+      GeneratedColumn<String>('group_assignment_order', aliasedName, false,
+          type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _microtaskAssignmentOrderMeta =
       const VerificationMeta('microtaskAssignmentOrder');
   @override
   late final GeneratedColumn<String> microtaskAssignmentOrder =
-      GeneratedColumn<String>('microtask_assignment_order', aliasedName, true,
-          type: DriftSqlType.string, requiredDuringInsert: false);
+      GeneratedColumn<String>('microtask_assignment_order', aliasedName, false,
+          type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _assignmentBatchSizeMeta =
+      const VerificationMeta('assignmentBatchSize');
+  @override
+  late final GeneratedColumn<int> assignmentBatchSize = GeneratedColumn<int>(
+      'assignment_batch_size', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
   static const VerificationMeta _statusMeta = const VerificationMeta('status');
   @override
   late final GeneratedColumn<String> status = GeneratedColumn<String>(
-      'status', aliasedName, true,
+      'status', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _extrasMeta = const VerificationMeta('extras');
+  @override
+  late final GeneratedColumn<String> extras = GeneratedColumn<String>(
+      'extras', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   @override
-  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
-      'created_at', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
   static const VerificationMeta _lastUpdatedAtMeta =
       const VerificationMeta('lastUpdatedAt');
   @override
-  late final GeneratedColumn<String> lastUpdatedAt = GeneratedColumn<String>(
-      'last_updated_at', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<DateTime> lastUpdatedAt =
+      GeneratedColumn<DateTime>('last_updated_at', aliasedName, false,
+          type: DriftSqlType.dateTime, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [
         id,
+        workProviderId,
         scenarioName,
         name,
         description,
         displayName,
+        policy,
         params,
+        itags,
+        otags,
+        wgroup,
         deadline,
         assignmentGranularity,
         groupAssignmentOrder,
         microtaskAssignmentOrder,
+        assignmentBatchSize,
         status,
+        extras,
         createdAt,
         lastUpdatedAt
       ];
@@ -111,34 +155,72 @@ class $TaskRecordsTable extends TaskRecords
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('work_provider_id')) {
+      context.handle(
+          _workProviderIdMeta,
+          workProviderId.isAcceptableOrUnknown(
+              data['work_provider_id']!, _workProviderIdMeta));
     } else if (isInserting) {
-      context.missing(_idMeta);
+      context.missing(_workProviderIdMeta);
     }
     if (data.containsKey('scenario_name')) {
       context.handle(
           _scenarioNameMeta,
           scenarioName.isAcceptableOrUnknown(
               data['scenario_name']!, _scenarioNameMeta));
+    } else if (isInserting) {
+      context.missing(_scenarioNameMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
           _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
     }
     if (data.containsKey('description')) {
       context.handle(
           _descriptionMeta,
           description.isAcceptableOrUnknown(
               data['description']!, _descriptionMeta));
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
     }
     if (data.containsKey('display_name')) {
       context.handle(
           _displayNameMeta,
           displayName.isAcceptableOrUnknown(
               data['display_name']!, _displayNameMeta));
+    } else if (isInserting) {
+      context.missing(_displayNameMeta);
+    }
+    if (data.containsKey('policy')) {
+      context.handle(_policyMeta,
+          policy.isAcceptableOrUnknown(data['policy']!, _policyMeta));
+    } else if (isInserting) {
+      context.missing(_policyMeta);
     }
     if (data.containsKey('params')) {
       context.handle(_paramsMeta,
           params.isAcceptableOrUnknown(data['params']!, _paramsMeta));
+    } else if (isInserting) {
+      context.missing(_paramsMeta);
+    }
+    if (data.containsKey('itags')) {
+      context.handle(
+          _itagsMeta, itags.isAcceptableOrUnknown(data['itags']!, _itagsMeta));
+    } else if (isInserting) {
+      context.missing(_itagsMeta);
+    }
+    if (data.containsKey('otags')) {
+      context.handle(
+          _otagsMeta, otags.isAcceptableOrUnknown(data['otags']!, _otagsMeta));
+    } else if (isInserting) {
+      context.missing(_otagsMeta);
+    }
+    if (data.containsKey('wgroup')) {
+      context.handle(_wgroupMeta,
+          wgroup.isAcceptableOrUnknown(data['wgroup']!, _wgroupMeta));
     }
     if (data.containsKey('deadline')) {
       context.handle(_deadlineMeta,
@@ -149,12 +231,16 @@ class $TaskRecordsTable extends TaskRecords
           _assignmentGranularityMeta,
           assignmentGranularity.isAcceptableOrUnknown(
               data['assignment_granularity']!, _assignmentGranularityMeta));
+    } else if (isInserting) {
+      context.missing(_assignmentGranularityMeta);
     }
     if (data.containsKey('group_assignment_order')) {
       context.handle(
           _groupAssignmentOrderMeta,
           groupAssignmentOrder.isAcceptableOrUnknown(
               data['group_assignment_order']!, _groupAssignmentOrderMeta));
+    } else if (isInserting) {
+      context.missing(_groupAssignmentOrderMeta);
     }
     if (data.containsKey('microtask_assignment_order')) {
       context.handle(
@@ -162,20 +248,38 @@ class $TaskRecordsTable extends TaskRecords
           microtaskAssignmentOrder.isAcceptableOrUnknown(
               data['microtask_assignment_order']!,
               _microtaskAssignmentOrderMeta));
+    } else if (isInserting) {
+      context.missing(_microtaskAssignmentOrderMeta);
+    }
+    if (data.containsKey('assignment_batch_size')) {
+      context.handle(
+          _assignmentBatchSizeMeta,
+          assignmentBatchSize.isAcceptableOrUnknown(
+              data['assignment_batch_size']!, _assignmentBatchSizeMeta));
     }
     if (data.containsKey('status')) {
       context.handle(_statusMeta,
           status.isAcceptableOrUnknown(data['status']!, _statusMeta));
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('extras')) {
+      context.handle(_extrasMeta,
+          extras.isAcceptableOrUnknown(data['extras']!, _extrasMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
     }
     if (data.containsKey('last_updated_at')) {
       context.handle(
           _lastUpdatedAtMeta,
           lastUpdatedAt.isAcceptableOrUnknown(
               data['last_updated_at']!, _lastUpdatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_lastUpdatedAtMeta);
     }
     return context;
   }
@@ -187,34 +291,48 @@ class $TaskRecordsTable extends TaskRecords
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return TaskRecord(
       id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+          .read(DriftSqlType.bigInt, data['${effectivePrefix}id'])!,
+      workProviderId: attachedDatabase.typeMapping.read(
+          DriftSqlType.bigInt, data['${effectivePrefix}work_provider_id'])!,
       scenarioName: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}scenario_name']),
+          .read(DriftSqlType.string, data['${effectivePrefix}scenario_name'])!,
       name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name']),
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
       description: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}description']),
+          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
       displayName: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}display_name']),
+          .read(DriftSqlType.string, data['${effectivePrefix}display_name'])!,
+      policy: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}policy'])!,
       params: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}params']),
+          .read(DriftSqlType.string, data['${effectivePrefix}params'])!,
+      itags: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}itags'])!,
+      otags: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}otags'])!,
+      wgroup: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}wgroup']),
       deadline: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}deadline']),
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}deadline']),
       assignmentGranularity: attachedDatabase.typeMapping.read(
           DriftSqlType.string,
-          data['${effectivePrefix}assignment_granularity']),
+          data['${effectivePrefix}assignment_granularity'])!,
       groupAssignmentOrder: attachedDatabase.typeMapping.read(
           DriftSqlType.string,
-          data['${effectivePrefix}group_assignment_order']),
+          data['${effectivePrefix}group_assignment_order'])!,
       microtaskAssignmentOrder: attachedDatabase.typeMapping.read(
           DriftSqlType.string,
-          data['${effectivePrefix}microtask_assignment_order']),
+          data['${effectivePrefix}microtask_assignment_order'])!,
+      assignmentBatchSize: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}assignment_batch_size']),
       status: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}status']),
+          .read(DriftSqlType.string, data['${effectivePrefix}status'])!,
+      extras: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}extras']),
       createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}created_at']),
-      lastUpdatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}last_updated_at']),
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      lastUpdatedAt: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}last_updated_at'])!,
     );
   }
 
@@ -225,112 +343,110 @@ class $TaskRecordsTable extends TaskRecords
 }
 
 class TaskRecord extends DataClass implements Insertable<TaskRecord> {
-  final String id;
-  final String? scenarioName;
-  final String? name;
-  final String? description;
-  final String? displayName;
-  final String? params;
-  final String? deadline;
-  final String? assignmentGranularity;
-  final String? groupAssignmentOrder;
-  final String? microtaskAssignmentOrder;
-  final String? status;
-  final String? createdAt;
-  final String? lastUpdatedAt;
+  final BigInt id;
+  final BigInt workProviderId;
+  final String scenarioName;
+  final String name;
+  final String description;
+  final String displayName;
+  final String policy;
+  final String params;
+  final String itags;
+  final String otags;
+  final String? wgroup;
+  final DateTime? deadline;
+  final String assignmentGranularity;
+  final String groupAssignmentOrder;
+  final String microtaskAssignmentOrder;
+  final int? assignmentBatchSize;
+  final String status;
+  final String? extras;
+  final DateTime createdAt;
+  final DateTime lastUpdatedAt;
   const TaskRecord(
       {required this.id,
-      this.scenarioName,
-      this.name,
-      this.description,
-      this.displayName,
-      this.params,
+      required this.workProviderId,
+      required this.scenarioName,
+      required this.name,
+      required this.description,
+      required this.displayName,
+      required this.policy,
+      required this.params,
+      required this.itags,
+      required this.otags,
+      this.wgroup,
       this.deadline,
-      this.assignmentGranularity,
-      this.groupAssignmentOrder,
-      this.microtaskAssignmentOrder,
-      this.status,
-      this.createdAt,
-      this.lastUpdatedAt});
+      required this.assignmentGranularity,
+      required this.groupAssignmentOrder,
+      required this.microtaskAssignmentOrder,
+      this.assignmentBatchSize,
+      required this.status,
+      this.extras,
+      required this.createdAt,
+      required this.lastUpdatedAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<String>(id);
-    if (!nullToAbsent || scenarioName != null) {
-      map['scenario_name'] = Variable<String>(scenarioName);
-    }
-    if (!nullToAbsent || name != null) {
-      map['name'] = Variable<String>(name);
-    }
-    if (!nullToAbsent || description != null) {
-      map['description'] = Variable<String>(description);
-    }
-    if (!nullToAbsent || displayName != null) {
-      map['display_name'] = Variable<String>(displayName);
-    }
-    if (!nullToAbsent || params != null) {
-      map['params'] = Variable<String>(params);
+    map['id'] = Variable<BigInt>(id);
+    map['work_provider_id'] = Variable<BigInt>(workProviderId);
+    map['scenario_name'] = Variable<String>(scenarioName);
+    map['name'] = Variable<String>(name);
+    map['description'] = Variable<String>(description);
+    map['display_name'] = Variable<String>(displayName);
+    map['policy'] = Variable<String>(policy);
+    map['params'] = Variable<String>(params);
+    map['itags'] = Variable<String>(itags);
+    map['otags'] = Variable<String>(otags);
+    if (!nullToAbsent || wgroup != null) {
+      map['wgroup'] = Variable<String>(wgroup);
     }
     if (!nullToAbsent || deadline != null) {
-      map['deadline'] = Variable<String>(deadline);
+      map['deadline'] = Variable<DateTime>(deadline);
     }
-    if (!nullToAbsent || assignmentGranularity != null) {
-      map['assignment_granularity'] = Variable<String>(assignmentGranularity);
+    map['assignment_granularity'] = Variable<String>(assignmentGranularity);
+    map['group_assignment_order'] = Variable<String>(groupAssignmentOrder);
+    map['microtask_assignment_order'] =
+        Variable<String>(microtaskAssignmentOrder);
+    if (!nullToAbsent || assignmentBatchSize != null) {
+      map['assignment_batch_size'] = Variable<int>(assignmentBatchSize);
     }
-    if (!nullToAbsent || groupAssignmentOrder != null) {
-      map['group_assignment_order'] = Variable<String>(groupAssignmentOrder);
+    map['status'] = Variable<String>(status);
+    if (!nullToAbsent || extras != null) {
+      map['extras'] = Variable<String>(extras);
     }
-    if (!nullToAbsent || microtaskAssignmentOrder != null) {
-      map['microtask_assignment_order'] =
-          Variable<String>(microtaskAssignmentOrder);
-    }
-    if (!nullToAbsent || status != null) {
-      map['status'] = Variable<String>(status);
-    }
-    if (!nullToAbsent || createdAt != null) {
-      map['created_at'] = Variable<String>(createdAt);
-    }
-    if (!nullToAbsent || lastUpdatedAt != null) {
-      map['last_updated_at'] = Variable<String>(lastUpdatedAt);
-    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['last_updated_at'] = Variable<DateTime>(lastUpdatedAt);
     return map;
   }
 
   TaskRecordsCompanion toCompanion(bool nullToAbsent) {
     return TaskRecordsCompanion(
       id: Value(id),
-      scenarioName: scenarioName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(scenarioName),
-      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-      description: description == null && nullToAbsent
-          ? const Value.absent()
-          : Value(description),
-      displayName: displayName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(displayName),
-      params:
-          params == null && nullToAbsent ? const Value.absent() : Value(params),
+      workProviderId: Value(workProviderId),
+      scenarioName: Value(scenarioName),
+      name: Value(name),
+      description: Value(description),
+      displayName: Value(displayName),
+      policy: Value(policy),
+      params: Value(params),
+      itags: Value(itags),
+      otags: Value(otags),
+      wgroup:
+          wgroup == null && nullToAbsent ? const Value.absent() : Value(wgroup),
       deadline: deadline == null && nullToAbsent
           ? const Value.absent()
           : Value(deadline),
-      assignmentGranularity: assignmentGranularity == null && nullToAbsent
+      assignmentGranularity: Value(assignmentGranularity),
+      groupAssignmentOrder: Value(groupAssignmentOrder),
+      microtaskAssignmentOrder: Value(microtaskAssignmentOrder),
+      assignmentBatchSize: assignmentBatchSize == null && nullToAbsent
           ? const Value.absent()
-          : Value(assignmentGranularity),
-      groupAssignmentOrder: groupAssignmentOrder == null && nullToAbsent
-          ? const Value.absent()
-          : Value(groupAssignmentOrder),
-      microtaskAssignmentOrder: microtaskAssignmentOrder == null && nullToAbsent
-          ? const Value.absent()
-          : Value(microtaskAssignmentOrder),
-      status:
-          status == null && nullToAbsent ? const Value.absent() : Value(status),
-      createdAt: createdAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createdAt),
-      lastUpdatedAt: lastUpdatedAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastUpdatedAt),
+          : Value(assignmentBatchSize),
+      status: Value(status),
+      extras:
+          extras == null && nullToAbsent ? const Value.absent() : Value(extras),
+      createdAt: Value(createdAt),
+      lastUpdatedAt: Value(lastUpdatedAt),
     );
   }
 
@@ -338,86 +454,113 @@ class TaskRecord extends DataClass implements Insertable<TaskRecord> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return TaskRecord(
-      id: serializer.fromJson<String>(json['id']),
-      scenarioName: serializer.fromJson<String?>(json['scenarioName']),
-      name: serializer.fromJson<String?>(json['name']),
-      description: serializer.fromJson<String?>(json['description']),
-      displayName: serializer.fromJson<String?>(json['displayName']),
-      params: serializer.fromJson<String?>(json['params']),
-      deadline: serializer.fromJson<String?>(json['deadline']),
+      id: serializer.fromJson<BigInt>(json['id']),
+      workProviderId: serializer.fromJson<BigInt>(json['workProviderId']),
+      scenarioName: serializer.fromJson<String>(json['scenarioName']),
+      name: serializer.fromJson<String>(json['name']),
+      description: serializer.fromJson<String>(json['description']),
+      displayName: serializer.fromJson<String>(json['displayName']),
+      policy: serializer.fromJson<String>(json['policy']),
+      params: serializer.fromJson<String>(json['params']),
+      itags: serializer.fromJson<String>(json['itags']),
+      otags: serializer.fromJson<String>(json['otags']),
+      wgroup: serializer.fromJson<String?>(json['wgroup']),
+      deadline: serializer.fromJson<DateTime?>(json['deadline']),
       assignmentGranularity:
-          serializer.fromJson<String?>(json['assignmentGranularity']),
+          serializer.fromJson<String>(json['assignmentGranularity']),
       groupAssignmentOrder:
-          serializer.fromJson<String?>(json['groupAssignmentOrder']),
+          serializer.fromJson<String>(json['groupAssignmentOrder']),
       microtaskAssignmentOrder:
-          serializer.fromJson<String?>(json['microtaskAssignmentOrder']),
-      status: serializer.fromJson<String?>(json['status']),
-      createdAt: serializer.fromJson<String?>(json['createdAt']),
-      lastUpdatedAt: serializer.fromJson<String?>(json['lastUpdatedAt']),
+          serializer.fromJson<String>(json['microtaskAssignmentOrder']),
+      assignmentBatchSize:
+          serializer.fromJson<int?>(json['assignmentBatchSize']),
+      status: serializer.fromJson<String>(json['status']),
+      extras: serializer.fromJson<String?>(json['extras']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      lastUpdatedAt: serializer.fromJson<DateTime>(json['lastUpdatedAt']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
-      'scenarioName': serializer.toJson<String?>(scenarioName),
-      'name': serializer.toJson<String?>(name),
-      'description': serializer.toJson<String?>(description),
-      'displayName': serializer.toJson<String?>(displayName),
-      'params': serializer.toJson<String?>(params),
-      'deadline': serializer.toJson<String?>(deadline),
-      'assignmentGranularity':
-          serializer.toJson<String?>(assignmentGranularity),
-      'groupAssignmentOrder': serializer.toJson<String?>(groupAssignmentOrder),
+      'id': serializer.toJson<BigInt>(id),
+      'workProviderId': serializer.toJson<BigInt>(workProviderId),
+      'scenarioName': serializer.toJson<String>(scenarioName),
+      'name': serializer.toJson<String>(name),
+      'description': serializer.toJson<String>(description),
+      'displayName': serializer.toJson<String>(displayName),
+      'policy': serializer.toJson<String>(policy),
+      'params': serializer.toJson<String>(params),
+      'itags': serializer.toJson<String>(itags),
+      'otags': serializer.toJson<String>(otags),
+      'wgroup': serializer.toJson<String?>(wgroup),
+      'deadline': serializer.toJson<DateTime?>(deadline),
+      'assignmentGranularity': serializer.toJson<String>(assignmentGranularity),
+      'groupAssignmentOrder': serializer.toJson<String>(groupAssignmentOrder),
       'microtaskAssignmentOrder':
-          serializer.toJson<String?>(microtaskAssignmentOrder),
-      'status': serializer.toJson<String?>(status),
-      'createdAt': serializer.toJson<String?>(createdAt),
-      'lastUpdatedAt': serializer.toJson<String?>(lastUpdatedAt),
+          serializer.toJson<String>(microtaskAssignmentOrder),
+      'assignmentBatchSize': serializer.toJson<int?>(assignmentBatchSize),
+      'status': serializer.toJson<String>(status),
+      'extras': serializer.toJson<String?>(extras),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'lastUpdatedAt': serializer.toJson<DateTime>(lastUpdatedAt),
     };
   }
 
   TaskRecord copyWith(
-          {String? id,
-          Value<String?> scenarioName = const Value.absent(),
-          Value<String?> name = const Value.absent(),
-          Value<String?> description = const Value.absent(),
-          Value<String?> displayName = const Value.absent(),
-          Value<String?> params = const Value.absent(),
-          Value<String?> deadline = const Value.absent(),
-          Value<String?> assignmentGranularity = const Value.absent(),
-          Value<String?> groupAssignmentOrder = const Value.absent(),
-          Value<String?> microtaskAssignmentOrder = const Value.absent(),
-          Value<String?> status = const Value.absent(),
-          Value<String?> createdAt = const Value.absent(),
-          Value<String?> lastUpdatedAt = const Value.absent()}) =>
+          {BigInt? id,
+          BigInt? workProviderId,
+          String? scenarioName,
+          String? name,
+          String? description,
+          String? displayName,
+          String? policy,
+          String? params,
+          String? itags,
+          String? otags,
+          Value<String?> wgroup = const Value.absent(),
+          Value<DateTime?> deadline = const Value.absent(),
+          String? assignmentGranularity,
+          String? groupAssignmentOrder,
+          String? microtaskAssignmentOrder,
+          Value<int?> assignmentBatchSize = const Value.absent(),
+          String? status,
+          Value<String?> extras = const Value.absent(),
+          DateTime? createdAt,
+          DateTime? lastUpdatedAt}) =>
       TaskRecord(
         id: id ?? this.id,
-        scenarioName:
-            scenarioName.present ? scenarioName.value : this.scenarioName,
-        name: name.present ? name.value : this.name,
-        description: description.present ? description.value : this.description,
-        displayName: displayName.present ? displayName.value : this.displayName,
-        params: params.present ? params.value : this.params,
+        workProviderId: workProviderId ?? this.workProviderId,
+        scenarioName: scenarioName ?? this.scenarioName,
+        name: name ?? this.name,
+        description: description ?? this.description,
+        displayName: displayName ?? this.displayName,
+        policy: policy ?? this.policy,
+        params: params ?? this.params,
+        itags: itags ?? this.itags,
+        otags: otags ?? this.otags,
+        wgroup: wgroup.present ? wgroup.value : this.wgroup,
         deadline: deadline.present ? deadline.value : this.deadline,
-        assignmentGranularity: assignmentGranularity.present
-            ? assignmentGranularity.value
-            : this.assignmentGranularity,
-        groupAssignmentOrder: groupAssignmentOrder.present
-            ? groupAssignmentOrder.value
-            : this.groupAssignmentOrder,
-        microtaskAssignmentOrder: microtaskAssignmentOrder.present
-            ? microtaskAssignmentOrder.value
-            : this.microtaskAssignmentOrder,
-        status: status.present ? status.value : this.status,
-        createdAt: createdAt.present ? createdAt.value : this.createdAt,
-        lastUpdatedAt:
-            lastUpdatedAt.present ? lastUpdatedAt.value : this.lastUpdatedAt,
+        assignmentGranularity:
+            assignmentGranularity ?? this.assignmentGranularity,
+        groupAssignmentOrder: groupAssignmentOrder ?? this.groupAssignmentOrder,
+        microtaskAssignmentOrder:
+            microtaskAssignmentOrder ?? this.microtaskAssignmentOrder,
+        assignmentBatchSize: assignmentBatchSize.present
+            ? assignmentBatchSize.value
+            : this.assignmentBatchSize,
+        status: status ?? this.status,
+        extras: extras.present ? extras.value : this.extras,
+        createdAt: createdAt ?? this.createdAt,
+        lastUpdatedAt: lastUpdatedAt ?? this.lastUpdatedAt,
       );
   TaskRecord copyWithCompanion(TaskRecordsCompanion data) {
     return TaskRecord(
       id: data.id.present ? data.id.value : this.id,
+      workProviderId: data.workProviderId.present
+          ? data.workProviderId.value
+          : this.workProviderId,
       scenarioName: data.scenarioName.present
           ? data.scenarioName.value
           : this.scenarioName,
@@ -426,7 +569,11 @@ class TaskRecord extends DataClass implements Insertable<TaskRecord> {
           data.description.present ? data.description.value : this.description,
       displayName:
           data.displayName.present ? data.displayName.value : this.displayName,
+      policy: data.policy.present ? data.policy.value : this.policy,
       params: data.params.present ? data.params.value : this.params,
+      itags: data.itags.present ? data.itags.value : this.itags,
+      otags: data.otags.present ? data.otags.value : this.otags,
+      wgroup: data.wgroup.present ? data.wgroup.value : this.wgroup,
       deadline: data.deadline.present ? data.deadline.value : this.deadline,
       assignmentGranularity: data.assignmentGranularity.present
           ? data.assignmentGranularity.value
@@ -437,7 +584,11 @@ class TaskRecord extends DataClass implements Insertable<TaskRecord> {
       microtaskAssignmentOrder: data.microtaskAssignmentOrder.present
           ? data.microtaskAssignmentOrder.value
           : this.microtaskAssignmentOrder,
+      assignmentBatchSize: data.assignmentBatchSize.present
+          ? data.assignmentBatchSize.value
+          : this.assignmentBatchSize,
       status: data.status.present ? data.status.value : this.status,
+      extras: data.extras.present ? data.extras.value : this.extras,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       lastUpdatedAt: data.lastUpdatedAt.present
           ? data.lastUpdatedAt.value
@@ -449,16 +600,23 @@ class TaskRecord extends DataClass implements Insertable<TaskRecord> {
   String toString() {
     return (StringBuffer('TaskRecord(')
           ..write('id: $id, ')
+          ..write('workProviderId: $workProviderId, ')
           ..write('scenarioName: $scenarioName, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
           ..write('displayName: $displayName, ')
+          ..write('policy: $policy, ')
           ..write('params: $params, ')
+          ..write('itags: $itags, ')
+          ..write('otags: $otags, ')
+          ..write('wgroup: $wgroup, ')
           ..write('deadline: $deadline, ')
           ..write('assignmentGranularity: $assignmentGranularity, ')
           ..write('groupAssignmentOrder: $groupAssignmentOrder, ')
           ..write('microtaskAssignmentOrder: $microtaskAssignmentOrder, ')
+          ..write('assignmentBatchSize: $assignmentBatchSize, ')
           ..write('status: $status, ')
+          ..write('extras: $extras, ')
           ..write('createdAt: $createdAt, ')
           ..write('lastUpdatedAt: $lastUpdatedAt')
           ..write(')'))
@@ -468,16 +626,23 @@ class TaskRecord extends DataClass implements Insertable<TaskRecord> {
   @override
   int get hashCode => Object.hash(
       id,
+      workProviderId,
       scenarioName,
       name,
       description,
       displayName,
+      policy,
       params,
+      itags,
+      otags,
+      wgroup,
       deadline,
       assignmentGranularity,
       groupAssignmentOrder,
       microtaskAssignmentOrder,
+      assignmentBatchSize,
       status,
+      extras,
       createdAt,
       lastUpdatedAt);
   @override
@@ -485,90 +650,140 @@ class TaskRecord extends DataClass implements Insertable<TaskRecord> {
       identical(this, other) ||
       (other is TaskRecord &&
           other.id == this.id &&
+          other.workProviderId == this.workProviderId &&
           other.scenarioName == this.scenarioName &&
           other.name == this.name &&
           other.description == this.description &&
           other.displayName == this.displayName &&
+          other.policy == this.policy &&
           other.params == this.params &&
+          other.itags == this.itags &&
+          other.otags == this.otags &&
+          other.wgroup == this.wgroup &&
           other.deadline == this.deadline &&
           other.assignmentGranularity == this.assignmentGranularity &&
           other.groupAssignmentOrder == this.groupAssignmentOrder &&
           other.microtaskAssignmentOrder == this.microtaskAssignmentOrder &&
+          other.assignmentBatchSize == this.assignmentBatchSize &&
           other.status == this.status &&
+          other.extras == this.extras &&
           other.createdAt == this.createdAt &&
           other.lastUpdatedAt == this.lastUpdatedAt);
 }
 
 class TaskRecordsCompanion extends UpdateCompanion<TaskRecord> {
-  final Value<String> id;
-  final Value<String?> scenarioName;
-  final Value<String?> name;
-  final Value<String?> description;
-  final Value<String?> displayName;
-  final Value<String?> params;
-  final Value<String?> deadline;
-  final Value<String?> assignmentGranularity;
-  final Value<String?> groupAssignmentOrder;
-  final Value<String?> microtaskAssignmentOrder;
-  final Value<String?> status;
-  final Value<String?> createdAt;
-  final Value<String?> lastUpdatedAt;
-  final Value<int> rowid;
+  final Value<BigInt> id;
+  final Value<BigInt> workProviderId;
+  final Value<String> scenarioName;
+  final Value<String> name;
+  final Value<String> description;
+  final Value<String> displayName;
+  final Value<String> policy;
+  final Value<String> params;
+  final Value<String> itags;
+  final Value<String> otags;
+  final Value<String?> wgroup;
+  final Value<DateTime?> deadline;
+  final Value<String> assignmentGranularity;
+  final Value<String> groupAssignmentOrder;
+  final Value<String> microtaskAssignmentOrder;
+  final Value<int?> assignmentBatchSize;
+  final Value<String> status;
+  final Value<String?> extras;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> lastUpdatedAt;
   const TaskRecordsCompanion({
     this.id = const Value.absent(),
+    this.workProviderId = const Value.absent(),
     this.scenarioName = const Value.absent(),
     this.name = const Value.absent(),
     this.description = const Value.absent(),
     this.displayName = const Value.absent(),
+    this.policy = const Value.absent(),
     this.params = const Value.absent(),
+    this.itags = const Value.absent(),
+    this.otags = const Value.absent(),
+    this.wgroup = const Value.absent(),
     this.deadline = const Value.absent(),
     this.assignmentGranularity = const Value.absent(),
     this.groupAssignmentOrder = const Value.absent(),
     this.microtaskAssignmentOrder = const Value.absent(),
+    this.assignmentBatchSize = const Value.absent(),
     this.status = const Value.absent(),
+    this.extras = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.lastUpdatedAt = const Value.absent(),
-    this.rowid = const Value.absent(),
   });
   TaskRecordsCompanion.insert({
-    required String id,
-    this.scenarioName = const Value.absent(),
-    this.name = const Value.absent(),
-    this.description = const Value.absent(),
-    this.displayName = const Value.absent(),
-    this.params = const Value.absent(),
+    this.id = const Value.absent(),
+    required BigInt workProviderId,
+    required String scenarioName,
+    required String name,
+    required String description,
+    required String displayName,
+    required String policy,
+    required String params,
+    required String itags,
+    required String otags,
+    this.wgroup = const Value.absent(),
     this.deadline = const Value.absent(),
-    this.assignmentGranularity = const Value.absent(),
-    this.groupAssignmentOrder = const Value.absent(),
-    this.microtaskAssignmentOrder = const Value.absent(),
-    this.status = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.lastUpdatedAt = const Value.absent(),
-    this.rowid = const Value.absent(),
-  }) : id = Value(id);
+    required String assignmentGranularity,
+    required String groupAssignmentOrder,
+    required String microtaskAssignmentOrder,
+    this.assignmentBatchSize = const Value.absent(),
+    required String status,
+    this.extras = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime lastUpdatedAt,
+  })  : workProviderId = Value(workProviderId),
+        scenarioName = Value(scenarioName),
+        name = Value(name),
+        description = Value(description),
+        displayName = Value(displayName),
+        policy = Value(policy),
+        params = Value(params),
+        itags = Value(itags),
+        otags = Value(otags),
+        assignmentGranularity = Value(assignmentGranularity),
+        groupAssignmentOrder = Value(groupAssignmentOrder),
+        microtaskAssignmentOrder = Value(microtaskAssignmentOrder),
+        status = Value(status),
+        createdAt = Value(createdAt),
+        lastUpdatedAt = Value(lastUpdatedAt);
   static Insertable<TaskRecord> custom({
-    Expression<String>? id,
+    Expression<BigInt>? id,
+    Expression<BigInt>? workProviderId,
     Expression<String>? scenarioName,
     Expression<String>? name,
     Expression<String>? description,
     Expression<String>? displayName,
+    Expression<String>? policy,
     Expression<String>? params,
-    Expression<String>? deadline,
+    Expression<String>? itags,
+    Expression<String>? otags,
+    Expression<String>? wgroup,
+    Expression<DateTime>? deadline,
     Expression<String>? assignmentGranularity,
     Expression<String>? groupAssignmentOrder,
     Expression<String>? microtaskAssignmentOrder,
+    Expression<int>? assignmentBatchSize,
     Expression<String>? status,
-    Expression<String>? createdAt,
-    Expression<String>? lastUpdatedAt,
-    Expression<int>? rowid,
+    Expression<String>? extras,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? lastUpdatedAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (workProviderId != null) 'work_provider_id': workProviderId,
       if (scenarioName != null) 'scenario_name': scenarioName,
       if (name != null) 'name': name,
       if (description != null) 'description': description,
       if (displayName != null) 'display_name': displayName,
+      if (policy != null) 'policy': policy,
       if (params != null) 'params': params,
+      if (itags != null) 'itags': itags,
+      if (otags != null) 'otags': otags,
+      if (wgroup != null) 'wgroup': wgroup,
       if (deadline != null) 'deadline': deadline,
       if (assignmentGranularity != null)
         'assignment_granularity': assignmentGranularity,
@@ -576,45 +791,59 @@ class TaskRecordsCompanion extends UpdateCompanion<TaskRecord> {
         'group_assignment_order': groupAssignmentOrder,
       if (microtaskAssignmentOrder != null)
         'microtask_assignment_order': microtaskAssignmentOrder,
+      if (assignmentBatchSize != null)
+        'assignment_batch_size': assignmentBatchSize,
       if (status != null) 'status': status,
+      if (extras != null) 'extras': extras,
       if (createdAt != null) 'created_at': createdAt,
       if (lastUpdatedAt != null) 'last_updated_at': lastUpdatedAt,
-      if (rowid != null) 'rowid': rowid,
     });
   }
 
   TaskRecordsCompanion copyWith(
-      {Value<String>? id,
-      Value<String?>? scenarioName,
-      Value<String?>? name,
-      Value<String?>? description,
-      Value<String?>? displayName,
-      Value<String?>? params,
-      Value<String?>? deadline,
-      Value<String?>? assignmentGranularity,
-      Value<String?>? groupAssignmentOrder,
-      Value<String?>? microtaskAssignmentOrder,
-      Value<String?>? status,
-      Value<String?>? createdAt,
-      Value<String?>? lastUpdatedAt,
-      Value<int>? rowid}) {
+      {Value<BigInt>? id,
+      Value<BigInt>? workProviderId,
+      Value<String>? scenarioName,
+      Value<String>? name,
+      Value<String>? description,
+      Value<String>? displayName,
+      Value<String>? policy,
+      Value<String>? params,
+      Value<String>? itags,
+      Value<String>? otags,
+      Value<String?>? wgroup,
+      Value<DateTime?>? deadline,
+      Value<String>? assignmentGranularity,
+      Value<String>? groupAssignmentOrder,
+      Value<String>? microtaskAssignmentOrder,
+      Value<int?>? assignmentBatchSize,
+      Value<String>? status,
+      Value<String?>? extras,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? lastUpdatedAt}) {
     return TaskRecordsCompanion(
       id: id ?? this.id,
+      workProviderId: workProviderId ?? this.workProviderId,
       scenarioName: scenarioName ?? this.scenarioName,
       name: name ?? this.name,
       description: description ?? this.description,
       displayName: displayName ?? this.displayName,
+      policy: policy ?? this.policy,
       params: params ?? this.params,
+      itags: itags ?? this.itags,
+      otags: otags ?? this.otags,
+      wgroup: wgroup ?? this.wgroup,
       deadline: deadline ?? this.deadline,
       assignmentGranularity:
           assignmentGranularity ?? this.assignmentGranularity,
       groupAssignmentOrder: groupAssignmentOrder ?? this.groupAssignmentOrder,
       microtaskAssignmentOrder:
           microtaskAssignmentOrder ?? this.microtaskAssignmentOrder,
+      assignmentBatchSize: assignmentBatchSize ?? this.assignmentBatchSize,
       status: status ?? this.status,
+      extras: extras ?? this.extras,
       createdAt: createdAt ?? this.createdAt,
       lastUpdatedAt: lastUpdatedAt ?? this.lastUpdatedAt,
-      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -622,7 +851,10 @@ class TaskRecordsCompanion extends UpdateCompanion<TaskRecord> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<String>(id.value);
+      map['id'] = Variable<BigInt>(id.value);
+    }
+    if (workProviderId.present) {
+      map['work_provider_id'] = Variable<BigInt>(workProviderId.value);
     }
     if (scenarioName.present) {
       map['scenario_name'] = Variable<String>(scenarioName.value);
@@ -636,11 +868,23 @@ class TaskRecordsCompanion extends UpdateCompanion<TaskRecord> {
     if (displayName.present) {
       map['display_name'] = Variable<String>(displayName.value);
     }
+    if (policy.present) {
+      map['policy'] = Variable<String>(policy.value);
+    }
     if (params.present) {
       map['params'] = Variable<String>(params.value);
     }
+    if (itags.present) {
+      map['itags'] = Variable<String>(itags.value);
+    }
+    if (otags.present) {
+      map['otags'] = Variable<String>(otags.value);
+    }
+    if (wgroup.present) {
+      map['wgroup'] = Variable<String>(wgroup.value);
+    }
     if (deadline.present) {
-      map['deadline'] = Variable<String>(deadline.value);
+      map['deadline'] = Variable<DateTime>(deadline.value);
     }
     if (assignmentGranularity.present) {
       map['assignment_granularity'] =
@@ -654,17 +898,20 @@ class TaskRecordsCompanion extends UpdateCompanion<TaskRecord> {
       map['microtask_assignment_order'] =
           Variable<String>(microtaskAssignmentOrder.value);
     }
+    if (assignmentBatchSize.present) {
+      map['assignment_batch_size'] = Variable<int>(assignmentBatchSize.value);
+    }
     if (status.present) {
       map['status'] = Variable<String>(status.value);
     }
+    if (extras.present) {
+      map['extras'] = Variable<String>(extras.value);
+    }
     if (createdAt.present) {
-      map['created_at'] = Variable<String>(createdAt.value);
+      map['created_at'] = Variable<DateTime>(createdAt.value);
     }
     if (lastUpdatedAt.present) {
-      map['last_updated_at'] = Variable<String>(lastUpdatedAt.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
+      map['last_updated_at'] = Variable<DateTime>(lastUpdatedAt.value);
     }
     return map;
   }
@@ -673,19 +920,25 @@ class TaskRecordsCompanion extends UpdateCompanion<TaskRecord> {
   String toString() {
     return (StringBuffer('TaskRecordsCompanion(')
           ..write('id: $id, ')
+          ..write('workProviderId: $workProviderId, ')
           ..write('scenarioName: $scenarioName, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
           ..write('displayName: $displayName, ')
+          ..write('policy: $policy, ')
           ..write('params: $params, ')
+          ..write('itags: $itags, ')
+          ..write('otags: $otags, ')
+          ..write('wgroup: $wgroup, ')
           ..write('deadline: $deadline, ')
           ..write('assignmentGranularity: $assignmentGranularity, ')
           ..write('groupAssignmentOrder: $groupAssignmentOrder, ')
           ..write('microtaskAssignmentOrder: $microtaskAssignmentOrder, ')
+          ..write('assignmentBatchSize: $assignmentBatchSize, ')
           ..write('status: $status, ')
+          ..write('extras: $extras, ')
           ..write('createdAt: $createdAt, ')
-          ..write('lastUpdatedAt: $lastUpdatedAt, ')
-          ..write('rowid: $rowid')
+          ..write('lastUpdatedAt: $lastUpdatedAt')
           ..write(')'))
         .toString();
   }
@@ -699,60 +952,76 @@ class $MicroTaskRecordsTable extends MicroTaskRecords
   $MicroTaskRecordsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+  late final GeneratedColumn<BigInt> id = GeneratedColumn<BigInt>(
       'id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      type: DriftSqlType.bigInt, requiredDuringInsert: false);
   static const VerificationMeta _taskIdMeta = const VerificationMeta('taskId');
   @override
-  late final GeneratedColumn<String> taskId = GeneratedColumn<String>(
-      'task_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<BigInt> taskId = GeneratedColumn<BigInt>(
+      'task_id', aliasedName, false,
+      type: DriftSqlType.bigInt, requiredDuringInsert: true);
   static const VerificationMeta _groupIdMeta =
       const VerificationMeta('groupId');
   @override
-  late final GeneratedColumn<String> groupId = GeneratedColumn<String>(
+  late final GeneratedColumn<BigInt> groupId = GeneratedColumn<BigInt>(
       'group_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      type: DriftSqlType.bigInt, requiredDuringInsert: false);
   static const VerificationMeta _inputMeta = const VerificationMeta('input');
   @override
   late final GeneratedColumn<String> input = GeneratedColumn<String>(
-      'input', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      'input', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _inputFileIdMeta =
       const VerificationMeta('inputFileId');
   @override
-  late final GeneratedColumn<String> inputFileId = GeneratedColumn<String>(
+  late final GeneratedColumn<BigInt> inputFileId = GeneratedColumn<BigInt>(
       'input_file_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      type: DriftSqlType.bigInt, requiredDuringInsert: false);
   static const VerificationMeta _deadlineMeta =
       const VerificationMeta('deadline');
   @override
-  late final GeneratedColumn<String> deadline = GeneratedColumn<String>(
+  late final GeneratedColumn<DateTime> deadline = GeneratedColumn<DateTime>(
       'deadline', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _baseCreditsMeta =
+      const VerificationMeta('baseCredits');
+  @override
+  late final GeneratedColumn<double> baseCredits = GeneratedColumn<double>(
+      'base_credits', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
   static const VerificationMeta _creditsMeta =
       const VerificationMeta('credits');
   @override
   late final GeneratedColumn<double> credits = GeneratedColumn<double>(
-      'credits', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
+      'credits', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+      'status', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _outputMeta = const VerificationMeta('output');
   @override
   late final GeneratedColumn<String> output = GeneratedColumn<String>(
       'output', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _extrasMeta = const VerificationMeta('extras');
+  @override
+  late final GeneratedColumn<String> extras = GeneratedColumn<String>(
+      'extras', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   @override
-  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
-      'created_at', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
   static const VerificationMeta _lastUpdatedAtMeta =
       const VerificationMeta('lastUpdatedAt');
   @override
-  late final GeneratedColumn<String> lastUpdatedAt = GeneratedColumn<String>(
-      'last_updated_at', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<DateTime> lastUpdatedAt =
+      GeneratedColumn<DateTime>('last_updated_at', aliasedName, false,
+          type: DriftSqlType.dateTime, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -761,8 +1030,11 @@ class $MicroTaskRecordsTable extends MicroTaskRecords
         input,
         inputFileId,
         deadline,
+        baseCredits,
         credits,
+        status,
         output,
+        extras,
         createdAt,
         lastUpdatedAt
       ];
@@ -778,12 +1050,12 @@ class $MicroTaskRecordsTable extends MicroTaskRecords
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('task_id')) {
       context.handle(_taskIdMeta,
           taskId.isAcceptableOrUnknown(data['task_id']!, _taskIdMeta));
+    } else if (isInserting) {
+      context.missing(_taskIdMeta);
     }
     if (data.containsKey('group_id')) {
       context.handle(_groupIdMeta,
@@ -792,6 +1064,8 @@ class $MicroTaskRecordsTable extends MicroTaskRecords
     if (data.containsKey('input')) {
       context.handle(
           _inputMeta, input.isAcceptableOrUnknown(data['input']!, _inputMeta));
+    } else if (isInserting) {
+      context.missing(_inputMeta);
     }
     if (data.containsKey('input_file_id')) {
       context.handle(
@@ -803,23 +1077,47 @@ class $MicroTaskRecordsTable extends MicroTaskRecords
       context.handle(_deadlineMeta,
           deadline.isAcceptableOrUnknown(data['deadline']!, _deadlineMeta));
     }
+    if (data.containsKey('base_credits')) {
+      context.handle(
+          _baseCreditsMeta,
+          baseCredits.isAcceptableOrUnknown(
+              data['base_credits']!, _baseCreditsMeta));
+    } else if (isInserting) {
+      context.missing(_baseCreditsMeta);
+    }
     if (data.containsKey('credits')) {
       context.handle(_creditsMeta,
           credits.isAcceptableOrUnknown(data['credits']!, _creditsMeta));
+    } else if (isInserting) {
+      context.missing(_creditsMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(_statusMeta,
+          status.isAcceptableOrUnknown(data['status']!, _statusMeta));
+    } else if (isInserting) {
+      context.missing(_statusMeta);
     }
     if (data.containsKey('output')) {
       context.handle(_outputMeta,
           output.isAcceptableOrUnknown(data['output']!, _outputMeta));
     }
+    if (data.containsKey('extras')) {
+      context.handle(_extrasMeta,
+          extras.isAcceptableOrUnknown(data['extras']!, _extrasMeta));
+    }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
     }
     if (data.containsKey('last_updated_at')) {
       context.handle(
           _lastUpdatedAtMeta,
           lastUpdatedAt.isAcceptableOrUnknown(
               data['last_updated_at']!, _lastUpdatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_lastUpdatedAtMeta);
     }
     return context;
   }
@@ -831,25 +1129,31 @@ class $MicroTaskRecordsTable extends MicroTaskRecords
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return MicroTaskRecord(
       id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+          .read(DriftSqlType.bigInt, data['${effectivePrefix}id'])!,
       taskId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}task_id']),
+          .read(DriftSqlType.bigInt, data['${effectivePrefix}task_id'])!,
       groupId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}group_id']),
+          .read(DriftSqlType.bigInt, data['${effectivePrefix}group_id']),
       input: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}input']),
+          .read(DriftSqlType.string, data['${effectivePrefix}input'])!,
       inputFileId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}input_file_id']),
+          .read(DriftSqlType.bigInt, data['${effectivePrefix}input_file_id']),
       deadline: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}deadline']),
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}deadline']),
+      baseCredits: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}base_credits'])!,
       credits: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}credits']),
+          .read(DriftSqlType.double, data['${effectivePrefix}credits'])!,
+      status: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}status'])!,
       output: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}output']),
+      extras: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}extras']),
       createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}created_at']),
-      lastUpdatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}last_updated_at']),
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      lastUpdatedAt: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}last_updated_at'])!,
     );
   }
 
@@ -860,88 +1164,85 @@ class $MicroTaskRecordsTable extends MicroTaskRecords
 }
 
 class MicroTaskRecord extends DataClass implements Insertable<MicroTaskRecord> {
-  final String id;
-  final String? taskId;
-  final String? groupId;
-  final String? input;
-  final String? inputFileId;
-  final String? deadline;
-  final double? credits;
+  final BigInt id;
+  final BigInt taskId;
+  final BigInt? groupId;
+  final String input;
+  final BigInt? inputFileId;
+  final DateTime? deadline;
+  final double baseCredits;
+  final double credits;
+  final String status;
   final String? output;
-  final String? createdAt;
-  final String? lastUpdatedAt;
+  final String? extras;
+  final DateTime createdAt;
+  final DateTime lastUpdatedAt;
   const MicroTaskRecord(
       {required this.id,
-      this.taskId,
+      required this.taskId,
       this.groupId,
-      this.input,
+      required this.input,
       this.inputFileId,
       this.deadline,
-      this.credits,
+      required this.baseCredits,
+      required this.credits,
+      required this.status,
       this.output,
-      this.createdAt,
-      this.lastUpdatedAt});
+      this.extras,
+      required this.createdAt,
+      required this.lastUpdatedAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<String>(id);
-    if (!nullToAbsent || taskId != null) {
-      map['task_id'] = Variable<String>(taskId);
-    }
+    map['id'] = Variable<BigInt>(id);
+    map['task_id'] = Variable<BigInt>(taskId);
     if (!nullToAbsent || groupId != null) {
-      map['group_id'] = Variable<String>(groupId);
+      map['group_id'] = Variable<BigInt>(groupId);
     }
-    if (!nullToAbsent || input != null) {
-      map['input'] = Variable<String>(input);
-    }
+    map['input'] = Variable<String>(input);
     if (!nullToAbsent || inputFileId != null) {
-      map['input_file_id'] = Variable<String>(inputFileId);
+      map['input_file_id'] = Variable<BigInt>(inputFileId);
     }
     if (!nullToAbsent || deadline != null) {
-      map['deadline'] = Variable<String>(deadline);
+      map['deadline'] = Variable<DateTime>(deadline);
     }
-    if (!nullToAbsent || credits != null) {
-      map['credits'] = Variable<double>(credits);
-    }
+    map['base_credits'] = Variable<double>(baseCredits);
+    map['credits'] = Variable<double>(credits);
+    map['status'] = Variable<String>(status);
     if (!nullToAbsent || output != null) {
       map['output'] = Variable<String>(output);
     }
-    if (!nullToAbsent || createdAt != null) {
-      map['created_at'] = Variable<String>(createdAt);
+    if (!nullToAbsent || extras != null) {
+      map['extras'] = Variable<String>(extras);
     }
-    if (!nullToAbsent || lastUpdatedAt != null) {
-      map['last_updated_at'] = Variable<String>(lastUpdatedAt);
-    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['last_updated_at'] = Variable<DateTime>(lastUpdatedAt);
     return map;
   }
 
   MicroTaskRecordsCompanion toCompanion(bool nullToAbsent) {
     return MicroTaskRecordsCompanion(
       id: Value(id),
-      taskId:
-          taskId == null && nullToAbsent ? const Value.absent() : Value(taskId),
+      taskId: Value(taskId),
       groupId: groupId == null && nullToAbsent
           ? const Value.absent()
           : Value(groupId),
-      input:
-          input == null && nullToAbsent ? const Value.absent() : Value(input),
+      input: Value(input),
       inputFileId: inputFileId == null && nullToAbsent
           ? const Value.absent()
           : Value(inputFileId),
       deadline: deadline == null && nullToAbsent
           ? const Value.absent()
           : Value(deadline),
-      credits: credits == null && nullToAbsent
-          ? const Value.absent()
-          : Value(credits),
+      baseCredits: Value(baseCredits),
+      credits: Value(credits),
+      status: Value(status),
       output:
           output == null && nullToAbsent ? const Value.absent() : Value(output),
-      createdAt: createdAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createdAt),
-      lastUpdatedAt: lastUpdatedAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastUpdatedAt),
+      extras:
+          extras == null && nullToAbsent ? const Value.absent() : Value(extras),
+      createdAt: Value(createdAt),
+      lastUpdatedAt: Value(lastUpdatedAt),
     );
   }
 
@@ -949,58 +1250,69 @@ class MicroTaskRecord extends DataClass implements Insertable<MicroTaskRecord> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return MicroTaskRecord(
-      id: serializer.fromJson<String>(json['id']),
-      taskId: serializer.fromJson<String?>(json['taskId']),
-      groupId: serializer.fromJson<String?>(json['groupId']),
-      input: serializer.fromJson<String?>(json['input']),
-      inputFileId: serializer.fromJson<String?>(json['inputFileId']),
-      deadline: serializer.fromJson<String?>(json['deadline']),
-      credits: serializer.fromJson<double?>(json['credits']),
+      id: serializer.fromJson<BigInt>(json['id']),
+      taskId: serializer.fromJson<BigInt>(json['taskId']),
+      groupId: serializer.fromJson<BigInt?>(json['groupId']),
+      input: serializer.fromJson<String>(json['input']),
+      inputFileId: serializer.fromJson<BigInt?>(json['inputFileId']),
+      deadline: serializer.fromJson<DateTime?>(json['deadline']),
+      baseCredits: serializer.fromJson<double>(json['baseCredits']),
+      credits: serializer.fromJson<double>(json['credits']),
+      status: serializer.fromJson<String>(json['status']),
       output: serializer.fromJson<String?>(json['output']),
-      createdAt: serializer.fromJson<String?>(json['createdAt']),
-      lastUpdatedAt: serializer.fromJson<String?>(json['lastUpdatedAt']),
+      extras: serializer.fromJson<String?>(json['extras']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      lastUpdatedAt: serializer.fromJson<DateTime>(json['lastUpdatedAt']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
-      'taskId': serializer.toJson<String?>(taskId),
-      'groupId': serializer.toJson<String?>(groupId),
-      'input': serializer.toJson<String?>(input),
-      'inputFileId': serializer.toJson<String?>(inputFileId),
-      'deadline': serializer.toJson<String?>(deadline),
-      'credits': serializer.toJson<double?>(credits),
+      'id': serializer.toJson<BigInt>(id),
+      'taskId': serializer.toJson<BigInt>(taskId),
+      'groupId': serializer.toJson<BigInt?>(groupId),
+      'input': serializer.toJson<String>(input),
+      'inputFileId': serializer.toJson<BigInt?>(inputFileId),
+      'deadline': serializer.toJson<DateTime?>(deadline),
+      'baseCredits': serializer.toJson<double>(baseCredits),
+      'credits': serializer.toJson<double>(credits),
+      'status': serializer.toJson<String>(status),
       'output': serializer.toJson<String?>(output),
-      'createdAt': serializer.toJson<String?>(createdAt),
-      'lastUpdatedAt': serializer.toJson<String?>(lastUpdatedAt),
+      'extras': serializer.toJson<String?>(extras),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'lastUpdatedAt': serializer.toJson<DateTime>(lastUpdatedAt),
     };
   }
 
   MicroTaskRecord copyWith(
-          {String? id,
-          Value<String?> taskId = const Value.absent(),
-          Value<String?> groupId = const Value.absent(),
-          Value<String?> input = const Value.absent(),
-          Value<String?> inputFileId = const Value.absent(),
-          Value<String?> deadline = const Value.absent(),
-          Value<double?> credits = const Value.absent(),
+          {BigInt? id,
+          BigInt? taskId,
+          Value<BigInt?> groupId = const Value.absent(),
+          String? input,
+          Value<BigInt?> inputFileId = const Value.absent(),
+          Value<DateTime?> deadline = const Value.absent(),
+          double? baseCredits,
+          double? credits,
+          String? status,
           Value<String?> output = const Value.absent(),
-          Value<String?> createdAt = const Value.absent(),
-          Value<String?> lastUpdatedAt = const Value.absent()}) =>
+          Value<String?> extras = const Value.absent(),
+          DateTime? createdAt,
+          DateTime? lastUpdatedAt}) =>
       MicroTaskRecord(
         id: id ?? this.id,
-        taskId: taskId.present ? taskId.value : this.taskId,
+        taskId: taskId ?? this.taskId,
         groupId: groupId.present ? groupId.value : this.groupId,
-        input: input.present ? input.value : this.input,
+        input: input ?? this.input,
         inputFileId: inputFileId.present ? inputFileId.value : this.inputFileId,
         deadline: deadline.present ? deadline.value : this.deadline,
-        credits: credits.present ? credits.value : this.credits,
+        baseCredits: baseCredits ?? this.baseCredits,
+        credits: credits ?? this.credits,
+        status: status ?? this.status,
         output: output.present ? output.value : this.output,
-        createdAt: createdAt.present ? createdAt.value : this.createdAt,
-        lastUpdatedAt:
-            lastUpdatedAt.present ? lastUpdatedAt.value : this.lastUpdatedAt,
+        extras: extras.present ? extras.value : this.extras,
+        createdAt: createdAt ?? this.createdAt,
+        lastUpdatedAt: lastUpdatedAt ?? this.lastUpdatedAt,
       );
   MicroTaskRecord copyWithCompanion(MicroTaskRecordsCompanion data) {
     return MicroTaskRecord(
@@ -1011,8 +1323,12 @@ class MicroTaskRecord extends DataClass implements Insertable<MicroTaskRecord> {
       inputFileId:
           data.inputFileId.present ? data.inputFileId.value : this.inputFileId,
       deadline: data.deadline.present ? data.deadline.value : this.deadline,
+      baseCredits:
+          data.baseCredits.present ? data.baseCredits.value : this.baseCredits,
       credits: data.credits.present ? data.credits.value : this.credits,
+      status: data.status.present ? data.status.value : this.status,
       output: data.output.present ? data.output.value : this.output,
+      extras: data.extras.present ? data.extras.value : this.extras,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       lastUpdatedAt: data.lastUpdatedAt.present
           ? data.lastUpdatedAt.value
@@ -1029,8 +1345,11 @@ class MicroTaskRecord extends DataClass implements Insertable<MicroTaskRecord> {
           ..write('input: $input, ')
           ..write('inputFileId: $inputFileId, ')
           ..write('deadline: $deadline, ')
+          ..write('baseCredits: $baseCredits, ')
           ..write('credits: $credits, ')
+          ..write('status: $status, ')
           ..write('output: $output, ')
+          ..write('extras: $extras, ')
           ..write('createdAt: $createdAt, ')
           ..write('lastUpdatedAt: $lastUpdatedAt')
           ..write(')'))
@@ -1038,8 +1357,20 @@ class MicroTaskRecord extends DataClass implements Insertable<MicroTaskRecord> {
   }
 
   @override
-  int get hashCode => Object.hash(id, taskId, groupId, input, inputFileId,
-      deadline, credits, output, createdAt, lastUpdatedAt);
+  int get hashCode => Object.hash(
+      id,
+      taskId,
+      groupId,
+      input,
+      inputFileId,
+      deadline,
+      baseCredits,
+      credits,
+      status,
+      output,
+      extras,
+      createdAt,
+      lastUpdatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1050,24 +1381,29 @@ class MicroTaskRecord extends DataClass implements Insertable<MicroTaskRecord> {
           other.input == this.input &&
           other.inputFileId == this.inputFileId &&
           other.deadline == this.deadline &&
+          other.baseCredits == this.baseCredits &&
           other.credits == this.credits &&
+          other.status == this.status &&
           other.output == this.output &&
+          other.extras == this.extras &&
           other.createdAt == this.createdAt &&
           other.lastUpdatedAt == this.lastUpdatedAt);
 }
 
 class MicroTaskRecordsCompanion extends UpdateCompanion<MicroTaskRecord> {
-  final Value<String> id;
-  final Value<String?> taskId;
-  final Value<String?> groupId;
-  final Value<String?> input;
-  final Value<String?> inputFileId;
-  final Value<String?> deadline;
-  final Value<double?> credits;
+  final Value<BigInt> id;
+  final Value<BigInt> taskId;
+  final Value<BigInt?> groupId;
+  final Value<String> input;
+  final Value<BigInt?> inputFileId;
+  final Value<DateTime?> deadline;
+  final Value<double> baseCredits;
+  final Value<double> credits;
+  final Value<String> status;
   final Value<String?> output;
-  final Value<String?> createdAt;
-  final Value<String?> lastUpdatedAt;
-  final Value<int> rowid;
+  final Value<String?> extras;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> lastUpdatedAt;
   const MicroTaskRecordsCompanion({
     this.id = const Value.absent(),
     this.taskId = const Value.absent(),
@@ -1075,37 +1411,49 @@ class MicroTaskRecordsCompanion extends UpdateCompanion<MicroTaskRecord> {
     this.input = const Value.absent(),
     this.inputFileId = const Value.absent(),
     this.deadline = const Value.absent(),
+    this.baseCredits = const Value.absent(),
     this.credits = const Value.absent(),
+    this.status = const Value.absent(),
     this.output = const Value.absent(),
+    this.extras = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.lastUpdatedAt = const Value.absent(),
-    this.rowid = const Value.absent(),
   });
   MicroTaskRecordsCompanion.insert({
-    required String id,
-    this.taskId = const Value.absent(),
+    this.id = const Value.absent(),
+    required BigInt taskId,
     this.groupId = const Value.absent(),
-    this.input = const Value.absent(),
+    required String input,
     this.inputFileId = const Value.absent(),
     this.deadline = const Value.absent(),
-    this.credits = const Value.absent(),
+    required double baseCredits,
+    required double credits,
+    required String status,
     this.output = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.lastUpdatedAt = const Value.absent(),
-    this.rowid = const Value.absent(),
-  }) : id = Value(id);
+    this.extras = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime lastUpdatedAt,
+  })  : taskId = Value(taskId),
+        input = Value(input),
+        baseCredits = Value(baseCredits),
+        credits = Value(credits),
+        status = Value(status),
+        createdAt = Value(createdAt),
+        lastUpdatedAt = Value(lastUpdatedAt);
   static Insertable<MicroTaskRecord> custom({
-    Expression<String>? id,
-    Expression<String>? taskId,
-    Expression<String>? groupId,
+    Expression<BigInt>? id,
+    Expression<BigInt>? taskId,
+    Expression<BigInt>? groupId,
     Expression<String>? input,
-    Expression<String>? inputFileId,
-    Expression<String>? deadline,
+    Expression<BigInt>? inputFileId,
+    Expression<DateTime>? deadline,
+    Expression<double>? baseCredits,
     Expression<double>? credits,
+    Expression<String>? status,
     Expression<String>? output,
-    Expression<String>? createdAt,
-    Expression<String>? lastUpdatedAt,
-    Expression<int>? rowid,
+    Expression<String>? extras,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? lastUpdatedAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1114,26 +1462,30 @@ class MicroTaskRecordsCompanion extends UpdateCompanion<MicroTaskRecord> {
       if (input != null) 'input': input,
       if (inputFileId != null) 'input_file_id': inputFileId,
       if (deadline != null) 'deadline': deadline,
+      if (baseCredits != null) 'base_credits': baseCredits,
       if (credits != null) 'credits': credits,
+      if (status != null) 'status': status,
       if (output != null) 'output': output,
+      if (extras != null) 'extras': extras,
       if (createdAt != null) 'created_at': createdAt,
       if (lastUpdatedAt != null) 'last_updated_at': lastUpdatedAt,
-      if (rowid != null) 'rowid': rowid,
     });
   }
 
   MicroTaskRecordsCompanion copyWith(
-      {Value<String>? id,
-      Value<String?>? taskId,
-      Value<String?>? groupId,
-      Value<String?>? input,
-      Value<String?>? inputFileId,
-      Value<String?>? deadline,
-      Value<double?>? credits,
+      {Value<BigInt>? id,
+      Value<BigInt>? taskId,
+      Value<BigInt?>? groupId,
+      Value<String>? input,
+      Value<BigInt?>? inputFileId,
+      Value<DateTime?>? deadline,
+      Value<double>? baseCredits,
+      Value<double>? credits,
+      Value<String>? status,
       Value<String?>? output,
-      Value<String?>? createdAt,
-      Value<String?>? lastUpdatedAt,
-      Value<int>? rowid}) {
+      Value<String?>? extras,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? lastUpdatedAt}) {
     return MicroTaskRecordsCompanion(
       id: id ?? this.id,
       taskId: taskId ?? this.taskId,
@@ -1141,11 +1493,13 @@ class MicroTaskRecordsCompanion extends UpdateCompanion<MicroTaskRecord> {
       input: input ?? this.input,
       inputFileId: inputFileId ?? this.inputFileId,
       deadline: deadline ?? this.deadline,
+      baseCredits: baseCredits ?? this.baseCredits,
       credits: credits ?? this.credits,
+      status: status ?? this.status,
       output: output ?? this.output,
+      extras: extras ?? this.extras,
       createdAt: createdAt ?? this.createdAt,
       lastUpdatedAt: lastUpdatedAt ?? this.lastUpdatedAt,
-      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -1153,37 +1507,43 @@ class MicroTaskRecordsCompanion extends UpdateCompanion<MicroTaskRecord> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<String>(id.value);
+      map['id'] = Variable<BigInt>(id.value);
     }
     if (taskId.present) {
-      map['task_id'] = Variable<String>(taskId.value);
+      map['task_id'] = Variable<BigInt>(taskId.value);
     }
     if (groupId.present) {
-      map['group_id'] = Variable<String>(groupId.value);
+      map['group_id'] = Variable<BigInt>(groupId.value);
     }
     if (input.present) {
       map['input'] = Variable<String>(input.value);
     }
     if (inputFileId.present) {
-      map['input_file_id'] = Variable<String>(inputFileId.value);
+      map['input_file_id'] = Variable<BigInt>(inputFileId.value);
     }
     if (deadline.present) {
-      map['deadline'] = Variable<String>(deadline.value);
+      map['deadline'] = Variable<DateTime>(deadline.value);
+    }
+    if (baseCredits.present) {
+      map['base_credits'] = Variable<double>(baseCredits.value);
     }
     if (credits.present) {
       map['credits'] = Variable<double>(credits.value);
     }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
     if (output.present) {
       map['output'] = Variable<String>(output.value);
     }
+    if (extras.present) {
+      map['extras'] = Variable<String>(extras.value);
+    }
     if (createdAt.present) {
-      map['created_at'] = Variable<String>(createdAt.value);
+      map['created_at'] = Variable<DateTime>(createdAt.value);
     }
     if (lastUpdatedAt.present) {
-      map['last_updated_at'] = Variable<String>(lastUpdatedAt.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
+      map['last_updated_at'] = Variable<DateTime>(lastUpdatedAt.value);
     }
     return map;
   }
@@ -1197,11 +1557,13 @@ class MicroTaskRecordsCompanion extends UpdateCompanion<MicroTaskRecord> {
           ..write('input: $input, ')
           ..write('inputFileId: $inputFileId, ')
           ..write('deadline: $deadline, ')
+          ..write('baseCredits: $baseCredits, ')
           ..write('credits: $credits, ')
+          ..write('status: $status, ')
           ..write('output: $output, ')
+          ..write('extras: $extras, ')
           ..write('createdAt: $createdAt, ')
-          ..write('lastUpdatedAt: $lastUpdatedAt, ')
-          ..write('rowid: $rowid')
+          ..write('lastUpdatedAt: $lastUpdatedAt')
           ..write(')'))
         .toString();
   }
@@ -1216,54 +1578,65 @@ class $MicroTaskAssignmentRecordsTable extends MicroTaskAssignmentRecords
   $MicroTaskAssignmentRecordsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+  late final GeneratedColumn<BigInt> id = GeneratedColumn<BigInt>(
       'id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      type: DriftSqlType.bigInt, requiredDuringInsert: false);
+  static const VerificationMeta _boxIdMeta = const VerificationMeta('boxId');
+  @override
+  late final GeneratedColumn<BigInt> boxId = GeneratedColumn<BigInt>(
+      'box_id', aliasedName, false,
+      type: DriftSqlType.bigInt, requiredDuringInsert: true);
   static const VerificationMeta _localIdMeta =
       const VerificationMeta('localId');
   @override
-  late final GeneratedColumn<String> localId = GeneratedColumn<String>(
-      'local_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _boxIdMeta = const VerificationMeta('boxId');
-  @override
-  late final GeneratedColumn<String> boxId = GeneratedColumn<String>(
-      'box_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<BigInt> localId = GeneratedColumn<BigInt>(
+      'local_id', aliasedName, false,
+      type: DriftSqlType.bigInt, requiredDuringInsert: true);
   static const VerificationMeta _microtaskIdMeta =
       const VerificationMeta('microtaskId');
   @override
-  late final GeneratedColumn<String> microtaskId = GeneratedColumn<String>(
-      'microtask_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<BigInt> microtaskId = GeneratedColumn<BigInt>(
+      'microtask_id', aliasedName, false,
+      type: DriftSqlType.bigInt, requiredDuringInsert: true);
   static const VerificationMeta _taskIdMeta = const VerificationMeta('taskId');
   @override
-  late final GeneratedColumn<String> taskId = GeneratedColumn<String>(
-      'task_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<BigInt> taskId = GeneratedColumn<BigInt>(
+      'task_id', aliasedName, false,
+      type: DriftSqlType.bigInt, requiredDuringInsert: true);
   static const VerificationMeta _workerIdMeta =
       const VerificationMeta('workerId');
   @override
-  late final GeneratedColumn<String> workerId = GeneratedColumn<String>(
-      'worker_id', aliasedName, true,
+  late final GeneratedColumn<BigInt> workerId = GeneratedColumn<BigInt>(
+      'worker_id', aliasedName, false,
+      type: DriftSqlType.bigInt, requiredDuringInsert: true);
+  static const VerificationMeta _wgroupMeta = const VerificationMeta('wgroup');
+  @override
+  late final GeneratedColumn<String> wgroup = GeneratedColumn<String>(
+      'wgroup', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _sentToServerAtMeta =
+      const VerificationMeta('sentToServerAt');
+  @override
+  late final GeneratedColumn<DateTime> sentToServerAt =
+      GeneratedColumn<DateTime>('sent_to_server_at', aliasedName, false,
+          type: DriftSqlType.dateTime, requiredDuringInsert: true);
   static const VerificationMeta _deadlineMeta =
       const VerificationMeta('deadline');
   @override
-  late final GeneratedColumn<String> deadline = GeneratedColumn<String>(
+  late final GeneratedColumn<DateTime> deadline = GeneratedColumn<DateTime>(
       'deadline', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   static const VerificationMeta _statusMeta = const VerificationMeta('status');
   @override
   late final GeneratedColumn<String> status = GeneratedColumn<String>(
-      'status', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      'status', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _completedAtMeta =
       const VerificationMeta('completedAt');
   @override
-  late final GeneratedColumn<String> completedAt = GeneratedColumn<String>(
+  late final GeneratedColumn<DateTime> completedAt = GeneratedColumn<DateTime>(
       'completed_at', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   static const VerificationMeta _outputMeta = const VerificationMeta('output');
   @override
   late final GeneratedColumn<String> output = GeneratedColumn<String>(
@@ -1272,74 +1645,103 @@ class $MicroTaskAssignmentRecordsTable extends MicroTaskAssignmentRecords
   static const VerificationMeta _outputFileIdMeta =
       const VerificationMeta('outputFileId');
   @override
-  late final GeneratedColumn<String> outputFileId = GeneratedColumn<String>(
+  late final GeneratedColumn<BigInt> outputFileId = GeneratedColumn<BigInt>(
       'output_file_id', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      type: DriftSqlType.bigInt, requiredDuringInsert: false);
   static const VerificationMeta _logsMeta = const VerificationMeta('logs');
   @override
   late final GeneratedColumn<String> logs = GeneratedColumn<String>(
       'logs', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _submittedToBoxAtMeta =
+      const VerificationMeta('submittedToBoxAt');
+  @override
+  late final GeneratedColumn<DateTime> submittedToBoxAt =
+      GeneratedColumn<DateTime>('submitted_to_box_at', aliasedName, true,
+          type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _submittedToServerAtMeta =
+      const VerificationMeta('submittedToServerAt');
+  @override
+  late final GeneratedColumn<DateTime> submittedToServerAt =
+      GeneratedColumn<DateTime>('submitted_to_server_at', aliasedName, true,
+          type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _verifiedAtMeta =
+      const VerificationMeta('verifiedAt');
+  @override
+  late final GeneratedColumn<DateTime> verifiedAt = GeneratedColumn<DateTime>(
+      'verified_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _reportMeta = const VerificationMeta('report');
+  @override
+  late final GeneratedColumn<String> report = GeneratedColumn<String>(
+      'report', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _maxBaseCreditsMeta =
       const VerificationMeta('maxBaseCredits');
   @override
   late final GeneratedColumn<double> maxBaseCredits = GeneratedColumn<double>(
-      'max_base_credits', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
+      'max_base_credits', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
   static const VerificationMeta _baseCreditsMeta =
       const VerificationMeta('baseCredits');
   @override
   late final GeneratedColumn<double> baseCredits = GeneratedColumn<double>(
-      'base_credits', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
+      'base_credits', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  static const VerificationMeta _maxCreditsMeta =
+      const VerificationMeta('maxCredits');
+  @override
+  late final GeneratedColumn<double> maxCredits = GeneratedColumn<double>(
+      'max_credits', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
   static const VerificationMeta _creditsMeta =
       const VerificationMeta('credits');
   @override
   late final GeneratedColumn<double> credits = GeneratedColumn<double>(
       'credits', aliasedName, true,
       type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _verifiedAtMeta =
-      const VerificationMeta('verifiedAt');
+  static const VerificationMeta _extrasMeta = const VerificationMeta('extras');
   @override
-  late final GeneratedColumn<String> verifiedAt = GeneratedColumn<String>(
-      'verified_at', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _reportMeta = const VerificationMeta('report');
-  @override
-  late final GeneratedColumn<String> report = GeneratedColumn<String>(
-      'report', aliasedName, true,
+  late final GeneratedColumn<String> extras = GeneratedColumn<String>(
+      'extras', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   @override
-  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
-      'created_at', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
   static const VerificationMeta _lastUpdatedAtMeta =
       const VerificationMeta('lastUpdatedAt');
   @override
-  late final GeneratedColumn<String> lastUpdatedAt = GeneratedColumn<String>(
-      'last_updated_at', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<DateTime> lastUpdatedAt =
+      GeneratedColumn<DateTime>('last_updated_at', aliasedName, false,
+          type: DriftSqlType.dateTime, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [
         id,
-        localId,
         boxId,
+        localId,
         microtaskId,
         taskId,
         workerId,
+        wgroup,
+        sentToServerAt,
         deadline,
         status,
         completedAt,
         output,
         outputFileId,
         logs,
-        maxBaseCredits,
-        baseCredits,
-        credits,
+        submittedToBoxAt,
+        submittedToServerAt,
         verifiedAt,
         report,
+        maxBaseCredits,
+        baseCredits,
+        maxCredits,
+        credits,
+        extras,
         createdAt,
         lastUpdatedAt
       ];
@@ -1356,30 +1758,50 @@ class $MicroTaskAssignmentRecordsTable extends MicroTaskAssignmentRecords
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
-    }
-    if (data.containsKey('local_id')) {
-      context.handle(_localIdMeta,
-          localId.isAcceptableOrUnknown(data['local_id']!, _localIdMeta));
     }
     if (data.containsKey('box_id')) {
       context.handle(
           _boxIdMeta, boxId.isAcceptableOrUnknown(data['box_id']!, _boxIdMeta));
+    } else if (isInserting) {
+      context.missing(_boxIdMeta);
+    }
+    if (data.containsKey('local_id')) {
+      context.handle(_localIdMeta,
+          localId.isAcceptableOrUnknown(data['local_id']!, _localIdMeta));
+    } else if (isInserting) {
+      context.missing(_localIdMeta);
     }
     if (data.containsKey('microtask_id')) {
       context.handle(
           _microtaskIdMeta,
           microtaskId.isAcceptableOrUnknown(
               data['microtask_id']!, _microtaskIdMeta));
+    } else if (isInserting) {
+      context.missing(_microtaskIdMeta);
     }
     if (data.containsKey('task_id')) {
       context.handle(_taskIdMeta,
           taskId.isAcceptableOrUnknown(data['task_id']!, _taskIdMeta));
+    } else if (isInserting) {
+      context.missing(_taskIdMeta);
     }
     if (data.containsKey('worker_id')) {
       context.handle(_workerIdMeta,
           workerId.isAcceptableOrUnknown(data['worker_id']!, _workerIdMeta));
+    } else if (isInserting) {
+      context.missing(_workerIdMeta);
+    }
+    if (data.containsKey('wgroup')) {
+      context.handle(_wgroupMeta,
+          wgroup.isAcceptableOrUnknown(data['wgroup']!, _wgroupMeta));
+    }
+    if (data.containsKey('sent_to_server_at')) {
+      context.handle(
+          _sentToServerAtMeta,
+          sentToServerAt.isAcceptableOrUnknown(
+              data['sent_to_server_at']!, _sentToServerAtMeta));
+    } else if (isInserting) {
+      context.missing(_sentToServerAtMeta);
     }
     if (data.containsKey('deadline')) {
       context.handle(_deadlineMeta,
@@ -1388,6 +1810,8 @@ class $MicroTaskAssignmentRecordsTable extends MicroTaskAssignmentRecords
     if (data.containsKey('status')) {
       context.handle(_statusMeta,
           status.isAcceptableOrUnknown(data['status']!, _statusMeta));
+    } else if (isInserting) {
+      context.missing(_statusMeta);
     }
     if (data.containsKey('completed_at')) {
       context.handle(
@@ -1409,21 +1833,17 @@ class $MicroTaskAssignmentRecordsTable extends MicroTaskAssignmentRecords
       context.handle(
           _logsMeta, logs.isAcceptableOrUnknown(data['logs']!, _logsMeta));
     }
-    if (data.containsKey('max_base_credits')) {
+    if (data.containsKey('submitted_to_box_at')) {
       context.handle(
-          _maxBaseCreditsMeta,
-          maxBaseCredits.isAcceptableOrUnknown(
-              data['max_base_credits']!, _maxBaseCreditsMeta));
+          _submittedToBoxAtMeta,
+          submittedToBoxAt.isAcceptableOrUnknown(
+              data['submitted_to_box_at']!, _submittedToBoxAtMeta));
     }
-    if (data.containsKey('base_credits')) {
+    if (data.containsKey('submitted_to_server_at')) {
       context.handle(
-          _baseCreditsMeta,
-          baseCredits.isAcceptableOrUnknown(
-              data['base_credits']!, _baseCreditsMeta));
-    }
-    if (data.containsKey('credits')) {
-      context.handle(_creditsMeta,
-          credits.isAcceptableOrUnknown(data['credits']!, _creditsMeta));
+          _submittedToServerAtMeta,
+          submittedToServerAt.isAcceptableOrUnknown(
+              data['submitted_to_server_at']!, _submittedToServerAtMeta));
     }
     if (data.containsKey('verified_at')) {
       context.handle(
@@ -1435,15 +1855,51 @@ class $MicroTaskAssignmentRecordsTable extends MicroTaskAssignmentRecords
       context.handle(_reportMeta,
           report.isAcceptableOrUnknown(data['report']!, _reportMeta));
     }
+    if (data.containsKey('max_base_credits')) {
+      context.handle(
+          _maxBaseCreditsMeta,
+          maxBaseCredits.isAcceptableOrUnknown(
+              data['max_base_credits']!, _maxBaseCreditsMeta));
+    } else if (isInserting) {
+      context.missing(_maxBaseCreditsMeta);
+    }
+    if (data.containsKey('base_credits')) {
+      context.handle(
+          _baseCreditsMeta,
+          baseCredits.isAcceptableOrUnknown(
+              data['base_credits']!, _baseCreditsMeta));
+    } else if (isInserting) {
+      context.missing(_baseCreditsMeta);
+    }
+    if (data.containsKey('max_credits')) {
+      context.handle(
+          _maxCreditsMeta,
+          maxCredits.isAcceptableOrUnknown(
+              data['max_credits']!, _maxCreditsMeta));
+    } else if (isInserting) {
+      context.missing(_maxCreditsMeta);
+    }
+    if (data.containsKey('credits')) {
+      context.handle(_creditsMeta,
+          credits.isAcceptableOrUnknown(data['credits']!, _creditsMeta));
+    }
+    if (data.containsKey('extras')) {
+      context.handle(_extrasMeta,
+          extras.isAcceptableOrUnknown(data['extras']!, _extrasMeta));
+    }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
     }
     if (data.containsKey('last_updated_at')) {
       context.handle(
           _lastUpdatedAtMeta,
           lastUpdatedAt.isAcceptableOrUnknown(
               data['last_updated_at']!, _lastUpdatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_lastUpdatedAtMeta);
     }
     return context;
   }
@@ -1456,43 +1912,56 @@ class $MicroTaskAssignmentRecordsTable extends MicroTaskAssignmentRecords
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return MicroTaskAssignmentRecord(
       id: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
-      localId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}local_id']),
+          .read(DriftSqlType.bigInt, data['${effectivePrefix}id'])!,
       boxId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}box_id']),
+          .read(DriftSqlType.bigInt, data['${effectivePrefix}box_id'])!,
+      localId: attachedDatabase.typeMapping
+          .read(DriftSqlType.bigInt, data['${effectivePrefix}local_id'])!,
       microtaskId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}microtask_id']),
+          .read(DriftSqlType.bigInt, data['${effectivePrefix}microtask_id'])!,
       taskId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}task_id']),
+          .read(DriftSqlType.bigInt, data['${effectivePrefix}task_id'])!,
       workerId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}worker_id']),
+          .read(DriftSqlType.bigInt, data['${effectivePrefix}worker_id'])!,
+      wgroup: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}wgroup']),
+      sentToServerAt: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}sent_to_server_at'])!,
       deadline: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}deadline']),
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}deadline']),
       status: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}status']),
+          .read(DriftSqlType.string, data['${effectivePrefix}status'])!,
       completedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}completed_at']),
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}completed_at']),
       output: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}output']),
       outputFileId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}output_file_id']),
+          .read(DriftSqlType.bigInt, data['${effectivePrefix}output_file_id']),
       logs: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}logs']),
-      maxBaseCredits: attachedDatabase.typeMapping.read(
-          DriftSqlType.double, data['${effectivePrefix}max_base_credits']),
-      baseCredits: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}base_credits']),
-      credits: attachedDatabase.typeMapping
-          .read(DriftSqlType.double, data['${effectivePrefix}credits']),
+      submittedToBoxAt: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}submitted_to_box_at']),
+      submittedToServerAt: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime,
+          data['${effectivePrefix}submitted_to_server_at']),
       verifiedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}verified_at']),
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}verified_at']),
       report: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}report']),
+      maxBaseCredits: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}max_base_credits'])!,
+      baseCredits: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}base_credits'])!,
+      maxCredits: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}max_credits'])!,
+      credits: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}credits']),
+      extras: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}extras']),
       createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}created_at']),
-      lastUpdatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}last_updated_at']),
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      lastUpdatedAt: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}last_updated_at'])!,
     );
   }
 
@@ -1504,127 +1973,127 @@ class $MicroTaskAssignmentRecordsTable extends MicroTaskAssignmentRecords
 
 class MicroTaskAssignmentRecord extends DataClass
     implements Insertable<MicroTaskAssignmentRecord> {
-  final String id;
-  final String? localId;
-  final String? boxId;
-  final String? microtaskId;
-  final String? taskId;
-  final String? workerId;
-  final String? deadline;
-  final String? status;
-  final String? completedAt;
+  final BigInt id;
+  final BigInt boxId;
+  final BigInt localId;
+  final BigInt microtaskId;
+  final BigInt taskId;
+  final BigInt workerId;
+  final String? wgroup;
+  final DateTime sentToServerAt;
+  final DateTime? deadline;
+  final String status;
+  final DateTime? completedAt;
   final String? output;
-  final String? outputFileId;
+  final BigInt? outputFileId;
   final String? logs;
-  final double? maxBaseCredits;
-  final double? baseCredits;
-  final double? credits;
-  final String? verifiedAt;
+  final DateTime? submittedToBoxAt;
+  final DateTime? submittedToServerAt;
+  final DateTime? verifiedAt;
   final String? report;
-  final String? createdAt;
-  final String? lastUpdatedAt;
+  final double maxBaseCredits;
+  final double baseCredits;
+  final double maxCredits;
+  final double? credits;
+  final String? extras;
+  final DateTime createdAt;
+  final DateTime lastUpdatedAt;
   const MicroTaskAssignmentRecord(
       {required this.id,
-      this.localId,
-      this.boxId,
-      this.microtaskId,
-      this.taskId,
-      this.workerId,
+      required this.boxId,
+      required this.localId,
+      required this.microtaskId,
+      required this.taskId,
+      required this.workerId,
+      this.wgroup,
+      required this.sentToServerAt,
       this.deadline,
-      this.status,
+      required this.status,
       this.completedAt,
       this.output,
       this.outputFileId,
       this.logs,
-      this.maxBaseCredits,
-      this.baseCredits,
-      this.credits,
+      this.submittedToBoxAt,
+      this.submittedToServerAt,
       this.verifiedAt,
       this.report,
-      this.createdAt,
-      this.lastUpdatedAt});
+      required this.maxBaseCredits,
+      required this.baseCredits,
+      required this.maxCredits,
+      this.credits,
+      this.extras,
+      required this.createdAt,
+      required this.lastUpdatedAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<String>(id);
-    if (!nullToAbsent || localId != null) {
-      map['local_id'] = Variable<String>(localId);
+    map['id'] = Variable<BigInt>(id);
+    map['box_id'] = Variable<BigInt>(boxId);
+    map['local_id'] = Variable<BigInt>(localId);
+    map['microtask_id'] = Variable<BigInt>(microtaskId);
+    map['task_id'] = Variable<BigInt>(taskId);
+    map['worker_id'] = Variable<BigInt>(workerId);
+    if (!nullToAbsent || wgroup != null) {
+      map['wgroup'] = Variable<String>(wgroup);
     }
-    if (!nullToAbsent || boxId != null) {
-      map['box_id'] = Variable<String>(boxId);
-    }
-    if (!nullToAbsent || microtaskId != null) {
-      map['microtask_id'] = Variable<String>(microtaskId);
-    }
-    if (!nullToAbsent || taskId != null) {
-      map['task_id'] = Variable<String>(taskId);
-    }
-    if (!nullToAbsent || workerId != null) {
-      map['worker_id'] = Variable<String>(workerId);
-    }
+    map['sent_to_server_at'] = Variable<DateTime>(sentToServerAt);
     if (!nullToAbsent || deadline != null) {
-      map['deadline'] = Variable<String>(deadline);
+      map['deadline'] = Variable<DateTime>(deadline);
     }
-    if (!nullToAbsent || status != null) {
-      map['status'] = Variable<String>(status);
-    }
+    map['status'] = Variable<String>(status);
     if (!nullToAbsent || completedAt != null) {
-      map['completed_at'] = Variable<String>(completedAt);
+      map['completed_at'] = Variable<DateTime>(completedAt);
     }
     if (!nullToAbsent || output != null) {
       map['output'] = Variable<String>(output);
     }
     if (!nullToAbsent || outputFileId != null) {
-      map['output_file_id'] = Variable<String>(outputFileId);
+      map['output_file_id'] = Variable<BigInt>(outputFileId);
     }
     if (!nullToAbsent || logs != null) {
       map['logs'] = Variable<String>(logs);
     }
-    if (!nullToAbsent || maxBaseCredits != null) {
-      map['max_base_credits'] = Variable<double>(maxBaseCredits);
+    if (!nullToAbsent || submittedToBoxAt != null) {
+      map['submitted_to_box_at'] = Variable<DateTime>(submittedToBoxAt);
     }
-    if (!nullToAbsent || baseCredits != null) {
-      map['base_credits'] = Variable<double>(baseCredits);
-    }
-    if (!nullToAbsent || credits != null) {
-      map['credits'] = Variable<double>(credits);
+    if (!nullToAbsent || submittedToServerAt != null) {
+      map['submitted_to_server_at'] = Variable<DateTime>(submittedToServerAt);
     }
     if (!nullToAbsent || verifiedAt != null) {
-      map['verified_at'] = Variable<String>(verifiedAt);
+      map['verified_at'] = Variable<DateTime>(verifiedAt);
     }
     if (!nullToAbsent || report != null) {
       map['report'] = Variable<String>(report);
     }
-    if (!nullToAbsent || createdAt != null) {
-      map['created_at'] = Variable<String>(createdAt);
+    map['max_base_credits'] = Variable<double>(maxBaseCredits);
+    map['base_credits'] = Variable<double>(baseCredits);
+    map['max_credits'] = Variable<double>(maxCredits);
+    if (!nullToAbsent || credits != null) {
+      map['credits'] = Variable<double>(credits);
     }
-    if (!nullToAbsent || lastUpdatedAt != null) {
-      map['last_updated_at'] = Variable<String>(lastUpdatedAt);
+    if (!nullToAbsent || extras != null) {
+      map['extras'] = Variable<String>(extras);
     }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['last_updated_at'] = Variable<DateTime>(lastUpdatedAt);
     return map;
   }
 
   MicroTaskAssignmentRecordsCompanion toCompanion(bool nullToAbsent) {
     return MicroTaskAssignmentRecordsCompanion(
       id: Value(id),
-      localId: localId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(localId),
-      boxId:
-          boxId == null && nullToAbsent ? const Value.absent() : Value(boxId),
-      microtaskId: microtaskId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(microtaskId),
-      taskId:
-          taskId == null && nullToAbsent ? const Value.absent() : Value(taskId),
-      workerId: workerId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(workerId),
+      boxId: Value(boxId),
+      localId: Value(localId),
+      microtaskId: Value(microtaskId),
+      taskId: Value(taskId),
+      workerId: Value(workerId),
+      wgroup:
+          wgroup == null && nullToAbsent ? const Value.absent() : Value(wgroup),
+      sentToServerAt: Value(sentToServerAt),
       deadline: deadline == null && nullToAbsent
           ? const Value.absent()
           : Value(deadline),
-      status:
-          status == null && nullToAbsent ? const Value.absent() : Value(status),
+      status: Value(status),
       completedAt: completedAt == null && nullToAbsent
           ? const Value.absent()
           : Value(completedAt),
@@ -1634,26 +2103,27 @@ class MicroTaskAssignmentRecord extends DataClass
           ? const Value.absent()
           : Value(outputFileId),
       logs: logs == null && nullToAbsent ? const Value.absent() : Value(logs),
-      maxBaseCredits: maxBaseCredits == null && nullToAbsent
+      submittedToBoxAt: submittedToBoxAt == null && nullToAbsent
           ? const Value.absent()
-          : Value(maxBaseCredits),
-      baseCredits: baseCredits == null && nullToAbsent
+          : Value(submittedToBoxAt),
+      submittedToServerAt: submittedToServerAt == null && nullToAbsent
           ? const Value.absent()
-          : Value(baseCredits),
-      credits: credits == null && nullToAbsent
-          ? const Value.absent()
-          : Value(credits),
+          : Value(submittedToServerAt),
       verifiedAt: verifiedAt == null && nullToAbsent
           ? const Value.absent()
           : Value(verifiedAt),
       report:
           report == null && nullToAbsent ? const Value.absent() : Value(report),
-      createdAt: createdAt == null && nullToAbsent
+      maxBaseCredits: Value(maxBaseCredits),
+      baseCredits: Value(baseCredits),
+      maxCredits: Value(maxCredits),
+      credits: credits == null && nullToAbsent
           ? const Value.absent()
-          : Value(createdAt),
-      lastUpdatedAt: lastUpdatedAt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastUpdatedAt),
+          : Value(credits),
+      extras:
+          extras == null && nullToAbsent ? const Value.absent() : Value(extras),
+      createdAt: Value(createdAt),
+      lastUpdatedAt: Value(lastUpdatedAt),
     );
   }
 
@@ -1661,107 +2131,139 @@ class MicroTaskAssignmentRecord extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return MicroTaskAssignmentRecord(
-      id: serializer.fromJson<String>(json['id']),
-      localId: serializer.fromJson<String?>(json['localId']),
-      boxId: serializer.fromJson<String?>(json['boxId']),
-      microtaskId: serializer.fromJson<String?>(json['microtaskId']),
-      taskId: serializer.fromJson<String?>(json['taskId']),
-      workerId: serializer.fromJson<String?>(json['workerId']),
-      deadline: serializer.fromJson<String?>(json['deadline']),
-      status: serializer.fromJson<String?>(json['status']),
-      completedAt: serializer.fromJson<String?>(json['completedAt']),
+      id: serializer.fromJson<BigInt>(json['id']),
+      boxId: serializer.fromJson<BigInt>(json['boxId']),
+      localId: serializer.fromJson<BigInt>(json['localId']),
+      microtaskId: serializer.fromJson<BigInt>(json['microtaskId']),
+      taskId: serializer.fromJson<BigInt>(json['taskId']),
+      workerId: serializer.fromJson<BigInt>(json['workerId']),
+      wgroup: serializer.fromJson<String?>(json['wgroup']),
+      sentToServerAt: serializer.fromJson<DateTime>(json['sentToServerAt']),
+      deadline: serializer.fromJson<DateTime?>(json['deadline']),
+      status: serializer.fromJson<String>(json['status']),
+      completedAt: serializer.fromJson<DateTime?>(json['completedAt']),
       output: serializer.fromJson<String?>(json['output']),
-      outputFileId: serializer.fromJson<String?>(json['outputFileId']),
+      outputFileId: serializer.fromJson<BigInt?>(json['outputFileId']),
       logs: serializer.fromJson<String?>(json['logs']),
-      maxBaseCredits: serializer.fromJson<double?>(json['maxBaseCredits']),
-      baseCredits: serializer.fromJson<double?>(json['baseCredits']),
-      credits: serializer.fromJson<double?>(json['credits']),
-      verifiedAt: serializer.fromJson<String?>(json['verifiedAt']),
+      submittedToBoxAt:
+          serializer.fromJson<DateTime?>(json['submittedToBoxAt']),
+      submittedToServerAt:
+          serializer.fromJson<DateTime?>(json['submittedToServerAt']),
+      verifiedAt: serializer.fromJson<DateTime?>(json['verifiedAt']),
       report: serializer.fromJson<String?>(json['report']),
-      createdAt: serializer.fromJson<String?>(json['createdAt']),
-      lastUpdatedAt: serializer.fromJson<String?>(json['lastUpdatedAt']),
+      maxBaseCredits: serializer.fromJson<double>(json['maxBaseCredits']),
+      baseCredits: serializer.fromJson<double>(json['baseCredits']),
+      maxCredits: serializer.fromJson<double>(json['maxCredits']),
+      credits: serializer.fromJson<double?>(json['credits']),
+      extras: serializer.fromJson<String?>(json['extras']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      lastUpdatedAt: serializer.fromJson<DateTime>(json['lastUpdatedAt']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<String>(id),
-      'localId': serializer.toJson<String?>(localId),
-      'boxId': serializer.toJson<String?>(boxId),
-      'microtaskId': serializer.toJson<String?>(microtaskId),
-      'taskId': serializer.toJson<String?>(taskId),
-      'workerId': serializer.toJson<String?>(workerId),
-      'deadline': serializer.toJson<String?>(deadline),
-      'status': serializer.toJson<String?>(status),
-      'completedAt': serializer.toJson<String?>(completedAt),
+      'id': serializer.toJson<BigInt>(id),
+      'boxId': serializer.toJson<BigInt>(boxId),
+      'localId': serializer.toJson<BigInt>(localId),
+      'microtaskId': serializer.toJson<BigInt>(microtaskId),
+      'taskId': serializer.toJson<BigInt>(taskId),
+      'workerId': serializer.toJson<BigInt>(workerId),
+      'wgroup': serializer.toJson<String?>(wgroup),
+      'sentToServerAt': serializer.toJson<DateTime>(sentToServerAt),
+      'deadline': serializer.toJson<DateTime?>(deadline),
+      'status': serializer.toJson<String>(status),
+      'completedAt': serializer.toJson<DateTime?>(completedAt),
       'output': serializer.toJson<String?>(output),
-      'outputFileId': serializer.toJson<String?>(outputFileId),
+      'outputFileId': serializer.toJson<BigInt?>(outputFileId),
       'logs': serializer.toJson<String?>(logs),
-      'maxBaseCredits': serializer.toJson<double?>(maxBaseCredits),
-      'baseCredits': serializer.toJson<double?>(baseCredits),
-      'credits': serializer.toJson<double?>(credits),
-      'verifiedAt': serializer.toJson<String?>(verifiedAt),
+      'submittedToBoxAt': serializer.toJson<DateTime?>(submittedToBoxAt),
+      'submittedToServerAt': serializer.toJson<DateTime?>(submittedToServerAt),
+      'verifiedAt': serializer.toJson<DateTime?>(verifiedAt),
       'report': serializer.toJson<String?>(report),
-      'createdAt': serializer.toJson<String?>(createdAt),
-      'lastUpdatedAt': serializer.toJson<String?>(lastUpdatedAt),
+      'maxBaseCredits': serializer.toJson<double>(maxBaseCredits),
+      'baseCredits': serializer.toJson<double>(baseCredits),
+      'maxCredits': serializer.toJson<double>(maxCredits),
+      'credits': serializer.toJson<double?>(credits),
+      'extras': serializer.toJson<String?>(extras),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'lastUpdatedAt': serializer.toJson<DateTime>(lastUpdatedAt),
     };
   }
 
   MicroTaskAssignmentRecord copyWith(
-          {String? id,
-          Value<String?> localId = const Value.absent(),
-          Value<String?> boxId = const Value.absent(),
-          Value<String?> microtaskId = const Value.absent(),
-          Value<String?> taskId = const Value.absent(),
-          Value<String?> workerId = const Value.absent(),
-          Value<String?> deadline = const Value.absent(),
-          Value<String?> status = const Value.absent(),
-          Value<String?> completedAt = const Value.absent(),
+          {BigInt? id,
+          BigInt? boxId,
+          BigInt? localId,
+          BigInt? microtaskId,
+          BigInt? taskId,
+          BigInt? workerId,
+          Value<String?> wgroup = const Value.absent(),
+          DateTime? sentToServerAt,
+          Value<DateTime?> deadline = const Value.absent(),
+          String? status,
+          Value<DateTime?> completedAt = const Value.absent(),
           Value<String?> output = const Value.absent(),
-          Value<String?> outputFileId = const Value.absent(),
+          Value<BigInt?> outputFileId = const Value.absent(),
           Value<String?> logs = const Value.absent(),
-          Value<double?> maxBaseCredits = const Value.absent(),
-          Value<double?> baseCredits = const Value.absent(),
-          Value<double?> credits = const Value.absent(),
-          Value<String?> verifiedAt = const Value.absent(),
+          Value<DateTime?> submittedToBoxAt = const Value.absent(),
+          Value<DateTime?> submittedToServerAt = const Value.absent(),
+          Value<DateTime?> verifiedAt = const Value.absent(),
           Value<String?> report = const Value.absent(),
-          Value<String?> createdAt = const Value.absent(),
-          Value<String?> lastUpdatedAt = const Value.absent()}) =>
+          double? maxBaseCredits,
+          double? baseCredits,
+          double? maxCredits,
+          Value<double?> credits = const Value.absent(),
+          Value<String?> extras = const Value.absent(),
+          DateTime? createdAt,
+          DateTime? lastUpdatedAt}) =>
       MicroTaskAssignmentRecord(
         id: id ?? this.id,
-        localId: localId.present ? localId.value : this.localId,
-        boxId: boxId.present ? boxId.value : this.boxId,
-        microtaskId: microtaskId.present ? microtaskId.value : this.microtaskId,
-        taskId: taskId.present ? taskId.value : this.taskId,
-        workerId: workerId.present ? workerId.value : this.workerId,
+        boxId: boxId ?? this.boxId,
+        localId: localId ?? this.localId,
+        microtaskId: microtaskId ?? this.microtaskId,
+        taskId: taskId ?? this.taskId,
+        workerId: workerId ?? this.workerId,
+        wgroup: wgroup.present ? wgroup.value : this.wgroup,
+        sentToServerAt: sentToServerAt ?? this.sentToServerAt,
         deadline: deadline.present ? deadline.value : this.deadline,
-        status: status.present ? status.value : this.status,
+        status: status ?? this.status,
         completedAt: completedAt.present ? completedAt.value : this.completedAt,
         output: output.present ? output.value : this.output,
         outputFileId:
             outputFileId.present ? outputFileId.value : this.outputFileId,
         logs: logs.present ? logs.value : this.logs,
-        maxBaseCredits:
-            maxBaseCredits.present ? maxBaseCredits.value : this.maxBaseCredits,
-        baseCredits: baseCredits.present ? baseCredits.value : this.baseCredits,
-        credits: credits.present ? credits.value : this.credits,
+        submittedToBoxAt: submittedToBoxAt.present
+            ? submittedToBoxAt.value
+            : this.submittedToBoxAt,
+        submittedToServerAt: submittedToServerAt.present
+            ? submittedToServerAt.value
+            : this.submittedToServerAt,
         verifiedAt: verifiedAt.present ? verifiedAt.value : this.verifiedAt,
         report: report.present ? report.value : this.report,
-        createdAt: createdAt.present ? createdAt.value : this.createdAt,
-        lastUpdatedAt:
-            lastUpdatedAt.present ? lastUpdatedAt.value : this.lastUpdatedAt,
+        maxBaseCredits: maxBaseCredits ?? this.maxBaseCredits,
+        baseCredits: baseCredits ?? this.baseCredits,
+        maxCredits: maxCredits ?? this.maxCredits,
+        credits: credits.present ? credits.value : this.credits,
+        extras: extras.present ? extras.value : this.extras,
+        createdAt: createdAt ?? this.createdAt,
+        lastUpdatedAt: lastUpdatedAt ?? this.lastUpdatedAt,
       );
   MicroTaskAssignmentRecord copyWithCompanion(
       MicroTaskAssignmentRecordsCompanion data) {
     return MicroTaskAssignmentRecord(
       id: data.id.present ? data.id.value : this.id,
-      localId: data.localId.present ? data.localId.value : this.localId,
       boxId: data.boxId.present ? data.boxId.value : this.boxId,
+      localId: data.localId.present ? data.localId.value : this.localId,
       microtaskId:
           data.microtaskId.present ? data.microtaskId.value : this.microtaskId,
       taskId: data.taskId.present ? data.taskId.value : this.taskId,
       workerId: data.workerId.present ? data.workerId.value : this.workerId,
+      wgroup: data.wgroup.present ? data.wgroup.value : this.wgroup,
+      sentToServerAt: data.sentToServerAt.present
+          ? data.sentToServerAt.value
+          : this.sentToServerAt,
       deadline: data.deadline.present ? data.deadline.value : this.deadline,
       status: data.status.present ? data.status.value : this.status,
       completedAt:
@@ -1771,15 +2273,24 @@ class MicroTaskAssignmentRecord extends DataClass
           ? data.outputFileId.value
           : this.outputFileId,
       logs: data.logs.present ? data.logs.value : this.logs,
+      submittedToBoxAt: data.submittedToBoxAt.present
+          ? data.submittedToBoxAt.value
+          : this.submittedToBoxAt,
+      submittedToServerAt: data.submittedToServerAt.present
+          ? data.submittedToServerAt.value
+          : this.submittedToServerAt,
+      verifiedAt:
+          data.verifiedAt.present ? data.verifiedAt.value : this.verifiedAt,
+      report: data.report.present ? data.report.value : this.report,
       maxBaseCredits: data.maxBaseCredits.present
           ? data.maxBaseCredits.value
           : this.maxBaseCredits,
       baseCredits:
           data.baseCredits.present ? data.baseCredits.value : this.baseCredits,
+      maxCredits:
+          data.maxCredits.present ? data.maxCredits.value : this.maxCredits,
       credits: data.credits.present ? data.credits.value : this.credits,
-      verifiedAt:
-          data.verifiedAt.present ? data.verifiedAt.value : this.verifiedAt,
-      report: data.report.present ? data.report.value : this.report,
+      extras: data.extras.present ? data.extras.value : this.extras,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       lastUpdatedAt: data.lastUpdatedAt.present
           ? data.lastUpdatedAt.value
@@ -1791,22 +2302,28 @@ class MicroTaskAssignmentRecord extends DataClass
   String toString() {
     return (StringBuffer('MicroTaskAssignmentRecord(')
           ..write('id: $id, ')
-          ..write('localId: $localId, ')
           ..write('boxId: $boxId, ')
+          ..write('localId: $localId, ')
           ..write('microtaskId: $microtaskId, ')
           ..write('taskId: $taskId, ')
           ..write('workerId: $workerId, ')
+          ..write('wgroup: $wgroup, ')
+          ..write('sentToServerAt: $sentToServerAt, ')
           ..write('deadline: $deadline, ')
           ..write('status: $status, ')
           ..write('completedAt: $completedAt, ')
           ..write('output: $output, ')
           ..write('outputFileId: $outputFileId, ')
           ..write('logs: $logs, ')
-          ..write('maxBaseCredits: $maxBaseCredits, ')
-          ..write('baseCredits: $baseCredits, ')
-          ..write('credits: $credits, ')
+          ..write('submittedToBoxAt: $submittedToBoxAt, ')
+          ..write('submittedToServerAt: $submittedToServerAt, ')
           ..write('verifiedAt: $verifiedAt, ')
           ..write('report: $report, ')
+          ..write('maxBaseCredits: $maxBaseCredits, ')
+          ..write('baseCredits: $baseCredits, ')
+          ..write('maxCredits: $maxCredits, ')
+          ..write('credits: $credits, ')
+          ..write('extras: $extras, ')
           ..write('createdAt: $createdAt, ')
           ..write('lastUpdatedAt: $lastUpdatedAt')
           ..write(')'))
@@ -1814,205 +2331,265 @@ class MicroTaskAssignmentRecord extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(
-      id,
-      localId,
-      boxId,
-      microtaskId,
-      taskId,
-      workerId,
-      deadline,
-      status,
-      completedAt,
-      output,
-      outputFileId,
-      logs,
-      maxBaseCredits,
-      baseCredits,
-      credits,
-      verifiedAt,
-      report,
-      createdAt,
-      lastUpdatedAt);
+  int get hashCode => Object.hashAll([
+        id,
+        boxId,
+        localId,
+        microtaskId,
+        taskId,
+        workerId,
+        wgroup,
+        sentToServerAt,
+        deadline,
+        status,
+        completedAt,
+        output,
+        outputFileId,
+        logs,
+        submittedToBoxAt,
+        submittedToServerAt,
+        verifiedAt,
+        report,
+        maxBaseCredits,
+        baseCredits,
+        maxCredits,
+        credits,
+        extras,
+        createdAt,
+        lastUpdatedAt
+      ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is MicroTaskAssignmentRecord &&
           other.id == this.id &&
-          other.localId == this.localId &&
           other.boxId == this.boxId &&
+          other.localId == this.localId &&
           other.microtaskId == this.microtaskId &&
           other.taskId == this.taskId &&
           other.workerId == this.workerId &&
+          other.wgroup == this.wgroup &&
+          other.sentToServerAt == this.sentToServerAt &&
           other.deadline == this.deadline &&
           other.status == this.status &&
           other.completedAt == this.completedAt &&
           other.output == this.output &&
           other.outputFileId == this.outputFileId &&
           other.logs == this.logs &&
-          other.maxBaseCredits == this.maxBaseCredits &&
-          other.baseCredits == this.baseCredits &&
-          other.credits == this.credits &&
+          other.submittedToBoxAt == this.submittedToBoxAt &&
+          other.submittedToServerAt == this.submittedToServerAt &&
           other.verifiedAt == this.verifiedAt &&
           other.report == this.report &&
+          other.maxBaseCredits == this.maxBaseCredits &&
+          other.baseCredits == this.baseCredits &&
+          other.maxCredits == this.maxCredits &&
+          other.credits == this.credits &&
+          other.extras == this.extras &&
           other.createdAt == this.createdAt &&
           other.lastUpdatedAt == this.lastUpdatedAt);
 }
 
 class MicroTaskAssignmentRecordsCompanion
     extends UpdateCompanion<MicroTaskAssignmentRecord> {
-  final Value<String> id;
-  final Value<String?> localId;
-  final Value<String?> boxId;
-  final Value<String?> microtaskId;
-  final Value<String?> taskId;
-  final Value<String?> workerId;
-  final Value<String?> deadline;
-  final Value<String?> status;
-  final Value<String?> completedAt;
+  final Value<BigInt> id;
+  final Value<BigInt> boxId;
+  final Value<BigInt> localId;
+  final Value<BigInt> microtaskId;
+  final Value<BigInt> taskId;
+  final Value<BigInt> workerId;
+  final Value<String?> wgroup;
+  final Value<DateTime> sentToServerAt;
+  final Value<DateTime?> deadline;
+  final Value<String> status;
+  final Value<DateTime?> completedAt;
   final Value<String?> output;
-  final Value<String?> outputFileId;
+  final Value<BigInt?> outputFileId;
   final Value<String?> logs;
-  final Value<double?> maxBaseCredits;
-  final Value<double?> baseCredits;
-  final Value<double?> credits;
-  final Value<String?> verifiedAt;
+  final Value<DateTime?> submittedToBoxAt;
+  final Value<DateTime?> submittedToServerAt;
+  final Value<DateTime?> verifiedAt;
   final Value<String?> report;
-  final Value<String?> createdAt;
-  final Value<String?> lastUpdatedAt;
-  final Value<int> rowid;
+  final Value<double> maxBaseCredits;
+  final Value<double> baseCredits;
+  final Value<double> maxCredits;
+  final Value<double?> credits;
+  final Value<String?> extras;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> lastUpdatedAt;
   const MicroTaskAssignmentRecordsCompanion({
     this.id = const Value.absent(),
-    this.localId = const Value.absent(),
     this.boxId = const Value.absent(),
+    this.localId = const Value.absent(),
     this.microtaskId = const Value.absent(),
     this.taskId = const Value.absent(),
     this.workerId = const Value.absent(),
+    this.wgroup = const Value.absent(),
+    this.sentToServerAt = const Value.absent(),
     this.deadline = const Value.absent(),
     this.status = const Value.absent(),
     this.completedAt = const Value.absent(),
     this.output = const Value.absent(),
     this.outputFileId = const Value.absent(),
     this.logs = const Value.absent(),
-    this.maxBaseCredits = const Value.absent(),
-    this.baseCredits = const Value.absent(),
-    this.credits = const Value.absent(),
+    this.submittedToBoxAt = const Value.absent(),
+    this.submittedToServerAt = const Value.absent(),
     this.verifiedAt = const Value.absent(),
     this.report = const Value.absent(),
+    this.maxBaseCredits = const Value.absent(),
+    this.baseCredits = const Value.absent(),
+    this.maxCredits = const Value.absent(),
+    this.credits = const Value.absent(),
+    this.extras = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.lastUpdatedAt = const Value.absent(),
-    this.rowid = const Value.absent(),
   });
   MicroTaskAssignmentRecordsCompanion.insert({
-    required String id,
-    this.localId = const Value.absent(),
-    this.boxId = const Value.absent(),
-    this.microtaskId = const Value.absent(),
-    this.taskId = const Value.absent(),
-    this.workerId = const Value.absent(),
+    this.id = const Value.absent(),
+    required BigInt boxId,
+    required BigInt localId,
+    required BigInt microtaskId,
+    required BigInt taskId,
+    required BigInt workerId,
+    this.wgroup = const Value.absent(),
+    required DateTime sentToServerAt,
     this.deadline = const Value.absent(),
-    this.status = const Value.absent(),
+    required String status,
     this.completedAt = const Value.absent(),
     this.output = const Value.absent(),
     this.outputFileId = const Value.absent(),
     this.logs = const Value.absent(),
-    this.maxBaseCredits = const Value.absent(),
-    this.baseCredits = const Value.absent(),
-    this.credits = const Value.absent(),
+    this.submittedToBoxAt = const Value.absent(),
+    this.submittedToServerAt = const Value.absent(),
     this.verifiedAt = const Value.absent(),
     this.report = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.lastUpdatedAt = const Value.absent(),
-    this.rowid = const Value.absent(),
-  }) : id = Value(id);
+    required double maxBaseCredits,
+    required double baseCredits,
+    required double maxCredits,
+    this.credits = const Value.absent(),
+    this.extras = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime lastUpdatedAt,
+  })  : boxId = Value(boxId),
+        localId = Value(localId),
+        microtaskId = Value(microtaskId),
+        taskId = Value(taskId),
+        workerId = Value(workerId),
+        sentToServerAt = Value(sentToServerAt),
+        status = Value(status),
+        maxBaseCredits = Value(maxBaseCredits),
+        baseCredits = Value(baseCredits),
+        maxCredits = Value(maxCredits),
+        createdAt = Value(createdAt),
+        lastUpdatedAt = Value(lastUpdatedAt);
   static Insertable<MicroTaskAssignmentRecord> custom({
-    Expression<String>? id,
-    Expression<String>? localId,
-    Expression<String>? boxId,
-    Expression<String>? microtaskId,
-    Expression<String>? taskId,
-    Expression<String>? workerId,
-    Expression<String>? deadline,
+    Expression<BigInt>? id,
+    Expression<BigInt>? boxId,
+    Expression<BigInt>? localId,
+    Expression<BigInt>? microtaskId,
+    Expression<BigInt>? taskId,
+    Expression<BigInt>? workerId,
+    Expression<String>? wgroup,
+    Expression<DateTime>? sentToServerAt,
+    Expression<DateTime>? deadline,
     Expression<String>? status,
-    Expression<String>? completedAt,
+    Expression<DateTime>? completedAt,
     Expression<String>? output,
-    Expression<String>? outputFileId,
+    Expression<BigInt>? outputFileId,
     Expression<String>? logs,
+    Expression<DateTime>? submittedToBoxAt,
+    Expression<DateTime>? submittedToServerAt,
+    Expression<DateTime>? verifiedAt,
+    Expression<String>? report,
     Expression<double>? maxBaseCredits,
     Expression<double>? baseCredits,
+    Expression<double>? maxCredits,
     Expression<double>? credits,
-    Expression<String>? verifiedAt,
-    Expression<String>? report,
-    Expression<String>? createdAt,
-    Expression<String>? lastUpdatedAt,
-    Expression<int>? rowid,
+    Expression<String>? extras,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? lastUpdatedAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (localId != null) 'local_id': localId,
       if (boxId != null) 'box_id': boxId,
+      if (localId != null) 'local_id': localId,
       if (microtaskId != null) 'microtask_id': microtaskId,
       if (taskId != null) 'task_id': taskId,
       if (workerId != null) 'worker_id': workerId,
+      if (wgroup != null) 'wgroup': wgroup,
+      if (sentToServerAt != null) 'sent_to_server_at': sentToServerAt,
       if (deadline != null) 'deadline': deadline,
       if (status != null) 'status': status,
       if (completedAt != null) 'completed_at': completedAt,
       if (output != null) 'output': output,
       if (outputFileId != null) 'output_file_id': outputFileId,
       if (logs != null) 'logs': logs,
-      if (maxBaseCredits != null) 'max_base_credits': maxBaseCredits,
-      if (baseCredits != null) 'base_credits': baseCredits,
-      if (credits != null) 'credits': credits,
+      if (submittedToBoxAt != null) 'submitted_to_box_at': submittedToBoxAt,
+      if (submittedToServerAt != null)
+        'submitted_to_server_at': submittedToServerAt,
       if (verifiedAt != null) 'verified_at': verifiedAt,
       if (report != null) 'report': report,
+      if (maxBaseCredits != null) 'max_base_credits': maxBaseCredits,
+      if (baseCredits != null) 'base_credits': baseCredits,
+      if (maxCredits != null) 'max_credits': maxCredits,
+      if (credits != null) 'credits': credits,
+      if (extras != null) 'extras': extras,
       if (createdAt != null) 'created_at': createdAt,
       if (lastUpdatedAt != null) 'last_updated_at': lastUpdatedAt,
-      if (rowid != null) 'rowid': rowid,
     });
   }
 
   MicroTaskAssignmentRecordsCompanion copyWith(
-      {Value<String>? id,
-      Value<String?>? localId,
-      Value<String?>? boxId,
-      Value<String?>? microtaskId,
-      Value<String?>? taskId,
-      Value<String?>? workerId,
-      Value<String?>? deadline,
-      Value<String?>? status,
-      Value<String?>? completedAt,
+      {Value<BigInt>? id,
+      Value<BigInt>? boxId,
+      Value<BigInt>? localId,
+      Value<BigInt>? microtaskId,
+      Value<BigInt>? taskId,
+      Value<BigInt>? workerId,
+      Value<String?>? wgroup,
+      Value<DateTime>? sentToServerAt,
+      Value<DateTime?>? deadline,
+      Value<String>? status,
+      Value<DateTime?>? completedAt,
       Value<String?>? output,
-      Value<String?>? outputFileId,
+      Value<BigInt?>? outputFileId,
       Value<String?>? logs,
-      Value<double?>? maxBaseCredits,
-      Value<double?>? baseCredits,
-      Value<double?>? credits,
-      Value<String?>? verifiedAt,
+      Value<DateTime?>? submittedToBoxAt,
+      Value<DateTime?>? submittedToServerAt,
+      Value<DateTime?>? verifiedAt,
       Value<String?>? report,
-      Value<String?>? createdAt,
-      Value<String?>? lastUpdatedAt,
-      Value<int>? rowid}) {
+      Value<double>? maxBaseCredits,
+      Value<double>? baseCredits,
+      Value<double>? maxCredits,
+      Value<double?>? credits,
+      Value<String?>? extras,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? lastUpdatedAt}) {
     return MicroTaskAssignmentRecordsCompanion(
       id: id ?? this.id,
-      localId: localId ?? this.localId,
       boxId: boxId ?? this.boxId,
+      localId: localId ?? this.localId,
       microtaskId: microtaskId ?? this.microtaskId,
       taskId: taskId ?? this.taskId,
       workerId: workerId ?? this.workerId,
+      wgroup: wgroup ?? this.wgroup,
+      sentToServerAt: sentToServerAt ?? this.sentToServerAt,
       deadline: deadline ?? this.deadline,
       status: status ?? this.status,
       completedAt: completedAt ?? this.completedAt,
       output: output ?? this.output,
       outputFileId: outputFileId ?? this.outputFileId,
       logs: logs ?? this.logs,
-      maxBaseCredits: maxBaseCredits ?? this.maxBaseCredits,
-      baseCredits: baseCredits ?? this.baseCredits,
-      credits: credits ?? this.credits,
+      submittedToBoxAt: submittedToBoxAt ?? this.submittedToBoxAt,
+      submittedToServerAt: submittedToServerAt ?? this.submittedToServerAt,
       verifiedAt: verifiedAt ?? this.verifiedAt,
       report: report ?? this.report,
+      maxBaseCredits: maxBaseCredits ?? this.maxBaseCredits,
+      baseCredits: baseCredits ?? this.baseCredits,
+      maxCredits: maxCredits ?? this.maxCredits,
+      credits: credits ?? this.credits,
+      extras: extras ?? this.extras,
       createdAt: createdAt ?? this.createdAt,
       lastUpdatedAt: lastUpdatedAt ?? this.lastUpdatedAt,
-      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -2020,40 +2597,59 @@ class MicroTaskAssignmentRecordsCompanion
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<String>(id.value);
-    }
-    if (localId.present) {
-      map['local_id'] = Variable<String>(localId.value);
+      map['id'] = Variable<BigInt>(id.value);
     }
     if (boxId.present) {
-      map['box_id'] = Variable<String>(boxId.value);
+      map['box_id'] = Variable<BigInt>(boxId.value);
+    }
+    if (localId.present) {
+      map['local_id'] = Variable<BigInt>(localId.value);
     }
     if (microtaskId.present) {
-      map['microtask_id'] = Variable<String>(microtaskId.value);
+      map['microtask_id'] = Variable<BigInt>(microtaskId.value);
     }
     if (taskId.present) {
-      map['task_id'] = Variable<String>(taskId.value);
+      map['task_id'] = Variable<BigInt>(taskId.value);
     }
     if (workerId.present) {
-      map['worker_id'] = Variable<String>(workerId.value);
+      map['worker_id'] = Variable<BigInt>(workerId.value);
+    }
+    if (wgroup.present) {
+      map['wgroup'] = Variable<String>(wgroup.value);
+    }
+    if (sentToServerAt.present) {
+      map['sent_to_server_at'] = Variable<DateTime>(sentToServerAt.value);
     }
     if (deadline.present) {
-      map['deadline'] = Variable<String>(deadline.value);
+      map['deadline'] = Variable<DateTime>(deadline.value);
     }
     if (status.present) {
       map['status'] = Variable<String>(status.value);
     }
     if (completedAt.present) {
-      map['completed_at'] = Variable<String>(completedAt.value);
+      map['completed_at'] = Variable<DateTime>(completedAt.value);
     }
     if (output.present) {
       map['output'] = Variable<String>(output.value);
     }
     if (outputFileId.present) {
-      map['output_file_id'] = Variable<String>(outputFileId.value);
+      map['output_file_id'] = Variable<BigInt>(outputFileId.value);
     }
     if (logs.present) {
       map['logs'] = Variable<String>(logs.value);
+    }
+    if (submittedToBoxAt.present) {
+      map['submitted_to_box_at'] = Variable<DateTime>(submittedToBoxAt.value);
+    }
+    if (submittedToServerAt.present) {
+      map['submitted_to_server_at'] =
+          Variable<DateTime>(submittedToServerAt.value);
+    }
+    if (verifiedAt.present) {
+      map['verified_at'] = Variable<DateTime>(verifiedAt.value);
+    }
+    if (report.present) {
+      map['report'] = Variable<String>(report.value);
     }
     if (maxBaseCredits.present) {
       map['max_base_credits'] = Variable<double>(maxBaseCredits.value);
@@ -2061,23 +2657,20 @@ class MicroTaskAssignmentRecordsCompanion
     if (baseCredits.present) {
       map['base_credits'] = Variable<double>(baseCredits.value);
     }
+    if (maxCredits.present) {
+      map['max_credits'] = Variable<double>(maxCredits.value);
+    }
     if (credits.present) {
       map['credits'] = Variable<double>(credits.value);
     }
-    if (verifiedAt.present) {
-      map['verified_at'] = Variable<String>(verifiedAt.value);
-    }
-    if (report.present) {
-      map['report'] = Variable<String>(report.value);
+    if (extras.present) {
+      map['extras'] = Variable<String>(extras.value);
     }
     if (createdAt.present) {
-      map['created_at'] = Variable<String>(createdAt.value);
+      map['created_at'] = Variable<DateTime>(createdAt.value);
     }
     if (lastUpdatedAt.present) {
-      map['last_updated_at'] = Variable<String>(lastUpdatedAt.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
+      map['last_updated_at'] = Variable<DateTime>(lastUpdatedAt.value);
     }
     return map;
   }
@@ -2086,25 +2679,30 @@ class MicroTaskAssignmentRecordsCompanion
   String toString() {
     return (StringBuffer('MicroTaskAssignmentRecordsCompanion(')
           ..write('id: $id, ')
-          ..write('localId: $localId, ')
           ..write('boxId: $boxId, ')
+          ..write('localId: $localId, ')
           ..write('microtaskId: $microtaskId, ')
           ..write('taskId: $taskId, ')
           ..write('workerId: $workerId, ')
+          ..write('wgroup: $wgroup, ')
+          ..write('sentToServerAt: $sentToServerAt, ')
           ..write('deadline: $deadline, ')
           ..write('status: $status, ')
           ..write('completedAt: $completedAt, ')
           ..write('output: $output, ')
           ..write('outputFileId: $outputFileId, ')
           ..write('logs: $logs, ')
-          ..write('maxBaseCredits: $maxBaseCredits, ')
-          ..write('baseCredits: $baseCredits, ')
-          ..write('credits: $credits, ')
+          ..write('submittedToBoxAt: $submittedToBoxAt, ')
+          ..write('submittedToServerAt: $submittedToServerAt, ')
           ..write('verifiedAt: $verifiedAt, ')
           ..write('report: $report, ')
+          ..write('maxBaseCredits: $maxBaseCredits, ')
+          ..write('baseCredits: $baseCredits, ')
+          ..write('maxCredits: $maxCredits, ')
+          ..write('credits: $credits, ')
+          ..write('extras: $extras, ')
           ..write('createdAt: $createdAt, ')
-          ..write('lastUpdatedAt: $lastUpdatedAt, ')
-          ..write('rowid: $rowid')
+          ..write('lastUpdatedAt: $lastUpdatedAt')
           ..write(')'))
         .toString();
   }
@@ -2132,37 +2730,49 @@ abstract class _$KaryaDatabase extends GeneratedDatabase {
 
 typedef $$TaskRecordsTableCreateCompanionBuilder = TaskRecordsCompanion
     Function({
-  required String id,
-  Value<String?> scenarioName,
-  Value<String?> name,
-  Value<String?> description,
-  Value<String?> displayName,
-  Value<String?> params,
-  Value<String?> deadline,
-  Value<String?> assignmentGranularity,
-  Value<String?> groupAssignmentOrder,
-  Value<String?> microtaskAssignmentOrder,
-  Value<String?> status,
-  Value<String?> createdAt,
-  Value<String?> lastUpdatedAt,
-  Value<int> rowid,
+  Value<BigInt> id,
+  required BigInt workProviderId,
+  required String scenarioName,
+  required String name,
+  required String description,
+  required String displayName,
+  required String policy,
+  required String params,
+  required String itags,
+  required String otags,
+  Value<String?> wgroup,
+  Value<DateTime?> deadline,
+  required String assignmentGranularity,
+  required String groupAssignmentOrder,
+  required String microtaskAssignmentOrder,
+  Value<int?> assignmentBatchSize,
+  required String status,
+  Value<String?> extras,
+  required DateTime createdAt,
+  required DateTime lastUpdatedAt,
 });
 typedef $$TaskRecordsTableUpdateCompanionBuilder = TaskRecordsCompanion
     Function({
-  Value<String> id,
-  Value<String?> scenarioName,
-  Value<String?> name,
-  Value<String?> description,
-  Value<String?> displayName,
-  Value<String?> params,
-  Value<String?> deadline,
-  Value<String?> assignmentGranularity,
-  Value<String?> groupAssignmentOrder,
-  Value<String?> microtaskAssignmentOrder,
-  Value<String?> status,
-  Value<String?> createdAt,
-  Value<String?> lastUpdatedAt,
-  Value<int> rowid,
+  Value<BigInt> id,
+  Value<BigInt> workProviderId,
+  Value<String> scenarioName,
+  Value<String> name,
+  Value<String> description,
+  Value<String> displayName,
+  Value<String> policy,
+  Value<String> params,
+  Value<String> itags,
+  Value<String> otags,
+  Value<String?> wgroup,
+  Value<DateTime?> deadline,
+  Value<String> assignmentGranularity,
+  Value<String> groupAssignmentOrder,
+  Value<String> microtaskAssignmentOrder,
+  Value<int?> assignmentBatchSize,
+  Value<String> status,
+  Value<String?> extras,
+  Value<DateTime> createdAt,
+  Value<DateTime> lastUpdatedAt,
 });
 
 class $$TaskRecordsTableFilterComposer
@@ -2174,8 +2784,12 @@ class $$TaskRecordsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get id => $composableBuilder(
+  ColumnFilters<BigInt> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<BigInt> get workProviderId => $composableBuilder(
+      column: $table.workProviderId,
+      builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get scenarioName => $composableBuilder(
       column: $table.scenarioName, builder: (column) => ColumnFilters(column));
@@ -2189,10 +2803,22 @@ class $$TaskRecordsTableFilterComposer
   ColumnFilters<String> get displayName => $composableBuilder(
       column: $table.displayName, builder: (column) => ColumnFilters(column));
 
+  ColumnFilters<String> get policy => $composableBuilder(
+      column: $table.policy, builder: (column) => ColumnFilters(column));
+
   ColumnFilters<String> get params => $composableBuilder(
       column: $table.params, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get deadline => $composableBuilder(
+  ColumnFilters<String> get itags => $composableBuilder(
+      column: $table.itags, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get otags => $composableBuilder(
+      column: $table.otags, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get wgroup => $composableBuilder(
+      column: $table.wgroup, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get deadline => $composableBuilder(
       column: $table.deadline, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get assignmentGranularity => $composableBuilder(
@@ -2207,13 +2833,20 @@ class $$TaskRecordsTableFilterComposer
       column: $table.microtaskAssignmentOrder,
       builder: (column) => ColumnFilters(column));
 
+  ColumnFilters<int> get assignmentBatchSize => $composableBuilder(
+      column: $table.assignmentBatchSize,
+      builder: (column) => ColumnFilters(column));
+
   ColumnFilters<String> get status => $composableBuilder(
       column: $table.status, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get createdAt => $composableBuilder(
+  ColumnFilters<String> get extras => $composableBuilder(
+      column: $table.extras, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get lastUpdatedAt => $composableBuilder(
+  ColumnFilters<DateTime> get lastUpdatedAt => $composableBuilder(
       column: $table.lastUpdatedAt, builder: (column) => ColumnFilters(column));
 }
 
@@ -2226,8 +2859,12 @@ class $$TaskRecordsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get id => $composableBuilder(
+  ColumnOrderings<BigInt> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<BigInt> get workProviderId => $composableBuilder(
+      column: $table.workProviderId,
+      builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get scenarioName => $composableBuilder(
       column: $table.scenarioName,
@@ -2242,10 +2879,22 @@ class $$TaskRecordsTableOrderingComposer
   ColumnOrderings<String> get displayName => $composableBuilder(
       column: $table.displayName, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get policy => $composableBuilder(
+      column: $table.policy, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<String> get params => $composableBuilder(
       column: $table.params, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get deadline => $composableBuilder(
+  ColumnOrderings<String> get itags => $composableBuilder(
+      column: $table.itags, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get otags => $composableBuilder(
+      column: $table.otags, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get wgroup => $composableBuilder(
+      column: $table.wgroup, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get deadline => $composableBuilder(
       column: $table.deadline, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get assignmentGranularity => $composableBuilder(
@@ -2260,13 +2909,20 @@ class $$TaskRecordsTableOrderingComposer
       column: $table.microtaskAssignmentOrder,
       builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<int> get assignmentBatchSize => $composableBuilder(
+      column: $table.assignmentBatchSize,
+      builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<String> get status => $composableBuilder(
       column: $table.status, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get createdAt => $composableBuilder(
+  ColumnOrderings<String> get extras => $composableBuilder(
+      column: $table.extras, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get lastUpdatedAt => $composableBuilder(
+  ColumnOrderings<DateTime> get lastUpdatedAt => $composableBuilder(
       column: $table.lastUpdatedAt,
       builder: (column) => ColumnOrderings(column));
 }
@@ -2280,8 +2936,11 @@ class $$TaskRecordsTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<String> get id =>
+  GeneratedColumn<BigInt> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<BigInt> get workProviderId => $composableBuilder(
+      column: $table.workProviderId, builder: (column) => column);
 
   GeneratedColumn<String> get scenarioName => $composableBuilder(
       column: $table.scenarioName, builder: (column) => column);
@@ -2295,10 +2954,22 @@ class $$TaskRecordsTableAnnotationComposer
   GeneratedColumn<String> get displayName => $composableBuilder(
       column: $table.displayName, builder: (column) => column);
 
+  GeneratedColumn<String> get policy =>
+      $composableBuilder(column: $table.policy, builder: (column) => column);
+
   GeneratedColumn<String> get params =>
       $composableBuilder(column: $table.params, builder: (column) => column);
 
-  GeneratedColumn<String> get deadline =>
+  GeneratedColumn<String> get itags =>
+      $composableBuilder(column: $table.itags, builder: (column) => column);
+
+  GeneratedColumn<String> get otags =>
+      $composableBuilder(column: $table.otags, builder: (column) => column);
+
+  GeneratedColumn<String> get wgroup =>
+      $composableBuilder(column: $table.wgroup, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deadline =>
       $composableBuilder(column: $table.deadline, builder: (column) => column);
 
   GeneratedColumn<String> get assignmentGranularity => $composableBuilder(
@@ -2310,13 +2981,19 @@ class $$TaskRecordsTableAnnotationComposer
   GeneratedColumn<String> get microtaskAssignmentOrder => $composableBuilder(
       column: $table.microtaskAssignmentOrder, builder: (column) => column);
 
+  GeneratedColumn<int> get assignmentBatchSize => $composableBuilder(
+      column: $table.assignmentBatchSize, builder: (column) => column);
+
   GeneratedColumn<String> get status =>
       $composableBuilder(column: $table.status, builder: (column) => column);
 
-  GeneratedColumn<String> get createdAt =>
+  GeneratedColumn<String> get extras =>
+      $composableBuilder(column: $table.extras, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
-  GeneratedColumn<String> get lastUpdatedAt => $composableBuilder(
+  GeneratedColumn<DateTime> get lastUpdatedAt => $composableBuilder(
       column: $table.lastUpdatedAt, builder: (column) => column);
 }
 
@@ -2346,68 +3023,92 @@ class $$TaskRecordsTableTableManager extends RootTableManager<
           createComputedFieldComposer: () =>
               $$TaskRecordsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String?> scenarioName = const Value.absent(),
-            Value<String?> name = const Value.absent(),
-            Value<String?> description = const Value.absent(),
-            Value<String?> displayName = const Value.absent(),
-            Value<String?> params = const Value.absent(),
-            Value<String?> deadline = const Value.absent(),
-            Value<String?> assignmentGranularity = const Value.absent(),
-            Value<String?> groupAssignmentOrder = const Value.absent(),
-            Value<String?> microtaskAssignmentOrder = const Value.absent(),
-            Value<String?> status = const Value.absent(),
-            Value<String?> createdAt = const Value.absent(),
-            Value<String?> lastUpdatedAt = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
+            Value<BigInt> id = const Value.absent(),
+            Value<BigInt> workProviderId = const Value.absent(),
+            Value<String> scenarioName = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<String> description = const Value.absent(),
+            Value<String> displayName = const Value.absent(),
+            Value<String> policy = const Value.absent(),
+            Value<String> params = const Value.absent(),
+            Value<String> itags = const Value.absent(),
+            Value<String> otags = const Value.absent(),
+            Value<String?> wgroup = const Value.absent(),
+            Value<DateTime?> deadline = const Value.absent(),
+            Value<String> assignmentGranularity = const Value.absent(),
+            Value<String> groupAssignmentOrder = const Value.absent(),
+            Value<String> microtaskAssignmentOrder = const Value.absent(),
+            Value<int?> assignmentBatchSize = const Value.absent(),
+            Value<String> status = const Value.absent(),
+            Value<String?> extras = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> lastUpdatedAt = const Value.absent(),
           }) =>
               TaskRecordsCompanion(
             id: id,
+            workProviderId: workProviderId,
             scenarioName: scenarioName,
             name: name,
             description: description,
             displayName: displayName,
+            policy: policy,
             params: params,
+            itags: itags,
+            otags: otags,
+            wgroup: wgroup,
             deadline: deadline,
             assignmentGranularity: assignmentGranularity,
             groupAssignmentOrder: groupAssignmentOrder,
             microtaskAssignmentOrder: microtaskAssignmentOrder,
+            assignmentBatchSize: assignmentBatchSize,
             status: status,
+            extras: extras,
             createdAt: createdAt,
             lastUpdatedAt: lastUpdatedAt,
-            rowid: rowid,
           ),
           createCompanionCallback: ({
-            required String id,
-            Value<String?> scenarioName = const Value.absent(),
-            Value<String?> name = const Value.absent(),
-            Value<String?> description = const Value.absent(),
-            Value<String?> displayName = const Value.absent(),
-            Value<String?> params = const Value.absent(),
-            Value<String?> deadline = const Value.absent(),
-            Value<String?> assignmentGranularity = const Value.absent(),
-            Value<String?> groupAssignmentOrder = const Value.absent(),
-            Value<String?> microtaskAssignmentOrder = const Value.absent(),
-            Value<String?> status = const Value.absent(),
-            Value<String?> createdAt = const Value.absent(),
-            Value<String?> lastUpdatedAt = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
+            Value<BigInt> id = const Value.absent(),
+            required BigInt workProviderId,
+            required String scenarioName,
+            required String name,
+            required String description,
+            required String displayName,
+            required String policy,
+            required String params,
+            required String itags,
+            required String otags,
+            Value<String?> wgroup = const Value.absent(),
+            Value<DateTime?> deadline = const Value.absent(),
+            required String assignmentGranularity,
+            required String groupAssignmentOrder,
+            required String microtaskAssignmentOrder,
+            Value<int?> assignmentBatchSize = const Value.absent(),
+            required String status,
+            Value<String?> extras = const Value.absent(),
+            required DateTime createdAt,
+            required DateTime lastUpdatedAt,
           }) =>
               TaskRecordsCompanion.insert(
             id: id,
+            workProviderId: workProviderId,
             scenarioName: scenarioName,
             name: name,
             description: description,
             displayName: displayName,
+            policy: policy,
             params: params,
+            itags: itags,
+            otags: otags,
+            wgroup: wgroup,
             deadline: deadline,
             assignmentGranularity: assignmentGranularity,
             groupAssignmentOrder: groupAssignmentOrder,
             microtaskAssignmentOrder: microtaskAssignmentOrder,
+            assignmentBatchSize: assignmentBatchSize,
             status: status,
+            extras: extras,
             createdAt: createdAt,
             lastUpdatedAt: lastUpdatedAt,
-            rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
@@ -2433,31 +3134,35 @@ typedef $$TaskRecordsTableProcessedTableManager = ProcessedTableManager<
     PrefetchHooks Function()>;
 typedef $$MicroTaskRecordsTableCreateCompanionBuilder
     = MicroTaskRecordsCompanion Function({
-  required String id,
-  Value<String?> taskId,
-  Value<String?> groupId,
-  Value<String?> input,
-  Value<String?> inputFileId,
-  Value<String?> deadline,
-  Value<double?> credits,
+  Value<BigInt> id,
+  required BigInt taskId,
+  Value<BigInt?> groupId,
+  required String input,
+  Value<BigInt?> inputFileId,
+  Value<DateTime?> deadline,
+  required double baseCredits,
+  required double credits,
+  required String status,
   Value<String?> output,
-  Value<String?> createdAt,
-  Value<String?> lastUpdatedAt,
-  Value<int> rowid,
+  Value<String?> extras,
+  required DateTime createdAt,
+  required DateTime lastUpdatedAt,
 });
 typedef $$MicroTaskRecordsTableUpdateCompanionBuilder
     = MicroTaskRecordsCompanion Function({
-  Value<String> id,
-  Value<String?> taskId,
-  Value<String?> groupId,
-  Value<String?> input,
-  Value<String?> inputFileId,
-  Value<String?> deadline,
-  Value<double?> credits,
+  Value<BigInt> id,
+  Value<BigInt> taskId,
+  Value<BigInt?> groupId,
+  Value<String> input,
+  Value<BigInt?> inputFileId,
+  Value<DateTime?> deadline,
+  Value<double> baseCredits,
+  Value<double> credits,
+  Value<String> status,
   Value<String?> output,
-  Value<String?> createdAt,
-  Value<String?> lastUpdatedAt,
-  Value<int> rowid,
+  Value<String?> extras,
+  Value<DateTime> createdAt,
+  Value<DateTime> lastUpdatedAt,
 });
 
 class $$MicroTaskRecordsTableFilterComposer
@@ -2469,34 +3174,43 @@ class $$MicroTaskRecordsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get id => $composableBuilder(
+  ColumnFilters<BigInt> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get taskId => $composableBuilder(
+  ColumnFilters<BigInt> get taskId => $composableBuilder(
       column: $table.taskId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get groupId => $composableBuilder(
+  ColumnFilters<BigInt> get groupId => $composableBuilder(
       column: $table.groupId, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get input => $composableBuilder(
       column: $table.input, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get inputFileId => $composableBuilder(
+  ColumnFilters<BigInt> get inputFileId => $composableBuilder(
       column: $table.inputFileId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get deadline => $composableBuilder(
+  ColumnFilters<DateTime> get deadline => $composableBuilder(
       column: $table.deadline, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get baseCredits => $composableBuilder(
+      column: $table.baseCredits, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<double> get credits => $composableBuilder(
       column: $table.credits, builder: (column) => ColumnFilters(column));
 
+  ColumnFilters<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnFilters(column));
+
   ColumnFilters<String> get output => $composableBuilder(
       column: $table.output, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get createdAt => $composableBuilder(
+  ColumnFilters<String> get extras => $composableBuilder(
+      column: $table.extras, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get lastUpdatedAt => $composableBuilder(
+  ColumnFilters<DateTime> get lastUpdatedAt => $composableBuilder(
       column: $table.lastUpdatedAt, builder: (column) => ColumnFilters(column));
 }
 
@@ -2509,34 +3223,43 @@ class $$MicroTaskRecordsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get id => $composableBuilder(
+  ColumnOrderings<BigInt> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get taskId => $composableBuilder(
+  ColumnOrderings<BigInt> get taskId => $composableBuilder(
       column: $table.taskId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get groupId => $composableBuilder(
+  ColumnOrderings<BigInt> get groupId => $composableBuilder(
       column: $table.groupId, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get input => $composableBuilder(
       column: $table.input, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get inputFileId => $composableBuilder(
+  ColumnOrderings<BigInt> get inputFileId => $composableBuilder(
       column: $table.inputFileId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get deadline => $composableBuilder(
+  ColumnOrderings<DateTime> get deadline => $composableBuilder(
       column: $table.deadline, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get baseCredits => $composableBuilder(
+      column: $table.baseCredits, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<double> get credits => $composableBuilder(
       column: $table.credits, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<String> get output => $composableBuilder(
       column: $table.output, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get createdAt => $composableBuilder(
+  ColumnOrderings<String> get extras => $composableBuilder(
+      column: $table.extras, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get lastUpdatedAt => $composableBuilder(
+  ColumnOrderings<DateTime> get lastUpdatedAt => $composableBuilder(
       column: $table.lastUpdatedAt,
       builder: (column) => ColumnOrderings(column));
 }
@@ -2550,34 +3273,43 @@ class $$MicroTaskRecordsTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<String> get id =>
+  GeneratedColumn<BigInt> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<String> get taskId =>
+  GeneratedColumn<BigInt> get taskId =>
       $composableBuilder(column: $table.taskId, builder: (column) => column);
 
-  GeneratedColumn<String> get groupId =>
+  GeneratedColumn<BigInt> get groupId =>
       $composableBuilder(column: $table.groupId, builder: (column) => column);
 
   GeneratedColumn<String> get input =>
       $composableBuilder(column: $table.input, builder: (column) => column);
 
-  GeneratedColumn<String> get inputFileId => $composableBuilder(
+  GeneratedColumn<BigInt> get inputFileId => $composableBuilder(
       column: $table.inputFileId, builder: (column) => column);
 
-  GeneratedColumn<String> get deadline =>
+  GeneratedColumn<DateTime> get deadline =>
       $composableBuilder(column: $table.deadline, builder: (column) => column);
+
+  GeneratedColumn<double> get baseCredits => $composableBuilder(
+      column: $table.baseCredits, builder: (column) => column);
 
   GeneratedColumn<double> get credits =>
       $composableBuilder(column: $table.credits, builder: (column) => column);
 
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
   GeneratedColumn<String> get output =>
       $composableBuilder(column: $table.output, builder: (column) => column);
 
-  GeneratedColumn<String> get createdAt =>
+  GeneratedColumn<String> get extras =>
+      $composableBuilder(column: $table.extras, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
-  GeneratedColumn<String> get lastUpdatedAt => $composableBuilder(
+  GeneratedColumn<DateTime> get lastUpdatedAt => $composableBuilder(
       column: $table.lastUpdatedAt, builder: (column) => column);
 }
 
@@ -2608,17 +3340,19 @@ class $$MicroTaskRecordsTableTableManager extends RootTableManager<
           createComputedFieldComposer: () =>
               $$MicroTaskRecordsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String?> taskId = const Value.absent(),
-            Value<String?> groupId = const Value.absent(),
-            Value<String?> input = const Value.absent(),
-            Value<String?> inputFileId = const Value.absent(),
-            Value<String?> deadline = const Value.absent(),
-            Value<double?> credits = const Value.absent(),
+            Value<BigInt> id = const Value.absent(),
+            Value<BigInt> taskId = const Value.absent(),
+            Value<BigInt?> groupId = const Value.absent(),
+            Value<String> input = const Value.absent(),
+            Value<BigInt?> inputFileId = const Value.absent(),
+            Value<DateTime?> deadline = const Value.absent(),
+            Value<double> baseCredits = const Value.absent(),
+            Value<double> credits = const Value.absent(),
+            Value<String> status = const Value.absent(),
             Value<String?> output = const Value.absent(),
-            Value<String?> createdAt = const Value.absent(),
-            Value<String?> lastUpdatedAt = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
+            Value<String?> extras = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> lastUpdatedAt = const Value.absent(),
           }) =>
               MicroTaskRecordsCompanion(
             id: id,
@@ -2627,24 +3361,28 @@ class $$MicroTaskRecordsTableTableManager extends RootTableManager<
             input: input,
             inputFileId: inputFileId,
             deadline: deadline,
+            baseCredits: baseCredits,
             credits: credits,
+            status: status,
             output: output,
+            extras: extras,
             createdAt: createdAt,
             lastUpdatedAt: lastUpdatedAt,
-            rowid: rowid,
           ),
           createCompanionCallback: ({
-            required String id,
-            Value<String?> taskId = const Value.absent(),
-            Value<String?> groupId = const Value.absent(),
-            Value<String?> input = const Value.absent(),
-            Value<String?> inputFileId = const Value.absent(),
-            Value<String?> deadline = const Value.absent(),
-            Value<double?> credits = const Value.absent(),
+            Value<BigInt> id = const Value.absent(),
+            required BigInt taskId,
+            Value<BigInt?> groupId = const Value.absent(),
+            required String input,
+            Value<BigInt?> inputFileId = const Value.absent(),
+            Value<DateTime?> deadline = const Value.absent(),
+            required double baseCredits,
+            required double credits,
+            required String status,
             Value<String?> output = const Value.absent(),
-            Value<String?> createdAt = const Value.absent(),
-            Value<String?> lastUpdatedAt = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
+            Value<String?> extras = const Value.absent(),
+            required DateTime createdAt,
+            required DateTime lastUpdatedAt,
           }) =>
               MicroTaskRecordsCompanion.insert(
             id: id,
@@ -2653,11 +3391,13 @@ class $$MicroTaskRecordsTableTableManager extends RootTableManager<
             input: input,
             inputFileId: inputFileId,
             deadline: deadline,
+            baseCredits: baseCredits,
             credits: credits,
+            status: status,
             output: output,
+            extras: extras,
             createdAt: createdAt,
             lastUpdatedAt: lastUpdatedAt,
-            rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
@@ -2683,49 +3423,59 @@ typedef $$MicroTaskRecordsTableProcessedTableManager = ProcessedTableManager<
     PrefetchHooks Function()>;
 typedef $$MicroTaskAssignmentRecordsTableCreateCompanionBuilder
     = MicroTaskAssignmentRecordsCompanion Function({
-  required String id,
-  Value<String?> localId,
-  Value<String?> boxId,
-  Value<String?> microtaskId,
-  Value<String?> taskId,
-  Value<String?> workerId,
-  Value<String?> deadline,
-  Value<String?> status,
-  Value<String?> completedAt,
+  Value<BigInt> id,
+  required BigInt boxId,
+  required BigInt localId,
+  required BigInt microtaskId,
+  required BigInt taskId,
+  required BigInt workerId,
+  Value<String?> wgroup,
+  required DateTime sentToServerAt,
+  Value<DateTime?> deadline,
+  required String status,
+  Value<DateTime?> completedAt,
   Value<String?> output,
-  Value<String?> outputFileId,
+  Value<BigInt?> outputFileId,
   Value<String?> logs,
-  Value<double?> maxBaseCredits,
-  Value<double?> baseCredits,
-  Value<double?> credits,
-  Value<String?> verifiedAt,
+  Value<DateTime?> submittedToBoxAt,
+  Value<DateTime?> submittedToServerAt,
+  Value<DateTime?> verifiedAt,
   Value<String?> report,
-  Value<String?> createdAt,
-  Value<String?> lastUpdatedAt,
-  Value<int> rowid,
+  required double maxBaseCredits,
+  required double baseCredits,
+  required double maxCredits,
+  Value<double?> credits,
+  Value<String?> extras,
+  required DateTime createdAt,
+  required DateTime lastUpdatedAt,
 });
 typedef $$MicroTaskAssignmentRecordsTableUpdateCompanionBuilder
     = MicroTaskAssignmentRecordsCompanion Function({
-  Value<String> id,
-  Value<String?> localId,
-  Value<String?> boxId,
-  Value<String?> microtaskId,
-  Value<String?> taskId,
-  Value<String?> workerId,
-  Value<String?> deadline,
-  Value<String?> status,
-  Value<String?> completedAt,
+  Value<BigInt> id,
+  Value<BigInt> boxId,
+  Value<BigInt> localId,
+  Value<BigInt> microtaskId,
+  Value<BigInt> taskId,
+  Value<BigInt> workerId,
+  Value<String?> wgroup,
+  Value<DateTime> sentToServerAt,
+  Value<DateTime?> deadline,
+  Value<String> status,
+  Value<DateTime?> completedAt,
   Value<String?> output,
-  Value<String?> outputFileId,
+  Value<BigInt?> outputFileId,
   Value<String?> logs,
-  Value<double?> maxBaseCredits,
-  Value<double?> baseCredits,
-  Value<double?> credits,
-  Value<String?> verifiedAt,
+  Value<DateTime?> submittedToBoxAt,
+  Value<DateTime?> submittedToServerAt,
+  Value<DateTime?> verifiedAt,
   Value<String?> report,
-  Value<String?> createdAt,
-  Value<String?> lastUpdatedAt,
-  Value<int> rowid,
+  Value<double> maxBaseCredits,
+  Value<double> baseCredits,
+  Value<double> maxCredits,
+  Value<double?> credits,
+  Value<String?> extras,
+  Value<DateTime> createdAt,
+  Value<DateTime> lastUpdatedAt,
 });
 
 class $$MicroTaskAssignmentRecordsTableFilterComposer
@@ -2737,41 +3487,62 @@ class $$MicroTaskAssignmentRecordsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get id => $composableBuilder(
+  ColumnFilters<BigInt> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get localId => $composableBuilder(
-      column: $table.localId, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get boxId => $composableBuilder(
+  ColumnFilters<BigInt> get boxId => $composableBuilder(
       column: $table.boxId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get microtaskId => $composableBuilder(
+  ColumnFilters<BigInt> get localId => $composableBuilder(
+      column: $table.localId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<BigInt> get microtaskId => $composableBuilder(
       column: $table.microtaskId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get taskId => $composableBuilder(
+  ColumnFilters<BigInt> get taskId => $composableBuilder(
       column: $table.taskId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get workerId => $composableBuilder(
+  ColumnFilters<BigInt> get workerId => $composableBuilder(
       column: $table.workerId, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get deadline => $composableBuilder(
+  ColumnFilters<String> get wgroup => $composableBuilder(
+      column: $table.wgroup, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get sentToServerAt => $composableBuilder(
+      column: $table.sentToServerAt,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get deadline => $composableBuilder(
       column: $table.deadline, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get status => $composableBuilder(
       column: $table.status, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get completedAt => $composableBuilder(
+  ColumnFilters<DateTime> get completedAt => $composableBuilder(
       column: $table.completedAt, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get output => $composableBuilder(
       column: $table.output, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get outputFileId => $composableBuilder(
+  ColumnFilters<BigInt> get outputFileId => $composableBuilder(
       column: $table.outputFileId, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get logs => $composableBuilder(
       column: $table.logs, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get submittedToBoxAt => $composableBuilder(
+      column: $table.submittedToBoxAt,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get submittedToServerAt => $composableBuilder(
+      column: $table.submittedToServerAt,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get verifiedAt => $composableBuilder(
+      column: $table.verifiedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get report => $composableBuilder(
+      column: $table.report, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<double> get maxBaseCredits => $composableBuilder(
       column: $table.maxBaseCredits,
@@ -2780,19 +3551,19 @@ class $$MicroTaskAssignmentRecordsTableFilterComposer
   ColumnFilters<double> get baseCredits => $composableBuilder(
       column: $table.baseCredits, builder: (column) => ColumnFilters(column));
 
+  ColumnFilters<double> get maxCredits => $composableBuilder(
+      column: $table.maxCredits, builder: (column) => ColumnFilters(column));
+
   ColumnFilters<double> get credits => $composableBuilder(
       column: $table.credits, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get verifiedAt => $composableBuilder(
-      column: $table.verifiedAt, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get extras => $composableBuilder(
+      column: $table.extras, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get report => $composableBuilder(
-      column: $table.report, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get createdAt => $composableBuilder(
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get lastUpdatedAt => $composableBuilder(
+  ColumnFilters<DateTime> get lastUpdatedAt => $composableBuilder(
       column: $table.lastUpdatedAt, builder: (column) => ColumnFilters(column));
 }
 
@@ -2805,42 +3576,63 @@ class $$MicroTaskAssignmentRecordsTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get id => $composableBuilder(
+  ColumnOrderings<BigInt> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get localId => $composableBuilder(
-      column: $table.localId, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get boxId => $composableBuilder(
+  ColumnOrderings<BigInt> get boxId => $composableBuilder(
       column: $table.boxId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get microtaskId => $composableBuilder(
+  ColumnOrderings<BigInt> get localId => $composableBuilder(
+      column: $table.localId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<BigInt> get microtaskId => $composableBuilder(
       column: $table.microtaskId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get taskId => $composableBuilder(
+  ColumnOrderings<BigInt> get taskId => $composableBuilder(
       column: $table.taskId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get workerId => $composableBuilder(
+  ColumnOrderings<BigInt> get workerId => $composableBuilder(
       column: $table.workerId, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get deadline => $composableBuilder(
+  ColumnOrderings<String> get wgroup => $composableBuilder(
+      column: $table.wgroup, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get sentToServerAt => $composableBuilder(
+      column: $table.sentToServerAt,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get deadline => $composableBuilder(
       column: $table.deadline, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get status => $composableBuilder(
       column: $table.status, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get completedAt => $composableBuilder(
+  ColumnOrderings<DateTime> get completedAt => $composableBuilder(
       column: $table.completedAt, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get output => $composableBuilder(
       column: $table.output, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get outputFileId => $composableBuilder(
+  ColumnOrderings<BigInt> get outputFileId => $composableBuilder(
       column: $table.outputFileId,
       builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get logs => $composableBuilder(
       column: $table.logs, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get submittedToBoxAt => $composableBuilder(
+      column: $table.submittedToBoxAt,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get submittedToServerAt => $composableBuilder(
+      column: $table.submittedToServerAt,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get verifiedAt => $composableBuilder(
+      column: $table.verifiedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get report => $composableBuilder(
+      column: $table.report, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<double> get maxBaseCredits => $composableBuilder(
       column: $table.maxBaseCredits,
@@ -2849,19 +3641,19 @@ class $$MicroTaskAssignmentRecordsTableOrderingComposer
   ColumnOrderings<double> get baseCredits => $composableBuilder(
       column: $table.baseCredits, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<double> get maxCredits => $composableBuilder(
+      column: $table.maxCredits, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<double> get credits => $composableBuilder(
       column: $table.credits, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get verifiedAt => $composableBuilder(
-      column: $table.verifiedAt, builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get extras => $composableBuilder(
+      column: $table.extras, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get report => $composableBuilder(
-      column: $table.report, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get createdAt => $composableBuilder(
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get lastUpdatedAt => $composableBuilder(
+  ColumnOrderings<DateTime> get lastUpdatedAt => $composableBuilder(
       column: $table.lastUpdatedAt,
       builder: (column) => ColumnOrderings(column));
 }
@@ -2875,41 +3667,59 @@ class $$MicroTaskAssignmentRecordsTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<String> get id =>
+  GeneratedColumn<BigInt> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<String> get localId =>
-      $composableBuilder(column: $table.localId, builder: (column) => column);
-
-  GeneratedColumn<String> get boxId =>
+  GeneratedColumn<BigInt> get boxId =>
       $composableBuilder(column: $table.boxId, builder: (column) => column);
 
-  GeneratedColumn<String> get microtaskId => $composableBuilder(
+  GeneratedColumn<BigInt> get localId =>
+      $composableBuilder(column: $table.localId, builder: (column) => column);
+
+  GeneratedColumn<BigInt> get microtaskId => $composableBuilder(
       column: $table.microtaskId, builder: (column) => column);
 
-  GeneratedColumn<String> get taskId =>
+  GeneratedColumn<BigInt> get taskId =>
       $composableBuilder(column: $table.taskId, builder: (column) => column);
 
-  GeneratedColumn<String> get workerId =>
+  GeneratedColumn<BigInt> get workerId =>
       $composableBuilder(column: $table.workerId, builder: (column) => column);
 
-  GeneratedColumn<String> get deadline =>
+  GeneratedColumn<String> get wgroup =>
+      $composableBuilder(column: $table.wgroup, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get sentToServerAt => $composableBuilder(
+      column: $table.sentToServerAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deadline =>
       $composableBuilder(column: $table.deadline, builder: (column) => column);
 
   GeneratedColumn<String> get status =>
       $composableBuilder(column: $table.status, builder: (column) => column);
 
-  GeneratedColumn<String> get completedAt => $composableBuilder(
+  GeneratedColumn<DateTime> get completedAt => $composableBuilder(
       column: $table.completedAt, builder: (column) => column);
 
   GeneratedColumn<String> get output =>
       $composableBuilder(column: $table.output, builder: (column) => column);
 
-  GeneratedColumn<String> get outputFileId => $composableBuilder(
+  GeneratedColumn<BigInt> get outputFileId => $composableBuilder(
       column: $table.outputFileId, builder: (column) => column);
 
   GeneratedColumn<String> get logs =>
       $composableBuilder(column: $table.logs, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get submittedToBoxAt => $composableBuilder(
+      column: $table.submittedToBoxAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get submittedToServerAt => $composableBuilder(
+      column: $table.submittedToServerAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get verifiedAt => $composableBuilder(
+      column: $table.verifiedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get report =>
+      $composableBuilder(column: $table.report, builder: (column) => column);
 
   GeneratedColumn<double> get maxBaseCredits => $composableBuilder(
       column: $table.maxBaseCredits, builder: (column) => column);
@@ -2917,19 +3727,19 @@ class $$MicroTaskAssignmentRecordsTableAnnotationComposer
   GeneratedColumn<double> get baseCredits => $composableBuilder(
       column: $table.baseCredits, builder: (column) => column);
 
+  GeneratedColumn<double> get maxCredits => $composableBuilder(
+      column: $table.maxCredits, builder: (column) => column);
+
   GeneratedColumn<double> get credits =>
       $composableBuilder(column: $table.credits, builder: (column) => column);
 
-  GeneratedColumn<String> get verifiedAt => $composableBuilder(
-      column: $table.verifiedAt, builder: (column) => column);
+  GeneratedColumn<String> get extras =>
+      $composableBuilder(column: $table.extras, builder: (column) => column);
 
-  GeneratedColumn<String> get report =>
-      $composableBuilder(column: $table.report, builder: (column) => column);
-
-  GeneratedColumn<String> get createdAt =>
+  GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
-  GeneratedColumn<String> get lastUpdatedAt => $composableBuilder(
+  GeneratedColumn<DateTime> get lastUpdatedAt => $composableBuilder(
       column: $table.lastUpdatedAt, builder: (column) => column);
 }
 
@@ -2964,92 +3774,112 @@ class $$MicroTaskAssignmentRecordsTableTableManager extends RootTableManager<
               $$MicroTaskAssignmentRecordsTableAnnotationComposer(
                   $db: db, $table: table),
           updateCompanionCallback: ({
-            Value<String> id = const Value.absent(),
-            Value<String?> localId = const Value.absent(),
-            Value<String?> boxId = const Value.absent(),
-            Value<String?> microtaskId = const Value.absent(),
-            Value<String?> taskId = const Value.absent(),
-            Value<String?> workerId = const Value.absent(),
-            Value<String?> deadline = const Value.absent(),
-            Value<String?> status = const Value.absent(),
-            Value<String?> completedAt = const Value.absent(),
+            Value<BigInt> id = const Value.absent(),
+            Value<BigInt> boxId = const Value.absent(),
+            Value<BigInt> localId = const Value.absent(),
+            Value<BigInt> microtaskId = const Value.absent(),
+            Value<BigInt> taskId = const Value.absent(),
+            Value<BigInt> workerId = const Value.absent(),
+            Value<String?> wgroup = const Value.absent(),
+            Value<DateTime> sentToServerAt = const Value.absent(),
+            Value<DateTime?> deadline = const Value.absent(),
+            Value<String> status = const Value.absent(),
+            Value<DateTime?> completedAt = const Value.absent(),
             Value<String?> output = const Value.absent(),
-            Value<String?> outputFileId = const Value.absent(),
+            Value<BigInt?> outputFileId = const Value.absent(),
             Value<String?> logs = const Value.absent(),
-            Value<double?> maxBaseCredits = const Value.absent(),
-            Value<double?> baseCredits = const Value.absent(),
-            Value<double?> credits = const Value.absent(),
-            Value<String?> verifiedAt = const Value.absent(),
+            Value<DateTime?> submittedToBoxAt = const Value.absent(),
+            Value<DateTime?> submittedToServerAt = const Value.absent(),
+            Value<DateTime?> verifiedAt = const Value.absent(),
             Value<String?> report = const Value.absent(),
-            Value<String?> createdAt = const Value.absent(),
-            Value<String?> lastUpdatedAt = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
+            Value<double> maxBaseCredits = const Value.absent(),
+            Value<double> baseCredits = const Value.absent(),
+            Value<double> maxCredits = const Value.absent(),
+            Value<double?> credits = const Value.absent(),
+            Value<String?> extras = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> lastUpdatedAt = const Value.absent(),
           }) =>
               MicroTaskAssignmentRecordsCompanion(
             id: id,
-            localId: localId,
             boxId: boxId,
+            localId: localId,
             microtaskId: microtaskId,
             taskId: taskId,
             workerId: workerId,
+            wgroup: wgroup,
+            sentToServerAt: sentToServerAt,
             deadline: deadline,
             status: status,
             completedAt: completedAt,
             output: output,
             outputFileId: outputFileId,
             logs: logs,
-            maxBaseCredits: maxBaseCredits,
-            baseCredits: baseCredits,
-            credits: credits,
+            submittedToBoxAt: submittedToBoxAt,
+            submittedToServerAt: submittedToServerAt,
             verifiedAt: verifiedAt,
             report: report,
+            maxBaseCredits: maxBaseCredits,
+            baseCredits: baseCredits,
+            maxCredits: maxCredits,
+            credits: credits,
+            extras: extras,
             createdAt: createdAt,
             lastUpdatedAt: lastUpdatedAt,
-            rowid: rowid,
           ),
           createCompanionCallback: ({
-            required String id,
-            Value<String?> localId = const Value.absent(),
-            Value<String?> boxId = const Value.absent(),
-            Value<String?> microtaskId = const Value.absent(),
-            Value<String?> taskId = const Value.absent(),
-            Value<String?> workerId = const Value.absent(),
-            Value<String?> deadline = const Value.absent(),
-            Value<String?> status = const Value.absent(),
-            Value<String?> completedAt = const Value.absent(),
+            Value<BigInt> id = const Value.absent(),
+            required BigInt boxId,
+            required BigInt localId,
+            required BigInt microtaskId,
+            required BigInt taskId,
+            required BigInt workerId,
+            Value<String?> wgroup = const Value.absent(),
+            required DateTime sentToServerAt,
+            Value<DateTime?> deadline = const Value.absent(),
+            required String status,
+            Value<DateTime?> completedAt = const Value.absent(),
             Value<String?> output = const Value.absent(),
-            Value<String?> outputFileId = const Value.absent(),
+            Value<BigInt?> outputFileId = const Value.absent(),
             Value<String?> logs = const Value.absent(),
-            Value<double?> maxBaseCredits = const Value.absent(),
-            Value<double?> baseCredits = const Value.absent(),
-            Value<double?> credits = const Value.absent(),
-            Value<String?> verifiedAt = const Value.absent(),
+            Value<DateTime?> submittedToBoxAt = const Value.absent(),
+            Value<DateTime?> submittedToServerAt = const Value.absent(),
+            Value<DateTime?> verifiedAt = const Value.absent(),
             Value<String?> report = const Value.absent(),
-            Value<String?> createdAt = const Value.absent(),
-            Value<String?> lastUpdatedAt = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
+            required double maxBaseCredits,
+            required double baseCredits,
+            required double maxCredits,
+            Value<double?> credits = const Value.absent(),
+            Value<String?> extras = const Value.absent(),
+            required DateTime createdAt,
+            required DateTime lastUpdatedAt,
           }) =>
               MicroTaskAssignmentRecordsCompanion.insert(
             id: id,
-            localId: localId,
             boxId: boxId,
+            localId: localId,
             microtaskId: microtaskId,
             taskId: taskId,
             workerId: workerId,
+            wgroup: wgroup,
+            sentToServerAt: sentToServerAt,
             deadline: deadline,
             status: status,
             completedAt: completedAt,
             output: output,
             outputFileId: outputFileId,
             logs: logs,
-            maxBaseCredits: maxBaseCredits,
-            baseCredits: baseCredits,
-            credits: credits,
+            submittedToBoxAt: submittedToBoxAt,
+            submittedToServerAt: submittedToServerAt,
             verifiedAt: verifiedAt,
             report: report,
+            maxBaseCredits: maxBaseCredits,
+            baseCredits: baseCredits,
+            maxCredits: maxCredits,
+            credits: credits,
+            extras: extras,
             createdAt: createdAt,
             lastUpdatedAt: lastUpdatedAt,
-            rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))

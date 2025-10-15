@@ -17,18 +17,21 @@ class MicroTaskAssignmentDao extends DatabaseAccessor<KaryaDatabase>
       select(db.microTaskAssignmentRecords).get();
 
   // Retrieve a specific microtask assignment by ID
-  Future<MicroTaskAssignmentRecord?> getMicroTaskAssignmentById(String id) {
+  Future<MicroTaskAssignmentRecord?> getMicroTaskAssignmentById(BigInt id) {
     return (select(db.microTaskAssignmentRecords)
           ..where((tbl) => tbl.id.equals(id)))
         .getSingleOrNull();
   }
 
-  Future<void> upsertAll(List<MicroTaskAssignmentRecord> tasks) async {
+  Future<void> upsertAll(List<MicroTaskAssignment> microtaskAssignments) async {
+    final microtaskAssignmentRecords = microtaskAssignments.map(
+        (microtaskAssignment) =>
+            microtaskAssignment.getMicrotaskAssignmentRecord());
     await db.transaction(() async {
       await batch((batch) {
         batch.insertAll(
           db.microTaskAssignmentRecords,
-          tasks,
+          microtaskAssignmentRecords,
           mode: InsertMode.insertOrIgnore, // Ignores conflicts
         );
       });
@@ -46,7 +49,7 @@ class MicroTaskAssignmentDao extends DatabaseAccessor<KaryaDatabase>
       update(db.microTaskAssignmentRecords).replace(microTaskAssignment);
 
   // Delete a microtask assignment by ID
-  Future<int> deleteMicroTaskAssignment(String id) =>
+  Future<int> deleteMicroTaskAssignment(BigInt id) =>
       (delete(db.microTaskAssignmentRecords)..where((tbl) => tbl.id.equals(id)))
           .go();
 
@@ -56,14 +59,14 @@ class MicroTaskAssignmentDao extends DatabaseAccessor<KaryaDatabase>
   }
 
   Future<List<MicroTaskAssignmentRecord>> getMicroTaskAssignmentByTaskId(
-      String taskId) {
+      BigInt taskId) {
     return (select(db.microTaskAssignmentRecords)
           ..where((tbl) => tbl.taskId.equals(taskId)))
         .get();
   }
 
   Future<List<MicroTaskAssignmentRecord>> getMicroTaskAssignmentByMicrotaskId(
-      String microtaskId) {
+      BigInt microtaskId) {
     return (select(db.microTaskAssignmentRecords)
           ..where((tbl) => tbl.microtaskId.equals(microtaskId)))
         .get();
@@ -78,17 +81,17 @@ class MicroTaskAssignmentDao extends DatabaseAccessor<KaryaDatabase>
   }
 
   Future<int> updateMicrotaskAssignmentStatus(
-      String id, MicrotaskAssignmentStatus newStatus) {
+      BigInt id, MicrotaskAssignmentStatus newStatus) {
     return (update(db.microTaskAssignmentRecords)
           ..where((tbl) => tbl.id.equals(id)))
         .write(MicroTaskAssignmentRecordsCompanion(
       status: Value(newStatus.toString().split('.').last),
-      completedAt: Value(DateTime.now().toUtc().toIso8601String()),
-      lastUpdatedAt: Value(DateTime.now().toUtc().toIso8601String()),
+      completedAt: Value(DateTime.now().toUtc()),
+      lastUpdatedAt: Value(DateTime.now().toUtc()),
     ));
   }
 
-  Future<int> updateMicrotaskAssignmentOutputFile(String id, String fileJson) {
+  Future<int> updateMicrotaskAssignmentOutputFile(BigInt id, String fileJson) {
     return (update(db.microTaskAssignmentRecords)
           ..where((tbl) => tbl.id.equals(id)))
         .write(MicroTaskAssignmentRecordsCompanion(
@@ -97,7 +100,7 @@ class MicroTaskAssignmentDao extends DatabaseAccessor<KaryaDatabase>
   }
 
   Future<int> updateMicrotaskAssignmentOutputFileId(
-      String id, String? outputId) {
+      BigInt id, BigInt outputId) {
     return (update(db.microTaskAssignmentRecords)
           ..where((tbl) => tbl.id.equals(id)))
         .write(MicroTaskAssignmentRecordsCompanion(
@@ -106,7 +109,7 @@ class MicroTaskAssignmentDao extends DatabaseAccessor<KaryaDatabase>
   }
 
   Future<List<MicroTaskAssignmentRecord>> getToBeDoneMicrotaskAssignments(
-      String taskId) {
+      BigInt taskId) {
     return (select(db.microTaskAssignmentRecords)
           ..where((tbl) =>
               tbl.taskId.equals(taskId) &

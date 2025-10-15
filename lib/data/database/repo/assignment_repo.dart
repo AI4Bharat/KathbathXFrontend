@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:kathbath_lite/data/database/utility/table_utility.dart';
+import 'package:kathbath_lite/data/database/models/microtask_assignment_record.dart';
+import 'package:kathbath_lite/data/database/models/microtask_record.dart';
+import 'package:kathbath_lite/data/database/models/task_record.dart';
 import 'package:kathbath_lite/data/database/dao/microtask_assignment_dao.dart';
 import 'package:kathbath_lite/data/database/dao/microtask_dao.dart';
 import 'package:kathbath_lite/data/database/dao/task_dao.dart';
@@ -27,23 +30,19 @@ class AssignmentRepository {
       final MicroTaskAssignmentService microApiService =
           MicroTaskAssignmentService(apiService);
       var jsonData = await microApiService.getNewAssignments('2024-02-02');
-      // log('JSON Data: $jsonData');
 
-      // Parse the tasks
-      final List<TaskRecord> tasks = (jsonData['tasks'] as List)
-          .map((taskJson) => UtilityClass.taskRecordFromJson(taskJson))
+      final List<Task> tasks = (jsonData['tasks'] as List)
+          .map((taskJson) => Task.fromJson(taskJson))
           .toList();
 
-      final List<MicroTaskRecord> microTasks = (jsonData['microtasks'] as List)
-          .map((microTaskJson) =>
-              UtilityClass.mTaskRecordFromJson(microTaskJson))
+      final List<Microtask> microTasks = (jsonData['microtasks'] as List)
+          .map((microTaskJson) => Microtask.fromJson(microTaskJson))
           .toList();
 
-      final List<MicroTaskAssignmentRecord> assignments =
-          (jsonData['assignments'] as List)
-              .map((assignmentJson) =>
-                  UtilityClass.mTaskAssignmentRecordFromJson(assignmentJson))
-              .toList();
+      final List<MicroTaskAssignment> assignments = (jsonData['assignments']
+              as List)
+          .map((assignmentJson) => MicroTaskAssignment.fromJson(assignmentJson))
+          .toList();
 
       // Save the tasks to the database (uncomment the below 3 lines if you wish to vlear the db before adding new tasks)
       // await taskDao.clearAllTasks();

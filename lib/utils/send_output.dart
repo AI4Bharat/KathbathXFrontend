@@ -16,7 +16,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
 Future<String?> sendOutputFile(
-    String assignmentId, MicroTaskAssignmentRecord mARecord) async {
+    BigInt assignmentId, MicroTaskAssignmentRecord mARecord) async {
   final directory = await getApplicationDocumentsDirectory();
   final filePath = '${directory.path}/$assignmentId.wav';
   String outputTgzFilePath = p.setExtension(filePath, '.tgz');
@@ -48,7 +48,7 @@ Future<String?> sendOutputFile(
 }
 
 Future<UploadResult> sendOutputFileWithInput(
-    String assignmentId, MicroTaskAssignmentRecord mARecord) async {
+    BigInt assignmentId, MicroTaskAssignmentRecord mARecord) async {
   final directory = await getApplicationDocumentsDirectory();
   final filePath = '${directory.path}/$assignmentId.wav';
   final inputFolderPath = '${directory.path}/${mARecord.microtaskId}';
@@ -78,7 +78,7 @@ Future<UploadResult> sendOutputFileWithInput(
         MicroTaskAssignmentService(apiService);
     var response = await microApiService.submitAssignmentOutputFile(
         assignmentId, jsonString, outputTgzFilePath);
-    String outputFileId = response.data?['id'];
+    BigInt outputFileId = response.data?['id'];
     return UploadResult(fileId: outputFileId);
   } catch (e, stack) {
     log('Error: $e');
@@ -96,19 +96,7 @@ Future<UploadResult> sendOutputFileWithInput(
     } else if (e is WavFileNotFoundException) {
       return UploadResult(errorType: "fileNotFound", errorMsg: e.toString());
     }
-    // showDialog(
-    //   context: navigatorKey.currentContext!,
-    //   builder: (ctx) => AlertDialog(
-    //     title: const Text("Upload Failed"),
-    //     content: Text("An error occurred: $e"),
-    //     actions: [
-    //       TextButton(
-    //         onPressed: () => Navigator.of(ctx).pop(),
-    //         child: const Text("OK"),
-    //       ),
-    //     ],
-    //   ),
-    // );
+
     return UploadResult(errorMsg: e.toString());
   }
 }
@@ -121,7 +109,7 @@ Future<String> calculateMd5Checksum(String filePath) async {
 }
 
 class UploadResult {
-  final String? fileId; // success value
+  final BigInt? fileId; // success value
   final String? errorType;
   final String? errorMsg; // error message
 

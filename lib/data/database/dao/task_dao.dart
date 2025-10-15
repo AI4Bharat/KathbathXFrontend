@@ -11,18 +11,19 @@ class TaskDao extends DatabaseAccessor<KaryaDatabase> with _$TaskDaoMixin {
   Future<List<TaskRecord>> getAllTasks() => select(taskRecords).get();
 
   //Retrieve all tasks by task id
-  Future<TaskRecord?> getTaskById(String id) {
+  Future<TaskRecord?> getTaskById(BigInt id) {
     return (select(taskRecords)..where((t) => t.id.equals(id)))
         .getSingleOrNull();
   }
 
   //Upsert all the task from the list to the table (ignores incase of conflict)
-  Future<void> upsertAll(List<TaskRecord> tasks) async {
+  Future<void> upsertAll(List<Task> tasks) async {
+    final taskRecords = tasks.map((task) => task.getTaskRecord());
     await db.transaction(() async {
       await batch((batch) {
         batch.insertAll(
           db.taskRecords,
-          tasks,
+          taskRecords,
           mode: InsertMode.insertOrIgnore,
         );
       });
@@ -33,7 +34,7 @@ class TaskDao extends DatabaseAccessor<KaryaDatabase> with _$TaskDaoMixin {
 
   Future<bool> updateTask(TaskRecord task) => update(taskRecords).replace(task);
 
-  Future<int> deleteTask(String id) {
+  Future<int> deleteTask(BigInt id) {
     return (delete(taskRecords)..where((t) => t.id.equals(id))).go();
   }
 

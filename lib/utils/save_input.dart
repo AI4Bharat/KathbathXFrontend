@@ -79,7 +79,7 @@ import 'package:path_provider/path_provider.dart';
 // }
 
 Future<Map<String, String>?> saveAssignmentFilesCheckExists(
-    String microtaskId, String assignmentId,
+    BigInt microtaskId, BigInt assignmentId,
     {String? imageFilename,
     String? audioFilename,
     String? recordingFilename}) async {

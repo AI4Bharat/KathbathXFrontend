@@ -224,28 +224,28 @@ class _KaryaAppState extends State<KaryaApp> {
                           as List<MicroTaskAssignmentRecord>,
                     ));
                   },
-                  '/image_transcription_microtask': (context) {
-                    final args = ModalRoute.of(context)!.settings.arguments
-                        as Map<String, dynamic>;
-                    return AppScaffold(
-                        body: ImageTranscriptionScreen(
-                      db: widget.db,
-                      microtasks: args['microtasks'] as List<MicroTaskRecord>,
-                      microtaskAssignments: args['microtaskAssignments']
-                          as List<MicroTaskAssignmentRecord>,
-                    ));
-                  },
-                  '/image_audio_microtask': (context) {
-                    final args = ModalRoute.of(context)!.settings.arguments
-                        as Map<String, dynamic>;
-                    return AppScaffold(
-                        body: ImageAudioScreen(
-                      db: widget.db,
-                      microtasks: args['microtasks'] as List<MicroTaskRecord>,
-                      microtaskAssignments: args['microtaskAssignments']
-                          as List<MicroTaskAssignmentRecord>,
-                    ));
-                  },
+                  // '/image_transcription_microtask': (context) {
+                  //   final args = ModalRoute.of(context)!.settings.arguments
+                  //       as Map<String, dynamic>;
+                  //   return AppScaffold(
+                  //       body: ImageTranscriptionScreen(
+                  //     db: widget.db,
+                  //     microtasks: args['microtasks'] as List<MicroTaskRecord>,
+                  //     microtaskAssignments: args['microtaskAssignments']
+                  //         as List<MicroTaskAssignmentRecord>,
+                  //   ));
+                  // },
+                  // '/image_audio_microtask': (context) {
+                  //   final args = ModalRoute.of(context)!.settings.arguments
+                  //       as Map<String, dynamic>;
+                  //   return AppScaffold(
+                  //       body: ImageAudioScreen(
+                  //     db: widget.db,
+                  //     microtasks: args['microtasks'] as List<MicroTaskRecord>,
+                  //     microtaskAssignments: args['microtaskAssignments']
+                  //         as List<MicroTaskAssignmentRecord>,
+                  //   ));
+                  // },
                   '/speech_verification_microtask': (context) {
                     final args = ModalRoute.of(context)!.settings.arguments
                         as Map<String, dynamic>;
@@ -258,17 +258,17 @@ class _KaryaAppState extends State<KaryaApp> {
                       taskName: args['taskName'],
                     ));
                   },
-                  '/speech_audio_refinement': (context) {
-                    final args = ModalRoute.of(context)!.settings.arguments
-                        as Map<String, dynamic>;
-                    return AppScaffold(
-                        body: SpeechAudioScreen(
-                      db: widget.db,
-                      microtasks: args['microtasks'] as List<MicroTaskRecord>,
-                      microtaskAssignments: args['microtaskAssignments']
-                          as List<MicroTaskAssignmentRecord>,
-                    ));
-                  },
+                  // '/speech_audio_refinement': (context) {
+                  //   final args = ModalRoute.of(context)!.settings.arguments
+                  //       as Map<String, dynamic>;
+                  //   return AppScaffold(
+                  //       body: SpeechAudioScreen(
+                  //     db: widget.db,
+                  //     microtasks: args['microtasks'] as List<MicroTaskRecord>,
+                  //     microtaskAssignments: args['microtaskAssignments']
+                  //         as List<MicroTaskAssignmentRecord>,
+                  //   ));
+                  // },
                   '/video_collection_task': (context) {
                     final args = ModalRoute.of(context)!.settings.arguments
                         as Map<String, dynamic>;

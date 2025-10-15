@@ -5,7 +5,7 @@ import 'package:kathbath_lite/exceptions/file_exceptions.dart';
 import 'package:path/path.dart' as p;
 
 Future<void> convertWavToTgz(
-    String wavFilePath, String outputTgzFilePath, String assignmentId) async {
+    String wavFilePath, String outputTgzFilePath, BigInt assignmentId) async {
   final wavFile = File(wavFilePath);
   if (await wavFile.exists()) {
     throw WavFileNotFoundException(assignmentId);
@@ -23,7 +23,7 @@ Future<void> convertWavToTgz(
 }
 
 Future<void> convertAllToTgz(String folderPath, String wavFilePath,
-    String outputTgzFilePath, String assignmentId) async {
+    String outputTgzFilePath, BigInt assignmentId) async {
   final wavFile = File(wavFilePath);
   if (!await wavFile.exists()) {
     throw WavFileNotFoundException(assignmentId);

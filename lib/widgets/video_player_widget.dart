@@ -9,7 +9,7 @@ import 'package:video_player/video_player.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
   final VoidCallback submitAction;
-  final String assignmentId;
+  final BigInt assignmentId;
   final Function(bool) recordingOn;
 
   const VideoPlayerWidget(

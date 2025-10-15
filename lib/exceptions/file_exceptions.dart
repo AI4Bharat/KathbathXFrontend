@@ -1,5 +1,5 @@
 class WavFileNotFoundException implements Exception {
-  final String assignmentId;
+  final BigInt assignmentId;
   WavFileNotFoundException(this.assignmentId);
 
   @override
