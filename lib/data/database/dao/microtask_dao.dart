@@ -31,7 +31,8 @@ class MicroTaskDao extends DatabaseAccessor<KaryaDatabase>
   }
 
   Future<List<MicroTaskRecord>> getMicroTasksWithPendingAssignments(
-      BigInt taskId) {
+      int id) {
+		final taskId = BigInt.from(id);
     final query = select(db.microTaskRecords).join([
       innerJoin(
         db.microTaskAssignmentRecords,

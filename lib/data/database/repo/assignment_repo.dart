@@ -7,7 +7,6 @@ import 'package:kathbath_lite/data/database/models/task_record.dart';
 import 'package:kathbath_lite/data/database/dao/microtask_assignment_dao.dart';
 import 'package:kathbath_lite/data/database/dao/microtask_dao.dart';
 import 'package:kathbath_lite/data/database/dao/task_dao.dart';
-import 'package:kathbath_lite/data/manager/karya_db.dart';
 import 'package:kathbath_lite/services/api_services_baseUrl.dart';
 import 'package:kathbath_lite/services/task_api.dart';
 import 'dart:developer';
@@ -35,6 +34,8 @@ class AssignmentRepository {
           .map((taskJson) => Task.fromJson(taskJson))
           .toList();
 
+      print("The tasks are ${tasks[0].workProviderId}");
+
       final List<Microtask> microTasks = (jsonData['microtasks'] as List)
           .map((microTaskJson) => Microtask.fromJson(microTaskJson))
           .toList();
@@ -52,6 +53,7 @@ class AssignmentRepository {
       await microTaskDao.upsertAll(microTasks);
       await microTaskAssignmentDao.upsertAll(assignments);
     } catch (e) {
+      print("Error occured while loading and save assignments $e");
       log('Failed to load and save assignments', error: e);
     }
     return true;

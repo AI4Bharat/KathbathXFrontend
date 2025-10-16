@@ -71,8 +71,6 @@ class Microtask {
         lastUpdatedAt = mr.lastUpdatedAt;
 
   factory Microtask.fromJson(Map<String, dynamic> microtaskJson) {
-    print("From json called with $json");
-
     try {
       final id = checkIfValueExistInJson<int>(microtaskJson, "id");
       final taskId = checkIfValueExistInJson<int>(microtaskJson, "task_id");

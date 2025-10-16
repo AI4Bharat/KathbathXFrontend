@@ -8,7 +8,14 @@ part 'task_dao.g.dart';
 class TaskDao extends DatabaseAccessor<KaryaDatabase> with _$TaskDaoMixin {
   TaskDao(KaryaDatabase db) : super(db);
 
-  Future<List<TaskRecord>> getAllTasks() => select(taskRecords).get();
+  Future<List<Task>> getAllTasks() async {
+    try {
+      final tRecords = await select(taskRecords).get();
+      return tRecords.map((tRecord) => Task.fromTaskRecord(tRecord)).toList();
+    } catch (e) {
+      return [];
+    }
+  }
 
   //Retrieve all tasks by task id
   Future<TaskRecord?> getTaskById(BigInt id) {

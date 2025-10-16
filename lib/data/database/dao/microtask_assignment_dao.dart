@@ -58,11 +58,15 @@ class MicroTaskAssignmentDao extends DatabaseAccessor<KaryaDatabase>
     return (delete(db.microTaskAssignmentRecords)).go();
   }
 
-  Future<List<MicroTaskAssignmentRecord>> getMicroTaskAssignmentByTaskId(
-      BigInt taskId) {
-    return (select(db.microTaskAssignmentRecords)
+  Future<List<MicroTaskAssignment>> getMicroTaskAssignmentByTaskId(
+      int id) async {
+    final taskId = BigInt.from(id);
+    final maRecords = await (select(db.microTaskAssignmentRecords)
           ..where((tbl) => tbl.taskId.equals(taskId)))
         .get();
+    final microtaskAssignments = maRecords.map((microTaskAssignmentRecord) =>
+        MicroTaskAssignment.fromRecord(microTaskAssignmentRecord));
+    return microtaskAssignments.toList();
   }
 
   Future<List<MicroTaskAssignmentRecord>> getMicroTaskAssignmentByMicrotaskId(
@@ -109,7 +113,8 @@ class MicroTaskAssignmentDao extends DatabaseAccessor<KaryaDatabase>
   }
 
   Future<List<MicroTaskAssignmentRecord>> getToBeDoneMicrotaskAssignments(
-      BigInt taskId) {
+      int id) {
+    final taskId = BigInt.from(id);
     return (select(db.microTaskAssignmentRecords)
           ..where((tbl) =>
               tbl.taskId.equals(taskId) &

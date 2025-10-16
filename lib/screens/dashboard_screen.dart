@@ -5,10 +5,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kathbath_lite/data/database/dao/microtask_assignment_dao.dart';
 import 'package:kathbath_lite/data/database/dao/microtask_dao.dart';
 import 'package:kathbath_lite/data/database/dao/task_dao.dart';
+import 'package:kathbath_lite/data/database/models/task_record.dart';
 import 'package:kathbath_lite/data/database/repo/assignment_repo.dart';
 import 'package:kathbath_lite/data/manager/karya_db.dart';
 import 'package:kathbath_lite/models/assignment_status_enum.dart';
@@ -20,8 +20,6 @@ import 'package:kathbath_lite/widgets/editbox_widget.dart';
 import 'package:kathbath_lite/widgets/task_card_widget.dart';
 import 'package:kathbath_lite/widgets/task_submit_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 
 class DashboardScreen extends StatefulWidget {
   final KaryaDatabase db;
@@ -39,8 +37,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   late MicroTaskDao _microTaskDao;
   late MicroTaskAssignmentDao _microTaskAssignmentDao;
   late AssignmentRepository _assignmentRepository;
-  late List<TaskRecord> _tasks = [];
-  final Map<BigInt, Map<String, int>> _taskStatusCounts = {};
+  late List<Task> _tasks = [];
+  final Map<int, Map<String, int>> _taskStatusCounts = {};
   int submittedCount = 0;
   int uploadedCount = 0;
   int onPhoneCount = 0;
@@ -78,6 +76,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Future<void> _populateDb() async {
     loadingDone = await _assignmentRepository.loadAndSaveAssignments();
+    print("Populating the db is finished $loadingDone");
   }
 
   Future<void> _loadTasks() async {
@@ -109,8 +108,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       };
 
       double totalDuration = 0;
-      for (var microtaskAssign in microtaskAssignments) {
-        switch (microtaskAssign.status) {
+      for (var microtaskAssignment in microtaskAssignments) {
+        print(
+            "The tasksssss are ${task.scenarioName} ${microtaskAssignment.status}");
+        switch (microtaskAssignment.status) {
           case 'ASSIGNED':
             statusCounts['available'] = statusCounts['available']! + 1;
           case 'COMPLETED':
@@ -131,16 +132,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
         }
 
         // log("counts : $uploadedCount, $onPhoneCount");
-        if (microtaskAssign.output != null &&
-            microtaskAssign.output!.isNotEmpty) {
+        print(
+            "The microtask assignment output is  ${microtaskAssignment.output!.isNotEmpty} ${microtaskAssignment.output != null}");
+        if (microtaskAssignment.output != null &&
+            microtaskAssignment.output!.isNotEmpty) {
           try {
-            final outputJson = json.decode(microtaskAssign.output!);
-            if (outputJson['data'] != null &&
+            final outputJson = microtaskAssignment.output;
+            if (outputJson!['data'] != null &&
                 outputJson['data']['duration'] != null) {
               totalDuration += (outputJson['data']['duration'] ?? 0).toDouble();
             }
           } catch (e) {
-            log('Error parsing output for assignment ID ${microtaskAssign.id}: $e');
+            print(
+                "Error occured while parsing the assignment: ${microtaskAssignment.id}");
+            log('Error parsing output for assignment ID ${microtaskAssignment.id}: $e');
           }
         }
       }
@@ -155,14 +160,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       }
       _taskStatusCounts[task.id] = statusCounts;
     }
-    // if (mounted) {
-    //   setState(() {
-    //     _tasks = tasks;
-    //     if (totalAvailable == 0 && !loggedOut) {
-    //       showShareDialog(context);
-    //     }
-    //   });
-    // }
+
+    setState(() {
+      _tasks = tasks;
+    });
   }
 
   Future<void> showProgressDialog(
@@ -315,8 +316,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           try {
             await _populateDb();
           } catch (e) {
-					print("Exception occured while populating db ${e}");
-					}
+            print("Exception occured while populating db ${e}");
+          }
           await _loadTasks();
           if (fileNotFoundIds.isNotEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -361,7 +362,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  Future<void> _handleTaskCardTap(BuildContext context, TaskRecord task) async {
+  Future<void> _handleTaskCardTap(BuildContext context, Task task) async {
     final taskName = task.name;
     final microtasks =
         await _microTaskDao.getMicroTasksWithPendingAssignments(task.id);
@@ -386,37 +387,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ;
           break;
 
-        case 'IMAGE_DC_TEXT':
-          Navigator.pushNamed(
-            // ignore: use_build_context_synchronously
-            context,
-            '/image_transcription_microtask',
-            arguments: {
-              'microtasks': microtasks,
-              'microtaskAssignments': toBeDoneAssignments,
-            },
-          ).then((_) {
-            setState(() {
-              _loadTasks();
-            });
-          });
-          break;
-
-        case 'SPEECH_DC_IMGAUD':
-          Navigator.pushNamed(
-            // ignore: use_build_context_synchronously
-            context,
-            '/image_audio_microtask',
-            arguments: {
-              'microtasks': microtasks,
-              'microtaskAssignments': toBeDoneAssignments,
-            },
-          ).then((_) {
-            setState(() {
-              _loadTasks();
-            });
-          });
-          break;
+        // case 'IMAGE_DC_TEXT':
+        //   Navigator.pushNamed(
+        //     // ignore: use_build_context_synchronously
+        //     context,
+        //     '/image_transcription_microtask',
+        //     arguments: {
+        //       'microtasks': microtasks,
+        //       'microtaskAssignments': toBeDoneAssignments,
+        //     },
+        //   ).then((_) {
+        //     setState(() {
+        //       _loadTasks();
+        //     });
+        //   });
+        //   break;
+        //
+        // case 'SPEECH_DC_IMGAUD':
+        //   Navigator.pushNamed(
+        //     // ignore: use_build_context_synchronously
+        //     context,
+        //     '/image_audio_microtask',
+        //     arguments: {
+        //       'microtasks': microtasks,
+        //       'microtaskAssignments': toBeDoneAssignments,
+        //     },
+        //   ).then((_) {
+        //     setState(() {
+        //       _loadTasks();
+        //     });
+        //   });
+        //   break;
 
         case 'SPEECH_DV_MULTI' || 'SPEECH_VERIFICATION':
           Navigator.pushNamed(
@@ -435,38 +436,38 @@ class _DashboardScreenState extends State<DashboardScreen> {
           });
           break;
 
-        case 'SPEECH_DC_AUDREF':
-          Navigator.pushNamed(
-            // ignore: use_build_context_synchronously
-            context,
-            '/speech_audio_refinement',
-            arguments: {
-              'taskName': taskName,
-              'microtasks': microtasks,
-              'microtaskAssignments': toBeDoneAssignments,
-            },
-          ).then((_) {
-            setState(() {
-              _loadTasks();
-            });
-          });
-          break;
-
-        case 'SIGN_LANGUAGE_VIDEO':
-          Navigator.pushNamed(
-            // ignore: use_build_context_synchronously
-            context,
-            '/video_collection_task',
-            arguments: {
-              'microtasks': microtasks,
-              'microtaskAssignments': toBeDoneAssignments,
-            },
-          ).then((_) {
-            setState(() {
-              _loadTasks();
-            });
-          });
-          break;
+        // case 'SPEECH_DC_AUDREF':
+        //   Navigator.pushNamed(
+        //     // ignore: use_build_context_synchronously
+        //     context,
+        //     '/speech_audio_refinement',
+        //     arguments: {
+        //       'taskName': taskName,
+        //       'microtasks': microtasks,
+        //       'microtaskAssignments': toBeDoneAssignments,
+        //     },
+        //   ).then((_) {
+        //     setState(() {
+        //       _loadTasks();
+        //     });
+        //   });
+        //   break;
+        //
+        // case 'SIGN_LANGUAGE_VIDEO':
+        //   Navigator.pushNamed(
+        //     // ignore: use_build_context_synchronously
+        //     context,
+        //     '/video_collection_task',
+        //     arguments: {
+        //       'microtasks': microtasks,
+        //       'microtaskAssignments': toBeDoneAssignments,
+        //     },
+        //   ).then((_) {
+        //     setState(() {
+        //       _loadTasks();
+        //     });
+        //   });
+        //   break;
 
         default:
           break;
@@ -475,6 +476,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   List<Widget> _buildTaskCards(BuildContext context) {
+    print("The _tasks count is ${_tasks.length}");
     return _tasks.map((task) {
       final counts = _taskStatusCounts[task.id] ??
           {
@@ -540,120 +542,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         'accessCode'); // Fetch the access code stored with the key 'accessCode'
   }
 
-  Future<void> goToWhatsap() async {
-    final phoneNumber = dotenv.env['PHONE_NUMBER'];
-    const message =
-        "Please click the send button on the right to begin the process of sharing the Kathbath Lite app with your friends. Instructions will follow.";
-
-    final encodedMessage = Uri.encodeComponent(message);
-    final whatsappUri = Uri.parse(
-        "https://api.whatsapp.com/send/?phone=$phoneNumber&text=$encodedMessage");
-    await launchUrl(whatsappUri);
-  }
-
-  void showShareDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Header with animation
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Share App',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.close),
-                            onPressed: () => Navigator.of(context).pop(),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Share our app with your friends! Help us create AI tools that can converse in Indian languages.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey,
-                          height: 1.5,
-                        ),
-                      ),
-                    ],
-                  )
-                      .animate()
-                      .fadeIn(duration: 400.ms)
-                      .slideY(begin: 0.2, end: 0), // Slide + fade-in animation
-
-                  const SizedBox(height: 32),
-
-                  // App icon with animation
-                  Image.asset(
-                    'assets/icons/whatsappicon.png',
-                    width: 50,
-                    height: 50,
-                  )
-                      .animate()
-                      .fadeIn(duration: 400.ms)
-                      .slideY(begin: 0.2, end: 0),
-
-                  const SizedBox(height: 16), // Space between logo and text
-
-                  // Description text with animation
-                  const Text(
-                    'Whatsapp',
-                  ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.2, end: 0),
-
-                  const SizedBox(height: 32),
-
-                  // Action buttons with animation
-                  Container(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.orange,
-                      ),
-                      onPressed: goToWhatsap,
-                      child: const Text('Share'),
-                    ),
-                  ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.2, end: 0),
-
-                  Center(
-                    child: TextButton(
-                      child: const Text('Cancel'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ).animate().fadeIn(delay: 600.ms).slideY(begin: 0.2, end: 0),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  //------------------------------------------------------------------
-
   @override
   Widget build(BuildContext context) {
     return PopScope<Object?>(
@@ -679,9 +567,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               } else if (snapshot.hasError) {
                 return const Text('Error');
               } else if (snapshot.hasData) {
-                return Text(snapshot.data ?? 'No Access Code');
+                return Text(snapshot.data ?? 'Kathbath');
               } else {
-                return const Text('No Access Code');
+                return const Text('Kathbath');
               }
             },
           ),
@@ -689,7 +577,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             IconButton(
               icon: const Icon(Icons.share),
               onPressed: () {
-                showShareDialog(context);
+                // showShareDialog(context);
               },
             ),
             IconButton(
@@ -729,7 +617,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   return TaskSubmitWidget(
                     // uploadedTasks: uploadedCount,
                     uploadedTasks: submittedCount + uploadedCount,
-                    onPhoneTasks: onPhoneCount,
+                    onPhoneTasks: totalAvailable,
                     handleSubmitTasks: () async {
                       await handleSubmitTasks();
                     },

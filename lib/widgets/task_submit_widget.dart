@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kathbath_lite/utils/colors.dart';
 
 class TaskSubmitWidget extends StatelessWidget {
   final int uploadedTasks;
