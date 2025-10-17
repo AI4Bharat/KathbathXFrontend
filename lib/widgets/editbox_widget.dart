@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kathbath_lite/utils/colors.dart';
 
 class EditBoxWidget extends StatefulWidget {
   final Function(String) onTextSubmitted; // Callback function
@@ -49,7 +50,7 @@ class _EditableTextBoxState extends State<EditBoxWidget> {
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide.none,
                   ),
-                  fillColor: Colors.grey[200],
+                  fillColor: Colors.white,
                   filled: true,
                   contentPadding: const EdgeInsets.symmetric(
                       vertical: 12.0, horizontal: 10.0),
@@ -63,8 +64,7 @@ class _EditableTextBoxState extends State<EditBoxWidget> {
                   _controller.clear();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  shadowColor: Colors.transparent,
+                  backgroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 5.0),
                   textStyle: const TextStyle(fontSize: 20.0),
                 ),

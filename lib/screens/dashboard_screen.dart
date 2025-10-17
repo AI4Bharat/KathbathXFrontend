@@ -16,6 +16,7 @@ import 'package:kathbath_lite/services/api_services_baseUrl.dart';
 import 'package:kathbath_lite/services/task_api.dart';
 import 'package:kathbath_lite/utils/colors.dart';
 import 'package:kathbath_lite/utils/send_output.dart';
+import 'package:kathbath_lite/widgets/buttons/dashboard_fetch_submit_button.dart';
 import 'package:kathbath_lite/widgets/editbox_widget.dart';
 import 'package:kathbath_lite/widgets/task_card_widget.dart';
 import 'package:kathbath_lite/widgets/task_submit_widget.dart';
@@ -387,38 +388,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ;
           break;
 
-        // case 'IMAGE_DC_TEXT':
-        //   Navigator.pushNamed(
-        //     // ignore: use_build_context_synchronously
-        //     context,
-        //     '/image_transcription_microtask',
-        //     arguments: {
-        //       'microtasks': microtasks,
-        //       'microtaskAssignments': toBeDoneAssignments,
-        //     },
-        //   ).then((_) {
-        //     setState(() {
-        //       _loadTasks();
-        //     });
-        //   });
-        //   break;
-        //
-        // case 'SPEECH_DC_IMGAUD':
-        //   Navigator.pushNamed(
-        //     // ignore: use_build_context_synchronously
-        //     context,
-        //     '/image_audio_microtask',
-        //     arguments: {
-        //       'microtasks': microtasks,
-        //       'microtaskAssignments': toBeDoneAssignments,
-        //     },
-        //   ).then((_) {
-        //     setState(() {
-        //       _loadTasks();
-        //     });
-        //   });
-        //   break;
-
         case 'SPEECH_DV_MULTI' || 'SPEECH_VERIFICATION':
           Navigator.pushNamed(
             // ignore: use_build_context_synchronously
@@ -436,39 +405,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           });
           break;
 
-        // case 'SPEECH_DC_AUDREF':
-        //   Navigator.pushNamed(
-        //     // ignore: use_build_context_synchronously
-        //     context,
-        //     '/speech_audio_refinement',
-        //     arguments: {
-        //       'taskName': taskName,
-        //       'microtasks': microtasks,
-        //       'microtaskAssignments': toBeDoneAssignments,
-        //     },
-        //   ).then((_) {
-        //     setState(() {
-        //       _loadTasks();
-        //     });
-        //   });
-        //   break;
-        //
-        // case 'SIGN_LANGUAGE_VIDEO':
-        //   Navigator.pushNamed(
-        //     // ignore: use_build_context_synchronously
-        //     context,
-        //     '/video_collection_task',
-        //     arguments: {
-        //       'microtasks': microtasks,
-        //       'microtaskAssignments': toBeDoneAssignments,
-        //     },
-        //   ).then((_) {
-        //     setState(() {
-        //       _loadTasks();
-        //     });
-        //   });
-        //   break;
-
         default:
           break;
       }
@@ -476,7 +412,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   List<Widget> _buildTaskCards(BuildContext context) {
-    print("The _tasks count is ${_tasks.length}");
     return _tasks.map((task) {
       final counts = _taskStatusCounts[task.id] ??
           {
@@ -490,7 +425,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           };
 
       return TaskCard(
-        taskName: task.name ?? 'No name',
+        taskName: task.name,
+        taskDescription: task.description,
         available: counts['available']!,
         completed: counts['completed']!,
         verified: counts['verified']!,
@@ -557,22 +493,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: darkerOrange,
           automaticallyImplyLeading: false,
-          title: FutureBuilder<String?>(
-            future: getAccessCode(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                return const Text('Error');
-              } else if (snapshot.hasData) {
-                return Text(snapshot.data ?? 'Kathbath');
-              } else {
-                return const Text('Kathbath');
-              }
-            },
-          ),
+          title: const Text(
+              style: TextStyle(fontWeight: FontWeight.bold), "Welcome"),
           actions: [
             IconButton(
               icon: const Icon(Icons.share),
@@ -608,82 +531,87 @@ class _DashboardScreenState extends State<DashboardScreen> {
             filterLines = "";
             await _loadTasks();
           },
-          child: Column(
-            children: [
-              // --- Task Submit/Get Section ---
-              ValueListenableBuilder<bool>(
-                valueListenable: _isSubmitting,
-                builder: (context, isSubmitting, _) {
-                  return TaskSubmitWidget(
-                    // uploadedTasks: uploadedCount,
-                    uploadedTasks: submittedCount + uploadedCount,
-                    onPhoneTasks: totalAvailable,
-                    handleSubmitTasks: () async {
-                      await handleSubmitTasks();
+          child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: 8,
+                children: [
+                  // --- Task Submit/Get Section ---
+                  ValueListenableBuilder<bool>(
+                    valueListenable: _isSubmitting,
+                    builder: (context, isSubmitting, _) {
+                      return TaskSubmitWidget(
+                        // uploadedTasks: uploadedCount,
+                        uploadedTasks: submittedCount + uploadedCount,
+                        onPhoneTasks: onPhoneCount,
+                        handleSubmitTasks: () async {
+                          await handleSubmitTasks();
+                        },
+                      );
                     },
-                  );
-                },
-              ),
-              Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 6.0, horizontal: 12.0),
-                  child: EditBoxWidget(
-                      onTextSubmitted: (text) async {
-                        setState(() {
-                          filterLines = text;
-                          _loadTasks();
-                        });
-                      },
-                      buttonType: 'search')),
-              // --- Tasks Recycler View ---
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: !loadingDone
-                      ? const Center(
-                          child:
-                              CircularProgressIndicator(), // Show a loading indicator
-                        )
-                      : _tasks.isEmpty
+                  ),
+                  // Padding(
+                  //     padding: const EdgeInsets.symmetric(
+                  //         vertical: 6.0, horizontal: 12.0),
+                  //     child: EditBoxWidget(
+                  //         onTextSubmitted: (text) async {
+                  //           setState(() {
+                  //             filterLines = text;
+                  //             _loadTasks();
+                  //           });
+                  //         },
+                  //         buttonType: 'search')),
+                  // --- Tasks Recycler View ---
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: !loadingDone
                           ? const Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Thank you!',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.orange,
-                                    ),
-                                  ),
-                                  Text(
-                                    'You are done with your tasks! :)',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.orange,
-                                    ),
-                                    textAlign: TextAlign
-                                        .center, // Center-align the text
-                                  ),
-                                ],
-                              ),
+                              child:
+                                  CircularProgressIndicator(), // Show a loading indicator
                             )
-                          : ListView.builder(
-                              shrinkWrap:
-                                  true, // Important to prevent scrolling issues
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: _tasks.length,
-                              itemBuilder: (context, index) {
-                                return _buildTaskCards(context)[index];
-                              },
-                            ),
-                ),
-              ),
-            ],
-          ),
+                          : _tasks.isEmpty
+                              ? const Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Thank you!',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.orange,
+                                        ),
+                                      ),
+                                      Text(
+                                        'You are done with your tasks! :)',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.orange,
+                                        ),
+                                        textAlign: TextAlign
+                                            .center, // Center-align the text
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : ListView.builder(
+                                  shrinkWrap:
+                                      true, // Important to prevent scrolling issues
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: _tasks.length,
+                                  itemBuilder: (context, index) {
+                                    return _buildTaskCards(context)[index];
+                                  },
+                                ),
+                    ),
+                  ),
+                ],
+              )),
         ),
       ),
     );

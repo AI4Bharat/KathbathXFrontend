@@ -10,7 +10,7 @@ class AppScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: darkerOrange,
+        color: Colors.white,
         child: SafeArea(
           child: Container(
             color: Colors.white,

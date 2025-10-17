@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:kathbath_lite/utils/colors.dart';
+import 'package:kathbath_lite/widgets/buttons/dashboard_fetch_submit_button.dart';
 
 class TaskSubmitWidget extends StatelessWidget {
   final int uploadedTasks;
   final int onPhoneTasks;
   final VoidCallback handleSubmitTasks;
+
+  final textStyle = const TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
 
   const TaskSubmitWidget({
     Key? key,
@@ -14,77 +18,38 @@ class TaskSubmitWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color.fromARGB(255, 252, 190, 133),
+        ),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: 8,
             children: [
-              Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 5.0, vertical: 5.0),
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 155, 216, 157),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Text(style: textStyle, "Submitted: $uploadedTasks"),
+                      Text(style: textStyle, "To Submit: $onPhoneTasks"),
+                      const SizedBox(height: 10),
+                    ],
                   ),
-                  child: Text(
-                    "[Uploaded: $uploadedTasks tasks]",
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
+                  const CircularProgressIndicator(
+                    value: .4,
+                    strokeWidth: 10,
+                    backgroundColor: Colors.white,
+                    strokeCap: StrokeCap.round,
+                  )
+                ],
               ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 5.0, vertical: 5.0),
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(180, 233, 163, 176),
-                  ),
-                  child: Text(
-                    "[On Phone: $onPhoneTasks tasks]",
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          // const SizedBox(height: 10),
-          Container(
-            padding: const EdgeInsets.all(10.0),
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: handleSubmitTasks,
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 12.0, horizontal: 20.0),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                ),
-                minimumSize: const Size(double.infinity, 48),
-                fixedSize: const Size(double.infinity, 48),
-              ),
-              child: const Text(
-                'Submit Tasks / Get New Tasks',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+              DashboardFetchSubmitButton(
+                text: "Submit and Fetch",
+                onPressed: handleSubmitTasks,
+              )
+            ]));
   }
 }

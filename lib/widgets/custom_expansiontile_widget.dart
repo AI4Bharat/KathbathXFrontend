@@ -39,7 +39,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
               child: _TaskProgressItem(
                 label: 'Available',
                 value: widget.available,
-                colorIt: const Color.fromRGBO(13, 150, 185, 1),
+                colorIt: const Color.fromARGB(255, 150, 185, 1),
               ),
             ),
             const SizedBox(width: 2),
@@ -47,7 +47,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
               child: _TaskProgressItem(
                 label: 'Submitted',
                 value: widget.submitted,
-                colorIt: const Color.fromARGB(255, 112, 179, 40),
+                colorIt: const Color.fromARGB(255, 112, 179, 4),
               ),
             ),
             const SizedBox(width: 2),
@@ -123,31 +123,20 @@ class _TaskProgressItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 55,
-      height: 55,
-      padding: const EdgeInsets.all(2.0),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
         color: colorIt,
         borderRadius: BorderRadius.circular(8.0),
       ),
-      child: Column(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            '$value',
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 0.0),
-          Text(
-            label,
+            '$value $label',
             style: const TextStyle(
               fontSize: 12,
               color: Colors.white,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ],

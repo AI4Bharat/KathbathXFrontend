@@ -199,10 +199,11 @@ class _KaryaAppState extends State<KaryaApp> {
                       onPrimary: Colors.white,
                       secondary: secondaryOrange,
                     ),
-                    useMaterial3: true,
                     appBarTheme: const AppBarTheme(
-                      elevation: 0,
+                      backgroundColor: backgroundColor,
                     ),
+                    scaffoldBackgroundColor: backgroundColor,
+                    useMaterial3: true,
                     fontFamily: 'CustomFont'),
                 initialRoute: snapshot.data,
                 routes: {
