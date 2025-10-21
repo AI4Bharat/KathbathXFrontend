@@ -22,7 +22,7 @@ class TaskSubmitWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Color.fromARGB(255, 252, 190, 133),
+          color: const Color.fromARGB(255, 252, 190, 133),
         ),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

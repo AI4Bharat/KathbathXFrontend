@@ -9,15 +9,15 @@ import 'package:kathbath_lite/data/database/dao/microtask_assignment_dao.dart';
 import 'package:kathbath_lite/data/database/dao/microtask_dao.dart';
 import 'package:kathbath_lite/data/database/dao/task_dao.dart';
 import 'package:kathbath_lite/data/database/models/task_record.dart';
-import 'package:kathbath_lite/data/database/repo/assignment_repo.dart';
+import 'package:kathbath_lite/data/database/repository/assignment_repository.dart';
+import 'package:kathbath_lite/data/database/repository/basic_repository.dart';
 import 'package:kathbath_lite/data/manager/karya_db.dart';
 import 'package:kathbath_lite/models/assignment_status_enum.dart';
 import 'package:kathbath_lite/services/api_services_baseUrl.dart';
 import 'package:kathbath_lite/services/task_api.dart';
-import 'package:kathbath_lite/utils/colors.dart';
 import 'package:kathbath_lite/utils/send_output.dart';
-import 'package:kathbath_lite/widgets/buttons/dashboard_fetch_submit_button.dart';
-import 'package:kathbath_lite/widgets/editbox_widget.dart';
+import 'package:kathbath_lite/utils/shared_pref_utils.dart';
+import 'package:kathbath_lite/widgets/misc/tasks_done_misc_widget.dart';
 import 'package:kathbath_lite/widgets/task_card_widget.dart';
 import 'package:kathbath_lite/widgets/task_submit_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,8 +35,8 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   late TaskDao _taskDao;
-  late MicroTaskDao _microTaskDao;
-  late MicroTaskAssignmentDao _microTaskAssignmentDao;
+  late MicroTaskDao _microtaskDao;
+  late MicroTaskAssignmentDao _microtaskAssignmentDao;
   late AssignmentRepository _assignmentRepository;
   late List<Task> _tasks = [];
   final Map<int, Map<String, int>> _taskStatusCounts = {};
@@ -61,10 +61,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     apiService = ApiService(dio);
 
     _taskDao = widget.db.taskDao;
-    _microTaskDao = widget.db.microTaskDao;
-    _microTaskAssignmentDao = widget.db.microTaskAssignmentDao;
+    _microtaskDao = widget.db.microTaskDao;
+    _microtaskAssignmentDao = widget.db.microTaskAssignmentDao;
     _assignmentRepository =
-        AssignmentRepository(_taskDao, _microTaskDao, _microTaskAssignmentDao);
+        AssignmentRepository(_taskDao, _microtaskDao, _microtaskAssignmentDao);
     _initialize();
   }
 
@@ -97,7 +97,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     totalAvailable = 0;
     for (var task in tasks) {
       final microtaskAssignments =
-          await _microTaskAssignmentDao.getMicroTaskAssignmentByTaskId(task.id);
+          await _microtaskAssignmentDao.getMicroTaskAssignmentByTaskId(task.id);
       final statusCounts = {
         'available': 0,
         'completed': 0,
@@ -203,7 +203,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         }
       });
       List<MicroTaskAssignmentRecord> completedAssignments =
-          await _microTaskAssignmentDao.getMicrotaskAssignmentByStatus(
+          await _microtaskAssignmentDao.getMicrotaskAssignmentByStatus(
               MicrotaskAssignmentStatus.COMPLETED);
       //Filtering out the unsubmitted assignments based on output_file_id null or size>0 , same as the logic defined in the old app
       progressMessage.value = '2/4 Getting unsubmitted tasks...';
@@ -266,14 +266,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
           } else {
             BigInt? outputFileId = outFileResult.fileId;
             if (outputFileId != null && outputFileId != "") {
-              await _microTaskAssignmentDao
+              await _microtaskAssignmentDao
                   .updateMicrotaskAssignmentOutputFileId(
                       assignment.id, outputFileId);
             }
           }
         }
         completedAssignments =
-            await _microTaskAssignmentDao.getMicrotaskAssignmentByStatus(
+            await _microtaskAssignmentDao.getMicrotaskAssignmentByStatus(
                 MicrotaskAssignmentStatus.COMPLETED);
         final fileNotFoundIds =
             fileNotFoundAssignments.map((a) => a.id).toSet();
@@ -293,7 +293,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           for (var assignment in completedAssignments) {
             if (submittedIds.contains(assignment.id)) {
               // print("assignmentid: ${assignment.id}");
-              await _microTaskAssignmentDao.updateMicrotaskAssignmentStatus(
+              await _microtaskAssignmentDao.updateMicrotaskAssignmentStatus(
                 assignment.id,
                 MicrotaskAssignmentStatus.SUBMITTED,
               );
@@ -301,7 +301,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           }
           for (var assignment in fileNotFoundAssignments) {
             if (submittedIds.contains(assignment.id)) {
-              await _microTaskAssignmentDao.updateMicrotaskAssignmentStatus(
+              await _microtaskAssignmentDao.updateMicrotaskAssignmentStatus(
                 assignment.id,
                 MicrotaskAssignmentStatus.ASSIGNED,
               );
@@ -366,9 +366,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Future<void> _handleTaskCardTap(BuildContext context, Task task) async {
     final taskName = task.name;
     final microtasks =
-        await _microTaskDao.getMicroTasksWithPendingAssignments(task.id);
+        await _microtaskDao.getMicroTasksWithPendingAssignments(task.id);
     final toBeDoneAssignments =
-        await _microTaskAssignmentDao.getToBeDoneMicrotaskAssignments(task.id);
+        await _microtaskAssignmentDao.getToBeDoneMicrotaskAssignments(task.id);
     if (toBeDoneAssignments.isNotEmpty) {
       switch (task.scenarioName) {
         case 'SPEECH_DATA':
@@ -472,10 +472,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return shouldExit;
   }
 
-  Future<String?> getAccessCode() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(
-        'accessCode'); // Fetch the access code stored with the key 'accessCode'
+  void _logout() async {
+    try {
+      bool submitSuccess = await handleSubmitTasks();
+      if (!submitSuccess) {
+        return;
+      }
+      final dbClearStatus = await clearAllDbData(
+          _taskDao, _microtaskDao, _microtaskAssignmentDao);
+      if (!dbClearStatus) {
+        return;
+      }
+      final sharedPrefClearStatus = await clearAllSharedPref();
+      if (sharedPrefClearStatus) {
+        return;
+      }
+    } catch (e) {
+      print("Error occured while logging out $e");
+      return;
+    }
+    if (context.mounted) {
+      Navigator.pushReplacementNamed(context, '/');
+    }
   }
 
   @override
@@ -506,22 +524,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             IconButton(
               icon: const Icon(Icons.logout),
               onPressed: () async {
-                loggedOut = true;
-                // bool submitSuccess = await handleSubmitTasks();
-                // if (submitSuccess) {
-                SharedPreferences? prefs =
-                    await SharedPreferences.getInstance();
-                await prefs.setBool('otp_verified', false);
-                await prefs.setString('id_token', '');
-                await prefs.setString('loggedInNum', '');
-                await prefs.setString('submittedCount', '');
-                await prefs.setBool("referral_send", false);
-                await _taskDao.clearAllTasks();
-                await _microTaskDao.clearAllMicroTasks();
-                await _microTaskAssignmentDao.clearAllMicrotaskAssignments();
-
-                Navigator.pushReplacementNamed(context, '/');
-                // }
+                _logout();
               },
             ),
           ],
@@ -532,88 +535,68 @@ class _DashboardScreenState extends State<DashboardScreen> {
             await _loadTasks();
           },
           child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                spacing: 8,
-                children: [
-                  // --- Task Submit/Get Section ---
-                  ValueListenableBuilder<bool>(
-                    valueListenable: _isSubmitting,
-                    builder: (context, isSubmitting, _) {
-                      return TaskSubmitWidget(
-                        // uploadedTasks: uploadedCount,
-                        uploadedTasks: submittedCount + uploadedCount,
-                        onPhoneTasks: onPhoneCount,
-                        handleSubmitTasks: () async {
-                          await handleSubmitTasks();
-                        },
-                      );
-                    },
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: 8,
+              children: [
+                ValueListenableBuilder<bool>(
+                  valueListenable: _isSubmitting,
+                  builder: (context, isSubmitting, _) {
+                    return TaskSubmitWidget(
+                      uploadedTasks: submittedCount + uploadedCount,
+                      onPhoneTasks: onPhoneCount,
+                      handleSubmitTasks: () async {
+                        await handleSubmitTasks();
+                      },
+                    );
+                  },
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: !loadingDone
+                        ? const Center(
+                            child:
+                                CircularProgressIndicator(), // Show a loading indicator
+                          )
+                        : _tasks.isEmpty
+                            ? TasksDoneMiscWidget()
+                            : ListView.builder(
+                                shrinkWrap:
+                                    true, // Important to prevent scrolling issues
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: _tasks.length,
+                                itemBuilder: (context, index) {
+                                  return _buildTaskCards(context)[index];
+                                },
+                              ),
                   ),
-                  // Padding(
-                  //     padding: const EdgeInsets.symmetric(
-                  //         vertical: 6.0, horizontal: 12.0),
-                  //     child: EditBoxWidget(
-                  //         onTextSubmitted: (text) async {
-                  //           setState(() {
-                  //             filterLines = text;
-                  //             _loadTasks();
-                  //           });
-                  //         },
-                  //         buttonType: 'search')),
-                  // --- Tasks Recycler View ---
-                  Expanded(
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      child: !loadingDone
-                          ? const Center(
-                              child:
-                                  CircularProgressIndicator(), // Show a loading indicator
-                            )
-                          : _tasks.isEmpty
-                              ? const Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Thank you!',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.orange,
-                                        ),
-                                      ),
-                                      Text(
-                                        'You are done with your tasks! :)',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.orange,
-                                        ),
-                                        textAlign: TextAlign
-                                            .center, // Center-align the text
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : ListView.builder(
-                                  shrinkWrap:
-                                      true, // Important to prevent scrolling issues
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: _tasks.length,
-                                  itemBuilder: (context, index) {
-                                    return _buildTaskCards(context)[index];
-                                  },
-                                ),
-                    ),
-                  ),
-                ],
-              )),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 }
+
+
+
+
+
+
+
+
+// Padding(
+                //     padding: const EdgeInsets.symmetric(
+                //         vertical: 6.0, horizontal: 12.0),
+                //     child: EditBoxWidget(
+                //         onTextSubmitted: (text) async {
+                //           setState(() {
+                //             filterLines = text;
+                //             _loadTasks();
+                //           });
+                //         },
+                //         buttonType: 'search')),
