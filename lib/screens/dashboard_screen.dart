@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:kathbath_lite/data/database/dao/microtask_assignment_dao.dart';
 import 'package:kathbath_lite/data/database/dao/microtask_dao.dart';
 import 'package:kathbath_lite/data/database/dao/task_dao.dart';
+import 'package:kathbath_lite/data/database/models/microtask_assignment_record.dart';
 import 'package:kathbath_lite/data/database/models/task_record.dart';
 import 'package:kathbath_lite/data/database/repository/assignment_repository.dart';
 import 'package:kathbath_lite/data/database/repository/basic_repository.dart';
@@ -370,44 +371,48 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final toBeDoneAssignments =
         await _microtaskAssignmentDao.getToBeDoneMicrotaskAssignments(task.id);
     if (toBeDoneAssignments.isNotEmpty) {
-      switch (task.scenarioName) {
-        case 'SPEECH_DATA':
-          Navigator.pushNamed(
-            // ignore: use_build_context_synchronously
-            context,
-            '/sd_microtask',
-            arguments: {
-              'microtasks': microtasks,
-              'microtaskAssignments': toBeDoneAssignments,
-            },
-          ).then((_) {
-            setState(() {
-              _loadTasks();
-            });
-          });
-          ;
-          break;
-
-        case 'SPEECH_DV_MULTI' || 'SPEECH_VERIFICATION':
-          Navigator.pushNamed(
-            // ignore: use_build_context_synchronously
-            context,
-            '/speech_verification_microtask',
-            arguments: {
-              'taskName': taskName,
-              'microtasks': microtasks,
-              'microtaskAssignments': toBeDoneAssignments,
-            },
-          ).then((_) {
-            setState(() {
-              _loadTasks();
-            });
-          });
-          break;
-
-        default:
-          break;
-      }
+      Navigator.pushNamed(context, '/scenario', arguments: {
+        "task": task,
+        "microtasks": microtasks,
+        "microtaskAssignments": toBeDoneAssignments
+      });
+      // switch (task.scenarioName) {
+      //   case 'SPEECH_DATA':
+      //     Navigator.pushNamed(
+      //       // ignore: use_build_context_synchronously
+      //       context,
+      //       '/sd_microtask',
+      //       arguments: {
+      //         'microtasks': microtasks,
+      //         'microtaskAssignments': toBeDoneAssignments,
+      //       },
+      //     ).then((_) {
+      //       setState(() {
+      //         _loadTasks();
+      //       });
+      //     });
+      //     break;
+      //
+      //   case 'SPEECH_DV_MULTI' || 'SPEECH_VERIFICATION':
+      //     Navigator.pushNamed(
+      //       // ignore: use_build_context_synchronously
+      //       context,
+      //       '/speech_verification_microtask',
+      //       arguments: {
+      //         'taskName': taskName,
+      //         'microtasks': microtasks,
+      //         'microtaskAssignments': toBeDoneAssignments,
+      //       },
+      //     ).then((_) {
+      //       setState(() {
+      //         _loadTasks();
+      //       });
+      //     });
+      //     break;
+      //
+      //   default:
+      //     break;
+      // }
     }
   }
 

@@ -30,9 +30,8 @@ class MicroTaskDao extends DatabaseAccessor<KaryaDatabase>
         .get();
   }
 
-  Future<List<MicroTaskRecord>> getMicroTasksWithPendingAssignments(
-      int id) {
-		final taskId = BigInt.from(id);
+  Future<List<Microtask>> getMicroTasksWithPendingAssignments(int id) async {
+    final taskId = BigInt.from(id);
     final query = select(db.microTaskRecords).join([
       innerJoin(
         db.microTaskAssignmentRecords,
@@ -47,9 +46,13 @@ class MicroTaskDao extends DatabaseAccessor<KaryaDatabase>
               MicrotaskAssignmentStatus.EXPIRED.toString().split('.').last));
 
     // Map the result to get only microTaskRecords
-    return query.map((row) {
+    final microtaskRecords = await query.map((row) {
       return row.readTable(db.microTaskRecords);
     }).get();
+    return microtaskRecords
+        .toList()
+        .map((microtaskRecord) => Microtask.fromRecord(microtaskRecord))
+        .toList();
   }
 
   Future<void> upsertAll(List<Microtask> microtasks) async {

@@ -13,14 +13,10 @@ import 'package:path_provider/path_provider.dart';
 part 'karya_db.g.dart';
 
 @DriftDatabase(tables: [
-  // WorkerRecords,
-  // KaryaFileRecords,
   TaskRecords,
   MicroTaskRecords,
   MicroTaskAssignmentRecords,
 ], daos: [
-  // WorkerDao,
-  // KaryaFileDao,
   TaskDao,
   MicroTaskDao,
   MicroTaskAssignmentDao

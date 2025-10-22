@@ -112,21 +112,27 @@ class MicroTaskAssignmentDao extends DatabaseAccessor<KaryaDatabase>
     ));
   }
 
-  Future<List<MicroTaskAssignmentRecord>> getToBeDoneMicrotaskAssignments(
-      int id) {
+  Future<List<MicroTaskAssignment>> getToBeDoneMicrotaskAssignments(int id) async {
     final taskId = BigInt.from(id);
-    return (select(db.microTaskAssignmentRecords)
-          ..where((tbl) =>
-              tbl.taskId.equals(taskId) &
-              tbl.status.isNotValue(MicrotaskAssignmentStatus.SUBMITTED
-                  .toString()
-                  .split('.')
-                  .last) &
-              tbl.status.isNotValue(MicrotaskAssignmentStatus.EXPIRED
-                  .toString()
-                  .split('.')
-                  .last)))
-        .get();
+    final microtaskAssignmentRecords =
+        await (select(db.microTaskAssignmentRecords)
+              ..where((tbl) =>
+                  tbl.taskId.equals(taskId) &
+                  tbl.status.isNotValue(MicrotaskAssignmentStatus.SUBMITTED
+                      .toString()
+                      .split('.')
+                      .last) &
+                  tbl.status.isNotValue(MicrotaskAssignmentStatus.EXPIRED
+                      .toString()
+                      .split('.')
+                      .last)))
+            .get();
+
+    return microtaskAssignmentRecords
+        .toList()
+        .map((microtaskAssignmentRecord) =>
+            MicroTaskAssignment.fromRecord(microtaskAssignmentRecord))
+        .toList();
   }
 
   Future<void> clearAllMicrotaskAssignments() {

@@ -9,15 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:in_app_update/in_app_update.dart';
+import 'package:kathbath_lite/data/database/models/microtask_assignment_record.dart';
+import 'package:kathbath_lite/data/database/models/microtask_record.dart';
+import 'package:kathbath_lite/data/database/models/task_record.dart';
 import 'package:kathbath_lite/data/manager/karya_db.dart';
 import 'package:kathbath_lite/firebase_options.dart';
 import 'package:kathbath_lite/providers/recorder_player_providers.dart';
+import 'package:kathbath_lite/scenarios/scenario_base_screen.dart';
 import 'package:kathbath_lite/screens/dashboard_screen.dart';
 import 'package:kathbath_lite/screens/login_screen.dart';
-import 'package:kathbath_lite/screens/microtasks/microtask_audio_refinement.dart';
-import 'package:kathbath_lite/screens/microtasks/microtask_image_audio.dart';
-import 'package:kathbath_lite/screens/microtasks/microtask_image_transcription.dart';
-import 'package:kathbath_lite/screens/microtasks/microtask_speech_data.dart';
 import 'package:kathbath_lite/screens/microtasks/microtask_speech_verification.dart';
 import 'package:kathbath_lite/screens/microtasks/microtask_video_collection.dart';
 import 'package:kathbath_lite/screens/register_screen.dart';
@@ -214,17 +214,29 @@ class _KaryaAppState extends State<KaryaApp> {
                   '/dashboard': (context) => AppScaffold(
                       body: DashboardScreen(
                           title: 'Dashboard Screen', db: widget.db)),
-                  '/sd_microtask': (context) {
+                  '/scenario': (context) {
                     final args = ModalRoute.of(context)!.settings.arguments
                         as Map<String, dynamic>;
                     return AppScaffold(
-                        body: SpeechRecordingScreen(
+                        body: ScenarioBaseScreen(
                       db: widget.db,
-                      microtasks: args['microtasks'] as List<MicroTaskRecord>,
+                      task: args['task'] as Task,
+                      microtasks: args['microtasks'] as List<Microtask>,
                       microtaskAssignments: args['microtaskAssignments']
-                          as List<MicroTaskAssignmentRecord>,
+                          as List<MicroTaskAssignment>,
                     ));
                   },
+                  // '/sd_microtask': (context) {
+                  //   final args = ModalRoute.of(context)!.settings.arguments
+                  //       as Map<String, dynamic>;
+                  //   return AppScaffold(
+                  //       body: SpeechRecordingScreen(
+                  //     db: widget.db,
+                  //     microtasks: args['microtasks'] as List<MicroTaskRecord>,
+                  //     microtaskAssignments: args['microtaskAssignments']
+                  //         as List<MicroTaskAssignmentRecord>,
+                  //   ));
+                  // },
                   // '/image_transcription_microtask': (context) {
                   //   final args = ModalRoute.of(context)!.settings.arguments
                   //       as Map<String, dynamic>;

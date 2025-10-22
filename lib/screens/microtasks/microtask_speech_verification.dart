@@ -14,13 +14,12 @@ import 'package:kathbath_lite/widgets/checkbox_list_widget.dart';
 import 'package:kathbath_lite/widgets/display_screen_widget.dart';
 import 'package:kathbath_lite/widgets/image_display_widget.dart';
 import 'package:kathbath_lite/widgets/instruction_widget.dart';
-import 'package:kathbath_lite/widgets/next_n_back_button._widget.dart';
+import 'package:kathbath_lite/widgets/next_n_back_button_widget.dart';
 import 'package:kathbath_lite/widgets/player_widget.dart';
 import 'package:provider/provider.dart';
 
 class SpeechVerificationScreen extends StatefulWidget {
   final KaryaDatabase db;
-
   final List<MicroTaskRecord> microtasks;
   final List<MicroTaskAssignmentRecord> microtaskAssignments;
 
