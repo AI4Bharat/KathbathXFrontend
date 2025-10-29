@@ -66,10 +66,7 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]).then((_) {
     runApp(
-      ChangeNotifierProvider(
-        create: (context) => RecorderPlayerProvider(),
-        child: KaryaApp(db),
-      ),
+      KaryaApp(db),
     );
   });
 }

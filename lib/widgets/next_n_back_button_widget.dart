@@ -13,7 +13,7 @@ class NextBackWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       ElevatedButton(
         onPressed: onBackPressed,
         child: const Text("Previous"),

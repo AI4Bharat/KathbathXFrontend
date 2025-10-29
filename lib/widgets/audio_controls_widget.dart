@@ -1,17 +1,17 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+// import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 import 'package:kathbath_lite/providers/recorder_player_providers.dart';
-import 'package:kathbath_lite/utils/audio_player_model.dart';
+// import 'package:kathbath_lite/utils/audio_player_model.dart';
 import 'package:kathbath_lite/utils/audio_recorder_model.dart';
-import 'package:kathbath_lite/widgets/player_widget.dart';
-import 'package:kathbath_lite/widgets/recorder_widget.dart';
+import 'package:kathbath_lite/widgets/audio_duration_or_progress_widget.dart';
+import 'package:kathbath_lite/widgets/buttons/icon_with_text_button.dart';
+// import 'package:kathbath_lite/widgets/player_widget.dart';
+// import 'package:kathbath_lite/widgets/recorder_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:wakelock_plus/wakelock_plus.dart';
 
 // ignore: must_be_immutable
 class AudioControlsWidget extends StatefulWidget {
-  final double progress;
+  // final double progress;
   final String filePath;
   final bool fileExists;
   // final VoidCallback onBackPressed;
@@ -19,7 +19,7 @@ class AudioControlsWidget extends StatefulWidget {
 
   const AudioControlsWidget({
     super.key,
-    required this.progress,
+    // required this.progress,
     // required this.onBackPressed,
     required this.filePath,
     this.fileExists = false,
@@ -31,97 +31,89 @@ class AudioControlsWidget extends StatefulWidget {
 }
 
 class _AudioControlsWidgetState extends State<AudioControlsWidget> {
-  late final AudioPlayerModel playerModel;
+  // final FlutterSoundRecorder soundRecorder = FlutterSoundRecorder();
+  // bool isPlaying = false;
+  // bool isRecording = false;
+  // late final AudioPlayerModel playerModel;
   late final AudioRecorderModel recorderModel;
-  bool overWriteConsent = false;
+  // bool overWriteConsent = false;
+  //
+  // bool isRecorderPressed = false;
+  //
 
-  bool isRecorderPressed = false;
+  Future<void> startRecording(
+      RecorderPlayerInfoProvider recorderPlayerInfo) async {
+    if (!recorderModel.isRecording) {
+      var status = await recorderModel.startRecording();
+      if (!status) {
+        return;
+      }
+      recorderModel.soundRecorder!.onProgress!.listen((event) {
+				print("The event is $event");
+        recorderPlayerInfo.updateTotalDuration(event.duration);
+      });
+    } else {
+      recorderModel.stopRecording();
+    }
+  }
+
+  @override
+  void dispose() {
+    recorderModel.closeRecorder();
+    super.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
-    playerModel = AudioPlayerModel(widget.filePath);
     recorderModel = AudioRecorderModel(widget.filePath);
+    // playerModel = AudioPlayerModel(widget.filePath);
   }
 
   @override
   Widget build(BuildContext context) {
-    final recorderPlayerProvider = Provider.of<RecorderPlayerProvider>(context);
-    log("Audio bar filepayj: ${widget.filePath}");
-    return Column(
-      children: [
-        PlayerWidget(
-          filePath: widget.filePath,
-          duration: recorderPlayerProvider.duration,
-          playerModel: playerModel,
-        ),
-        const SizedBox(height: 2),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          // ///////////Back Button/////////////////////
-          // ElevatedButton(
-          //   onPressed: () {
-          //     setState(() {
-          //       WakelockPlus.disable();
-          //       recorderPlayerProvider.stopAllRecorders();
-          //       recorderPlayerProvider.stopAllPlayers();
-          //       recorderPlayerProvider.alreadyPlayed = false;
-          //       recorderModel.recordingCentiseconds = 0;
-          //       recorderModel.recordingSeconds = 0;
-          //       playerModel.duration = 0;
-          //       playerModel.resetPlayer();
-          //     });
-          //
-          //     widget.onBackPressed();
-          //   },
-          //   style: ElevatedButton.styleFrom(
-          //     backgroundColor: Colors.transparent,
-          //     shape: const CircleBorder(),
-          //     padding: const EdgeInsets.all(5.0),
-          //     elevation: 10.0,
-          //   ),
-          //   child: Image.asset(
-          //     'assets/icons/ic_back_enabled.png',
-          //     width: 70,
-          //     height: 70,
-          //   ),
-          // ),
-          RecorderWidget(
-              recorderModel: recorderModel,
-              filePath: widget.filePath,
-              onRecorderPressed: (newValue) {
-                setState(() {
-                  isRecorderPressed = newValue;
-                });
-              }),
-          // ElevatedButton(
-          //   onPressed: () {
-          //     setState(() {
-          //       WakelockPlus.disable();
-          //       recorderPlayerProvider.stopAllRecorders();
-          //       recorderPlayerProvider.stopAllPlayers();
-          //       recorderPlayerProvider.alreadyPlayed = false;
-          //       recorderModel.recordingCentiseconds = 0;
-          //       recorderModel.recordingSeconds = 0;
-          //       playerModel.duration = 0;
-          //       playerModel.resetPlayer();
-          //     });
-          //
-          //     widget.onNextPressed();
-          //   },
-          //   style: ElevatedButton.styleFrom(
-          //     backgroundColor: Colors.transparent,
-          //     shape: const CircleBorder(),
-          //     padding: const EdgeInsets.all(5.0),
-          //     elevation: 5.0, // Shadow effect
-          //   ),
-          //   child: Image.asset(
-          //     'assets/icons/ic_next_enabled.png',
-          //     width: 70,
-          //     height: 70,
-          //   ),
-          // ),
-        ]),
-      ],
-    );
+    return Consumer<RecorderPlayerInfoProvider>(
+        builder: (context, recorderPlayerInfo, child) {
+      return Column(
+        children: [
+          AudioDurationOrProgressWidget(),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+            IconWithTextButton(
+              text: "Play",
+              icon: Icons.play_arrow,
+              backgroundColor: Colors.blue,
+              onTap: () => {},
+            ),
+            IconWithTextButton(
+              text: "Record",
+              icon: Icons.record_voice_over_outlined,
+              backgroundColor: Colors.red,
+              onTap: () => startRecording(recorderPlayerInfo),
+            )
+          ]),
+        ],
+      );
+    });
+    // final recorderPlayerProvider = Provider.of<RecorderPlayerProvider>(context);
+    // return Row(
+    //   children: [
+    //     PlayerWidget(
+    //       filePath: widget.filePath,
+    //       duration: recorderPlayerProvider.duration,
+    //       playerModel: playerModel,
+    //     ),
+    //     const SizedBox(height: 2),
+    //     Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+    //       RecorderWidget(
+    //           recorderModel: recorderModel,
+    //           filePath: widget.filePath,
+    //           onRecorderPressed: (newValue) {
+    //             setState(() {
+    //               isRecorderPressed = newValue;
+    //             });
+    //           }),
+    //     ]),
+    //   ],
+    // );
   }
 }

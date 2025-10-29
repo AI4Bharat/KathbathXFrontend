@@ -33,8 +33,9 @@ class SpeechDataModel {
     SpeechDataInput speechDataInput =
         SpeechDataInput(sentence: microtaskInputData["sentence"]! as String);
 
-    SpeechDataOutput speechDataOutput =
-        const SpeechDataOutput(outputFileUrl: null, outputFileDuration: null);
+    SpeechDataOutput speechDataOutput = SpeechDataOutput(
+        outputFileName: '${microtaskAssignment.id}.wav',
+        outputFileDuration: null);
 
     return SpeechDataModel(input: speechDataInput, output: speechDataOutput);
   }
@@ -48,9 +49,9 @@ class SpeechDataInput {
 }
 
 class SpeechDataOutput {
-  final String? outputFileUrl;
+  final String outputFileName;
   final double? outputFileDuration;
 
   const SpeechDataOutput(
-      {required this.outputFileUrl, required this.outputFileDuration});
+      {required this.outputFileName, required this.outputFileDuration});
 }

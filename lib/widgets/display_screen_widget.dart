@@ -12,49 +12,44 @@ class SentenceDisplayWidget extends StatefulWidget {
 }
 
 class _SentenceDisplayWidget extends State<SentenceDisplayWidget> {
-  double fontSize = 18;
+  double fontSize = 24;
   void modifyFontSize(int quantity) {
     setState(() {
-      fontSize = min(max(18, fontSize + quantity), 40);
+      fontSize = min(max(24, fontSize + quantity), 40);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 1,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-              color: const Color.fromARGB(255, 226, 114, 49), width: 4.0),
-          borderRadius: BorderRadius.circular(8.0),
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+            color: const Color.fromARGB(255, 226, 114, 49), width: 4.0),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+        ZoomButtonsWidget(
+          modifyFontSize: modifyFontSize,
         ),
-        child: Column(
-					crossAxisAlignment: CrossAxisAlignment.end,
-					children: [
-          ZoomButtonsWidget(
-            modifyFontSize: modifyFontSize,
-          ),
-          Expanded(
-            child: Scrollbar(
-              thumbVisibility: false,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
-                  child: Text(
-                    widget.sentence,
-                    style: TextStyle(fontSize: fontSize),
-                    textAlign: TextAlign.left,
-                  ),
+        Expanded(
+          child: Scrollbar(
+            thumbVisibility: false,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: Text(
+                  widget.sentence,
+                  style: TextStyle(fontSize: fontSize),
+                  textAlign: TextAlign.left,
                 ),
               ),
             ),
           ),
-        ]),
-      ),
+        ),
+      ]),
     );
   }
 }
@@ -109,7 +104,7 @@ class ZoomButtonsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext buildContext) {
     return Row(
-			mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         GestureDetector(
             child: const Icon(Icons.zoom_in, size: 24),

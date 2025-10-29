@@ -72,11 +72,11 @@ class PlayerWidgetState extends State<PlayerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final recorderPlayerProvider = Provider.of<RecorderPlayerProvider>(context);
-    recorderPlayerProvider.alreadyPlayed = false;
-    if (!recorderPlayerProvider.alreadyPlayed) {
-      widget.playerModel.playbackPosition = 0;
-    }
+    final recorderPlayerProvider = Provider.of<RecorderPlayerInfoProvider>(context);
+    // recorderPlayerProvider.alreadyPlayed = false;
+    // if (!recorderPlayerProvider.alreadyPlayed) {
+    //   widget.playerModel.playbackPosition = 0;
+    // }
     return Column(
       children: [
         Container(
@@ -86,7 +86,7 @@ class PlayerWidgetState extends State<PlayerWidget> {
             children: [
               if (widget.lPBar && widget.playerModel.duration != null)
                 Expanded(
-                  child: Consumer<RecorderPlayerProvider>(
+                  child: Consumer<RecorderPlayerInfoProvider>(
                     builder: (context, playerModel, child) {
                       return StreamBuilder<Duration>(
                         stream: widget.playerModel.player.positionStream,
@@ -121,32 +121,21 @@ class PlayerWidgetState extends State<PlayerWidget> {
                   ),
                 ),
               const SizedBox(width: 2.0),
-              ElevatedButton(
-                onPressed: () {
-                  if (recorderPlayerProvider.alreadyPlayed) {
-                    widget.playerModel.player
-                        .seek(const Duration(milliseconds: 0));
-                    setState(() {
-                      widget.playerModel.isPlaying = true;
-                    });
-                    recorderPlayerProvider.stopAllPlayers();
-                    widget.playerModel.player.play();
-                  } else {
-                    onPlayPressed(recorderPlayerProvider);
-                  }
+              GestureDetector(
+                onTap: () {
+                  // if (recorderPlayerProvider.alreadyPlayed) {
+                  //   widget.playerModel.player
+                  //       .seek(const Duration(milliseconds: 0));
+                  //   setState(() {
+                  //     widget.playerModel.isPlaying = true;
+                  //   });
+                  //   recorderPlayerProvider.stopAllPlayers();
+                  //   widget.playerModel.player.play();
+                  // } else {
+                  //   onPlayPressed(recorderPlayerProvider);
+                  // }
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  elevation: 6.0,
-                  padding: EdgeInsets.zero,
-                ),
-                child: Image.asset(
-                  widget.playerModel.isPlaying
-                      ? 'assets/icons/ic_speaker_active.png'
-                      : 'assets/icons/ic_speaker_disabled.png',
-                  width: 50,
-                  height: 50,
-                ),
+                child: const Icon(Icons.play_circle),
               ),
             ],
           ),
