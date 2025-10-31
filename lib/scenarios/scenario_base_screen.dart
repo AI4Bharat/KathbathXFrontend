@@ -6,6 +6,8 @@ import 'package:kathbath_lite/data/manager/karya_db.dart';
 import 'package:kathbath_lite/providers/recorder_player_providers.dart';
 import 'package:kathbath_lite/scenarios/speech_data/speech_data_model.dart';
 import 'package:kathbath_lite/scenarios/speech_data/speech_data_widget.dart';
+import 'package:kathbath_lite/utils/permission_utils.dart';
+import 'package:kathbath_lite/widgets/dialogs/permission_not_given_dialog.dart';
 import 'package:kathbath_lite/widgets/instruction_widget.dart';
 import 'package:kathbath_lite/widgets/next_n_back_button_widget.dart';
 import 'package:provider/provider.dart';
@@ -48,6 +50,17 @@ class _ScenarioBaseScreen extends State<ScenarioBaseScreen> {
     super.initState();
     _pageController = PageController();
     createMicrotaskModels();
+
+    initializePermission();
+  }
+
+  void initializePermission() async {
+    try {
+      final permissionSatus = await requestAudioRecordingPermission();
+      if (!permissionSatus && context.mounted) {
+        showPermissionNotGivenDialog(["Microphone", "Storage"], context);
+      }
+    } catch (_) {}
   }
 
   void nextTask() {}

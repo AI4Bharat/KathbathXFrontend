@@ -256,19 +256,19 @@ class _KaryaAppState extends State<KaryaApp> {
                   //         as List<MicroTaskAssignmentRecord>,
                   //   ));
                   // },
-                  '/speech_verification_microtask': (context) {
-                    final args = ModalRoute.of(context)!.settings.arguments
-                        as Map<String, dynamic>;
-                    return AppScaffold(
-                        body: SpeechVerificationScreen(
-                      db: widget.db,
-                      microtasks: args['microtasks'] as List<MicroTaskRecord>,
-                      microtaskAssignments: args['microtaskAssignments']
-                          as List<MicroTaskAssignmentRecord>,
-                      taskName: args['taskName'],
-                    ));
-                  },
-                  // '/speech_audio_refinement': (context) {
+                  // '/speech_verification_microtask': (context) {
+                  //   final args = ModalRoute.of(context)!.settings.arguments
+                  //       as Map<String, dynamic>;
+                  //   return AppScaffold(
+                  //       body: SpeechVerificationScreen(
+                  //     db: widget.db,
+                  //     microtasks: args['microtasks'] as List<MicroTaskRecord>,
+                  //     microtaskAssignments: args['microtaskAssignments']
+                  //         as List<MicroTaskAssignmentRecord>,
+                  //     taskName: args['taskName'],
+                  //   ));
+                  // },
+                  // // '/speech_audio_refinement': (context) {
                   //   final args = ModalRoute.of(context)!.settings.arguments
                   //       as Map<String, dynamic>;
                   //   return AppScaffold(

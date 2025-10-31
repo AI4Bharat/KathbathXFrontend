@@ -1,4 +1,5 @@
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:kathbath_lite/providers/recorder_player_providers.dart';
 
 class AudioRecorderModel {
   final String filePath;
@@ -12,16 +13,28 @@ class AudioRecorderModel {
 
   AudioRecorderModel(this.filePath) : soundRecorder = FlutterSoundRecorder();
 
+  Future<bool> init() async {
+    try {
+      if (soundRecorder == null) {
+        return false;
+      }
+      await soundRecorder!.openRecorder();
+      await soundRecorder!
+          .setSubscriptionDuration(const Duration(milliseconds: 100));
+      return true;
+    } catch (error) {
+      print("Error occured while initializing the recorder");
+      return true;
+    }
+  }
+
   Future<bool> startRecording() async {
     try {
       if (soundRecorder == null) {
         return false;
       }
-      soundRecorder = await soundRecorder!.openRecorder();
       await soundRecorder!
-          .setSubscriptionDuration(const Duration(milliseconds: 100));
-      await soundRecorder!
-          .startRecorder(toFile: filePath, codec: Codec.pcm16WAV);
+          .startRecorder(toFile: filePath, codec: Codec.pcm16WAV, sampleRate: 44100);
       isRecording = true;
       return true;
     } catch (_) {
@@ -35,10 +48,12 @@ class AudioRecorderModel {
     if (soundRecorder == null) {
       return;
     }
-    await soundRecorder!.stopRecorder();
+    final fileLocation = await soundRecorder!.stopRecorder();
+    print("\n\n the finale path location is ${fileLocation}");
   }
 
   Future<void> closeRecorder() async {
+    isRecording = false;
     if (soundRecorder != null) {
       await soundRecorder!.closeRecorder();
     }

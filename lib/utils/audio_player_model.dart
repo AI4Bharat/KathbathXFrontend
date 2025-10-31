@@ -1,54 +1,80 @@
-import 'dart:developer';
+import 'dart:async';
+import 'dart:io';
 
-import 'package:just_audio/just_audio.dart';
-// import 'package:rxdart/rxdart.dart';
+import 'package:flutter_sound/public/flutter_sound_player.dart';
+import 'package:kathbath_lite/providers/recorder_player_providers.dart';
 
 class AudioPlayerModel {
-  final AudioPlayer player;
-  bool isPlaying = false;
+  late final FlutterSoundPlayer audioPlayer;
+  bool fileExist = false;
   String filePath = '';
+  Duration duration = Duration.zero;
+  bool isPlaying = false;
   double? playbackPosition;
-  double? duration;
+  StreamSubscription? audioPlayerStreamSubscription;
 
-  AudioPlayerModel(this.filePath) : player = AudioPlayer();
+  AudioPlayerModel(this.filePath) : audioPlayer = FlutterSoundPlayer();
 
-  // Stream<Duration> get _positionStream =>
-  //     Rx.combineLatest2<Duration, Duration?, Duration>(
-  //       player.positionStream,
-  //       player.durationStream,
-  //       (position, duration) => position,
-  //     );
-
-  Future<void> loadAudioDuration() async {
+  Future<void> init() async {
     try {
-      await player.setFilePath(filePath);
-      Duration? dur = await player.load();
-      if (dur != null) {
-        duration = dur.inMilliseconds.toDouble();
+      final file = File(filePath);
+      fileExist = await file.exists();
+      if (fileExist) {
+        final fileStats = await file.stat();
+        // 44 -> wav header size, 44100 -> sampling rate, 1-> single channel, 2 -> 2 bytes since we are using pcm16WAV
+        final fileDuration = (fileStats.size - 44) / (44100 * 1 * 2);
+        final durationInSeconds = double.parse(fileDuration.toStringAsFixed(3));
+        duration = Duration(milliseconds: (durationInSeconds * 1000).toInt());
       } else {
-        player.durationStream.listen((dur) {
-          if (dur != null) {
-            duration = dur.inMilliseconds.toDouble();
-          }
-        });
+        duration = Duration.zero;
       }
-    } catch (e) {
-      log('Error loading audio file: $e');
+      await audioPlayer.openPlayer();
+      await audioPlayer
+          .setSubscriptionDuration(const Duration(milliseconds: 100));
+    } catch (_) {
+      throw "Failed to open audio player";
     }
   }
 
-  Future<void> resetPlayer() async {
-    await player.seek(Duration.zero);
-    playbackPosition = 0.0;
-  }
-
-  Future<void> stop() async {
+  Future<bool> startAndStopPlaying(
+      RecorderPlayerInfoProvider recorderPlayerInfo) async {
     try {
-      await player.stop();
-      isPlaying = false;
-      playbackPosition = 0.0;
+      assert(audioPlayer.isOpen(), "Audio player is not open");
+      recorderPlayerInfo.updateIsRecording(false);
+      if (!fileExist) {
+        return false;
+      }
+      if (audioPlayer.isPlaying) {
+        await audioPlayer.stopPlayer();
+        if (audioPlayerStreamSubscription != null) {
+          audioPlayerStreamSubscription!.cancel();
+        }
+        isPlaying = false;
+      } else {
+        audioPlayerStreamSubscription = audioPlayer.onProgress!.listen((event) {
+          recorderPlayerInfo.updateCurrentProgress(event.position);
+        });
+        await audioPlayer.startPlayer(
+            fromURI: filePath,
+            sampleRate: 44100,
+            whenFinished: () {
+              audioPlayerStreamSubscription?.cancel();
+              recorderPlayerInfo.updateIsPlaying(false);
+              isPlaying = false;
+            });
+      }
+      return true;
     } catch (e) {
-      log('Error stopping audio: $e');
+      return false;
     }
+  }
+
+  Future<void> closeAudioPlayer() async {
+    print("Called close audio player");
+    await audioPlayer.closePlayer();
+    filePath = '';
+    fileExist = false;
+    isPlaying = false;
+    duration = Duration.zero;
   }
 }
