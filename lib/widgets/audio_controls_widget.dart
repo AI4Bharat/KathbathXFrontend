@@ -10,12 +10,10 @@ import 'package:provider/provider.dart';
 
 class AudioControlsWidget extends StatefulWidget {
   final String filePath;
-  final bool outputFileExist;
 
   const AudioControlsWidget({
     super.key,
     required this.filePath,
-    required this.outputFileExist,
   });
 
   @override
@@ -25,7 +23,7 @@ class AudioControlsWidget extends StatefulWidget {
 class _AudioControlsWidgetState extends State<AudioControlsWidget> {
   late final AudioPlayerModel playerModel;
   late final AudioRecorderModel recorderModel;
-  // StreamSubscription? playerSubscription;
+  bool loading = true;
 
   Future<void> initializePlayerAndRecorder() async {
     recorderModel = AudioRecorderModel(widget.filePath);
@@ -35,17 +33,28 @@ class _AudioControlsWidgetState extends State<AudioControlsWidget> {
 
     Provider.of<RecorderPlayerInfoProvider>(context, listen: false)
         .updateTotalDuration(playerModel.duration);
+    setState(() {
+      loading = false;
+    });
   }
 
   Future<void> startRecording(
       RecorderPlayerInfoProvider recorderPlayerInfo) async {
-    if (!recorderModel.isRecording) {
+    if (playerModel.audioPlayer.isPlaying) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Audio is playing"),
+          duration: Duration(milliseconds: 300),
+        ),
+      );
+      return;
+    }
+    if (!recorderModel.audioRecorder.isRecording) {
       var status = await recorderModel.startRecording();
       if (!status) {
         return;
       }
-      recorderModel.soundRecorder!.onProgress!.listen((event) {
-        print("The event is ${event}");
+      recorderModel.audioRecorder.onProgress!.listen((event) {
         recorderPlayerInfo.updateTotalDuration(event.duration);
       });
       recorderPlayerInfo.updateIsRecording(true);
@@ -55,6 +64,37 @@ class _AudioControlsWidgetState extends State<AudioControlsWidget> {
       recorderPlayerInfo.updateIsRecording(false);
       recorderPlayerInfo.updateIsPlaying(false);
     }
+  }
+
+  Future<void> startPlaying(
+      RecorderPlayerInfoProvider recorderPlayerInfo) async {
+    if (recorderModel.audioRecorder.isRecording) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Recording in progress"),
+          duration: Duration(milliseconds: 300),
+        ),
+      );
+      return;
+    }
+    await playerModel.startAndStopPlaying(recorderPlayerInfo);
+    recorderPlayerInfo.updateIsPlaying(true);
+    recorderPlayerInfo.updateIsRecording(false);
+  }
+
+  Future<void> seekAudioPlayer(Duration duration) async {
+    try {
+      RecorderPlayerInfoProvider recorderPlayerInfoProvider =
+          Provider.of<RecorderPlayerInfoProvider>(context, listen: false);
+      if (!playerModel.audioPlayer.isPlaying &&
+          !playerModel.audioPlayer.isPaused) {
+        await playerModel.startAndStopPlaying(recorderPlayerInfoProvider);
+      }
+      recorderPlayerInfoProvider.updateCurrentProgress(duration);
+      await playerModel.audioPlayer.seekToPlayer(duration);
+      recorderPlayerInfoProvider.updateIsPlaying(true);
+      recorderPlayerInfoProvider.updateIsRecording(false);
+    } catch (_) {}
   }
 
   @override
@@ -74,25 +114,37 @@ class _AudioControlsWidgetState extends State<AudioControlsWidget> {
   Widget build(BuildContext context) {
     return Consumer<RecorderPlayerInfoProvider>(
         builder: (context, recorderPlayerInfo, child) {
-      return Column(
-        children: [
-          AudioDurationOrProgressWidget(),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-            IconWithTextButton(
-              text: "Play",
-              icon: Icons.play_arrow,
-              backgroundColor: Colors.blue,
-              onTap: () => playerModel.startAndStopPlaying(recorderPlayerInfo),
-            ),
-            IconWithTextButton(
-              text: "Record",
-              icon: Icons.record_voice_over_outlined,
-              backgroundColor: Colors.red,
-              onTap: () => startRecording(recorderPlayerInfo),
-            )
-          ]),
-        ],
-      );
+      return loading
+          ? const CircularProgressIndicator()
+          : audioControlWidget(recorderPlayerInfo);
     });
+  }
+
+  Widget audioControlWidget(RecorderPlayerInfoProvider recorderPlayerInfo) {
+    return Column(
+      children: [
+        AudioDurationOrProgressWidget(
+          seekPlayer: seekAudioPlayer,
+        ),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+          IconWithTextButton(
+            text: !playerModel.audioPlayer.isPlaying ? "Play" : "Replay",
+            icon: !playerModel.audioPlayer.isPlaying
+                ? Icons.play_arrow
+                : Icons.stop,
+            backgroundColor: Colors.blue,
+            onTap: () => startPlaying(recorderPlayerInfo),
+          ),
+          IconWithTextButton(
+            text: !recorderModel.audioRecorder.isRecording ? "Record" : "Stop",
+            icon: !recorderModel.audioRecorder.isRecording
+                ? Icons.record_voice_over_outlined
+                : Icons.stop,
+            backgroundColor: Colors.red,
+            onTap: () => startRecording(recorderPlayerInfo),
+          )
+        ]),
+      ],
+    );
   }
 }

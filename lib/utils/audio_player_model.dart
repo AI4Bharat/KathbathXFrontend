@@ -9,8 +9,6 @@ class AudioPlayerModel {
   bool fileExist = false;
   String filePath = '';
   Duration duration = Duration.zero;
-  bool isPlaying = false;
-  double? playbackPosition;
   StreamSubscription? audioPlayerStreamSubscription;
 
   AudioPlayerModel(this.filePath) : audioPlayer = FlutterSoundPlayer();
@@ -44,12 +42,11 @@ class AudioPlayerModel {
       if (!fileExist) {
         return false;
       }
+      if (audioPlayerStreamSubscription != null) {
+        audioPlayerStreamSubscription!.cancel();
+      }
       if (audioPlayer.isPlaying) {
         await audioPlayer.stopPlayer();
-        if (audioPlayerStreamSubscription != null) {
-          audioPlayerStreamSubscription!.cancel();
-        }
-        isPlaying = false;
       } else {
         audioPlayerStreamSubscription = audioPlayer.onProgress!.listen((event) {
           recorderPlayerInfo.updateCurrentProgress(event.position);
@@ -60,7 +57,7 @@ class AudioPlayerModel {
             whenFinished: () {
               audioPlayerStreamSubscription?.cancel();
               recorderPlayerInfo.updateIsPlaying(false);
-              isPlaying = false;
+              recorderPlayerInfo.updateCurrentProgress(Duration.zero);
             });
       }
       return true;
@@ -70,11 +67,9 @@ class AudioPlayerModel {
   }
 
   Future<void> closeAudioPlayer() async {
-    print("Called close audio player");
     await audioPlayer.closePlayer();
     filePath = '';
     fileExist = false;
-    isPlaying = false;
     duration = Duration.zero;
   }
 }

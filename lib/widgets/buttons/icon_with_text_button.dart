@@ -17,6 +17,7 @@ class IconWithTextButton extends StatelessWidget {
     return GestureDetector(
         onTap: () => onTap(),
         child: Column(
+          spacing: 4,
           children: [
             Container(
                 padding: const EdgeInsets.all(16),
@@ -24,7 +25,7 @@ class IconWithTextButton extends StatelessWidget {
                     color: backgroundColor,
                     borderRadius: const BorderRadius.all(Radius.circular(16))),
                 child: Icon(icon, size: 35, color: Colors.white)),
-            Text(text, style: const TextStyle(color: Colors.blueGrey))
+            Text(text, style: const TextStyle(color: Colors.blueGrey, fontSize: 16))
           ],
         ));
   }

@@ -4,7 +4,8 @@ import 'package:kathbath_lite/utils/audio_utils.dart';
 import 'package:provider/provider.dart';
 
 class AudioDurationOrProgressWidget extends StatefulWidget {
-  AudioDurationOrProgressWidget();
+  Function seekPlayer;
+  AudioDurationOrProgressWidget({required this.seekPlayer});
 
   @override
   State<AudioDurationOrProgressWidget> createState() =>
@@ -15,41 +16,54 @@ class _AudioDurationOrProgressWidget
     extends State<AudioDurationOrProgressWidget> {
   @override
   Widget build(BuildContext buildContext) {
-    return Consumer<RecorderPlayerInfoProvider>(
+    return SizedBox(height: 50,child: Consumer<RecorderPlayerInfoProvider>(
         builder: (context, recorderPlayerInfo, child) {
-      if (recorderPlayerInfo.isRecording) {
+      if (recorderPlayerInfo.isRecording || !recorderPlayerInfo.fileExist) {
         return Text(
             style: const TextStyle(fontSize: 32, color: Colors.blueGrey),
             recorderPlayerInfo.totalDurationInString);
       } else if (recorderPlayerInfo.isPlaying || recorderPlayerInfo.fileExist) {
         return AudioProgressWidget(
-            totalDuration: recorderPlayerInfo.totalDuration,
-            currentProgress: recorderPlayerInfo.currentProgress);
+          totalDuration: recorderPlayerInfo.totalDuration,
+          currentProgress: recorderPlayerInfo.currentProgress,
+          onChange: widget.seekPlayer,
+        );
       } else {
-        return Text(
-            "isRecording ${recorderPlayerInfo.isRecording} isPlaying ${recorderPlayerInfo.isPlaying} fileExist ${recorderPlayerInfo.fileExist}");
+        return const LinearProgressIndicator();
       }
-    });
+    }));
   }
 }
 
 class AudioProgressWidget extends StatelessWidget {
   Duration totalDuration;
   Duration currentProgress;
+  Function onChange;
+  static TextStyle textStyle = const TextStyle(fontSize: 16);
 
   AudioProgressWidget(
-      {required this.totalDuration, required this.currentProgress});
+      {required this.totalDuration,
+      required this.currentProgress,
+      required this.onChange});
 
   @override
   Widget build(BuildContext buildContext) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text(convertDurationToString(currentProgress)),
-      Expanded(
-        child: LinearProgressIndicator(
-          value: currentProgress.inSeconds / totalDuration.inSeconds,
-        ),
-      ),
-      Text(convertDurationToString(totalDuration))
-    ]);
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        spacing: 2,
+        children: [
+          Text(style: textStyle, convertDurationToString(currentProgress)),
+          Expanded(
+            child: Slider(
+              value: currentProgress.inMilliseconds.toDouble(),
+              min: 0,
+              max: totalDuration.inMilliseconds.toDouble(),
+              onChanged: (double value) => {
+                onChange(Duration(milliseconds: value.toInt())),
+              },
+            ),
+          ),
+          Text(style: textStyle, convertDurationToString(totalDuration))
+        ]);
   }
 }
