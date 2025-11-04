@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 import 'package:kathbath_lite/data/database/models/microtask_assignment_record.dart';
 import 'package:kathbath_lite/data/manager/karya_db.dart';
@@ -95,11 +97,14 @@ class MicroTaskAssignmentDao extends DatabaseAccessor<KaryaDatabase>
     ));
   }
 
-  Future<int> updateMicrotaskAssignmentOutputFile(BigInt id, String fileJson) {
+  Future<int> updateMicrotaskAssignmentOutput(
+      int id, Map<String, dynamic> output) {
+    String outputAsString = jsonEncode(output);
+		BigInt idAsBigInt = BigInt.from(id);
     return (update(db.microTaskAssignmentRecords)
-          ..where((tbl) => tbl.id.equals(id)))
+          ..where((tbl) => tbl.id.equals(idAsBigInt)))
         .write(MicroTaskAssignmentRecordsCompanion(
-      output: Value(fileJson),
+      output: Value(outputAsString),
     ));
   }
 
@@ -112,7 +117,8 @@ class MicroTaskAssignmentDao extends DatabaseAccessor<KaryaDatabase>
     ));
   }
 
-  Future<List<MicroTaskAssignment>> getToBeDoneMicrotaskAssignments(int id) async {
+  Future<List<MicroTaskAssignment>> getToBeDoneMicrotaskAssignments(
+      int id) async {
     final taskId = BigInt.from(id);
     final microtaskAssignmentRecords =
         await (select(db.microTaskAssignmentRecords)

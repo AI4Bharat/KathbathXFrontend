@@ -279,17 +279,17 @@ class _KaryaAppState extends State<KaryaApp> {
                   //         as List<MicroTaskAssignmentRecord>,
                   //   ));
                   // },
-                  '/video_collection_task': (context) {
-                    final args = ModalRoute.of(context)!.settings.arguments
-                        as Map<String, dynamic>;
-                    return AppScaffold(
-                        body: VideoCollectionScreen(
-                      db: widget.db,
-                      microtasks: args['microtasks'] as List<MicroTaskRecord>,
-                      microtaskAssignments: args['microtaskAssignments']
-                          as List<MicroTaskAssignmentRecord>,
-                    ));
-                  }
+                  // '/video_collection_task': (context) {
+                  //   final args = ModalRoute.of(context)!.settings.arguments
+                  //       as Map<String, dynamic>;
+                  //   return AppScaffold(
+                  //       body: VideoCollectionScreen(
+                  //     db: widget.db,
+                  //     microtasks: args['microtasks'] as List<MicroTaskRecord>,
+                  //     microtaskAssignments: args['microtaskAssignments']
+                  //         as List<MicroTaskAssignmentRecord>,
+                  //   ));
+                  // }
                 },
               ));
         }

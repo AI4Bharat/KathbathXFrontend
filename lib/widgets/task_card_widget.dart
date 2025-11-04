@@ -91,7 +91,7 @@ class TaskCard extends StatelessWidget {
                   ),
                   _MetricsIcon(
                     metricsName: "Verified",
-                    metricsValue: available.toString(),
+                    metricsValue: verified.toString(),
                   ),
                 ],
               ),

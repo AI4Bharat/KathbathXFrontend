@@ -39,6 +39,7 @@ class AudioPlayerModel {
     try {
       assert(audioPlayer.isOpen(), "Audio player is not open");
       recorderPlayerInfo.updateIsRecording(false);
+      print("The file doesnt exit");
       if (!fileExist) {
         return false;
       }
@@ -67,6 +68,8 @@ class AudioPlayerModel {
   }
 
   Future<void> closeAudioPlayer() async {
+    audioPlayerStreamSubscription?.cancel();
+    await audioPlayer.stopPlayer();
     await audioPlayer.closePlayer();
     filePath = '';
     fileExist = false;

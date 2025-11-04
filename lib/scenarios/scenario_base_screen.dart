@@ -37,7 +37,10 @@ class _ScenarioBaseScreen extends State<ScenarioBaseScreen> {
         widget.microtaskAssignments.map((microtaskAssignment) {
       final speechDataModel =
           SpeechDataModel.fromRecords(microtaskAssignment, widget.microtasks);
-      return SpeechDataWidget(speechDataModel: speechDataModel);
+      return SpeechDataWidget(
+        speechDataModel: speechDataModel,
+        karyaDatabase: widget.db,
+      );
     }).toList();
 
     setState(() {
@@ -50,7 +53,6 @@ class _ScenarioBaseScreen extends State<ScenarioBaseScreen> {
     super.initState();
     _pageController = PageController();
     createMicrotaskModels();
-
     initializePermission();
   }
 
@@ -58,14 +60,20 @@ class _ScenarioBaseScreen extends State<ScenarioBaseScreen> {
     try {
       final permissionSatus = await requestAudioRecordingPermission();
       if (!permissionSatus && context.mounted) {
-        showPermissionNotGivenDialog(["Microphone", "Storage"], context);
+        showPermissionNotGivenDialog(["Microphone"], context);
       }
     } catch (_) {}
   }
 
-  void nextTask() {}
+  void nextTask() {
+    _pageController.nextPage(
+        duration: const Duration(milliseconds: 300), curve: Curves.linear);
+  }
 
-  void previousTask() {}
+  void previousTask() {
+    _pageController.previousPage(
+        duration: const Duration(milliseconds: 300), curve: Curves.linear);
+  }
 
   @override
   Widget build(BuildContext buildContext) {
@@ -77,6 +85,7 @@ class _ScenarioBaseScreen extends State<ScenarioBaseScreen> {
               InstructionWidget(sentence: widget.task.description),
               Expanded(
                 child: PageView(
+                  physics: const NeverScrollableScrollPhysics(),
                   controller: _pageController,
                   children: speechDataWidgets,
                 ),

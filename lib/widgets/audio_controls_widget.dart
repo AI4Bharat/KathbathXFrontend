@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:kathbath_lite/providers/recorder_player_providers.dart';
 import 'package:kathbath_lite/utils/audio_player_model.dart';
@@ -10,10 +9,12 @@ import 'package:provider/provider.dart';
 
 class AudioControlsWidget extends StatefulWidget {
   final String filePath;
+  final Function updateDatabase;
 
   const AudioControlsWidget({
     super.key,
     required this.filePath,
+    required this.updateDatabase,
   });
 
   @override
@@ -61,6 +62,12 @@ class _AudioControlsWidgetState extends State<AudioControlsWidget> {
       recorderPlayerInfo.updateIsPlaying(false);
     } else {
       await recorderModel.stopRecording();
+      playerModel.fileExist = true;
+      try {
+        await widget.updateDatabase(recorderPlayerInfo.totalDuration);
+      } catch (e) {
+        print("Error occured while saving the output to assignment table");
+      }
       recorderPlayerInfo.updateIsRecording(false);
       recorderPlayerInfo.updateIsPlaying(false);
     }
@@ -99,6 +106,7 @@ class _AudioControlsWidgetState extends State<AudioControlsWidget> {
 
   @override
   void dispose() {
+		Provider.of<RecorderPlayerInfoProvider>(context, listen: false).resetRecorderPlayerInfo();
     recorderModel.closeRecorder();
     playerModel.closeAudioPlayer();
     super.dispose();

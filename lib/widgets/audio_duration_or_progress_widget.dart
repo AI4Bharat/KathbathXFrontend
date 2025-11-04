@@ -16,22 +16,26 @@ class _AudioDurationOrProgressWidget
     extends State<AudioDurationOrProgressWidget> {
   @override
   Widget build(BuildContext buildContext) {
-    return SizedBox(height: 50,child: Consumer<RecorderPlayerInfoProvider>(
-        builder: (context, recorderPlayerInfo, child) {
-      if (recorderPlayerInfo.isRecording || !recorderPlayerInfo.fileExist) {
-        return Text(
-            style: const TextStyle(fontSize: 32, color: Colors.blueGrey),
-            recorderPlayerInfo.totalDurationInString);
-      } else if (recorderPlayerInfo.isPlaying || recorderPlayerInfo.fileExist) {
-        return AudioProgressWidget(
-          totalDuration: recorderPlayerInfo.totalDuration,
-          currentProgress: recorderPlayerInfo.currentProgress,
-          onChange: widget.seekPlayer,
-        );
-      } else {
-        return const LinearProgressIndicator();
-      }
-    }));
+    return SizedBox(
+      height: 50,
+      child: Consumer<RecorderPlayerInfoProvider>(
+          builder: (context, recorderPlayerInfo, child) {
+        if (recorderPlayerInfo.isRecording || !recorderPlayerInfo.fileExist) {
+          return Text(
+              style: const TextStyle(fontSize: 32, color: Colors.blueGrey),
+              recorderPlayerInfo.totalDurationInString);
+        } else if (recorderPlayerInfo.isPlaying ||
+            recorderPlayerInfo.fileExist) {
+          return AudioProgressWidget(
+            totalDuration: recorderPlayerInfo.totalDuration,
+            currentProgress: recorderPlayerInfo.currentProgress,
+            onChange: widget.seekPlayer,
+          );
+        } else {
+          return const LinearProgressIndicator();
+        }
+      }),
+    );
   }
 }
 

@@ -53,4 +53,13 @@ class RecorderPlayerInfoProvider extends ChangeNotifier {
     _isRecording = isRecording;
     notifyListeners();
   }
+
+  void resetRecorderPlayerInfo() {
+    _isRecording = false;
+    _isPlaying = false;
+    _fileExist = false;
+    _totalDuration = Duration.zero;
+    _currentProgress = Duration.zero;
+		notifyListeners();
+  }
 }

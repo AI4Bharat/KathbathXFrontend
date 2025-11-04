@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:kathbath_lite/data/database/dao/microtask_assignment_dao.dart';
 import 'package:kathbath_lite/data/database/dao/microtask_dao.dart';
 import 'package:kathbath_lite/data/database/dao/task_dao.dart';
-import 'package:kathbath_lite/data/database/models/microtask_assignment_record.dart';
 import 'package:kathbath_lite/data/database/models/task_record.dart';
 import 'package:kathbath_lite/data/database/repository/assignment_repository.dart';
 import 'package:kathbath_lite/data/database/repository/basic_repository.dart';
@@ -111,8 +110,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
       double totalDuration = 0;
       for (var microtaskAssignment in microtaskAssignments) {
-        print(
-            "The tasksssss are ${task.scenarioName} ${microtaskAssignment.status}");
         switch (microtaskAssignment.status) {
           case 'ASSIGNED':
             statusCounts['available'] = statusCounts['available']! + 1;
@@ -133,9 +130,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             break;
         }
 
-        // log("counts : $uploadedCount, $onPhoneCount");
-        print(
-            "The microtask assignment output is  ${microtaskAssignment.output!.isNotEmpty} ${microtaskAssignment.output != null}");
         if (microtaskAssignment.output != null &&
             microtaskAssignment.output!.isNotEmpty) {
           try {
@@ -293,7 +287,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           List<dynamic> submittedIds = submitResponse.data;
           for (var assignment in completedAssignments) {
             if (submittedIds.contains(assignment.id)) {
-              // print("assignmentid: ${assignment.id}");
               await _microtaskAssignmentDao.updateMicrotaskAssignmentStatus(
                 assignment.id,
                 MicrotaskAssignmentStatus.SUBMITTED,
@@ -376,43 +369,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         "microtasks": microtasks,
         "microtaskAssignments": toBeDoneAssignments
       });
-      // switch (task.scenarioName) {
-      //   case 'SPEECH_DATA':
-      //     Navigator.pushNamed(
-      //       // ignore: use_build_context_synchronously
-      //       context,
-      //       '/sd_microtask',
-      //       arguments: {
-      //         'microtasks': microtasks,
-      //         'microtaskAssignments': toBeDoneAssignments,
-      //       },
-      //     ).then((_) {
-      //       setState(() {
-      //         _loadTasks();
-      //       });
-      //     });
-      //     break;
-      //
-      //   case 'SPEECH_DV_MULTI' || 'SPEECH_VERIFICATION':
-      //     Navigator.pushNamed(
-      //       // ignore: use_build_context_synchronously
-      //       context,
-      //       '/speech_verification_microtask',
-      //       arguments: {
-      //         'taskName': taskName,
-      //         'microtasks': microtasks,
-      //         'microtaskAssignments': toBeDoneAssignments,
-      //       },
-      //     ).then((_) {
-      //       setState(() {
-      //         _loadTasks();
-      //       });
-      //     });
-      //     break;
-      //
-      //   default:
-      //     break;
-      // }
     }
   }
 
@@ -567,7 +523,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           )
                         : _tasks.isEmpty
                             ? TasksDoneMiscWidget()
-                            : ListView.builder(
+                            : ListView.separated(
                                 shrinkWrap:
                                     true, // Important to prevent scrolling issues
                                 physics: const NeverScrollableScrollPhysics(),
@@ -575,6 +531,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 itemBuilder: (context, index) {
                                   return _buildTaskCards(context)[index];
                                 },
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 8),
                               ),
                   ),
                 ),
@@ -586,22 +544,3 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
-
-
-
-
-
-
-
-
-// Padding(
-                //     padding: const EdgeInsets.symmetric(
-                //         vertical: 6.0, horizontal: 12.0),
-                //     child: EditBoxWidget(
-                //         onTextSubmitted: (text) async {
-                //           setState(() {
-                //             filterLines = text;
-                //             _loadTasks();
-                //           });
-                //         },
-                //         buttonType: 'search')),
