@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kathbath_lite/providers/recorder_player_providers.dart';
+import 'package:kathbath_lite/scenarios/speech_data/speech_data_provider.dart';
 import 'package:kathbath_lite/utils/audio_utils.dart';
 import 'package:provider/provider.dart';
 
@@ -18,17 +19,18 @@ class _AudioDurationOrProgressWidget
   Widget build(BuildContext buildContext) {
     return SizedBox(
       height: 50,
-      child: Consumer<RecorderPlayerInfoProvider>(
-          builder: (context, recorderPlayerInfo, child) {
-        if (recorderPlayerInfo.isRecording || !recorderPlayerInfo.fileExist) {
+      child: Consumer<SpeechDataProvider>(
+          builder: (context, speechDataProvider, child) {
+        if (speechDataProvider.audioRecorder.isRecording ||
+            !speechDataProvider.fileExist) {
           return Text(
               style: const TextStyle(fontSize: 32, color: Colors.blueGrey),
-              recorderPlayerInfo.totalDurationInString);
-        } else if (recorderPlayerInfo.isPlaying ||
-            recorderPlayerInfo.fileExist) {
+              convertDurationToString(speechDataProvider.totalDuration));
+        } else if (speechDataProvider.audioPlayer.isPlaying ||
+            speechDataProvider.fileExist) {
           return AudioProgressWidget(
-            totalDuration: recorderPlayerInfo.totalDuration,
-            currentProgress: recorderPlayerInfo.currentProgress,
+            totalDuration: speechDataProvider.totalDuration,
+            currentProgress: speechDataProvider.currentDuration,
             onChange: widget.seekPlayer,
           );
         } else {
@@ -52,6 +54,7 @@ class AudioProgressWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext buildContext) {
+		print("The current progress is $currentProgress and total duration is $totalDuration");
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         spacing: 2,

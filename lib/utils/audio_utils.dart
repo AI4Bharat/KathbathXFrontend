@@ -23,10 +23,10 @@ Future<double> getAudioDurationFromFilePath(
     final fileStats = await file.stat();
     final fileDuration =
         (fileStats.size - 44) / (samplingRate * channelCount * byteCount);
-    assert(fileDuration <= 0, "File duration is -ve");
+    assert(fileDuration > 0, "File duration is -ve $fileDuration");
     return double.parse(fileDuration.toStringAsFixed(2));
-  } catch (_) {
-    throw "Error occured while getting file info";
+  } catch (e) {
+    throw "Error occured while getting file info $e";
   }
 }
 

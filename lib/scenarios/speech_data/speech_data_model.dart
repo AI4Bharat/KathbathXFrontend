@@ -2,8 +2,9 @@ import 'package:kathbath_lite/data/database/dao/microtask_assignment_dao.dart';
 import 'package:kathbath_lite/data/database/models/microtask_assignment_record.dart';
 import 'package:kathbath_lite/data/database/models/microtask_record.dart';
 import 'package:kathbath_lite/data/manager/karya_db.dart';
+import 'package:kathbath_lite/scenarios/scenario_base_model.dart';
 
-class SpeechDataModel {
+class SpeechDataModel extends ScenarioBaseModel {
   final SpeechDataInput input;
   final SpeechDataOutput output;
 
@@ -40,6 +41,12 @@ class SpeechDataModel {
         outputFileDuration: null);
 
     return SpeechDataModel(input: speechDataInput, output: speechDataOutput);
+  }
+
+  Future<void> initializePermission() async {}
+
+  Future<bool> isTaskDone() async {
+    return true;
   }
 }
 

@@ -57,7 +57,6 @@ class _SpeechDataOutputWidget extends State<SpeechDataOutputWidget> {
           } else {
             return AudioControlsWidget(
               filePath: snapshot.data!,
-              updateDatabase: updateDatabase,
             );
           }
         });
