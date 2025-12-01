@@ -53,35 +53,39 @@ class _SpeechDataScreen extends State<SpeechDataScreen> {
 
   void nextTask() {
     _pageController.nextPage(
-        duration: const Duration(milliseconds: 300), curve: Curves.linear);
+        duration: const Duration(milliseconds: 200), curve: Curves.linear);
   }
 
   void previousTask() {
     _pageController.previousPage(
-        duration: const Duration(milliseconds: 300), curve: Curves.linear);
+        duration: const Duration(milliseconds: 200), curve: Curves.linear);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        InstructionWidget(sentence: widget.task.description),
-        ChangeNotifierProvider(
-          create: (context) {
-            final speechDataProvider = SpeechDataProvider();
-            speechDataProvider.init(widget.microtaskAssignments[0].id);
-            return speechDataProvider;
-          },
-          child: Expanded(
-            child: PageView(
-              controller: _pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: speechDataWidgets,
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        spacing: 8,
+        children: [
+          InstructionWidget(instruction: widget.task.description),
+          ChangeNotifierProvider(
+            create: (context) {
+              final speechDataProvider = SpeechDataProvider();
+              speechDataProvider.init(widget.microtaskAssignments[0].id);
+              return speechDataProvider;
+            },
+            child: Expanded(
+              child: PageView(
+                controller: _pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: speechDataWidgets,
+              ),
             ),
           ),
-        ),
-        NextBackWidget(onBackPressed: previousTask, onNextPressed: nextTask),
-      ],
+          NextBackWidget(onBackPressed: previousTask, onNextPressed: nextTask),
+        ],
+      ),
     );
   }
 
@@ -90,14 +94,15 @@ class _SpeechDataScreen extends State<SpeechDataScreen> {
       direction: Axis.vertical,
       children: [
         Flexible(
-            flex: 3,
-            child:
-                SpeechDataInputWidget(speechDataInput: speechDataModel.input)),
+          flex: 2,
+          child: SpeechDataInputWidget(speechDataInput: speechDataModel.input),
+        ),
         Flexible(
           flex: 1,
           child: SpeechDataOutputWidget(
-              speechDataOutput: speechDataModel.output,
-              karyaDatabase: widget.karyaDatabase),
+            speechDataOutput: speechDataModel.output,
+            karyaDatabase: widget.karyaDatabase,
+          ),
         )
       ],
     );

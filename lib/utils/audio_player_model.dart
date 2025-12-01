@@ -1,80 +1,70 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter_sound/public/flutter_sound_player.dart';
-import 'package:kathbath_lite/providers/recorder_player_providers.dart';
 
-
-
-class AudioPlayerModel {
-  late final FlutterSoundPlayer audioPlayer;
-  bool fileExist = false;
-  String filePath = '';
-  Duration duration = Duration.zero;
-  StreamSubscription? audioPlayerStreamSubscription;
-
-  AudioPlayerModel(this.filePath) : audioPlayer = FlutterSoundPlayer();
-
-  Future<void> init() async {
-    try {
-      final file = File(filePath);
-      fileExist = await file.exists();
-      if (fileExist) {
-        final fileStats = await file.stat();
-        // 44 -> wav header size, 44100 -> sampling rate, 1-> single channel, 2 -> 2 bytes since we are using pcm16WAV
-        final fileDuration = (fileStats.size - 44) / (44100 * 1 * 2);
-        final durationInSeconds = double.parse(fileDuration.toStringAsFixed(3));
-        duration = Duration(milliseconds: (durationInSeconds * 1000).toInt());
-      } else {
-        duration = Duration.zero;
-      }
-      await audioPlayer.openPlayer();
-      await audioPlayer
-          .setSubscriptionDuration(const Duration(milliseconds: 100));
-    } catch (_) {
-      throw "Failed to open audio player";
-    }
+Future<FlutterSoundPlayer> initAudioPlayer(FlutterSoundPlayer player) async {
+  FlutterSoundPlayer? audioPlayer;
+  try {
+    audioPlayer = await player.openPlayer();
+  } catch (_) {
+    throw "Failed to open audio player";
+  }
+  try {
+    await audioPlayer!
+        .setSubscriptionDuration(const Duration(milliseconds: 100));
+  } catch (e) {
+    throw "Failed to add subscription to audioplayer $e";
   }
 
-  Future<bool> startAndStopPlaying(
-      RecorderPlayerInfoProvider recorderPlayerInfo) async {
-    try {
-      assert(audioPlayer.isOpen(), "Audio player is not open");
-      recorderPlayerInfo.updateIsRecording(false);
-      print("The file doesnt exit");
-      if (!fileExist) {
-        return false;
-      }
-      if (audioPlayerStreamSubscription != null) {
-        audioPlayerStreamSubscription!.cancel();
-      }
-      if (audioPlayer.isPlaying) {
-        await audioPlayer.stopPlayer();
-      } else {
-        audioPlayerStreamSubscription = audioPlayer.onProgress!.listen((event) {
-          recorderPlayerInfo.updateCurrentProgress(event.position);
-        });
-        await audioPlayer.startPlayer(
-            fromURI: filePath,
-            sampleRate: 44100,
-            whenFinished: () {
-              audioPlayerStreamSubscription?.cancel();
-              recorderPlayerInfo.updateIsPlaying(false);
-              recorderPlayerInfo.updateCurrentProgress(Duration.zero);
-            });
-      }
+  return audioPlayer;
+}
+
+Future<bool> startAudioPlayerPlaying(FlutterSoundPlayer audioPlayer,
+    String filePath, Function updateProvider) async {
+  try {
+    assert(audioPlayer.isOpen(), "Audio player is not open");
+    await audioPlayer.startPlayer(
+      fromURI: filePath,
+      sampleRate: 44100,
+    );
+    return true;
+  } catch (e) {
+    throw "Error occured while starting the player $e";
+  }
+}
+
+Future<bool> stopAudioPlayerPlaying(FlutterSoundPlayer audioPlayer) async {
+  try {
+    if (!audioPlayer.isPlaying) {
       return true;
-    } catch (e) {
-      return false;
     }
-  }
-
-  Future<void> closeAudioPlayer() async {
-    audioPlayerStreamSubscription?.cancel();
     await audioPlayer.stopPlayer();
-    await audioPlayer.closePlayer();
-    filePath = '';
-    fileExist = false;
-    duration = Duration.zero;
+    return true;
+  } catch (e) {
+    throw "Error occured while stoping the player $e";
+  }
+}
+
+Future<bool> pauseAudioPlayerPlaying(FlutterSoundPlayer audioPlayer) async {
+  try {
+    if (!audioPlayer.isPlaying) {
+      return true;
+    }
+    await audioPlayer.pausePlayer();
+    return true;
+  } catch (e) {
+    throw "Error occured while stoping the player $e";
+  }
+}
+
+Future<bool> resumeAudioPlayerPlaying(FlutterSoundPlayer audioPlayer) async {
+  try {
+    if (!audioPlayer.isPaused) {
+      return true;
+    }
+    await audioPlayer.resumePlayer();
+    return true;
+  } catch (e) {
+    throw "Error occured while stoping the player $e";
   }
 }

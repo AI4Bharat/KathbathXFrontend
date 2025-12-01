@@ -28,7 +28,6 @@ class AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   Duration currentPlayerPosition = Duration.zero;
   Duration totalAudioDuration = Duration.zero;
   StreamSubscription? _streamSubscription;
-  // AudioPlayerStatus audioPlayerStatus = AudioPlayerStatus.NOT_OPEN;
 
   Future<void> loadAudioFileDetails(String filePath) async {
     try {
@@ -216,7 +215,7 @@ class AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   }
 
   Widget _audioPlayer() {
-    TextStyle textStyle = const TextStyle(fontSize: 16);
+    TextStyle textStyle = const TextStyle(fontSize: 24);
     return Column(
       children: [
         Slider(
@@ -234,11 +233,12 @@ class AudioPlayerWidgetState extends State<AudioPlayerWidget> {
           },
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
                 style: textStyle,
                 convertDurationToString(currentPlayerPosition)),
+            Text(" / ", style: textStyle),
             Text(style: textStyle, convertDurationToString(totalAudioDuration)),
           ],
         )

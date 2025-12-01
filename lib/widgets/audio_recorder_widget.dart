@@ -127,7 +127,7 @@ class _AudioRecorderWidget extends State<AudioRecorderWidget> {
 
   Widget _recorderWidget() {
     return Text(
-        style: const TextStyle(fontSize: 32, color: Colors.blueGrey),
+        style: const TextStyle(fontSize: 36),
         convertDurationToString(recordedDuration));
   }
 }
