@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:kathbath_lite/enums/audio_player_status.dart';
+import 'package:kathbath_lite/providers/audio_player_controller.dart';
 import 'package:kathbath_lite/utils/audio_utils.dart';
 import 'package:kathbath_lite/widgets/buttons/icon_with_text_button.dart';
 
@@ -12,8 +13,10 @@ int CHANNEL_COUNT = 1;
 
 class AudioPlayerWidget extends StatefulWidget {
   final String filePath;
+  final AudioPlayerController audioPlayerController;
 
-  const AudioPlayerWidget({super.key, required this.filePath});
+  const AudioPlayerWidget(
+      {super.key, required this.filePath, required this.audioPlayerController});
 
   @override
   AudioPlayerWidgetState createState() => AudioPlayerWidgetState();
@@ -25,7 +28,7 @@ class AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   Duration currentPlayerPosition = Duration.zero;
   Duration totalAudioDuration = Duration.zero;
   StreamSubscription? _streamSubscription;
-  AudioPlayerStatus audioPlayerStatus = AudioPlayerStatus.NOT_OPEN;
+  // AudioPlayerStatus audioPlayerStatus = AudioPlayerStatus.NOT_OPEN;
 
   Future<void> loadAudioFileDetails(String filePath) async {
     try {
@@ -60,8 +63,9 @@ class AudioPlayerWidgetState extends State<AudioPlayerWidget> {
     try {
       await audioPlayer
           .setSubscriptionDuration(const Duration(milliseconds: 100));
-      audioPlayer.onProgress!.listen((event) {
-        if (audioPlayerStatus == AudioPlayerStatus.PLAYING) {
+      _streamSubscription = audioPlayer.onProgress!.listen((event) {
+        if (widget.audioPlayerController.audioPlayerStatus ==
+            AudioPlayerStatus.PLAYING) {
           updateCurrentPosition(event.position);
         }
       });
@@ -73,7 +77,9 @@ class AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   }
 
   Future<void> startAudioPlayerPlaying() async {
-    assert(audioPlayer.isOpen(), "Audio player is not open");
+    if (!audioPlayer.isOpen()) {
+      await initAudioPlayer();
+    }
     try {
       await audioPlayer.startPlayer(
           fromURI: widget.filePath,
@@ -137,6 +143,7 @@ class AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   @override
   void initState() {
     super.initState();
+    widget.audioPlayerController.actionCallback = onClick;
     initAudioPlayer();
     loadAudioFileDetails(widget.filePath);
   }
@@ -166,9 +173,8 @@ class AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   }
 
   void updateAudioPlayerState(AudioPlayerStatus status) {
-    setState(() {
-      audioPlayerStatus = status;
-    });
+    print("1. Update audio player status called with $status");
+    widget.audioPlayerController.updateAudioPlayerStatus(status);
   }
 
   Future<void> pausePlayerBeforeSeeking() async {
@@ -209,60 +215,34 @@ class AudioPlayerWidgetState extends State<AudioPlayerWidget> {
     }
   }
 
-  String getPlayerButtonString() {
-    switch (audioPlayerStatus) {
-      case AudioPlayerStatus.PLAYING:
-        return "Pause";
-      case AudioPlayerStatus.PAUSED:
-        return "Resume";
-      default:
-        return "Play";
-    }
-  }
-
   Widget _audioPlayer() {
     TextStyle textStyle = const TextStyle(fontSize: 16);
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        spacing: 2,
-        children: [
-          IconWithTextButton(
-              text: getPlayerButtonString(),
-              icon: audioPlayerStatus == AudioPlayerStatus.PLAYING
-                  ? Icons.pause
-                  : Icons.play_arrow,
-              backgroundColor: Colors.blue,
-              onTap: () => onClick()),
-          Expanded(
-              child: Column(
-            children: [
-              Slider(
-                value: currentPlayerPosition.inMilliseconds.toDouble(),
-                min: 0,
-                max: totalAudioDuration.inMilliseconds.toDouble(),
-                onChangeStart: (double value) {
-                  pausePlayerBeforeSeeking();
-                },
-                onChanged: (double value) {
-                  updateCurrentPosition(Duration(milliseconds: value.toInt()));
-                },
-                onChangeEnd: (double value) {
-                  seekPlayer(Duration(milliseconds: value.toInt()));
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                      style: textStyle,
-                      convertDurationToString(currentPlayerPosition)),
-                  Text(
-                      style: textStyle,
-                      convertDurationToString(totalAudioDuration)),
-                ],
-              )
-            ],
-          )),
-        ]);
+    return Column(
+      children: [
+        Slider(
+          value: currentPlayerPosition.inMilliseconds.toDouble(),
+          min: 0,
+          max: totalAudioDuration.inMilliseconds.toDouble(),
+          onChangeStart: (double value) {
+            pausePlayerBeforeSeeking();
+          },
+          onChanged: (double value) {
+            updateCurrentPosition(Duration(milliseconds: value.toInt()));
+          },
+          onChangeEnd: (double value) {
+            seekPlayer(Duration(milliseconds: value.toInt()));
+          },
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+                style: textStyle,
+                convertDurationToString(currentPlayerPosition)),
+            Text(style: textStyle, convertDurationToString(totalAudioDuration)),
+          ],
+        )
+      ],
+    );
   }
 }

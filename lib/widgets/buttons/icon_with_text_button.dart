@@ -5,12 +5,15 @@ class IconWithTextButton extends StatelessWidget {
   final IconData icon;
   final Function onTap;
   final Color backgroundColor;
+  final double size;
 
-  IconWithTextButton(
-      {required this.text,
-      required this.icon,
-      required this.backgroundColor,
-      required this.onTap});
+  IconWithTextButton({
+    required this.text,
+    required this.icon,
+    required this.backgroundColor,
+    required this.onTap,
+    this.size = 36,
+  });
 
   @override
   Widget build(BuildContext buildContext) {
@@ -22,10 +25,12 @@ class IconWithTextButton extends StatelessWidget {
             Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                    color: backgroundColor,
-                    borderRadius: const BorderRadius.all(Radius.circular(16))),
-                child: Icon(icon, size: 35, color: Colors.white)),
-            Text(text, style: const TextStyle(color: Colors.blueGrey, fontSize: 16))
+                  color: backgroundColor,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, size: size, color: Colors.white)),
+            Text(text,
+                style: const TextStyle(color: Colors.blueGrey, fontSize: 16))
           ],
         ));
   }
