@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -59,10 +58,7 @@ void showShareDialog(BuildContext context) {
                       ),
                     ),
                   ],
-                )
-                    .animate()
-                    .fadeIn(duration: 400.ms)
-                    .slideY(begin: 0.2, end: 0), // Slide + fade-in animation
+                ), // Slide + fade-in animation
 
                 const SizedBox(height: 32),
 
@@ -71,17 +67,14 @@ void showShareDialog(BuildContext context) {
                   'assets/icons/whatsappicon.png',
                   width: 50,
                   height: 50,
-                ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.2, end: 0),
-
+                ),
                 const SizedBox(height: 16), // Space between logo and text
 
                 // Description text with animation
                 const Text(
                   'Whatsapp',
-                ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.2, end: 0),
-
+                ),
                 const SizedBox(height: 32),
-
                 // Action buttons with animation
                 Container(
                   width: double.infinity,
@@ -93,8 +86,7 @@ void showShareDialog(BuildContext context) {
                     onPressed: _goToWhatsap,
                     child: const Text('Share'),
                   ),
-                ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.2, end: 0),
-
+                ),
                 Center(
                   child: TextButton(
                     child: const Text('Cancel'),
@@ -102,7 +94,7 @@ void showShareDialog(BuildContext context) {
                       Navigator.of(context).pop();
                     },
                   ),
-                ).animate().fadeIn(delay: 600.ms).slideY(begin: 0.2, end: 0),
+                ),
               ],
             ),
           ),
