@@ -8,7 +8,6 @@ import 'package:kathbath_lite/scenarios/speech_data/speech_data_model.dart';
 import 'package:kathbath_lite/scenarios/speech_data/speech_data_output_widget.dart';
 import 'package:kathbath_lite/scenarios/speech_data/speech_data_provider.dart';
 import 'package:kathbath_lite/widgets/instruction_widget.dart';
-import 'package:kathbath_lite/widgets/next_n_back_button_widget.dart';
 import 'package:provider/provider.dart';
 
 class SpeechDataScreen extends StatefulWidget {
@@ -51,15 +50,6 @@ class _SpeechDataScreen extends State<SpeechDataScreen> {
     initVariablesAndMicrotasks();
   }
 
-  void nextTask() {
-    _pageController.nextPage(
-        duration: const Duration(milliseconds: 200), curve: Curves.linear);
-  }
-
-  void previousTask() {
-    _pageController.previousPage(
-        duration: const Duration(milliseconds: 200), curve: Curves.linear);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +62,6 @@ class _SpeechDataScreen extends State<SpeechDataScreen> {
           ChangeNotifierProvider(
             create: (context) {
               final speechDataProvider = SpeechDataProvider();
-              speechDataProvider.init(widget.microtaskAssignments[0].id);
               return speechDataProvider;
             },
             child: Expanded(
@@ -83,7 +72,6 @@ class _SpeechDataScreen extends State<SpeechDataScreen> {
               ),
             ),
           ),
-          NextBackWidget(onBackPressed: previousTask, onNextPressed: nextTask),
         ],
       ),
     );
@@ -102,6 +90,7 @@ class _SpeechDataScreen extends State<SpeechDataScreen> {
           child: SpeechDataOutputWidget(
             speechDataOutput: speechDataModel.output,
             karyaDatabase: widget.karyaDatabase,
+            pageController: _pageController,
           ),
         )
       ],

@@ -9,14 +9,18 @@ import 'package:kathbath_lite/widgets/audio_player_widget.dart';
 import 'package:kathbath_lite/widgets/audio_recorder_widget.dart';
 import 'package:kathbath_lite/widgets/buttons/icon_with_text_button.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:kathbath_lite/widgets/next_n_back_button_widget.dart';
 import 'package:provider/provider.dart';
 
 class SpeechDataOutputWidget extends StatefulWidget {
   final SpeechDataOutput speechDataOutput;
   final KaryaDatabase karyaDatabase;
+  final PageController pageController;
 
   const SpeechDataOutputWidget(
-      {required this.speechDataOutput, required this.karyaDatabase});
+      {required this.speechDataOutput,
+      required this.karyaDatabase,
+      required this.pageController});
 
   @override
   State<SpeechDataOutputWidget> createState() => _SpeechDataOutputWidget();
@@ -46,9 +50,8 @@ class _SpeechDataOutputWidget extends State<SpeechDataOutputWidget> {
     }
   }
 
-  Future<void> updateDatabase(Duration recordingDuration) async {
+  Future<void> updateDatabase() async {
     try {
-      widget.speechDataOutput.updateDuration(recordingDuration);
       await widget.speechDataOutput
           .updatedDatabaseWithOutput(widget.karyaDatabase);
     } catch (e) {
@@ -79,19 +82,22 @@ class _SpeechDataOutputWidget extends State<SpeechDataOutputWidget> {
                     ],
                     child: audioPlayerRecorderControl(),
                   ),
+                  NextBackWidget(
+                      onBackPressed: previousTask, onNextPressed: nextTask),
                 ]);
           }
         });
   }
 
   Widget audioPlayerRecorder(String filePath) {
-    return (isPlayerActive
-        ? AudioPlayerWidget(
-            filePath: filePath, audioPlayerController: audioPlayerController)
-        : AudioRecorderWidget(
-            filePath: filePath,
-            audioRecorderController: audioRecorderController,
-          ));
+    return IndexedStack(index: isPlayerActive ? 0 : 1, children: [
+      AudioPlayerWidget(
+          filePath: filePath, audioPlayerController: audioPlayerController),
+      AudioRecorderWidget(
+        filePath: filePath,
+        audioRecorderController: audioRecorderController,
+      )
+    ]);
   }
 
   Widget audioPlayerRecorderControl() {
@@ -106,7 +112,7 @@ class _SpeechDataOutputWidget extends State<SpeechDataOutputWidget> {
                   recorder.audidRecorderStatus == AudioRecorderStatus.RECORDING
                       ? Icons.stop
                       : Icons.record_voice_over_outlined,
-              size: isPlayerActive ? 24 : 36,
+              size: isPlayerActive ? 22 : 36,
               backgroundColor: isPlayerActive ? Colors.grey : Colors.red,
               onTap: () => audioRecorderAction());
         }),
@@ -116,7 +122,7 @@ class _SpeechDataOutputWidget extends State<SpeechDataOutputWidget> {
               icon: player.audioPlayerStatus == AudioPlayerStatus.PLAYING
                   ? Icons.pause
                   : Icons.play_arrow,
-              size: isPlayerActive ? 36 : 24,
+              size: isPlayerActive ? 36 : 22,
               backgroundColor: isPlayerActive ? Colors.blue : Colors.grey,
               onTap: () => audioPlayerAction());
         })
@@ -124,7 +130,7 @@ class _SpeechDataOutputWidget extends State<SpeechDataOutputWidget> {
     );
   }
 
-  void audioRecorderAction() {
+  void audioRecorderAction() async {
     if (audioPlayerController.audioPlayerStatus == AudioPlayerStatus.PLAYING) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Audio is playing"),
@@ -132,16 +138,20 @@ class _SpeechDataOutputWidget extends State<SpeechDataOutputWidget> {
       ));
       return;
     }
+
+    if (audioRecorderController.audidRecorderStatus ==
+        AudioRecorderStatus.RECORDING) {
+      updateDatabase();
+    }
+    await audioPlayerController.resetPlayer();
+    audioRecorderController.action();
+
     setState(() {
       isPlayerActive = false;
     });
-    audioRecorderController.action();
   }
 
   String getRecorderButtonString(AudioRecorderStatus audidRecorderStatus) {
-    if (isPlayerActive) {
-      return "";
-    }
     switch (audidRecorderStatus) {
       case AudioRecorderStatus.RECORDING:
         return "Stop";
@@ -159,16 +169,14 @@ class _SpeechDataOutputWidget extends State<SpeechDataOutputWidget> {
       ));
       return;
     }
+
+    audioPlayerController.action();
     setState(() {
       isPlayerActive = true;
     });
-    audioPlayerController.action();
   }
 
   String getPlayerButtonString(AudioPlayerStatus audioPlayerStatus) {
-    if (!isPlayerActive) {
-      return "";
-    }
     switch (audioPlayerStatus) {
       case AudioPlayerStatus.PLAYING:
         return "Pause";
@@ -177,5 +185,31 @@ class _SpeechDataOutputWidget extends State<SpeechDataOutputWidget> {
       default:
         return "Play";
     }
+  }
+
+  void nextTask() {
+    if (audioRecorderController.audidRecorderStatus ==
+        AudioRecorderStatus.RECORDING) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Recording in progress"),
+        duration: Duration(milliseconds: 300),
+      ));
+      return;
+    }
+    widget.pageController.nextPage(
+        duration: const Duration(milliseconds: 200), curve: Curves.linear);
+  }
+
+  void previousTask() {
+    if (audioRecorderController.audidRecorderStatus ==
+        AudioRecorderStatus.RECORDING) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Recording in progress"),
+        duration: Duration(milliseconds: 300),
+      ));
+      return;
+    }
+    widget.pageController.previousPage(
+        duration: const Duration(milliseconds: 200), curve: Curves.linear);
   }
 }
