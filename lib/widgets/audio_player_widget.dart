@@ -6,7 +6,6 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'package:kathbath_lite/enums/audio_player_status.dart';
 import 'package:kathbath_lite/providers/audio_player_controller.dart';
 import 'package:kathbath_lite/utils/audio_utils.dart';
-import 'package:kathbath_lite/widgets/buttons/icon_with_text_button.dart';
 
 int SAMPLE_RATE = 44100;
 int CHANNEL_COUNT = 1;
@@ -29,7 +28,7 @@ class AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   Duration totalAudioDuration = Duration.zero;
   StreamSubscription? _streamSubscription;
 
-  Future<void> loadAudioFileDetails(String filePath) async {
+  Future<void> _loadAudioFileDetails(String filePath) async {
     try {
       final audioFile = File(filePath);
       final fileExist = await audioFile.exists();
@@ -72,10 +71,18 @@ class AudioPlayerWidgetState extends State<AudioPlayerWidget> {
       updateLoading(false);
       rethrow;
     }
+
+    try {
+      _loadAudioFileDetails(widget.filePath);
+    } catch (e) {
+      updateLoading(false);
+      rethrow;
+    }
     updateLoading(false);
   }
 
   Future<void> startAudioPlayerPlaying() async {
+		//TODO: If the audio file doesn't exist handle it properly
     if (!audioPlayer.isOpen()) {
       await initAudioPlayer();
     }
@@ -132,6 +139,16 @@ class AudioPlayerWidgetState extends State<AudioPlayerWidget> {
     }
   }
 
+  Future<void> resetPlayer() async {
+    try {
+      await audioPlayer.closePlayer();
+    } catch (e) {
+      throw "While reseting player error occured while stoping the player $e";
+    }
+    updateCurrentPosition(Duration.zero);
+    cancelAudioSubscription();
+  }
+
   void cancelAudioSubscription() {
     if (_streamSubscription != null) {
       _streamSubscription!.cancel();
@@ -143,8 +160,8 @@ class AudioPlayerWidgetState extends State<AudioPlayerWidget> {
   void initState() {
     super.initState();
     widget.audioPlayerController.actionCallback = onClick;
+    widget.audioPlayerController.resetPlayerCallback = resetPlayer;
     initAudioPlayer();
-    loadAudioFileDetails(widget.filePath);
   }
 
   @override
@@ -199,7 +216,7 @@ class AudioPlayerWidgetState extends State<AudioPlayerWidget> {
     resumeAudioPlayerPlaying();
   }
 
-  void onClick() async {
+  Future<void> onClick() async {
     try {
       if (audioPlayer.isPlaying) {
         await pauseAudioPlayerPlaying();

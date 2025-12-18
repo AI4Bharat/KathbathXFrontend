@@ -1,15 +1,16 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:kathbath_lite/enums/audio_player_status.dart';
 
 class AudioPlayerController extends ChangeNotifier {
   AudioPlayerStatus audioPlayerStatus = AudioPlayerStatus.NOT_OPEN;
 
-  VoidCallback? actionCallback;
+  AsyncCallback? actionCallback;
+  AsyncCallback? resetPlayerCallback;
 
-  void action() => actionCallback?.call();
+  Future<void>? action() => actionCallback?.call();
+  Future<void>? resetPlayer() => resetPlayerCallback?.call();
 
   void updateAudioPlayerStatus(AudioPlayerStatus status) {
-		print("2. Update audio player status called with $status");
     audioPlayerStatus = status;
     notifyListeners();
   }

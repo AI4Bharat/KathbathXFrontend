@@ -8,6 +8,8 @@ import 'package:kathbath_lite/scenarios/speech_data/speech_data_model.dart';
 import 'package:kathbath_lite/widgets/audio_player_widget.dart';
 import 'package:kathbath_lite/widgets/audio_recorder_widget.dart';
 import 'package:kathbath_lite/widgets/buttons/icon_with_text_button.dart';
+import 'package:kathbath_lite/widgets/dialogs/show_error_dialog.dart';
+import 'package:kathbath_lite/widgets/dialogs/skip_dialog.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:kathbath_lite/widgets/next_n_back_button_widget.dart';
 import 'package:provider/provider.dart';
@@ -53,9 +55,9 @@ class _SpeechDataOutputWidget extends State<SpeechDataOutputWidget> {
   Future<void> updateDatabase() async {
     try {
       await widget.speechDataOutput
-          .updatedDatabaseWithOutput(widget.karyaDatabase);
+          .updateDatabaseWithOutput(widget.karyaDatabase);
     } catch (e) {
-      print("Exception occured $e");
+      showErrorDialog(context, "Exception occured $e");
     }
   }
 
@@ -187,7 +189,7 @@ class _SpeechDataOutputWidget extends State<SpeechDataOutputWidget> {
     }
   }
 
-  void nextTask() {
+  void nextTask() async {
     if (audioRecorderController.audidRecorderStatus ==
         AudioRecorderStatus.RECORDING) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -196,11 +198,24 @@ class _SpeechDataOutputWidget extends State<SpeechDataOutputWidget> {
       ));
       return;
     }
+
+    final isTaskDone =
+        await widget.speechDataOutput.isTaskDone(widget.karyaDatabase);
+    if (!isTaskDone) {
+      final wantToSkip = await showSkipDialog(context);
+      if (!wantToSkip) {
+        return;
+      } else {
+        await widget.speechDataOutput.skipTask(
+            widget.karyaDatabase); //TODO: Add error message if skipping failed
+      }
+    }
+
     widget.pageController.nextPage(
         duration: const Duration(milliseconds: 200), curve: Curves.linear);
   }
 
-  void previousTask() {
+  void previousTask() async {
     if (audioRecorderController.audidRecorderStatus ==
         AudioRecorderStatus.RECORDING) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -209,6 +224,19 @@ class _SpeechDataOutputWidget extends State<SpeechDataOutputWidget> {
       ));
       return;
     }
+
+    final isTaskDone =
+        await widget.speechDataOutput.isTaskDone(widget.karyaDatabase);
+    if (!isTaskDone) {
+      final wantToSkip = await showSkipDialog(context);
+      if (!wantToSkip) {
+        return;
+      } else {
+        await widget.speechDataOutput.skipTask(
+            widget.karyaDatabase); //TODO: Add error message if skipping failed
+      }
+    }
+
     widget.pageController.previousPage(
         duration: const Duration(milliseconds: 200), curve: Curves.linear);
   }

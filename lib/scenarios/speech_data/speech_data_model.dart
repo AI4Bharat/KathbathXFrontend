@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:kathbath_lite/data/database/dao/microtask_assignment_dao.dart';
 import 'package:kathbath_lite/data/database/models/microtask_assignment_record.dart';
 import 'package:kathbath_lite/data/database/models/microtask_record.dart';
 import 'package:kathbath_lite/data/manager/karya_db.dart';
+import 'package:kathbath_lite/models/assignment_status_enum.dart';
 import 'package:kathbath_lite/scenarios/scenario_base_model.dart';
+import 'package:kathbath_lite/utils/audio_utils.dart';
+import 'package:path_provider/path_provider.dart';
 
 class SpeechDataModel extends ScenarioBaseModel {
   final SpeechDataInput input;
@@ -36,9 +41,8 @@ class SpeechDataModel extends ScenarioBaseModel {
     SpeechDataInput speechDataInput =
         SpeechDataInput(sentence: microtaskInputData["sentence"]! as String);
 
-    SpeechDataOutput speechDataOutput = SpeechDataOutput(
-        microtaskAssignmentId: microtaskAssignment.id,
-        outputFileDuration: null);
+    SpeechDataOutput speechDataOutput =
+        SpeechDataOutput(microtaskAssignmentId: microtaskAssignment.id);
 
     return SpeechDataModel(input: speechDataInput, output: speechDataOutput);
   }
@@ -60,31 +64,86 @@ class SpeechDataInput {
 class SpeechDataOutput {
   final int microtaskAssignmentId;
   final String outputFileName;
-  double? outputFileDuration;
 
-  SpeechDataOutput(
-      {required this.microtaskAssignmentId, required this.outputFileDuration})
+  SpeechDataOutput({required this.microtaskAssignmentId})
       : outputFileName = '$microtaskAssignmentId.wav';
 
-  void updateDuration(Duration duration) {
-    outputFileDuration = duration.inSeconds.toDouble();
+  Future<bool> skipTask(KaryaDatabase karyaDatabase) async {
+    try {
+      final numberOfRowsUpdated = await karyaDatabase.microTaskAssignmentDao
+          .updateMicrotaskAssignmentStatus(BigInt.from(microtaskAssignmentId),
+              MicrotaskAssignmentStatus.SKIPPED);
+      return numberOfRowsUpdated == 1;
+    } catch (_) {
+      throw "Error occured while skipping the task";
+    }
   }
 
-  Future<void> updatedDatabaseWithOutput(KaryaDatabase karyaDatabase) async {
-    if (outputFileDuration == null || outputFileDuration! < 0) {
-      throw Exception("Duration is not valid");
+  Future<bool> isTaskDone(KaryaDatabase karyaDatabase) async {
+    try {
+      final outputInString = await karyaDatabase.microTaskAssignmentDao
+          .getMicrotaskAssignmentOutput(BigInt.from(microtaskAssignmentId));
+      if (outputInString == null) {
+        return false;
+      }
+      Map<String, dynamic> outputJson = jsonDecode(outputInString);
+
+      Map<String, dynamic>? outputJsonDataField =
+          outputJson['data'] as Map<String, dynamic>?;
+      if (outputJsonDataField == null) {
+        return false;
+      }
+      int? duration = outputJsonDataField['duration'] as int?;
+      if (duration == null || duration <= 0) {
+        return false;
+      }
+
+      Map<String, dynamic>? outputJsonFilesField =
+          outputJson['files'] as Map<String, dynamic>?;
+      if (outputJsonFilesField == null) {
+        return false;
+      }
+      String? fileName = outputJsonFilesField['recording'] as String?;
+      if (fileName == null || fileName == "") {
+        return false;
+      }
+      return true;
+    } catch (_) {
+      throw "Error occured while checking the output of the assignment";
     }
+  }
+
+  Future<void> updateDatabaseWithOutput(KaryaDatabase karyaDatabase) async {
+    Duration audioFileDuration = Duration.zero;
+    final documentPath = await getApplicationDocumentsDirectory();
+    final filePath = "${documentPath.path}/$outputFileName";
+    try {
+      final durationInSecond =
+          await getAudioDurationFromFilePath(filePath, 44100, 1, 2);
+      if (durationInSecond <= 0) {
+        throw "Exception in updateDatabaseWithOutput: the duration of the file returned <= 0 ($durationInSecond)";
+        // TODO: Add a dialog box
+      }
+      audioFileDuration =
+          Duration(milliseconds: (durationInSecond * 1000).toInt());
+    } catch (e) {
+      throw "Exception in updateDatabaseWithOutput: Error occured while getting the audio file duration $e";
+    }
+
     MicroTaskAssignmentDao microTaskAssignmentDao =
         karyaDatabase.microTaskAssignmentDao;
     Map<String, dynamic> fileJson = {
-      "data": {"duration": outputFileDuration},
+      "data": {"duration": audioFileDuration.inSeconds},
       "files": {"recording": outputFileName}
     };
-    int rowsAffected = await microTaskAssignmentDao
-        .updateMicrotaskAssignmentOutput(microtaskAssignmentId, fileJson);
-    if (rowsAffected != 1) {
-      throw Exception("Update failed");
+    try {
+      int rowsAffected = await microTaskAssignmentDao
+          .updateMicrotaskAssignmentOutput(microtaskAssignmentId, fileJson);
+      if (rowsAffected != 1) {
+        throw Exception("Update failed");
+      }
+    } catch (e) {
+      throw "Exception in updateDatabaseWithOutput: Error occured while updating the MA table with output file detail $e";
     }
-    print("the number of rows affected are ${rowsAffected}");
   }
 }

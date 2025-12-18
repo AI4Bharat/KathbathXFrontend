@@ -86,6 +86,18 @@ class MicroTaskAssignmentDao extends DatabaseAccessor<KaryaDatabase>
         .get();
   }
 
+  Future<String?> getMicrotaskAssignmentOutput(
+      BigInt microtaskAssignmentId) async {
+    try {
+      final row = await (select(db.microTaskAssignmentRecords)
+            ..where((tbl) => tbl.id.equals(microtaskAssignmentId)))
+          .getSingle();
+      return row.output;
+    } catch (_) {
+      rethrow;
+    }
+  }
+
   Future<int> updateMicrotaskAssignmentStatus(
       BigInt id, MicrotaskAssignmentStatus newStatus) {
     return (update(db.microTaskAssignmentRecords)
@@ -100,7 +112,7 @@ class MicroTaskAssignmentDao extends DatabaseAccessor<KaryaDatabase>
   Future<int> updateMicrotaskAssignmentOutput(
       int id, Map<String, dynamic> output) {
     String outputAsString = jsonEncode(output);
-		BigInt idAsBigInt = BigInt.from(id);
+    BigInt idAsBigInt = BigInt.from(id);
     return (update(db.microTaskAssignmentRecords)
           ..where((tbl) => tbl.id.equals(idAsBigInt)))
         .write(MicroTaskAssignmentRecordsCompanion(
